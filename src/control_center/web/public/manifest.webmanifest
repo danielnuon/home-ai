@@ -1,0 +1,13 @@
+{
+  "name": "Brain",
+  "short_name": "Brain",
+  "description": "Control Center for the Home AI Platform",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F6F5F1",
+  "theme_color": "#6F8F7A",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Generated; `make types` rebuilds it
+build/
+
+# Front end
+node_modules/
+src/control_center/web/dist/

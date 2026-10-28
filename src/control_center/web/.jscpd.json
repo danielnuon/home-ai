@@ -1,0 +1,6 @@
+{
+  "threshold": 3,
+  "minLines": 10,
+  "reporters": ["console"],
+  "ignore": ["**/schema.d.ts", "**/*.test.tsx"]
+}

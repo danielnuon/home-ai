@@ -1,0 +1,53 @@
+{
+  "name": "brain-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Brain, the Control Center front end: React, TypeScript and Vite.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint . --max-warnings 0 && prettier --check . && knip && jscpd src",
+    "format": "prettier --write .",
+    "types": "openapi-typescript ../../../build/openapi.json -o src/api/schema.d.ts && prettier --write src/api/schema.d.ts",
+    "size": "node scripts/check-bundle-size.mjs"
+  },
+  "dependencies": {
+    "@fontsource/geist-mono": "5.3.0",
+    "@fontsource/geist-sans": "5.3.0",
+    "@tanstack/react-query": "5.104.1",
+    "lucide-react": "1.54.0",
+    "motion": "12.43.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router-dom": "7.18.4",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@testing-library/jest-dom": "6.10.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "axe-core": "4.14.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsdoc": "65.2.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.13.0",
+    "jscpd": "5.4.1",
+    "jsdom": "27.4.0",
+    "knip": "6.41.0",
+    "openapi-typescript": "7.13.0",
+    "prettier": "3.9.9",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.1",
+    "vite": "7.3.7",
+    "vitest": "4.1.12"
+  }
+}
