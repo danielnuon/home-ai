@@ -1,0 +1,122 @@
+/**
+ * @file Still Water design tokens (spec 7.12): color, type, space and shape.
+ *
+ * This file is the shared token package that spec 17.16 asks every product to import rather than
+ * re-invent. Day fills are for marks people do not read (avatars, tracks, chart areas); anything
+ * read uses a `-text` value, which reaches 4.5:1 on paper, surface and raised surface. Night values
+ * pass 4.5:1 as both fill and text, so Night uses one value for each.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces and text, Day */
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --raised: #efede7;
+  --text: #1f2328;
+  --muted: #666a71;
+  --line: #e2dfd8;
+  --line-strong: #b9b5ac;
+  --on-accent: #ffffff;
+
+  /* Status and accent: fill for marks, text for words (Day) */
+  --accent-fill: #6f8f7a;
+  --accent-text: #566f5f;
+  --mist-fill: #7c93a8;
+  --mist-text: #556b80;
+  --healthy-fill: #6f9e7c;
+  --healthy-text: #4c7157;
+  --sand-fill: #c9a15a;
+  --sand-text: #85652b;
+  --clay-fill: #c26d5e;
+  --clay-text: #a84f40;
+
+  /* Data colors: the first for single-series charts, the rest only for categories */
+  --data-1: #16876a;
+  --data-2: #c2802a;
+  --data-3: #4569b8;
+
+  /* Department fills for avatars (spec 7.12, "Avatars") */
+  --dept-personal: var(--accent-fill);
+  --dept-engineering: var(--mist-fill);
+  --dept-quality: var(--data-1);
+  --dept-ideation: var(--data-2);
+  --dept-governance: var(--data-3);
+  --avatar-eye: #ffffff;
+
+  /* The activity field is always dark water, in both themes (design: Today, Live) */
+  --field-bg: #0f1418;
+  --field-text: #e6e8e6;
+  --field-muted: #9aa3a8;
+  --field-line: #24303a;
+
+  /* Type: an open-licensed sans with tabular figures and a monospace (spec 7.12, "Type") */
+  --font-sans: "Geist Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --text-base: 15px;
+  --leading: 1.5;
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  /* Space: an 8-point grid with 4-point half steps */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Shape */
+  --radius-card: 16px;
+  --radius-control: 12px;
+  --radius-row: 10px;
+  --content-max: 1100px;
+  --touch: 44px;
+
+  /* Motion: the glow that marks a live item (spec 7.12, "Motion") */
+  --breath: 2.4s;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    --bg: #0f1418;
+    --surface: #151c21;
+    --raised: #1b242a;
+    --text: #e6e8e6;
+    --muted: #9aa3a8;
+    --line: #24303a;
+    --line-strong: #3a4954;
+    --on-accent: #0f1418;
+    --accent-fill: #8fb3a0;
+    --accent-text: #8fb3a0;
+    --mist-fill: #93a9bf;
+    --mist-text: #93a9bf;
+    --healthy-fill: #8fbe9a;
+    --healthy-text: #8fbe9a;
+    --sand-fill: #d8b571;
+    --sand-text: #d8b571;
+    --clay-fill: #d48777;
+    --clay-text: #d48777;
+    --data-1: #25a383;
+    --data-2: #ba7f27;
+    --data-3: #5f86d9;
+    --avatar-eye: #0f1418;
+  }
+}
+
+/* The higher-contrast variant (spec 7.12, "Themes"): darker words and stronger hairlines. */
+@media (prefers-contrast: more) and (prefers-color-scheme: light) {
+  :root {
+    --muted: #4a4e55;
+    --line: #b9b5ac;
+  }
+}
+
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root {
+    --muted: #c3cacd;
+    --line: #3a4954;
+  }
+}

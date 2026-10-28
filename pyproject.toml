@@ -1,0 +1,91 @@
+[project]
+name = "home-ai-platform"
+version = "0.1.0"
+description = "Home AI Platform: the Control Center (Brain) back end, with mocked platform services."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.143.0",
+    "uvicorn==0.54.0",
+    "pydantic==2.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx==0.28.1",
+    "mypy==2.4.0",
+    "pydoclint==0.11.0",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "ruff==0.17.0",
+    "vulture==2.16",
+]
+
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/control_center"]
+# The front end lives beside the Python package but is built by Vite, not packaged by hatch.
+exclude = ["src/control_center/web"]
+
+# Lint rules and thresholds come from spec 17.18. They are part of CI and are not loosened per file.
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["src/control_center/web"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "D", "C90", "PLR", "ERA", "FIX", "TD", "T20", "BLE", "SIM", "RUF"]
+ignore = [
+    "D203", # conflicts with D211 (no blank line before class docstring)
+    "D213", # conflicts with D212 (summary on the first line)
+    "PLR2004", # magic values in tests and comparisons are covered by the review rubric instead
+    "RUF001", "RUF002", "RUF003", # copy uses en dashes, arrows and status symbols on purpose (spec 7.12)
+]
+preview = true
+explicit-preview-rules = true
+extend-select = ["PLR1702"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-statements = 50
+max-args = 5
+max-nested-blocks = 3
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Test names state the behavior (17.18, "Tests" row), so a docstring per test function is a one-liner, not a contract.
+"tests/**" = ["D100", "D103", "D104"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
+packages = ["control_center"]
+
+[tool.pydoclint]
+style = "google"
+arg-type-hints-in-docstring = false
+check-return-types = false
+skip-checking-short-docstrings = true
+allow-init-docstring = true
+# Lookups such as `_approval()` raise NotFoundError on behalf of their callers, which pydoclint
+# cannot follow, so it would demand the Raises sections be wrong. They are kept for readers.
+skip-checking-raises = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.vulture]
+paths = ["src/control_center", "tests/vulture_allowlist.py"]
+exclude = ["src/control_center/web/"]
+min_confidence = 80
