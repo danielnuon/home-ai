@@ -13,6 +13,10 @@ const DIST = new URL("../dist/", import.meta.url).pathname;
 const BUDGET_BYTES = 250 * 1024;
 
 const html = readFileSync(join(DIST, "index.html"), "utf8");
+// Pulls the asset path out of each script or preload tag, for example
+//   <script type="module" crossorigin src="/assets/index-5AnqfCoA.js">  ->  assets/index-5AnqfCoA.js
+//   <link rel="modulepreload" href="/assets/vendor-B2x9.js">            ->  assets/vendor-B2x9.js
+// Stylesheets (.css) and fonts don't match because the path must end in ".js".
 const initial = [...html.matchAll(/(?:src|href)="\/(assets\/[^"]+\.js)"/g)].map(
   (match) => match[1],
 );

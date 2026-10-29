@@ -5,7 +5,7 @@ one server-sent-event stream. A client that reconnects passes the last id it saw
 newer event replayed from a fixed-size buffer, so a phone that slept for a minute catches up
 instead of reloading.
 
-Three event kinds exist, chosen so the client store stays small:
+Four event kinds exist, chosen so the client store stays small:
 
 - ``changed``: names the resources whose data changed; the client refetches those.
 - ``task.progress``: a running task's state and token rate, several times a second, patched in
@@ -20,7 +20,8 @@ import json
 from collections import deque
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass
-from typing import Any
+
+from pydantic import JsonValue
 
 REPLAY_BUFFER_SIZE = 1000
 """Events kept for replay. At the mock's rate (a few per second) this covers several minutes."""
@@ -32,7 +33,7 @@ class Event:
 
     id: int
     kind: str
-    payload: dict[str, Any]
+    payload: dict[str, JsonValue]
 
     def to_sse(self) -> str:
         """Format the event as one server-sent-event frame."""
@@ -57,7 +58,12 @@ class EventBus:
         """The id of the newest event, or 0 when nothing has been published."""
         return self._next_id - 1
 
-    def publish(self, kind: str, payload: dict[str, Any]) -> Event:
+    @property
+    def subscriber_count(self) -> int:
+        """How many streams are open; each holds a queue until its client goes away."""
+        return len(self._subscribers)
+
+    def publish(self, kind: str, payload: dict[str, JsonValue]) -> Event:
         """Record an event and hand it to every subscriber.
 
         Args:

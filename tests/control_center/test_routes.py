@@ -41,10 +41,12 @@ PAGES = [
 
 @pytest.mark.parametrize("path", PAGES)
 def test_every_page_answers(client: TestClient, path: str) -> None:
+    """Spec 7.2: every page has a data endpoint that answers."""
     assert client.get(path).status_code == 200
 
 
 def test_chat_stores_the_owner_message(client: TestClient) -> None:
+    """Spec 7.7: a message to a lead is kept in that lead's thread."""
     thread = client.post("/api/chat/atlas", json={"text": "What's on today?"}).json()
 
     assert thread["messages"][-1]["author"] in ("owner", "lead")
@@ -52,6 +54,7 @@ def test_chat_stores_the_owner_message(client: TestClient) -> None:
 
 
 def test_front_end_routes_fall_back_to_the_app_and_never_escape_dist(tmp_path: Path) -> None:
+    """Spec 7.6: page routes serve the app, and paths never reach files outside the build."""
     (tmp_path / "assets").mkdir()
     (tmp_path / "index.html").write_text("<!doctype html><title>Brain</title>")
     (tmp_path / "icon.svg").write_text("<svg/>")

@@ -1,3 +1,20 @@
+---
+id: GUIDE-0001
+title: "Onboarding: your first hour"
+type: runbook
+status: approved
+owner_role: KNW-1
+approver: owner
+created: 2026-10-28
+last_reviewed: 2026-10-29
+review_cadence_days: 180
+risk_class: R1
+work_item: null      # built before the work-item system exists
+supersedes: []
+covers: [src/control_center/**, Makefile]
+data_class: internal
+---
+
 # Onboarding: your first hour
 
 ## 1. Run it (10 minutes)

@@ -48,6 +48,8 @@ ignore = [
 preview = true
 explicit-preview-rules = true
 extend-select = ["PLR1702"]
+# pydoclint reads its own DOC noqa codes; tell ruff they are not unknown.
+external = ["DOC"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
@@ -61,8 +63,8 @@ max-nested-blocks = 3
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-# Test names state the behavior (17.18, "Tests" row), so a docstring per test function is a one-liner, not a contract.
-"tests/**" = ["D100", "D103", "D104"]
+# Each test function still needs a one-line docstring naming the criterion it covers (17.18, "Tests").
+"tests/**" = ["D104"]
 
 [tool.mypy]
 strict = true
@@ -76,9 +78,7 @@ arg-type-hints-in-docstring = false
 check-return-types = false
 skip-checking-short-docstrings = true
 allow-init-docstring = true
-# Lookups such as `_approval()` raise NotFoundError on behalf of their callers, which pydoclint
-# cannot follow, so it would demand the Raises sections be wrong. They are kept for readers.
-skip-checking-raises = true
+exclude = '\.git|\.tox|node_modules'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

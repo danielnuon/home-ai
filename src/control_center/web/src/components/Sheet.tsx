@@ -5,7 +5,7 @@
  * list stays visible beside it (7.12, "list beside detail"). It is a modal dialog: focus moves into
  * it, Escape or the backdrop closes it, and focus returns to whatever opened it.
  */
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { useLayout } from "../design/useLayout";
@@ -42,14 +42,14 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
     <AnimatePresence>
       {open && (
         <div className="sheet-layer">
-          <motion.div
+          <m.div
             className="sheet-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
-          <motion.div
+          <m.div
             ref={panel}
             className={`sheet sheet-${layout === "phone" ? "bottom" : "side"}`}
             role="dialog"
@@ -69,7 +69,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
               </button>
             </div>
             <div className="sheet-body">{children}</div>
-          </motion.div>
+          </m.div>
         </div>
       )}
     </AnimatePresence>

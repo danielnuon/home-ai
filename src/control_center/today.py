@@ -76,32 +76,49 @@ def _tiles(backends: Backends) -> list[Tile]:
     backups = backends.status.backups()
     spend = backends.status.spend()
     pool = next(z for z in backends.status.system().zones if z.name == "Model pool")
+    sampled_at = backends.status.sampled_at()
     return [
         Tile(
             name="Services",
             value=services.summary.split(" · ")[0],
             status=StatusLabel(status="healthy", label="Healthy"),
             href="/services",
+            sampled_at=sampled_at,
         ),
         Tile(
             name="Model pool",
             value=f"{pool.used_gb:g} / {pool.budget_gb:g} GB",
             status=StatusLabel(status="healthy", label=models.pool_mode),
             href="/models",
+            sampled_at=sampled_at,
         ),
-        Tile(name="Backups", value="20:00 today", status=backups.mode, href="/backups"),
-        Tile(name="Spend", value=f"${spend.total_usd:.2f}", status=spend.summary, href="/spend"),
+        Tile(
+            name="Backups",
+            value="20:00 today",
+            status=backups.mode,
+            href="/backups",
+            sampled_at=sampled_at,
+        ),
+        Tile(
+            name="Spend",
+            value=f"${spend.total_usd:.2f}",
+            status=spend.summary,
+            href="/spend",
+            sampled_at=sampled_at,
+        ),
         Tile(
             name="Connections",
             value="3 of 4",
             status=StatusLabel(status="attention", label="Contacts waiting"),
             href="/connections",
+            sampled_at=sampled_at,
         ),
         Tile(
             name="Heartbeat",
             value="1 min ago",
             status=StatusLabel(status="healthy", label="Reporting"),
             href="/system",
+            sampled_at=sampled_at,
         ),
     ]
 

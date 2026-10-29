@@ -7,7 +7,7 @@
  */
 import { Link } from "react-router-dom";
 import { usePlatform, useSettings, useToday } from "../api/queries";
-import type { TodayOverview } from "../api/types";
+import type { Tile, TodayOverview } from "../api/types";
 import { ApprovalCard } from "../components/ApprovalCard";
 import { Avatar } from "../components/Avatar";
 import { DecisionCard } from "../components/DecisionCard";
@@ -16,6 +16,7 @@ import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { MetricTiles } from "../components/Rows";
 import { SettingRow } from "../components/SettingControl";
+import { useStaleStatus } from "../design/stale";
 import { StatusText } from "../design/status";
 
 const COUNT_WORDS = [
@@ -90,17 +91,25 @@ function Team({ today }: { today: TodayOverview }) {
   );
 }
 
+/** One system tile, linking to its page; grey with "Stale" once 3 minutes old (spec 7.3). */
+function SystemTile({ tile }: { tile: Tile }) {
+  const stale = useStaleStatus(tile.sampled_at);
+  return (
+    <Link to={tile.href} className={`card tile interactive plain-link${stale ? " stale" : ""}`}>
+      <span className="muted small">{tile.name}</span>
+      <span className="tile-value">{tile.value}</span>
+      <StatusText value={stale ?? tile.status} className="small" />
+    </Link>
+  );
+}
+
 /** Systems tiles, each linking to its page. */
 function Systems({ today }: { today: TodayOverview }) {
   return (
     <Section title="Systems">
       <div className="grid-tiles">
         {today.tiles.map((tile) => (
-          <Link key={tile.name} to={tile.href} className="card tile interactive plain-link">
-            <span className="muted small">{tile.name}</span>
-            <span className="tile-value">{tile.value}</span>
-            <StatusText value={tile.status} className="small" />
-          </Link>
+          <SystemTile key={tile.name} tile={tile} />
         ))}
       </div>
     </Section>

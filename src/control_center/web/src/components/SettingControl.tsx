@@ -6,11 +6,12 @@
  * "step-up required" and `useAction` asks for the passkey. Money settings show their ceiling from
  * policy.yaml, which the gate refuses to exceed.
  */
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { Setting } from "../api/types";
 import { Switch } from "./Controls";
+import { displayValue, SettingHistory } from "./SettingHistory";
 
 /** Sends a new value for `key`. */
 function useChangeSetting(setting: Setting) {
@@ -52,7 +53,7 @@ function MoneyField({ setting }: { setting: Setting }) {
 }
 
 /** The control that fits the setting's kind. */
-export function SettingControl({ setting }: { setting: Setting }) {
+function SettingControl({ setting }: { setting: Setting }) {
   const { change, busy } = useChangeSetting(setting);
   switch (setting.kind) {
     case "switch":
@@ -77,7 +78,7 @@ export function SettingControl({ setting }: { setting: Setting }) {
         >
           {setting.choices.map((choice) => (
             <option key={choice} value={choice}>
-              {choice.replaceAll("_", " ")}
+              {displayValue(setting, choice)}
             </option>
           ))}
         </select>
@@ -85,8 +86,14 @@ export function SettingControl({ setting }: { setting: Setting }) {
   }
 }
 
-/** A setting as a list row: label, note, cost note and its control. */
-export function SettingRow({ setting }: { setting: Setting }) {
+interface SettingRowProps {
+  setting: Setting;
+  /** A link to the page that owns the setting, shown after the note on the Settings index. */
+  owner?: ReactNode;
+}
+
+/** A setting as a list row: label, note, cost note, default and history, and its control. */
+export function SettingRow({ setting, owner }: SettingRowProps) {
   return (
     <div className="list-row setting-row">
       <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
@@ -94,7 +101,9 @@ export function SettingRow({ setting }: { setting: Setting }) {
         <span className="muted small">
           {setting.note}
           {setting.cost_note && ` · ${setting.cost_note}`}
+          {owner && <> · {owner}</>}
         </span>
+        <SettingHistory setting={setting} />
       </span>
       <SettingControl setting={setting} />
     </div>

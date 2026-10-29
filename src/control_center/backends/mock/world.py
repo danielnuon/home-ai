@@ -54,6 +54,8 @@ class MockWorld:
     jobs: dict[str, Job]
     fixes: dict[str, MaintenanceFix]
     chats: dict[str, list[ChatMessage]]
+    sampled_at: datetime
+    """When the simulated status aggregator last collected health and metrics."""
     stopped: bool = False
     maintenance_running: bool = True
     step_up_challenges: set[str] = field(default_factory=set)
@@ -90,7 +92,7 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         clock=clock,
         approvals=by_id(gate.approvals(now)),
         decisions=by_id(gate.decisions(now)),
-        settings={setting.key: setting for setting in gate.settings()},
+        settings={setting.key: setting for setting in gate.settings(now)},
         contacts=by_id(gate.contacts()),
         tasks=by_id(work.live_tasks(now)),
         transcripts=work.transcripts(),
@@ -103,4 +105,5 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         jobs=by_id(ops.jobs()),
         fixes=by_id(ops.maintenance_batch()),
         chats={"atlas": chat.atlas_history(now)},
+        sampled_at=now,
     )

@@ -1,8 +1,10 @@
 """Mock status aggregator: the read-only platform pages, shaped by the current settings."""
 
+from datetime import datetime
+
 from control_center.backends.mock.fixtures import ops, platform
 from control_center.backends.mock.world import MockWorld
-from control_center.contract.common import Row, RowGroup, StatusLabel
+from control_center.contract.common import Metric, Row, RowGroup, StatusLabel
 from control_center.contract.status import (
     BackupsOverview,
     ConnectionsOverview,
@@ -30,6 +32,14 @@ class MockStatusAggregator:
         """Read settings and the kill switch from `world`."""
         self._world = world
 
+    def sampled_at(self) -> datetime:
+        """When the simulated aggregator last sampled; `simulate_activity` moves it on."""
+        return self._world.sampled_at
+
+    def _sampled(self, tiles: list[Metric]) -> list[Metric]:
+        """Stamp fixture tiles with the latest sample time."""
+        return [tile.model_copy(update={"sampled_at": self._world.sampled_at}) for tile in tiles]
+
     def system(self) -> SystemOverview:
         """Machine, memory zones and hardware signals."""
         return SystemOverview(
@@ -38,7 +48,7 @@ class MockStatusAggregator:
             zones=platform.MEMORY_ZONES,
             pressure=StatusLabel(status="healthy", label="Normal"),
             swap="0.3 GB · alert at 2 GB",
-            tiles=platform.system_tiles(),
+            tiles=self._sampled(platform.system_tiles()),
             rows=platform.system_rows(),
         )
 
@@ -101,7 +111,7 @@ class MockStatusAggregator:
         """Kill switch, flags, sign-in and masked audit lines."""
         return SecurityOverview(
             stopped=self._world.stopped,
-            tiles=ops.security_tiles(),
+            tiles=self._sampled(ops.security_tiles()),
             flags=ops.security_flags(),
             sign_in=ops.sign_in_rows(),
             audit=ops.AUDIT_LINES,

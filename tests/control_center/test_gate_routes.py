@@ -6,6 +6,7 @@ from tests.control_center.conftest import step_up
 
 
 def test_loosening_without_a_proof_asks_for_a_step_up(client: TestClient) -> None:
+    """Spec 7.4: loosening a safeguard without a passkey proof is refused with a reason."""
     answer = client.put("/api/settings/budget.voice", json={"value": "10"})
 
     assert answer.status_code == 403
@@ -14,6 +15,7 @@ def test_loosening_without_a_proof_asks_for_a_step_up(client: TestClient) -> Non
 
 
 def test_loosening_with_a_proof_applies_and_the_proof_is_single_use(client: TestClient) -> None:
+    """Spec 7.4: a step-up proof authorizes one change only."""
     proof = step_up(client)
 
     first = client.put(
@@ -29,6 +31,7 @@ def test_loosening_with_a_proof_applies_and_the_proof_is_single_use(client: Test
 
 
 def test_tightening_needs_no_proof(client: TestClient) -> None:
+    """Spec 7.16, rule 3: tightening is always one tap, with no step-up."""
     answer = client.put("/api/settings/away_mode", json={"value": "on"})
 
     assert answer.status_code == 200
@@ -36,6 +39,7 @@ def test_tightening_needs_no_proof(client: TestClient) -> None:
 
 
 def test_a_cap_past_the_hard_limit_is_refused_even_with_a_proof(client: TestClient) -> None:
+    """Spec 7.9: a cap above the policy.yaml ceiling is refused even with a step-up."""
     proof = step_up(client)
 
     answer = client.put(
@@ -47,6 +51,7 @@ def test_a_cap_past_the_hard_limit_is_refused_even_with_a_proof(client: TestClie
 
 
 def test_a_wrong_passkey_assertion_gives_no_proof(client: TestClient) -> None:
+    """Spec 7.4: a step-up needs a valid passkey assertion."""
     challenge = client.post("/api/step-up/challenge").json()["challenge"]
 
     answer = client.post(
@@ -57,6 +62,7 @@ def test_a_wrong_passkey_assertion_gives_no_proof(client: TestClient) -> None:
 
 
 def test_approve_then_undo_returns_the_card_to_pending(client: TestClient) -> None:
+    """Spec 7.4: a decision can be undone while the gate still holds the action."""
     pending = [a for a in client.get("/api/approvals").json() if not a["needs_step_up"]]
     approval_id = pending[0]["id"]
 
@@ -69,6 +75,7 @@ def test_approve_then_undo_returns_the_card_to_pending(client: TestClient) -> No
 
 
 def test_deciding_twice_is_a_conflict(client: TestClient) -> None:
+    """Spec 11.6: an approval card can be decided only once."""
     approval_id = client.get("/api/approvals").json()[0]["id"]
     client.post(f"/api/approvals/{approval_id}/decision", json={"decision": "deny"})
 
@@ -78,6 +85,7 @@ def test_deciding_twice_is_a_conflict(client: TestClient) -> None:
 
 
 def test_restricted_approval_needs_a_step_up_to_approve(client: TestClient) -> None:
+    """Spec 7.4: approving restricted data or class C needs a step-up."""
     restricted = next(a for a in client.get("/api/approvals").json() if a["needs_step_up"])
 
     answer = client.post(
@@ -88,6 +96,7 @@ def test_restricted_approval_needs_a_step_up_to_approve(client: TestClient) -> N
 
 
 def test_stop_is_one_tap_and_resume_needs_a_step_up(client: TestClient) -> None:
+    """Spec 7.16, rule 3: Stop is one tap; resuming loosens, so it needs a step-up."""
     assert client.post("/api/platform/stop").json()["stopped"] is True
     assert client.post("/api/platform/resume").status_code == 403
 
@@ -97,6 +106,7 @@ def test_stop_is_one_tap_and_resume_needs_a_step_up(client: TestClient) -> None:
 
 
 def test_veto_records_the_reason(client: TestClient) -> None:
+    """Spec 11.9: a veto of a critical decision records the Owner's reason."""
     open_decision = next(
         d for d in client.get("/api/decisions").json() if d["status"] == "pending_window"
     )
@@ -108,5 +118,20 @@ def test_veto_records_the_reason(client: TestClient) -> None:
 
 
 def test_unknown_ids_are_not_found(client: TestClient) -> None:
+    """Spec 7.6: unknown ids answer 404 rather than failing."""
     assert client.post("/api/approvals/AP-NOPE/undo").status_code == 404
     assert client.post("/api/services/nope/restart").status_code == 404
+
+
+def test_revert_restores_the_value_before_the_latest_change(client: TestClient) -> None:
+    """Spec 7.9: every setting change is revertible in one step."""
+    reverted = client.post("/api/settings/quiet_hours/revert")
+
+    assert reverted.status_code == 200
+    assert reverted.json()["value"] == "23:00–07:00"
+    assert reverted.json()["history"][0]["new"] == "23:00–07:00"
+
+
+def test_reverting_a_setting_that_never_changed_is_a_conflict(client: TestClient) -> None:
+    """Spec 7.9: revert needs an earlier value to go back to."""
+    assert client.post("/api/settings/away_mode/revert").status_code == 409

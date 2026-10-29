@@ -3,11 +3,12 @@
  * stream, and the router.
  */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MotionConfig } from "motion/react";
+import { LazyMotion, MotionConfig } from "motion/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useLiveEvents } from "./api/events";
 import { StepUpProvider } from "./components/StepUp";
 import { ToastProvider } from "./components/Toasts";
+import { loadMotionFeatures } from "./design/motion";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./routes";
 import { AppShell } from "./shell/AppShell";
@@ -44,14 +45,16 @@ function LiveEvents() {
 export function App({ client = makeQueryClient() }: { client?: QueryClient }) {
   return (
     <QueryClientProvider client={client}>
-      <MotionConfig reducedMotion="user">
-        <ToastProvider>
-          <StepUpProvider>
-            <LiveEvents />
-            <RouterProvider router={router} />
-          </StepUpProvider>
-        </ToastProvider>
-      </MotionConfig>
+      <LazyMotion features={loadMotionFeatures} strict>
+        <MotionConfig reducedMotion="user">
+          <ToastProvider>
+            <StepUpProvider>
+              <LiveEvents />
+              <RouterProvider router={router} />
+            </StepUpProvider>
+          </ToastProvider>
+        </MotionConfig>
+      </LazyMotion>
     </QueryClientProvider>
   );
 }

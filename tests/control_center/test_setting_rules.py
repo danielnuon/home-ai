@@ -8,6 +8,7 @@ from control_center.contract.gate import Setting
 
 
 def setting(**overrides: object) -> Setting:
+    """Build a setting with test defaults, overridden by `overrides`."""
     fields: dict[str, object] = {
         "key": "k",
         "label": "Thing",
@@ -34,22 +35,26 @@ def setting(**overrides: object) -> Setting:
 def test_switch_direction_follows_on_is_loosening(
     on_is_loosening: bool, current: str, new: str, loosens: bool
 ) -> None:
+    """Spec 7.4: whether "on" loosens depends on the switch (a paid feature versus a safeguard)."""
     assert is_loosening(setting(on_is_loosening=on_is_loosening, value=current), new) is loosens
 
 
 def test_level_is_ordered_tight_to_loose() -> None:
+    """Spec 7.4: moving a level toward "full" loosens; toward "off" tightens."""
     level = setting(kind="level", value="summary", choices=["off", "summary", "full"])
     assert is_loosening(level, "full")
     assert not is_loosening(level, "off")
 
 
 def test_raising_a_cap_loosens_and_lowering_does_not() -> None:
+    """Spec 7.4: raising a spending cap loosens; lowering it tightens."""
     cap = setting(kind="money", value="10", ceiling=20)
     assert is_loosening(cap, "15")
     assert not is_loosening(cap, "5")
 
 
 def test_a_free_choice_never_needs_a_step_up() -> None:
+    """Spec 7.4: a choice with no safety direction never needs a step-up."""
     assert not is_loosening(setting(kind="choice", value="a", choices=["a", "b"]), "b")
 
 
@@ -63,10 +68,12 @@ def test_a_free_choice_never_needs_a_step_up() -> None:
     ],
 )
 def test_invalid_or_over_limit_values_are_refused(overrides: dict[str, object], value: str) -> None:
+    """Spec 7.9: invalid values and values past a hard limit are refused."""
     with pytest.raises(RefusedError):
         validate(setting(**overrides), value)
 
 
 def test_more_trust_is_loosening() -> None:
+    """Spec 7.4: raising a contact's trust loosens; lowering it tightens."""
     assert is_trust_loosening("known", "allowlisted")
     assert not is_trust_loosening("allowlisted", "blocked")

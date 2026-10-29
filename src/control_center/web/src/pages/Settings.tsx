@@ -12,7 +12,7 @@ import { usePlatform, useSettings } from "../api/queries";
 import type { Setting, StatusLabel } from "../api/types";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
-import { SettingControl } from "../components/SettingControl";
+import { SettingRow } from "../components/SettingControl";
 import { useLayout } from "../design/useLayout";
 import { ROUTES, TAB_PATHS } from "../routes";
 import { StopControl } from "../shell/StopControl";
@@ -52,26 +52,11 @@ function byCategory(settings: Setting[]): [string, Setting[]][] {
   return [...groups];
 }
 
-/** One setting with a link to its owner page. */
+/** One setting, linking to its owner page unless that is Settings itself. */
 function IndexRow({ setting }: { setting: Setting }) {
   const owner = ROUTES.find((page) => page.path === `/${setting.owner_page}`);
-  return (
-    <div className="list-row setting-row">
-      <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
-        <span className="row-title">{setting.label}</span>
-        <span className="muted small">
-          {setting.note}
-          {owner && owner.path !== "/settings" && (
-            <>
-              {" · "}
-              <Link to={owner.path}>{owner.label}</Link>
-            </>
-          )}
-        </span>
-      </span>
-      <SettingControl setting={setting} />
-    </div>
-  );
+  const link = owner && owner.path !== "/settings" && <Link to={owner.path}>{owner.label}</Link>;
+  return <SettingRow setting={setting} owner={link} />;
 }
 
 /** The Settings page. */

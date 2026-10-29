@@ -117,7 +117,8 @@ class MockApprovalGate:
         Raises:
             NotFoundError: No such approval.
             ConflictError: It was already decided or has expired.
-        """
+            StepUpRequiredError: Approving needs a step-up and `step_up` isn't a valid proof.
+        """  # noqa: DOC503 NotFoundError and StepUpRequiredError come from the _approval and _require_step_up helpers
         approval = self._approval(approval_id)
         if approval.state != "pending":
             raise ConflictError("This card was already decided.")
@@ -146,7 +147,7 @@ class MockApprovalGate:
         Raises:
             NotFoundError: No such approval.
             ConflictError: The undo window has passed and the action has run.
-        """
+        """  # noqa: DOC503 NotFoundError is raised by self._approval()
         approval = self._approval(approval_id)
         if approval.undo_until is None or approval.undo_until < self._world.clock():
             raise ConflictError("Too late to undo: the action already ran.")
@@ -259,7 +260,8 @@ class MockApprovalGate:
         Raises:
             NotFoundError: No such setting.
             RefusedError: The value is invalid or past a hard limit.
-        """
+            StepUpRequiredError: The change loosens a safeguard and `step_up` isn't a valid proof.
+        """  # noqa: DOC502 raised by self._setting(), setting_rules.validate() and self._require_step_up()
         setting = self._setting(key)
         setting_rules.validate(setting, value)
         if value == setting.value:

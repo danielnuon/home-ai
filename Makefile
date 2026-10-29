@@ -3,7 +3,7 @@
 WEB := src/control_center/web
 export UV_SYSTEM_CERTS := 1
 
-.PHONY: install dev server web types lint test build ci
+.PHONY: install dev server web types lint test build a11y ci
 
 install:  ## Install Python and front-end dependencies.
 	uv sync
@@ -38,7 +38,15 @@ test:  ## Server and front-end tests.
 build:  ## Build the front end and check the initial JavaScript budget.
 	cd $(WEB) && pnpm build && pnpm size
 
-ci: lint test build  ## Everything CI checks, and also that the generated types are current.
+A11Y_PORT := 8499
+
+a11y: build  ## axe on every page in a real browser, Day and Night, phone and desktop (spec 17.16).
+	BRAIN_DEV_IDENTITY=1 BRAIN_PORT=$(A11Y_PORT) uv run python -m control_center & server=$$!; \
+	trap 'kill $$server' EXIT; \
+	for _ in $$(seq 50); do curl -sf http://127.0.0.1:$(A11Y_PORT)/health >/dev/null && break; sleep 0.2; done; \
+	cd $(WEB) && BRAIN_URL=http://127.0.0.1:$(A11Y_PORT) pnpm a11y
+
+ci: lint test build a11y  ## Everything CI checks, and also that the generated types are current.
 	mkdir -p build
 	uv run python scripts/export_openapi.py build/openapi.json
 	cd $(WEB) && pnpm types

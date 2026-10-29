@@ -41,7 +41,7 @@ class MockChatRelay:
 
         Raises:
             NotFoundError: `lead_id` is not one of the five leads.
-        """
+        """  # noqa: DOC502 raised by self._lead()
         return ChatThread(
             lead=self._lead(lead_id),
             leads=chat_fixtures.LEADS,

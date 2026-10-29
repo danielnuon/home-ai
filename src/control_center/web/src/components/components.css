@@ -179,6 +179,13 @@ dl.list.facts {
   transition: background 160ms ease-out;
 }
 
+.switch::before {
+  /* Visually 28px tall, but the tap area is the full 44px (spec 7.15 #9) */
+  content: "";
+  position: absolute;
+  inset: calc((28px - var(--touch)) / 2) 0;
+}
+
 .switch[aria-checked="true"] {
   background: var(--accent-text);
 }
@@ -490,7 +497,8 @@ dl.list.facts {
 
 .mine .bubble .muted {
   color: inherit;
-  opacity: 0.8;
+  /* 0.9 keeps the timestamp at 4.8:1 on the Day accent; 0.8 fell to 4.2 (spec 17.16) */
+  opacity: 0.9;
 }
 
 /* Today */
@@ -574,4 +582,19 @@ dl.list.facts {
 
 .setting-row > .grow {
   flex-basis: 200px;
+}
+
+.setting-history {
+  --gap: var(--space-2);
+}
+
+.setting-history .btn {
+  padding: 0 var(--space-2);
+}
+
+/* A reading 3 minutes old turns grey (spec 7.3); its status already says "Stale" in words. */
+.tile.stale .tile-value,
+.tile.stale .sparkline {
+  color: var(--muted);
+  filter: grayscale(1);
 }
