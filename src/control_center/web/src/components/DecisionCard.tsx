@@ -92,14 +92,6 @@ function VetoSheet({
   );
 }
 
-/** Whether the Owner can still act on a decision: its window is open, or it is unacknowledged. */
-export function isOpenDecision(decision: CriticalDecision): boolean {
-  return (
-    decision.status === "pending_window" ||
-    (decision.status === "in_effect" && !decision.acknowledged)
-  );
-}
-
 /** The countdown while the window is open, otherwise the status in words. */
 function whenWords(decision: CriticalDecision): string {
   if (decision.window_ends && decision.status === "pending_window")
@@ -126,7 +118,7 @@ function DecisionActions({
       <button
         type="button"
         className="btn primary"
-        disabled={acknowledge.busy || decision.acknowledged}
+        disabled={acknowledge.busy || !decision.open}
         onClick={() => acknowledge.run(() => send("POST", `/decisions/${decision.id}/acknowledge`))}
       >
         {decision.acknowledged ? "Acknowledged" : "Acknowledge"}
@@ -143,13 +135,15 @@ function DecisionActions({
   );
 }
 
-/** One critical decision with Acknowledge and Veto while it is open. */
+/** One critical decision, highlighted while open, with Acknowledge and Veto while a veto can act. */
 export function DecisionCard({ decision, full = false }: DecisionCardProps) {
   const [vetoing, setVetoing] = useState(false);
-  const open = isOpenDecision(decision);
 
   return (
-    <article className={`card stack ${open ? "attention" : ""}`} aria-label={decision.title}>
+    <article
+      className={`card stack ${decision.open ? "attention" : ""}`}
+      aria-label={decision.title}
+    >
       <div className="row">
         <span className="grow small status-attention">
           ▲ Critical decision · <span className="mono">{decision.id}</span>
@@ -160,7 +154,9 @@ export function DecisionCard({ decision, full = false }: DecisionCardProps) {
       <p className="small">{decision.summary}</p>
       {full && <Reasoning decision={decision} />}
       {decision.veto_reason && <p className="muted small">Your reason: {decision.veto_reason}</p>}
-      {open && <DecisionActions decision={decision} full={full} onVeto={() => setVetoing(true)} />}
+      {decision.vetoable && (
+        <DecisionActions decision={decision} full={full} onVeto={() => setVetoing(true)} />
+      )}
       <VetoSheet decision={decision} open={vetoing} onClose={() => setVetoing(false)} />
     </article>
   );

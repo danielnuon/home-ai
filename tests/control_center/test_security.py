@@ -64,3 +64,22 @@ def test_health_answers_without_identity(tailnet_client: TestClient) -> None:
 
     assert body["status"] == "ok"
     assert body["checks"][0]["name"] == "backends"
+
+
+def test_a_non_ascii_login_is_refused_not_an_error(tailnet_client: TestClient) -> None:
+    """Spec 7.1 principle 6: any login that is not the Owner's gets 403, never a server error."""
+    answer = tailnet_client.get(
+        "/api/today", headers={"Tailscale-User-Login": "dänny@example".encode()}
+    )
+
+    assert answer.status_code == 403
+
+
+def test_an_expired_session_says_so_in_a_code_the_front_end_can_retry_on(
+    client: TestClient,
+) -> None:
+    """Spec 7.1 principle 6: a stale CSRF token gets "session_expired", distinct from a step-up."""
+    answer = client.post("/api/platform/stop", headers={"X-CSRF-Token": "from-before-a-restart"})
+
+    assert answer.status_code == 403
+    assert answer.json()["error"] == "session_expired"

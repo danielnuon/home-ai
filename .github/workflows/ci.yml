@@ -23,7 +23,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: src/control_center/web/pnpm-lock.yaml
       - run: make install
-      - name: Install the browser for the accessibility check
+      - name: Install the browser's system libraries (make install fetches the browser itself)
         working-directory: src/control_center/web
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install-deps chromium
       - run: make ci

@@ -22,7 +22,7 @@ Brain, decides whether an action needs one, and raises `StepUpRequiredError` whe
 from datetime import datetime
 from typing import Protocol
 
-from control_center.contract.common import Principal
+from control_center.contract.common import Metric, Principal
 from control_center.contract.gate import (
     Approval,
     ApprovalDecision,
@@ -56,7 +56,7 @@ from control_center.contract.status import (
     SystemOverview,
     VoiceOverview,
 )
-from control_center.contract.today import AgendaItem, ChatThread, SearchResults
+from control_center.contract.today import AgendaItem, ChatThread, SearchResults, Tile
 from control_center.contract.work import (
     Directory,
     Intervention,
@@ -244,6 +244,14 @@ class StatusAggregator(Protocol):
 
     def sampled_at(self) -> datetime:
         """When health and metrics were last collected. Tiles show this so they can go stale."""
+        ...
+
+    def subsystem_tiles(self) -> list[Tile]:
+        """One tile per subsystem for Today (spec 7.2), each stamped with its sample time."""
+        ...
+
+    def health_metrics(self) -> list[Metric]:
+        """Today's "How it's running" figures (a selection from 7.18), as live samples."""
         ...
 
     def system(self) -> SystemOverview:

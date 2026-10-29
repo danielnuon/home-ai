@@ -8,7 +8,13 @@
 import { useSyncExternalStore } from "react";
 
 /** Fetches Motion's animation features; passed to `LazyMotion`. */
-export const loadMotionFeatures = () => import("./motionFeatures").then((module) => module.default);
+export const loadMotionFeatures = () =>
+  import("./motionFeatures")
+    .then((module) => module.default)
+    // Animation is optional. If the chunk fails to load (offline, or replaced by a deploy), stay
+    // pending forever: elements keep rendering in their final state, as before the chunk
+    // arrives, instead of raising an unhandled rejection LazyMotion has nowhere to report.
+    .catch(() => new Promise<never>(() => undefined));
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
 

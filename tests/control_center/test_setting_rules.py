@@ -63,6 +63,7 @@ def test_a_free_choice_never_needs_a_step_up() -> None:
     [
         ({"kind": "money", "value": "0", "ceiling": 20}, "21"),  # past the policy.yaml ceiling
         ({"kind": "money", "value": "0", "ceiling": 20}, "-1"),
+        ({"kind": "money", "value": "0", "ceiling": 20}, "²"),  # a digit to isdigit(), not int()
         ({"kind": "switch"}, "maybe"),
         ({"kind": "choice", "value": "a", "choices": ["a", "b"]}, "c"),
     ],

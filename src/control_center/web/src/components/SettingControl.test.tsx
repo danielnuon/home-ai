@@ -20,6 +20,6 @@ test("saving a cap sends the new value", async () => {
   await userEvent.type(field, "10");
   await userEvent.click(screen.getByRole("button", { name: "Save" }));
 
-  expect(await screen.findByText("Approval calls: monthly cap: 10")).toBeInTheDocument();
+  expect(await screen.findByText("Approval calls: monthly cap: $10")).toBeInTheDocument();
   expect(sent.find((r) => r.method === "PUT")?.body).toEqual({ value: "10" });
 });

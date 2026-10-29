@@ -6,17 +6,11 @@
  * the passkey.
  */
 import { useState } from "react";
-import { useAction } from "../api/actions";
-import { send } from "../api/client";
+import { displayValue, useChangeSetting } from "../api/settings";
 import type { Setting } from "../api/types";
 import { Sheet } from "./Sheet";
 
 const VIA = { brain: "in Brain", discord: "in Discord", desk: "at the desk" } as const;
-
-/** A value as the Owner reads it: "$20", "twilio default", "on". */
-export function displayValue(setting: Setting, value: string): string {
-  return setting.kind === "money" ? `$${value}` : value.replaceAll("_", " ");
-}
 
 /** "Oct 25, 14:05" in the Owner's locale. */
 function when(at: string): string {
@@ -31,15 +25,9 @@ function when(at: string): string {
 /** The sheet's contents: the default, every change newest first, and Revert. */
 function HistoryBody({ setting, onDone }: { setting: Setting; onDone: () => void }) {
   const latest = setting.history[0];
-  const action = useAction<Setting>({
-    refresh: ["settings", setting.owner_page],
-    done: (result) => `${result.label}: back to ${displayValue(result, result.value)}`,
-  });
-  const revert = async () => {
-    const reverted = await action.run((proof) =>
-      send<Setting>("POST", `/settings/${setting.key}/revert`, undefined, proof),
-    );
-    if (reverted) onDone();
+  const { revert, busy } = useChangeSetting(setting);
+  const revertAndClose = async () => {
+    if (await revert()) onDone();
   };
   return (
     <div className="stack">
@@ -57,7 +45,7 @@ function HistoryBody({ setting, onDone }: { setting: Setting; onDone: () => void
         ))}
       </ol>
       {latest && (
-        <button type="button" className="btn" disabled={action.busy} onClick={() => void revert()}>
+        <button type="button" className="btn" disabled={busy} onClick={() => void revertAndClose()}>
           Revert to {displayValue(setting, latest.old)}
         </button>
       )}

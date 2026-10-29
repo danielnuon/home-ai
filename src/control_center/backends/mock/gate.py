@@ -8,13 +8,13 @@ virtual authenticator's assertions instead of WebAuthn ones.
 
 import secrets
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 
 from control_center.backends.errors import ConflictError, NotFoundError, StepUpRequiredError
 from control_center.backends.mock import setting_rules
 from control_center.backends.mock.fixtures import gate as gate_fixtures
 from control_center.backends.mock.fixtures import platform as platform_fixtures
 from control_center.backends.mock.world import MockWorld
+from control_center.config import OWNER_TIME_ZONE
 from control_center.contract.common import StatusLabel
 from control_center.contract.gate import (
     Approval,
@@ -37,9 +37,6 @@ STEP_UP_LIFETIME = timedelta(minutes=2)
 
 MOCK_ASSERTION_PREFIX = "virtual:"
 """The mock virtual authenticator answers a challenge with this prefix plus the challenge."""
-
-OWNER_TIME_ZONE = ZoneInfo("America/Los_Angeles")
-"""The Owner's time zone, used for quiet hours (spec C4)."""
 
 
 class MockApprovalGate:
@@ -92,9 +89,7 @@ class MockApprovalGate:
         """Every card, pending first. A card past its expiry becomes expired; nothing is sent."""
         now = self._world.clock()
         for approval in self._world.approvals.values():
-            if approval.state == "pending" and approval.expires_at and approval.expires_at < now:
-                approval.state = "expired"
-                approval.decided_note = "Expired · nothing was sent"
+            _expire_if_lapsed(approval, now)
         return sorted(self._world.approvals.values(), key=lambda a: a.state != "pending")
 
     def _approval(self, approval_id: str) -> Approval:
@@ -120,6 +115,9 @@ class MockApprovalGate:
             StepUpRequiredError: Approving needs a step-up and `step_up` isn't a valid proof.
         """  # noqa: DOC503 NotFoundError and StepUpRequiredError come from the _approval and _require_step_up helpers
         approval = self._approval(approval_id)
+        _expire_if_lapsed(approval, self._world.clock())
+        if approval.state == "expired":
+            raise ConflictError("This card expired. Nothing was sent.")
         if approval.state != "pending":
             raise ConflictError("This card was already decided.")
         if decision.decision == "approve":
@@ -161,13 +159,22 @@ class MockApprovalGate:
 
     def list_decisions(self) -> list[CriticalDecision]:
         """Open decisions first, then the rest in fixture order."""
-        return sorted(self._world.decisions.values(), key=lambda d: not _is_open(d))
+        return sorted(self._settled_decisions(), key=lambda d: not d.open)
+
+    def _settled_decisions(self) -> list[CriticalDecision]:
+        """Every decision, with any whose veto window has passed moved into effect."""
+        now = self._world.clock()
+        for record in self._world.decisions.values():
+            _take_effect_if_due(record, now)
+        return list(self._world.decisions.values())
 
     def _decision(self, decision_id: str) -> CriticalDecision:
         try:
-            return self._world.decisions[decision_id]
+            record = self._world.decisions[decision_id]
         except KeyError:
             raise NotFoundError("That decision record doesn't exist.") from None
+        _take_effect_if_due(record, self._world.clock())
+        return record
 
     def acknowledge(self, decision_id: str) -> CriticalDecision:
         """Acknowledge an open decision.
@@ -182,7 +189,7 @@ class MockApprovalGate:
             ConflictError: The decision is not open.
         """
         record = self._decision(decision_id)
-        if not _is_open(record):
+        if not record.open:
             raise ConflictError("This decision is no longer open.")
         record.acknowledged = True
         self._world.bus.changed("decisions", "today", "platform")
@@ -202,7 +209,7 @@ class MockApprovalGate:
             ConflictError: The decision was already vetoed or superseded.
         """
         record = self._decision(decision_id)
-        if record.status not in ("pending_window", "in_effect"):
+        if not record.vetoable:
             raise ConflictError("This decision can't be vetoed any more.")
         record.status = "vetoed" if record.status == "pending_window" else "reversed"
         record.acknowledged = False
@@ -223,7 +230,7 @@ class MockApprovalGate:
             ConflictError: The window has ended.
         """
         record = self._decision(decision_id)
-        if record.window_ends is None or record.window_ends < self._world.clock():
+        if record.window_ends is None or record.window_ends <= self._world.clock():
             raise ConflictError("The veto window has ended.")
         record.status = "pending_window"
         record.acknowledged = False
@@ -299,7 +306,7 @@ class MockApprovalGate:
         """Global banners and the navigation badges."""
         world = self._world
         pending = sum(1 for a in self.list_approvals() if a.state == "pending")
-        open_decisions = sum(1 for d in world.decisions.values() if _is_open(d))
+        open_decisions = sum(1 for d in self._settled_decisions() if d.open)
         running = sum(1 for t in world.tasks.values() if not t.queued)
         if world.stopped:
             overall = StatusLabel(status="problem", label="Stopped")
@@ -427,8 +434,17 @@ class MockApprovalGate:
         return f"Restoring {what} from {point} into Restores on the working drive."
 
 
-def _is_open(record: CriticalDecision) -> bool:
-    return record.status == "pending_window" and not record.acknowledged
+def _expire_if_lapsed(approval: Approval, now: datetime) -> None:
+    """Expire a pending card whose time is up. Nothing is ever approved by timeout (spec 11)."""
+    if approval.state == "pending" and approval.expires_at and approval.expires_at < now:
+        approval.state = "expired"
+        approval.decided_note = "Expired · nothing was sent"
+
+
+def _take_effect_if_due(record: CriticalDecision, now: datetime) -> None:
+    """Put an `after_window` decision into effect once its veto window has passed (spec 11.9)."""
+    if record.status == "pending_window" and record.window_ends and record.window_ends <= now:
+        record.status = "in_effect"
 
 
 def _count(number: int) -> StatusLabel:

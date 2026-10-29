@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, computed_field
 
 from control_center.contract.base import ContractModel
 from control_center.contract.common import DataClass, Department, StatusLabel, Trust
@@ -74,6 +74,9 @@ class CriticalDecision(ContractModel):
 
     An `after_window` decision takes effect when `window_ends` passes; an `immediate` one is already
     in effect and a veto reverts it. These count down; approvals never do (spec 7.16, rule 8).
+
+    `open` and `vetoable` are computed here, once, so the gate, Today and the front end cannot
+    disagree about which decisions still need the Owner.
     """
 
     id: str
@@ -90,6 +93,19 @@ class CriticalDecision(ContractModel):
     veto_preview: str
     veto_reason: str | None = None
     decided_on: str
+
+    # mypy does not yet accept a decorator stacked on @property; Pydantic documents this pattern.
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def open(self) -> bool:
+        """Whether it is still highlighted: vetoable and not yet acknowledged (spec 11.9)."""
+        return self.vetoable and not self.acknowledged
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def vetoable(self) -> bool:
+        """Whether a veto still does something: cancels a waiting one or reverts one in effect."""
+        return self.status in ("pending_window", "in_effect")
 
 
 class VetoRequest(ContractModel):

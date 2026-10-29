@@ -231,6 +231,29 @@ def reviewer_impact() -> list[ImpactLine]:
     ]
 
 
+def health_metrics() -> list[Metric]:
+    """The "How it's running" list on desktop Today, a selection from the 7.18 catalog."""
+    healthy = StatusLabel(status="healthy", label="")
+    return [
+        Metric(name="Chat first token p95", value="1.4 s", spark=[12, 10, 13, 9, 11, 8, 9]),
+        Metric(name="Chat on fallback model", value="9 min/d", spark=[10, 9, 12, 8, 10, 9, 10]),
+        Metric(
+            name="Model swaps today",
+            value="3 of ≤6",
+            status=healthy,
+            spark=[10, 12, 8, 11, 10, 12, 10],
+        ),
+        Metric(name="Review wait p50", value="6 min", spark=[14, 12, 13, 10, 9, 10, 8]),
+        Metric(
+            name="Memory pressure",
+            value="Normal",
+            status=healthy,
+            spark=[13, 13, 12, 13, 13, 12, 13],
+        ),
+        Metric(name="Bug catch rate", value="81%", spark=[9, 9, 8, 9, 8, 8, 8]),
+    ]
+
+
 def model_stats() -> list[Metric]:
     """Seven-day figures on the Models page."""
     return [

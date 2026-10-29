@@ -11,6 +11,7 @@
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { ChatMessage, ChatThread, LiveTask, TaskDetail, TodayOverview } from "./types";
+import { setServerNow } from "../design/stale";
 
 /** Settings are shown on the pages that own them, so a settings change refreshes those too. */
 const ALSO_REFRESH: Record<string, string[]> = {
@@ -102,6 +103,9 @@ function openStream(
       onId(Number(event.lastEventId));
       apply(JSON.parse(event.data) as Payload);
     });
+  // Sent first on every connection: where this client stands, even before any event, and the
+  // server's clock, which stale tiles are judged against.
+  listen<{ now: string }>("hello", (p) => setServerNow(p.now));
   listen<{ resources: string[] }>("changed", (p) => refresh(client, p.resources));
   listen<TaskProgress>("task.progress", (p) => applyProgress(client, p));
   listen<TranscriptAppend>("transcript.append", (p) => applyTranscript(client, p));
@@ -116,7 +120,8 @@ export function useLiveEvents(): void {
     let lastId: number | null = null;
     let source: EventSource | null = null;
     const connect = () => {
-      source = openStream(client, lastId, (id) => (lastId = Math.max(lastId ?? 0, id)));
+      // Take each id as sent, never the maximum: after a restart the server's ids start again.
+      source = openStream(client, lastId, (id) => (lastId = id));
     };
     const onVisibility = () => {
       source?.close();

@@ -32,6 +32,6 @@ test("a changed setting shows its default, its history, and reverts in one step"
   expect(screen.getByText(/in Discord/)).toBeInTheDocument();
   await userEvent.click(screen.getByRole("button", { name: "Revert to $5" }));
 
-  expect(await screen.findByText("Approval calls: monthly cap: back to $5")).toBeInTheDocument();
+  expect(await screen.findByText("Approval calls: monthly cap: $5")).toBeInTheDocument();
   expect(sent.some((r) => r.method === "POST" && r.path.endsWith("/revert"))).toBe(true);
 });

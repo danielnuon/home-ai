@@ -17,6 +17,7 @@ from control_center.contract.status import (
     SystemOverview,
     VoiceOverview,
 )
+from control_center.contract.today import Tile
 
 CALL_SCRIPT = (
     '"Approval requested: class C. Code on your screen. Enter the code, then press pound." '
@@ -39,6 +40,38 @@ class MockStatusAggregator:
     def _sampled(self, tiles: list[Metric]) -> list[Metric]:
         """Stamp fixture tiles with the latest sample time."""
         return [tile.model_copy(update={"sampled_at": self._world.sampled_at}) for tile in tiles]
+
+    def subsystem_tiles(self) -> list[Tile]:
+        """Today's tiles, built from this aggregator's own pages so the figures agree."""
+        pool = next(z for z in self.system().zones if z.name == "Model pool")
+        spend = self.spend()
+        healthy = StatusLabel(status="healthy", label="Healthy")
+        tiles = [
+            ("Services", self.services().summary.split(" · ")[0], healthy, "/services"),
+            (
+                "Model pool",
+                f"{pool.used_gb:g} / {pool.budget_gb:g} GB",
+                StatusLabel(status="healthy", label=self.models().pool_mode),
+                "/models",
+            ),
+            ("Backups", "20:00 today", self.backups().mode, "/backups"),
+            ("Spend", f"${spend.total_usd:.2f}", spend.summary, "/spend"),
+            (
+                "Connections",
+                "3 of 4",
+                StatusLabel(status="attention", label="Contacts waiting"),
+                "/connections",
+            ),
+            ("Heartbeat", "1 min ago", StatusLabel(status="healthy", label="Reporting"), "/system"),
+        ]
+        return [
+            Tile(name=name, value=value, status=status, href=href, sampled_at=self.sampled_at())
+            for name, value, status, href in tiles
+        ]
+
+    def health_metrics(self) -> list[Metric]:
+        """Today's live figures, stamped like every other sample."""
+        return self._sampled(platform.health_metrics())
 
     def system(self) -> SystemOverview:
         """Machine, memory zones and hardware signals."""
