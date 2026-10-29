@@ -36,10 +36,12 @@ pages ── queries.ts ── GET /api/* ─▶ routes/*  ──▶ ApprovalGat
 
 | Path | What it is |
 | --- | --- |
+| `__main__.py` | `python -m control_center`: loads the config and runs uvicorn on 127.0.0.1:8406 |
 | `app.py` | Builds the app: security middleware, routers, error mapping, `/health`, static files |
-| `config.py` | Reads `BRAIN_*` variables and refuses unsafe combinations at start-up |
-| `security.py` | Owner identity (`Tailscale-User-Login`), CSRF, Content Security Policy |
-| `events.py` | The event bus: publish, replay from `Last-Event-ID`, fan-out to SSE clients |
+| `config.py` | Reads `BRAIN_*` variables and refuses unsafe combinations at start-up; the Owner's time zone |
+| `security.py` | Owner identity (`Tailscale-User-Login`), CSRF (an expired session answers `session_expired`), Content Security Policy |
+| `events.py` | The event bus: publish, replay from `Last-Event-ID` (a restart or a gap means "refetch everything"), fan-out to SSE clients |
+| `today.py` | Composes Today from the four backends in one response. It holds no figures of its own: tiles and metrics come from `StatusAggregator` |
 | `contract/` | Pydantic models for every request and response. The front end's types are generated from these |
 | `backends/protocols.py` | The four interfaces from spec 6.2 |
 | `backends/errors.py` | Not found, step-up required, conflict, refused; `app.py` maps them to 404, 403, 409, 422 |

@@ -7,22 +7,10 @@
  * policy.yaml, which the gate refuses to exceed.
  */
 import { useState, type ReactNode } from "react";
-import { useAction } from "../api/actions";
-import { send } from "../api/client";
+import { displayValue, useChangeSetting } from "../api/settings";
 import type { Setting } from "../api/types";
 import { Switch } from "./Controls";
-import { displayValue, SettingHistory } from "./SettingHistory";
-
-/** Sends a new value for `key`. */
-function useChangeSetting(setting: Setting) {
-  const action = useAction<Setting>({
-    refresh: ["settings", setting.owner_page],
-    done: (result) => `${result.label}: ${result.value}`,
-  });
-  const change = (value: string) =>
-    action.run((proof) => send("PUT", `/settings/${setting.key}`, { value }, proof));
-  return { change, busy: action.busy };
-}
+import { SettingHistory } from "./SettingHistory";
 
 /** A dollar cap with a Save button; the ceiling is shown because the gate enforces it. */
 function MoneyField({ setting }: { setting: Setting }) {

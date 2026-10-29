@@ -26,6 +26,9 @@ export function StepUpProvider({ children }: { children: ReactNode }) {
   const settle = useRef<(proof: string | null) => void>(() => undefined);
 
   const request = useCallback<RequestProof>((why) => {
+    // One sheet at a time: a newer request cancels the one already showing, so the earlier
+    // caller gets null (as if the Owner backed out) instead of waiting forever.
+    settle.current(null);
     setReason(why);
     setFailed(false);
     return new Promise((resolve) => (settle.current = resolve));
@@ -33,6 +36,7 @@ export function StepUpProvider({ children }: { children: ReactNode }) {
 
   const finish = (proof: string | null) => {
     settle.current(proof);
+    settle.current = () => undefined;
     setReason(null);
   };
 

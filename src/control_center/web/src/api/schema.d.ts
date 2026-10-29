@@ -1327,6 +1327,9 @@ export interface components {
      *
      *     An `after_window` decision takes effect when `window_ends` passes; an `immediate` one is already
      *     in effect and a veto reverts it. These count down; approvals never do (spec 7.16, rule 8).
+     *
+     *     `open` and `vetoable` are computed here, once, so the gate, Today and the front end cannot
+     *     disagree about which decisions still need the Owner.
      */
     CriticalDecision: {
       /** Id */
@@ -1363,6 +1366,16 @@ export interface components {
       veto_reason: string | null;
       /** Decided On */
       decided_on: string;
+      /**
+       * Open
+       * @description Whether it is still highlighted: vetoable and not yet acknowledged (spec 11.9).
+       */
+      readonly open: boolean;
+      /**
+       * Vetoable
+       * @description Whether a veto still does something: cancels a waiting one or reverts one in effect.
+       */
+      readonly vetoable: boolean;
     };
     /**
      * Directory

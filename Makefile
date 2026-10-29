@@ -5,9 +5,10 @@ export UV_SYSTEM_CERTS := 1
 
 .PHONY: install dev server web types lint test build a11y ci
 
-install:  ## Install Python and front-end dependencies.
+install:  ## Install Python and front-end dependencies, and the browser `make a11y` drives.
 	uv sync
 	cd $(WEB) && pnpm install --frozen-lockfile
+	cd $(WEB) && pnpm exec playwright install chromium
 
 dev:  ## Run the server on mock backends and the front end with live reload.
 	$(MAKE) -j2 server web
@@ -41,9 +42,17 @@ build:  ## Build the front end and check the initial JavaScript budget.
 A11Y_PORT := 8499
 
 a11y: build  ## axe on every page in a real browser, Day and Night, phone and desktop (spec 17.16).
+	@# Refuse a taken port: otherwise the check would scan whatever server is already there.
+	@! curl -sf http://127.0.0.1:$(A11Y_PORT)/health >/dev/null || \
+		{ echo "a11y: port $(A11Y_PORT) is already in use; stop that server first." >&2; exit 1; }
 	BRAIN_DEV_IDENTITY=1 BRAIN_PORT=$(A11Y_PORT) uv run python -m control_center & server=$$!; \
-	trap 'kill $$server' EXIT; \
-	for _ in $$(seq 50); do curl -sf http://127.0.0.1:$(A11Y_PORT)/health >/dev/null && break; sleep 0.2; done; \
+	trap 'kill $$server 2>/dev/null' EXIT; \
+	for _ in $$(seq 50); do \
+		kill -0 $$server 2>/dev/null || { echo "a11y: Brain exited during start-up." >&2; exit 1; }; \
+		curl -sf http://127.0.0.1:$(A11Y_PORT)/health >/dev/null && break; sleep 0.2; \
+	done; \
+	curl -sf http://127.0.0.1:$(A11Y_PORT)/health >/dev/null || \
+		{ echo "a11y: Brain did not answer /health within 10 s." >&2; exit 1; }; \
 	cd $(WEB) && BRAIN_URL=http://127.0.0.1:$(A11Y_PORT) pnpm a11y
 
 ci: lint test build a11y  ## Everything CI checks, and also that the generated types are current.

@@ -8,6 +8,8 @@
 
 const CSRF_HEADER = "X-CSRF-Token";
 const STEP_UP_HEADER = "X-Step-Up";
+/** The error code the server's CSRF check answers with (`security.py`). */
+const SESSION_EXPIRED = "session_expired";
 
 /** An error answer from the server. `code` is "step_up_required" when a passkey is needed. */
 export class ApiError extends Error {
@@ -22,11 +24,20 @@ export class ApiError extends Error {
 
 let csrfToken: Promise<string> | null = null;
 
-/** Opens the session once and remembers its CSRF token for the life of the page. */
+/**
+ * Opens the session once and remembers its CSRF token. A failed open is forgotten, so the next
+ * write tries again instead of reusing the failure for the life of the page.
+ */
 function sessionToken(): Promise<string> {
   csrfToken ??= fetch("/api/session", { credentials: "same-origin" })
-    .then((response) => response.json() as Promise<{ csrf_token: string }>)
-    .then((session) => session.csrf_token);
+    .then(async (response) => {
+      if (!response.ok) throw await toApiError(response);
+      return ((await response.json()) as { csrf_token: string }).csrf_token;
+    })
+    .catch((error: unknown) => {
+      csrfToken = null;
+      throw error;
+    });
   return csrfToken;
 }
 
@@ -66,21 +77,39 @@ export async function send<T>(
   body?: unknown,
   stepUp?: string,
 ): Promise<T> {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    [CSRF_HEADER]: await sessionToken(),
+  const post = async () => {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      [CSRF_HEADER]: await sessionToken(),
+    };
+    if (stepUp) {
+      headers[STEP_UP_HEADER] = stepUp;
+    }
+    return fetch(`/api${path}`, {
+      method,
+      headers,
+      credentials: "same-origin",
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
   };
-  if (stepUp) {
-    headers[STEP_UP_HEADER] = stepUp;
+  let response = await post();
+  if (response.status === 403 && (await isSessionRefusal(response))) {
+    // The server forgot the session (a restart clears it): open a new one and try once more.
+    // The refusal came before the action ran, so retrying cannot do anything twice.
+    csrfToken = null;
+    response = await post();
   }
-  const response = await fetch(`/api${path}`, {
-    method,
-    headers,
-    credentials: "same-origin",
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
   if (!response.ok) {
     throw await toApiError(response);
   }
   return response.status === 204 ? (undefined as T) : ((await response.json()) as T);
+}
+
+/** Whether a 403 is the CSRF check, not a step-up request or the identity check. */
+async function isSessionRefusal(response: Response): Promise<boolean> {
+  const body = (await response
+    .clone()
+    .json()
+    .catch(() => ({}))) as { error?: string };
+  return body.error === SESSION_EXPIRED;
 }

@@ -25,6 +25,7 @@ from control_center.security import (
     CsrfChecked,
     OwnerOnly,
     SecurityHeadersMiddleware,
+    SessionExpiredError,
     SessionStore,
 )
 from control_center.wiring import build_mock_backends
@@ -83,6 +84,7 @@ def create_app(config: Config) -> FastAPI:
     app.state.sessions = SessionStore()
     app.add_middleware(SecurityHeadersMiddleware)
     app.add_exception_handler(BackendError, _backend_error)
+    app.add_exception_handler(SessionExpiredError, _session_expired)
 
     api = APIRouter(prefix="/api", dependencies=[OwnerOnly, CsrfChecked])
     for module in (session, gate, work, personal, status):
@@ -111,6 +113,13 @@ async def _backend_error(_: Request, error: Exception) -> JSONResponse:
     status_code, code = ERROR_STATUS.get(type(error), (400, "error"))
     reason = error.reason if isinstance(error, BackendError) else "Something went wrong."
     return JSONResponse(status_code=status_code, content={"error": code, "reason": reason})
+
+
+async def _session_expired(_: Request, error: Exception) -> JSONResponse:
+    """Tell the front end to open a new session; it retries the write once."""
+    return JSONResponse(
+        status_code=403, content={"error": "session_expired", "reason": SessionExpiredError.reason}
+    )
 
 
 def _serve_front_end(app: FastAPI, dist: Path) -> None:

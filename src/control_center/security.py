@@ -84,7 +84,7 @@ class SessionStore:
         expected = self._csrf_by_session.get(session_id or "")
         if expected is None or token is None:
             return False
-        return secrets.compare_digest(expected, token)
+        return secrets.compare_digest(expected.encode(), token.encode())
 
 
 def require_owner(
@@ -103,8 +103,23 @@ def require_owner(
     config: Config = request.app.state.config
     if config.dev_identity:
         return
-    if not login or not config.owner_login or not secrets.compare_digest(login, config.owner_login):
+    # Bytes, not str: compare_digest raises on non-ASCII str, which would answer 500, not 403.
+    if (
+        not login
+        or not config.owner_login
+        or not secrets.compare_digest(login.encode(), config.owner_login.encode())
+    ):
         raise HTTPException(status_code=403, detail="Brain is only for the Owner's devices.")
+
+
+class SessionExpiredError(Exception):
+    """The request's CSRF token belongs to no live session, usually because Brain restarted.
+
+    `app.py` answers it with 403 and the code "session_expired", which the front end treats as a
+    cue to open a new session and retry once.
+    """
+
+    reason = "Your session expired. Reload Brain."
 
 
 def require_csrf(
@@ -120,13 +135,13 @@ def require_csrf(
         token: The CSRF token from the `X-CSRF-Token` header.
 
     Raises:
-        HTTPException: 403 when the token is missing or wrong.
+        SessionExpiredError: The token is missing or wrong.
     """
     if request.method in SAFE_METHODS:
         return
     store: SessionStore = request.app.state.sessions
     if not store.check_csrf(session, token):
-        raise HTTPException(status_code=403, detail="Your session expired. Reload Brain.")
+        raise SessionExpiredError
 
 
 OwnerOnly = Depends(require_owner)

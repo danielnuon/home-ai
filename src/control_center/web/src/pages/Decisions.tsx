@@ -6,7 +6,7 @@ import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { useDecisions } from "../api/queries";
 import type { CriticalDecision } from "../api/types";
-import { DecisionCard, isOpenDecision as isOpen } from "../components/DecisionCard";
+import { DecisionCard } from "../components/DecisionCard";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 
@@ -55,20 +55,27 @@ export default function Decisions() {
         {(decisions) => (
           <>
             <Section title="Open">
-              {decisions.filter(isOpen).map((decision) => (
-                <DecisionCard key={decision.id} decision={decision} full />
-              ))}
-              {!decisions.some(isOpen) && (
+              {decisions
+                .filter((decision) => decision.open)
+                .map((decision) => (
+                  <DecisionCard key={decision.id} decision={decision} full />
+                ))}
+              {!decisions.some((decision) => decision.open) && (
                 <p className="card empty">No open decisions. New ones appear on Today too.</p>
               )}
             </Section>
             <Section title="Earlier">
               <div className="list">
                 {decisions
-                  .filter((decision) => !isOpen(decision))
-                  .map((decision) => (
-                    <PastDecision key={decision.id} decision={decision} />
-                  ))}
+                  .filter((decision) => !decision.open)
+                  .map((decision) =>
+                    // Acknowledged but still vetoable: keep the countdown and the Veto button.
+                    decision.vetoable && decision.status === "pending_window" ? (
+                      <DecisionCard key={decision.id} decision={decision} />
+                    ) : (
+                      <PastDecision key={decision.id} decision={decision} />
+                    ),
+                  )}
               </div>
             </Section>
           </>

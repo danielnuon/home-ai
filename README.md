@@ -12,9 +12,9 @@ services means writing four classes; nothing in the routes or the front end chan
 ## Run it
 
 ```sh
-make install   # Python (uv) and front-end (pnpm) dependencies
+make install   # Python (uv) and front-end (pnpm) dependencies, plus the browser for make a11y
 make dev       # server on 127.0.0.1:8406 and the app on http://localhost:5173
-make ci        # every check CI runs: lint, types, tests, build, bundle budget
+make ci        # every check CI runs: lint, types, tests, build, bundle budget, accessibility
 ```
 
 You need Python 3.12+, [uv](https://docs.astral.sh/uv/), Node 22 and pnpm 10.

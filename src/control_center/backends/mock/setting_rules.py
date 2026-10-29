@@ -31,7 +31,8 @@ def validate(setting: Setting, value: str) -> None:
     if setting.kind in ("level", "choice") and value not in setting.choices:
         raise RefusedError(f"{value} is not one of the choices for {setting.label}.")
     if setting.kind == "money":
-        if not value.isdigit():
+        # isdigit() also accepts "²" and other digits int() rejects; dollars are ASCII 0-9 only.
+        if not (value.isascii() and value.isdigit()):
             raise RefusedError("A cap is a whole number of dollars.")
         if setting.ceiling is not None and int(value) > setting.ceiling:
             raise RefusedError(

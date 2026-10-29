@@ -231,7 +231,6 @@ button.list-row {
 }
 
 .btn.compact {
-  min-height: var(--touch);
   padding: 0 var(--space-3);
 }
 

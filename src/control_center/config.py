@@ -7,10 +7,15 @@ rather than starting with a weaker default (spec 17.16, "Fail closed").
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8406
 """Brain's port from spec 7.6. `tailscale serve` publishes it to the tailnet; nothing else does."""
+
+OWNER_TIME_ZONE = ZoneInfo("America/Los_Angeles")
+"""The Owner's time zone for greetings and quiet hours. It mirrors `timezone` in schedule.yaml
+(spec 22.6) until Brain reads that file, which arrives with the real scheduler."""
 
 WEB_DIST = Path(__file__).parent / "web" / "dist"
 """Where `npm run build` puts the front end. Served as static files when present."""

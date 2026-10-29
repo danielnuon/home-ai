@@ -33,7 +33,8 @@ export function Counter({ value, digits = 0, suffix = "" }: CounterProps) {
     const start = from.current;
     const began = performance.now();
     let frame = requestAnimationFrame(function step(now) {
-      const progress = Math.min((now - began) / DURATION_MS, 1);
+      // The first frame's timestamp can be slightly before `began`; clamp so it never runs back.
+      const progress = Math.min(Math.max((now - began) / DURATION_MS, 0), 1);
       from.current = start + (value - start) * easeOut(progress);
       setShown(from.current);
       if (progress < 1) frame = requestAnimationFrame(step);

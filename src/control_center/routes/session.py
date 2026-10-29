@@ -3,14 +3,15 @@
 import asyncio
 import contextlib
 from collections.abc import AsyncIterator
+from datetime import UTC, datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Cookie, Header, Query, Request, Response
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, JsonValue
 
 from control_center.contract.gate import PlatformState, StepUpProof
-from control_center.events import EventBus
+from control_center.events import Event, EventBus
 from control_center.routes import BackendsDep, StepUp
 from control_center.security import SESSION_COOKIE, SessionStore
 
@@ -105,6 +106,8 @@ async def events(
 async def _frames(bus: EventBus, start: int) -> AsyncIterator[str]:
     """Yield SSE frames, with a keepalive comment whenever the bus is quiet."""
     yield "retry: 2000\n\n"
+    hello: dict[str, JsonValue] = {"now": datetime.now(UTC).isoformat()}
+    yield Event(id=bus.resume_point(start), kind="hello", payload=hello).to_sse()
     stream = bus.subscribe(start)
     pending = asyncio.ensure_future(stream.__anext__())
     try:

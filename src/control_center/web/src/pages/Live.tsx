@@ -62,8 +62,8 @@ function Interventions({ detail }: { detail: TaskDetail }) {
           className="btn primary"
           disabled={act.busy || !note.trim()}
           onClick={async () => {
-            await send_("note", note.trim());
-            setNote("");
+            // Keep the text if the note was refused, so the Owner can fix it or send it elsewhere.
+            if (await send_("note", note.trim())) setNote("");
           }}
         >
           Send note

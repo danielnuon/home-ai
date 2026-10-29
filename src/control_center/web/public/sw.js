@@ -44,8 +44,11 @@ self.addEventListener("fetch", (event) => {
         (hit) =>
           hit ??
           fetch(event.request).then((response) => {
-            const copy = response.clone();
-            caches.open(SHELL_CACHE).then((cache) => cache.put(event.request, copy));
+            // Never keep an error: a 404 cached during a deploy would be served forever.
+            if (response.ok) {
+              const copy = response.clone();
+              caches.open(SHELL_CACHE).then((cache) => cache.put(event.request, copy));
+            }
             return response;
           }),
       ),
