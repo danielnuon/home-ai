@@ -52,6 +52,7 @@ export type StatusLabel = Schemas["StatusLabel"];
 export type StepUpProof = Schemas["StepUpProof"];
 export type SystemOverview = Schemas["SystemOverview"];
 export type TaskDetail = Schemas["TaskDetail"];
+export type Tile = Schemas["Tile"];
 export type TodayOverview = Schemas["TodayOverview"];
 export type TranscriptEntry = Schemas["TranscriptEntry"];
 export type Trust = Contact["trust"];

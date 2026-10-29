@@ -75,6 +75,7 @@ test("the page has no detectable accessibility violations", async () => {
   const { container } = renderPage(<Approvals />);
   await screen.findByRole("button", { name: "Approve" });
 
+  // jsdom has no layout or colour, so contrast is checked in a real browser by `make a11y`.
   const results = await axe.run(container, { rules: { "color-contrast": { enabled: false } } });
 
   expect(results.violations.map((v) => v.id)).toEqual([]);

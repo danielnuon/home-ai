@@ -1,5 +1,6 @@
 """Shared vocabulary: status, departments, employee states and data classes."""
 
+from datetime import datetime
 from typing import Literal
 
 from pydantic import Field
@@ -37,12 +38,15 @@ class Metric(ContractModel):
     """A named figure with an optional sparkline, as on stat tiles and metric rows.
 
     `spark` holds the recent values oldest first; the front end scales them, so units do not matter.
+    `sampled_at` is when a live figure was measured; a tile not refreshed for 3 minutes shows as
+    stale (spec 7.3). It is None for figures that are not live samples, which never go stale.
     """
 
     name: str
     value: str
     status: StatusLabel | None = None
     spark: list[float] = Field(default_factory=list)
+    sampled_at: datetime | None = None
 
 
 class Row(ContractModel):

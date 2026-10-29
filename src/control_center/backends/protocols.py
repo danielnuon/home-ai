@@ -19,6 +19,7 @@ Arguments named `step_up` carry a proof from `ApprovalGate.verify_step_up`, or N
 Brain, decides whether an action needs one, and raises `StepUpRequiredError` when it is missing.
 """
 
+from datetime import datetime
 from typing import Protocol
 
 from control_center.contract.common import Principal
@@ -240,6 +241,10 @@ class PipelineEngine(Protocol):
 
 class StatusAggregator(Protocol):
     """Health, metrics and read-only platform views (spec 7.3)."""
+
+    def sampled_at(self) -> datetime:
+        """When health and metrics were last collected. Tiles show this so they can go stale."""
+        ...
 
     def system(self) -> SystemOverview:
         """Machine, memory zones, pressure and hardware signals."""

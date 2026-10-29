@@ -1,6 +1,7 @@
 """Session, passkey step-up, global platform state, the kill switch and the event stream."""
 
 import asyncio
+import contextlib
 from collections.abc import AsyncIterator
 from typing import Annotated
 
@@ -115,5 +116,9 @@ async def _frames(bus: EventBus, start: int) -> AsyncIterator[str]:
             yield pending.result().to_sse()
             pending = asyncio.ensure_future(stream.__anext__())
     finally:
+        # The pending read is still inside the generator; let it finish cancelling before closing
+        # the generator, or aclose() fails and the subscriber's queue is never released.
         pending.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await pending
         await stream.aclose()

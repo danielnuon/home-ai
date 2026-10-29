@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Metric, Row, RowGroup } from "../api/types";
+import { useStaleStatus } from "../design/stale";
 import { StatusText } from "../design/status";
 import { Section } from "./Page";
 import { Sparkline } from "./Sparkline";
@@ -56,19 +57,28 @@ export function RowGroups({ groups }: { groups: RowGroup[] }) {
   );
 }
 
+/** One stat tile, greyed with "Stale" once its sample is 3 minutes old (spec 7.3). */
+function MetricTile({ metric }: { metric: Metric }) {
+  const stale = useStaleStatus(metric.sampled_at);
+  const status = stale ?? metric.status;
+  return (
+    <div className={`card tile${stale ? " stale" : ""}`}>
+      <span className="muted small">{metric.name}</span>
+      <span className="row">
+        <span className="tile-value grow">{metric.value}</span>
+        <Sparkline values={metric.spark} />
+      </span>
+      {status && <StatusText value={status} className="small" />}
+    </div>
+  );
+}
+
 /** Stat tiles with a sparkline beside each value (spec 7.12, "Icons and charts"). */
 export function MetricTiles({ metrics }: { metrics: Metric[] }) {
   return (
     <div className="grid-tiles">
       {metrics.map((metric) => (
-        <div key={metric.name} className="card tile">
-          <span className="muted small">{metric.name}</span>
-          <span className="row">
-            <span className="tile-value grow">{metric.value}</span>
-            <Sparkline values={metric.spark} />
-          </span>
-          {metric.status && <StatusText value={metric.status} className="small" />}
-        </div>
+        <MetricTile key={metric.name} metric={metric} />
       ))}
     </div>
   );

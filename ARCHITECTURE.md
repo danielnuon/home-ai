@@ -1,3 +1,20 @@
+---
+id: DESIGN-0001
+title: "Brain architecture"
+type: design
+status: approved
+owner_role: ARC-1
+approver: owner
+created: 2026-10-28
+last_reviewed: 2026-10-29
+review_cadence_days: 180
+risk_class: R1
+work_item: null      # built before the work-item system exists
+supersedes: []
+covers: [src/control_center/**]
+data_class: internal
+---
+
 # Architecture
 
 Brain is a FastAPI server and a React app. The server owns no rules of its own: it translates

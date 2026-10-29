@@ -5,7 +5,7 @@
  * with an undo window such as an approval (8 seconds, spec 7.4), offers the way back for exactly
  * that long.
  */
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
 interface Toast {
@@ -54,7 +54,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       <div className="toasts" role="status" aria-live="polite">
         <AnimatePresence>
           {toasts.map((toast) => (
-            <motion.div
+            <m.div
               key={toast.id}
               layout
               className={`toast ${toast.tone}`}
@@ -75,7 +75,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   Undo
                 </button>
               )}
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
       </div>

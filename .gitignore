@@ -12,3 +12,4 @@ build/
 # Front end
 node_modules/
 src/control_center/web/dist/
+*.tsbuildinfo

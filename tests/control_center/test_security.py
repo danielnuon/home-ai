@@ -17,6 +17,7 @@ def tailnet_client() -> TestClient:
 
 
 def test_requests_without_the_owner_login_are_refused(tailnet_client: TestClient) -> None:
+    """Spec 7.1: only the Owner's Tailscale identity gets an answer."""
     assert tailnet_client.get("/api/today").status_code == 403
     stranger = {"Tailscale-User-Login": "someone@example.com"}
     assert tailnet_client.get("/api/today", headers=stranger).status_code == 403
@@ -26,6 +27,7 @@ def test_requests_without_the_owner_login_are_refused(tailnet_client: TestClient
 
 
 def test_state_changes_need_the_csrf_token(client: TestClient) -> None:
+    """Spec 7.6: every state-changing request carries the CSRF token."""
     del client.headers["X-CSRF-Token"]
     assert client.post("/api/platform/stop").status_code == 403
 
@@ -34,6 +36,7 @@ def test_state_changes_need_the_csrf_token(client: TestClient) -> None:
 
 
 def test_every_response_carries_the_strict_policy(client: TestClient) -> None:
+    """Spec 7.6: every response sets the strict content security policy."""
     headers = client.get("/api/today").headers
 
     assert "script-src 'self'" in headers["Content-Security-Policy"]
@@ -50,11 +53,13 @@ def test_every_response_carries_the_strict_policy(client: TestClient) -> None:
     ],
 )
 def test_unsafe_configuration_stops_start_up(env: dict[str, str]) -> None:
+    """Spec 7.6: Brain fails closed when its configuration is unsafe."""
     with pytest.raises(ConfigError):
         load_config(env)
 
 
 def test_health_answers_without_identity(tailnet_client: TestClient) -> None:
+    """Spec 7.6: the health check answers without an identity so the watchdog can reach it."""
     body = tailnet_client.get("/health").json()
 
     assert body["status"] == "ok"

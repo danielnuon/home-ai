@@ -9,6 +9,7 @@ from control_center.contract.gate import (
     RejectedOption,
     ReleaseSummary,
     Setting,
+    SettingChange,
 )
 from control_center.contract.personal import Contact, HouseholdMember
 
@@ -167,9 +168,18 @@ def _earlier_decisions() -> list[CriticalDecision]:
     ]
 
 
-def settings() -> list[Setting]:
-    """Defaults from spec 22.13, grouped as on the Settings page of the design."""
-    return [*_model_settings(), *_privacy_settings(), *_call_settings(), *_operation_settings()]
+def settings(now: datetime) -> list[Setting]:
+    """Defaults from spec 22.13, grouped as on the Settings page of the design.
+
+    The call voice and quiet hours carry earlier changes, so history and revert have something to
+    show (spec 7.9).
+    """
+    return [
+        *_model_settings(),
+        *_privacy_settings(),
+        *_call_settings(now),
+        *_operation_settings(now),
+    ]
 
 
 def _paid_feature(
@@ -293,7 +303,7 @@ def _privacy_settings() -> list[Setting]:
     ]
 
 
-def _call_settings() -> list[Setting]:
+def _call_settings(now: datetime) -> list[Setting]:
     return [
         *_paid_feature(
             "voice.enabled",
@@ -312,6 +322,11 @@ def _call_settings() -> list[Setting]:
             default="twilio_default",
             choices=["twilio_default", "heart", "michael", "my_voice", "mom"],
             owner_page="voice",
+            history=[
+                SettingChange(
+                    at=now - timedelta(days=3), old="twilio_default", new="heart", via="discord"
+                )
+            ],
         ),
         Setting(
             key="voice.profiles.celebrity_clones",
@@ -326,7 +341,7 @@ def _call_settings() -> list[Setting]:
     ]
 
 
-def _operation_settings() -> list[Setting]:
+def _operation_settings(now: datetime) -> list[Setting]:
     return [
         Setting(
             key="away_mode",
@@ -349,6 +364,14 @@ def _operation_settings() -> list[Setting]:
             default="22:00–06:00",
             choices=["21:00–06:00", "22:00–06:00", "23:00–07:00"],
             owner_page="schedule",
+            history=[
+                SettingChange(
+                    at=now - timedelta(days=9), old="23:00–07:00", new="22:00–06:00", via="brain"
+                ),
+                SettingChange(
+                    at=now - timedelta(days=40), old="22:00–06:00", new="23:00–07:00", via="desk"
+                ),
+            ],
         ),
         Setting(
             key="heartbeat.enabled",

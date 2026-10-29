@@ -1716,6 +1716,8 @@ export interface components {
      * @description A named figure with an optional sparkline, as on stat tiles and metric rows.
      *
      *     `spark` holds the recent values oldest first; the front end scales them, so units do not matter.
+     *     `sampled_at` is when a live figure was measured; a tile not refreshed for 3 minutes shows as
+     *     stale (spec 7.3). It is None for figures that are not live samples, which never go stale.
      */
     Metric: {
       /** Name */
@@ -1725,6 +1727,8 @@ export interface components {
       status: components["schemas"]["StatusLabel"] | null;
       /** Spark */
       spark: number[];
+      /** Sampled At */
+      sampled_at: string | null;
     };
     /**
      * ModelsOverview
@@ -2325,6 +2329,8 @@ export interface components {
     /**
      * Tile
      * @description A subsystem tile on Today (spec 7.2): a value, a status, and the page it opens.
+     *
+     *     `sampled_at` is when the status aggregator measured it; after 3 minutes the tile is stale.
      */
     Tile: {
       /** Name */
@@ -2334,6 +2340,11 @@ export interface components {
       status: components["schemas"]["StatusLabel"];
       /** Href */
       href: string;
+      /**
+       * Sampled At
+       * Format: date-time
+       */
+      sampled_at: string;
     };
     /**
      * TodayOverview

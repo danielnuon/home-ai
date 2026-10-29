@@ -1,7 +1,21 @@
-# ADR 0001: Brain's stack, mock backends and generated types
+---
+id: ADR-0001
+title: "Brain's stack, mock backends and generated types"
+type: adr
+status: accepted
+owner_role: ARC-1
+approver: owner
+created: 2026-10-28
+last_reviewed: 2026-10-29
+review_cadence_days: 180
+risk_class: R1
+work_item: null      # built before the work-item system exists
+supersedes: []
+covers: [src/control_center/**]
+data_class: internal
+---
 
-- Status: accepted
-- Date: 2026-10-28
+# ADR 0001: Brain's stack, mock backends and generated types
 
 ## Context
 

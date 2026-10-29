@@ -30,12 +30,16 @@ class TeamMember(ContractModel):
 
 
 class Tile(ContractModel):
-    """A subsystem tile on Today (spec 7.2): a value, a status, and the page it opens."""
+    """A subsystem tile on Today (spec 7.2): a value, a status, and the page it opens.
+
+    `sampled_at` is when the status aggregator measured it; after 3 minutes the tile is stale.
+    """
 
     name: str
     value: str
     status: StatusLabel
     href: str
+    sampled_at: datetime
 
 
 class SetupProgress(ContractModel):

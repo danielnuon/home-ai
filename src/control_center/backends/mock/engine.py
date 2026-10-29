@@ -92,7 +92,7 @@ class MockPipelineEngine:
         Raises:
             NotFoundError: No such task.
             ConflictError: A note or redirect without text.
-        """
+        """  # noqa: DOC503 NotFoundError is raised by self._task()
         task = self._task(task_id)
         kind = intervention.kind
         if kind in ("note", "redirect") and not (intervention.text or "").strip():

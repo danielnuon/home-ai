@@ -1,11 +1,14 @@
 """Event replay after a reconnect (spec 7.13)."""
 
 import asyncio
+import contextlib
 
 from control_center.events import EventBus
+from control_center.routes.session import _frames
 
 
 def test_replay_returns_only_newer_events() -> None:
+    """Spec 7.13: a reconnecting client gets only the events after the last id it saw."""
     bus = EventBus()
     bus.changed("approvals")
     second = bus.changed("today")
@@ -16,6 +19,7 @@ def test_replay_returns_only_newer_events() -> None:
 
 
 def test_a_client_older_than_the_buffer_is_told_to_refetch_everything() -> None:
+    """Spec 7.13: a client that missed more than the buffer holds refetches everything."""
     bus = EventBus(buffer_size=2)
     for _ in range(5):
         bus.changed("live")
@@ -27,12 +31,14 @@ def test_a_client_older_than_the_buffer_is_told_to_refetch_everything() -> None:
 
 
 def test_sse_frame_format() -> None:
+    """Spec 7.13: events go out as standard server-sent-event frames with an id for replay."""
     event = EventBus().changed("today")
 
     assert event.to_sse() == 'id: 1\nevent: changed\ndata: {"resources": ["today"]}\n\n'
 
 
 async def test_subscribers_get_the_replay_then_live_events() -> None:
+    """Spec 7.13: a new stream replays missed events, then carries live ones."""
     bus = EventBus()
     bus.changed("missed")
     stream = bus.subscribe(last_seen=0)
@@ -44,3 +50,19 @@ async def test_subscribers_get_the_replay_then_live_events() -> None:
 
     assert first.payload == {"resources": ["missed"]}
     assert second.payload == {"resources": ["live"]}
+
+
+async def test_a_closed_stream_releases_its_subscriber() -> None:
+    """Spec 7.13: a client that disconnects stops receiving events and leaves nothing behind."""
+    bus = EventBus()
+    frames = _frames(bus, start=0)
+    assert await anext(frames) == "retry: 2000\n\n"
+    reading = asyncio.ensure_future(anext(frames))
+    await asyncio.sleep(0)
+
+    reading.cancel()
+    with contextlib.suppress(asyncio.CancelledError):
+        await reading
+    await frames.aclose()
+
+    assert bus.subscriber_count == 0
