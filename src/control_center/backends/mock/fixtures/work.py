@@ -129,7 +129,7 @@ def work_items() -> list[WorkItem]:
             id="WI-0031",
             title="Lease Reminders 1.2",
             risk="R2",
-            status=StatusLabel(status="in_progress", label="D4 implement"),
+            status=StatusLabel(status="in_progress", label="Build · D4 implement"),
             stages=stage_rail(4),
             progress=0.4,
             employee_name="Bolt",
