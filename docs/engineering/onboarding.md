@@ -60,3 +60,6 @@ Adding a field to a page:
 - Words on screen are short, kind and in sentence case. Status is always a symbol and a word,
   never color alone.
 - Only `transform` and `opacity` animate.
+- Build to change (spec 1.2 rule 8, "forward engineering"): outside services sit behind one
+  adapter, persisted formats and APIs carry a version and ship with a migration, tunable values
+  live in config. Do not add options or abstractions no change scenario needs.
