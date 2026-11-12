@@ -47,8 +47,11 @@ function laneOf(task: LiveTask): number {
 function taskParticles(tasks: LiveTask[], previous: Particle[]): Particle[] {
   return tasks.map((task, index) => {
     const lane = laneOf(task);
+    // Only a running session moves; waiting, blocked, paused and queued ones hold still.
     const speed =
-      task.queued || task.paused ? 0 : 0.02 + Math.min(task.tokens_per_second ?? 4, 80) / 1200;
+      task.session_state === "running"
+        ? 0.02 + Math.min(task.tokens_per_second ?? 4, 80) / 1200
+        : 0;
     const kept = previous[index];
     const x = task.queued ? 0.03 + index * 0.012 : (kept?.x ?? 0.15 + ((index * 0.37) % 0.7));
     return { x, y: lane + 0.5 + ((index % 3) - 1) * 0.12, speed };

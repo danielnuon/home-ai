@@ -436,7 +436,7 @@ export interface paths {
     };
     /**
      * Live Tasks
-     * @description Running and queued tasks.
+     * @description Every open session with its state.
      */
     get: operations["live_tasks_api_v1_live_get"];
     put?: never;
@@ -496,11 +496,51 @@ export interface paths {
     };
     /**
      * Work Board
-     * @description Work items, ideas and reviews.
+     * @description Threads, work items, ideas and reviews.
      */
     get: operations["work_board_api_v1_work_get"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/threads/{thread_id}/resolve": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Resolve Thread
+     * @description Resolve a thread: an Owner command, one tap, undone by reopening (spec 15.8.10).
+     */
+    post: operations["resolve_thread_api_v1_threads__thread_id__resolve_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/threads/{thread_id}/reopen": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Reopen Thread
+     * @description Reopen a resolved thread.
+     */
+    post: operations["reopen_thread_api_v1_threads__thread_id__reopen_post"];
     delete?: never;
     options?: never;
     head?: never;
@@ -1415,6 +1455,8 @@ export interface components {
     /**
      * Employee
      * @description An employee card and profile in the Directory (spec 7.11, 14.7).
+     *
+     *     `state` drives the avatar; `status` is the roll-up of the employee's sessions shown in words.
      */
     Employee: {
       /** Id */
@@ -1451,6 +1493,19 @@ export interface components {
       tasks_done: number;
       /** Enabled */
       enabled: boolean;
+      /**
+       * Status
+       * @default idle
+       * @enum {string}
+       */
+      status:
+        | "active_now"
+        | "waiting_on_owner"
+        | "blocked"
+        | "paused"
+        | "idle"
+        | "not_yet_hired"
+        | "disabled";
     };
     /**
      * EmployeeToggle
@@ -1629,10 +1684,15 @@ export interface components {
     };
     /**
      * LiveTask
-     * @description A running or queued task on the Live page (spec 7.10).
+     * @description One session on the Live page: a lead's or a sub-agent's (spec 7.10, 15.8.2).
      *
      *     `tokens_per_second` is None while the employee is not generating. It changes several times a
      *     second, so it also arrives on its own through `task.progress` events.
+     *
+     *     `thread_id` and `thread_title` name the thread the session works on. They are None for
+     *     scheduled work such as the daily brief, which belongs to its job's run, not to a thread
+     *     (15.8.1). `lead_name` is the thread's lead; a session whose employee is someone else is a
+     *     sub-agent's and is shown nested under that lead (15.8.9).
      */
     LiveTask: {
       /** Id */
@@ -1673,6 +1733,36 @@ export interface components {
        * @default false
        */
       paused: boolean;
+      /** Waiting On */
+      waiting_on: ("owner" | "gate" | "agent" | "resource" | "third_party" | "time") | null;
+      /** Blocked Code */
+      blocked_code:
+        | (
+            | "rework_limit"
+            | "budget"
+            | "rounds"
+            | "stalled"
+            | "dependency"
+            | "policy_denied"
+            | "resource_lost"
+            | "failed"
+          )
+        | null;
+      /** Thread Id */
+      thread_id: string | null;
+      /** Thread Title */
+      thread_title: string | null;
+      /** Lead Name */
+      lead_name: string | null;
+      /**
+       * Session State
+       * @description The session's state, from the recorded facts. The first that applies wins.
+       *
+       *     Paused comes first because the Owner's pause and the kill switch hold a session whatever
+       *     else is true of it; blocked comes before waiting because it needs someone.
+       * @enum {string}
+       */
+      readonly session_state: "queued" | "running" | "waiting" | "paused" | "blocked";
     };
     /**
      * MaintenanceFix
@@ -1762,6 +1852,7 @@ export interface components {
       reviewer_impact: components["schemas"]["ImpactLine"][];
       /** Stats */
       stats: components["schemas"]["Metric"][];
+      tokens: components["schemas"]["TokensPanel"];
     };
     /**
      * PaidFeature
@@ -2200,6 +2291,21 @@ export interface components {
       checks: components["schemas"]["SetupCheck"][];
     };
     /**
+     * SourcedFigure
+     * @description A figure and where it comes from; every number Brain shows says which (spec 7.18).
+     */
+    SourcedFigure: {
+      /** Name */
+      name: string;
+      /** Value */
+      value: string;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "measured" | "simulated" | "estimate";
+    };
+    /**
      * SpendOverview
      * @description The Spend page.
      */
@@ -2340,6 +2446,83 @@ export interface components {
       tokens_per_second: number | null;
     };
     /**
+     * Thread
+     * @description One piece of Owner-visible work, from first message to resolution (spec 15.8.1).
+     *
+     *     `state` is derived by the engine from the thread's sessions, its pending decisions and its
+     *     unit; nothing sets it directly. `detail` is the line the state is shown with: who is doing
+     *     what, what it waits on, or why it is blocked and who can unblock it. `approval_id` is set when
+     *     the Owner decision it waits for is an approval card, which Brain then shows instead of a
+     *     second row for the same decision. `lead_id` is the lead's id in Chat.
+     */
+    Thread: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind:
+        | "conversation"
+        | "case"
+        | "idea"
+        | "work_item"
+        | "support"
+        | "incident"
+        | "maintenance_batch";
+      /** Unit Id */
+      unit_id: string | null;
+      /** Lead Id */
+      lead_id: string;
+      /** Lead Name */
+      lead_name: string;
+      /**
+       * Lead Department
+       * @enum {string}
+       */
+      lead_department: "personal" | "engineering" | "quality" | "ideation" | "governance";
+      /** Pipeline */
+      pipeline: string;
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * State
+       * @enum {string}
+       */
+      state:
+        | "blocked"
+        | "needs_owner"
+        | "paused"
+        | "working"
+        | "review_ready"
+        | "waiting"
+        | "idle"
+        | "resolved";
+      /** Detail */
+      detail: string;
+      /** Since */
+      since: string;
+      /** Closing Summary */
+      closing_summary: string | null;
+      /** Approval Id */
+      approval_id: string | null;
+    };
+    /**
+     * ThreadsOverview
+     * @description The Threads view: open threads in state order, then the recently resolved.
+     */
+    ThreadsOverview: {
+      /** Open */
+      open: components["schemas"]["Thread"][];
+      /** Recently Resolved */
+      recently_resolved: components["schemas"]["Thread"][];
+    };
+    /**
      * Tile
      * @description A subsystem tile on Today (spec 7.2): a value, a status, and the page it opens.
      *
@@ -2362,6 +2545,10 @@ export interface components {
     /**
      * TodayOverview
      * @description Everything on Today, in one request (spec 7.17: one data request per page).
+     *
+     *     `needs_you_threads` are the threads waiting on an Owner decision that is not one of the
+     *     approval cards in `needs_you`; `needs_you_count` counts both. Threads ready for review are
+     *     counted apart and stay out of Needs you, because nothing waits on them (spec 15.8.9).
      */
     TodayOverview: {
       /** Date */
@@ -2371,8 +2558,14 @@ export interface components {
       open_decision: components["schemas"]["CriticalDecision"] | null;
       /** Needs You */
       needs_you: components["schemas"]["Approval"][];
+      /** Needs You Threads */
+      needs_you_threads: components["schemas"]["Thread"][];
       /** Needs You Count */
       needs_you_count: number;
+      /** Blocked Threads */
+      blocked_threads: number;
+      /** Review Ready Threads */
+      review_ready_threads: number;
       /** Agenda */
       agenda: components["schemas"]["AgendaItem"][];
       /** Team */
@@ -2386,6 +2579,23 @@ export interface components {
       setup: components["schemas"]["SetupProgress"] | null;
       /** Spend Label */
       spend_label: string;
+    };
+    /**
+     * TokensPanel
+     * @description Token management at a glance (spec 8.8.7): how fast the one GPU turns tokens into work.
+     *
+     *     `speeds` holds decode, aggregate and prefill speed, cache hit rate, reasoning share and
+     *     capacity use. `cap_impact` is the preview shown before a token cap is changed (7.18).
+     */
+    TokensPanel: {
+      /** Speeds */
+      speeds: components["schemas"]["SourcedFigure"][];
+      /** Tokens Per Outcome */
+      tokens_per_outcome: components["schemas"]["SourcedFigure"][];
+      /** Gpu Seconds */
+      gpu_seconds: components["schemas"]["SourcedFigure"][];
+      /** Cap Impact */
+      cap_impact: components["schemas"]["ImpactLine"][];
     };
     /**
      * TranscriptEntry
@@ -2476,9 +2686,10 @@ export interface components {
     };
     /**
      * WorkBoard
-     * @description The Work page: items being built, ideas, and reviews waiting.
+     * @description The Work page: threads first, then items being built, ideas, and reviews waiting.
      */
     WorkBoard: {
+      threads: components["schemas"]["ThreadsOverview"];
       /** Items */
       items: components["schemas"]["WorkItem"][];
       /** Ideas */
@@ -3430,6 +3641,78 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["WorkBoard"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  resolve_thread_api_v1_threads__thread_id__resolve_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Thread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  reopen_thread_api_v1_threads__thread_id__reopen_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Thread"];
         };
       };
       /** @description Validation Error */

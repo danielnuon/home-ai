@@ -76,6 +76,27 @@ class FamilyAssignment(ContractModel):
     residency: StatusLabel
 
 
+class SourcedFigure(ContractModel):
+    """A figure and where it comes from; every number Brain shows says which (spec 7.18)."""
+
+    name: str
+    value: str
+    source: Source
+
+
+class TokensPanel(ContractModel):
+    """Token management at a glance (spec 8.8.7): how fast the one GPU turns tokens into work.
+
+    `speeds` holds decode, aggregate and prefill speed, cache hit rate, reasoning share and
+    capacity use. `cap_impact` is the preview shown before a token cap is changed (7.18).
+    """
+
+    speeds: list[SourcedFigure]
+    tokens_per_outcome: list[SourcedFigure]
+    gpu_seconds: list[SourcedFigure]
+    cap_impact: list[ImpactLine]
+
+
 class ModelsOverview(ContractModel):
     """The Models page, including the independent-reviewer impact preview (spec 7.18 example)."""
 
@@ -86,6 +107,7 @@ class ModelsOverview(ContractModel):
     independent_reviewer: bool
     reviewer_impact: list[ImpactLine]
     stats: list[Metric]
+    tokens: TokensPanel
 
 
 class PaidFeature(ContractModel):

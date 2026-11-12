@@ -1,16 +1,17 @@
-"""Running tasks, transcripts, work items, ideas, reviews and employees for the mock engine."""
+"""Sessions, transcripts, work items, ideas and reviews for the mock engine."""
 
 from datetime import datetime, timedelta
 
 from control_center.contract.common import Department, EmployeeState, StatusLabel
 from control_center.contract.work import (
-    Employee,
+    BlockedCode,
     Idea,
-    LifecycleProposal,
+    Lane,
     LiveTask,
     ReviewRequest,
     Stage,
     TranscriptEntry,
+    WaitingOn,
     WorkItem,
 )
 
@@ -60,63 +61,120 @@ def stage_rail(current: int) -> list[Stage]:
     ]
 
 
+def _session(  # noqa: PLR0913 -- a row of fixture data; keyword arguments read as a table
+    task_id: str,
+    employee: tuple[str, str, Department],
+    doing: str,
+    item: str,
+    *,
+    state: EmployeeState = "idle",
+    lane: Lane = "personal",
+    thread: tuple[str, str, str] | None = None,
+    started: datetime | None = None,
+    rate: float | None = None,
+    queued: bool = False,
+    waiting_on: WaitingOn | None = None,
+    blocked_code: BlockedCode | None = None,
+) -> LiveTask:
+    """One session. `employee` is its id, name and department; `thread` its id, title and lead."""
+    employee_id, employee_name, department = employee
+    thread_id, thread_title, lead_name = thread or (None, None, None)
+    return LiveTask(
+        id=task_id,
+        employee_id=employee_id,
+        employee_name=employee_name,
+        department=department,
+        state=state,
+        doing=doing,
+        item=item,
+        model="conversation model" if lane == "personal" else "coding model",
+        lane=lane,
+        started_at=started,
+        tokens_per_second=rate,
+        queued=queued,
+        waiting_on=waiting_on,
+        blocked_code=blocked_code,
+        thread_id=thread_id,
+        thread_title=thread_title,
+        lead_name=lead_name,
+    )
+
+
 def live_tasks(now: datetime) -> list[LiveTask]:
-    """The Live page of the design: two running, one just finished, one queued."""
+    """Sessions in every state Live shows (spec 15.8.2), on the threads in `fixtures.threads`.
+
+    The daily brief and inbox triage are scheduled work, so they belong to no thread (15.8.1).
+    """
+    reminders = ("TH-0131", "Lease Reminders 1.2", "Foreman")
+    scanner = ("TH-0129", "Receipt scanner: better totals", "Foreman")
+    digest = ("TH-0120", "Shared family calendar digest", "Spark")
+    renewal = ("TH-0214", "Lease renewal for the rental", "Atlas")
     return [
-        LiveTask(
-            id="T-5521",
-            employee_id="ENG-1",
-            employee_name="Bolt",
-            department="engineering",
+        _session(
+            "T-5521",
+            ("ENG-1", "Bolt", "engineering"),
+            "is writing the reminder schedule",
+            "WI-0031 Lease Reminders",
             state="generating",
-            doing="is writing the reminder schedule",
-            item="WI-0031 Lease Reminders",
-            model="coding model",
             lane="development",
-            started_at=now - timedelta(minutes=6, seconds=12),
-            tokens_per_second=41.0,
-            queued=False,
+            thread=reminders,
+            started=now - timedelta(minutes=6, seconds=12),
+            rate=41.0,
         ),
-        LiveTask(
-            id="T-5522",
-            employee_id="PO-1",
-            employee_name="Atlas",
-            department="personal",
+        _session(
+            "T-5522",
+            ("PO-1", "Atlas", "personal"),
+            "is drafting tomorrow's brief",
+            "Daily brief",
             state="generating",
-            doing="is drafting tomorrow's brief",
-            item="Daily brief",
-            model="conversation model",
-            lane="personal",
-            started_at=now - timedelta(minutes=1),
-            tokens_per_second=23.0,
-            queued=False,
+            started=now - timedelta(minutes=1),
+            rate=23.0,
         ),
-        LiveTask(
-            id="T-5523",
-            employee_id="QA-3",
-            employee_name="Redline",
-            department="quality",
+        _session(
+            "T-5519",
+            ("GOV-1", "Foreman", "governance"),
+            "is waiting for your yes on the design",
+            "WI-0029 Receipt scanner",
             state="waiting",
-            doing="is waiting for Bolt",
-            item="Review WI-0031",
-            model="coding model",
             lane="development",
-            started_at=None,
-            tokens_per_second=None,
+            thread=scanner,
+            started=now - timedelta(hours=3),
+            waiting_on="owner",
+        ),
+        _session(
+            "T-5525",
+            ("PO-9", "Keystone", "personal"),
+            "is waiting for the tenant's reply",
+            "Lease renewal",
+            thread=renewal,
+            started=now - timedelta(days=1),
+            waiting_on="third_party",
+        ),
+        _session(
+            "T-5517",
+            ("IDEA-1", "Spark", "ideation"),
+            "has reached this idea's budget cap",
+            "ID-0013 Calendar digest",
+            state="blocked",
+            lane="development",
+            thread=digest,
+            started=now - timedelta(hours=5),
+            blocked_code="budget",
+        ),
+        _session(
+            "T-5523",
+            ("QA-3", "Redline", "quality"),
+            "is waiting for Bolt",
+            "Review WI-0031",
+            lane="development",
+            thread=reminders,
             queued=True,
         ),
-        LiveTask(
-            id="T-5524",
-            employee_id="PO-3",
-            employee_name="Sieve",
-            department="personal",
-            state="idle",
-            doing="will triage 6 new emails",
-            item="Inbox triage",
-            model="conversation model",
-            lane="personal",
-            started_at=None,
-            tokens_per_second=None,
+        _session(
+            "T-5524",
+            ("PO-3", "Sieve", "personal"),
+            "will triage 6 new emails",
+            "Inbox triage",
             queued=True,
         ),
     ]
@@ -208,193 +266,5 @@ def reviews() -> list[ReviewRequest]:
             removed_lines=40,
             reviewer="Redline on the coding model · same-family review controls on",
             readability="Checks passed · cold read correct · 1 note for Bolt",
-        )
-    ]
-
-
-def _employee(  # noqa: PLR0913 -- a row of fixture data; keyword arguments read as a table
-    employee_id: str,
-    name: str,
-    title: str,
-    department: Department,
-    group: str,
-    *,
-    state: EmployeeState = "idle",
-    now: str = "Idle",
-    tagline: str = "",
-    tools: tuple[str, ...] = (),
-    hired: str = "Phase 9",
-    tasks_done: int = 0,
-) -> Employee:
-    return Employee(
-        id=employee_id,
-        name=name,
-        title=title,
-        department=department,
-        group=group,
-        state=state,
-        now=now,
-        tagline=tagline,
-        mission=tagline,
-        tools=list(tools),
-        model="conversation model" if department == "personal" else "coding model",
-        hired=hired,
-        tasks_done=tasks_done,
-        enabled=True,
-    )
-
-
-def employees() -> list[Employee]:
-    """The employees shown in the design's Directory, grouped as there."""
-    leads, personal, engineering = "Leads", "Personal", "Engineering and quality"
-    return [
-        _employee(
-            "PO-1",
-            "Atlas",
-            "Chief of Staff",
-            "personal",
-            leads,
-            state="generating",
-            now="Writing the brief",
-            tagline="Keeps the household running on time.",
-            tools=("calendar.list", "mail.draft", "records.write"),
-            tasks_done=214,
-        ),
-        _employee(
-            "GOV-1",
-            "Foreman",
-            "Development Lead",
-            "governance",
-            leads,
-            state="waiting",
-            now="Waiting on you",
-            tagline="Turns ideas into shipped, documented software.",
-            tools=("pipeline.start", "pipeline.request_gate"),
-            hired="Phase 11",
-            tasks_done=61,
-        ),
-        _employee(
-            "IDEA-1",
-            "Spark",
-            "Ideation Lead",
-            "ideation",
-            leads,
-            tagline="Finds the flaw before the code exists.",
-            hired="Phase 12",
-            tasks_done=18,
-        ),
-        _employee(
-            "MNT-1",
-            "Custodian",
-            "Maintenance Lead",
-            "engineering",
-            leads,
-            now="Next run 01:00",
-            tagline="Keeps released products healthy.",
-            hired="Phase 14",
-            tasks_done=40,
-        ),
-        _employee(
-            "PO-2",
-            "Chrono",
-            "Scheduler",
-            "personal",
-            personal,
-            tagline="Finds the time, books it, reminds you.",
-            tools=("calendar.freebusy", "calendar.upsert_own"),
-            tasks_done=96,
-        ),
-        _employee(
-            "PO-9",
-            "Keystone",
-            "Property Manager",
-            "personal",
-            personal,
-            state="thinking",
-            now="Lease renewal case",
-            tagline="Runs the rental like a small business.",
-            hired="Phase 10",
-            tasks_done=37,
-        ),
-        _employee(
-            "PO-8",
-            "Ledger",
-            "Budget Analyst",
-            "personal",
-            personal,
-            tagline="Every figure computed in code.",
-            hired="Phase 10",
-            tasks_done=22,
-        ),
-        _employee(
-            "PO-10",
-            "Pulse",
-            "Health and Benefits",
-            "personal",
-            personal,
-            tagline="Appointments, plans and paperwork.",
-            hired="Phase 10",
-            tasks_done=19,
-        ),
-        _employee(
-            "ENG-1",
-            "Bolt",
-            "Software Engineer",
-            "engineering",
-            engineering,
-            state="generating",
-            now="Writing code",
-            tagline="Red, green, refactor.",
-            tools=("fs.write", "exec.run", "git.commit"),
-            hired="Phase 11",
-            tasks_done=128,
-        ),
-        _employee(
-            "QA-1",
-            "Probe",
-            "Test Author",
-            "quality",
-            engineering,
-            now="14 tests done",
-            tagline="Writes the tests before the code.",
-            hired="Phase 11",
-            tasks_done=74,
-        ),
-        _employee(
-            "QA-3",
-            "Redline",
-            "Code Reviewer",
-            "quality",
-            engineering,
-            state="waiting",
-            now="Queued for review",
-            tagline="Reads every change like a newcomer.",
-            hired="Phase 11",
-            tasks_done=59,
-        ),
-        _employee(
-            "QA-5",
-            "Gremlin",
-            "Adversarial Tester",
-            "quality",
-            engineering,
-            now="Arrives in Phase 13",
-            tagline="Breaks things on purpose.",
-            hired="Phase 13",
-        ),
-    ]
-
-
-def proposals() -> list[LifecycleProposal]:
-    """Cadence's open proposal from the design."""
-    return [
-        LifecycleProposal(
-            id="LP-0003",
-            text=(
-                "Disable Logistix: 2 tasks in 30 days, low impact. Spark would cover operations "
-                "questions."
-            ),
-            source="Cadence · monthly review",
-            state="open",
         )
     ]

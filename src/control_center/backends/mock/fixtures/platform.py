@@ -7,6 +7,8 @@ from control_center.contract.status import (
     MemoryZone,
     ServiceGroup,
     ServiceRow,
+    SourcedFigure,
+    TokensPanel,
 )
 
 HEALTHY = StatusLabel(status="healthy", label="Healthy")
@@ -295,3 +297,45 @@ PAID_FEATURES = [
     ("offsite", "Paid offsite backup", "S3-compatible", "offsite.paid_storage", "budget.offsite"),
 ]
 """Optional paid features: id, name, kind, the setting that turns it on, the setting for its cap."""
+
+
+def tokens_panel() -> TokensPanel:
+    """The Tokens panel of spec 8.8.7. Every figure is simulated until a model runs."""
+
+    def simulated(name: str, value: str) -> SourcedFigure:
+        return SourcedFigure(name=name, value=value, source="simulated")
+
+    return TokensPanel(
+        speeds=[
+            simulated("Decode speed", "41 tok/s"),
+            simulated("Aggregate speed", "64 tok/s over 2 streams"),
+            simulated("Prefill speed", "620 tok/s"),
+            simulated("Cache hit rate", "74% · target 70%"),
+            simulated("Reasoning share", "18% of generated tokens"),
+            simulated("Capacity use", "46% of GPU time today"),
+        ],
+        tokens_per_outcome=[
+            simulated("Bolt · per passing slice", "38,400"),
+            simulated("Redline · per review", "11,200"),
+            simulated("Atlas · per closed case", "6,900"),
+            simulated("Sieve · per triaged email", "410"),
+        ],
+        gpu_seconds=[
+            simulated("Interactive", "1,140 s"),
+            simulated("Pipeline work", "9,870 s"),
+            simulated("Scheduled and batch", "4,260 s"),
+        ],
+        cap_impact=[
+            ImpactLine(
+                name="Calls that hit their cap",
+                change="1.2% → fewer with a higher cap, more with a lower one",
+                source="estimate",
+            ),
+            ImpactLine(
+                name="Work finished per GPU-hour",
+                change="Higher with lower caps, if answers still fit",
+                source="estimate",
+            ),
+            ImpactLine(name="Spend", change="$0 → $0 · local tokens are free", source="measured"),
+        ],
+    )

@@ -1,6 +1,10 @@
 /**
- * @file Live: every running and queued task, and the open transcript of one (design: Live;
- * spec 7.13).
+ * @file Live: every open session by state, and the open transcript of one (design: Live;
+ * spec 7.13, 15.8.9).
+ *
+ * Sessions are grouped by state (running, waiting, paused, blocked, queued) and, within a state,
+ * by thread, with each sub-agent's session nested under its thread and lead. Scheduled work
+ * belongs to no thread and is grouped on its own.
  *
  * Choosing a task opens its transcript beside the list on wider screens and in a sheet on a phone.
  * Only the open transcript streams tokens, which keeps the event stream inside its budget (7.17).
@@ -10,7 +14,13 @@ import { useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { useLiveTasks, useModels, useTaskDetail } from "../api/queries";
-import type { Intervention, TaskDetail, TranscriptEntry } from "../api/types";
+import type {
+  Intervention,
+  LiveTask,
+  SessionState,
+  TaskDetail,
+  TranscriptEntry,
+} from "../api/types";
 import { LiveCard, TaskLine } from "../components/LiveCard";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
@@ -120,6 +130,70 @@ function TaskTranscript({ taskId }: { taskId: string }) {
   );
 }
 
+/** Session states in the order Live lists them: what is moving first, what has not started last. */
+const STATE_SECTIONS: [SessionState, string][] = [
+  ["running", "Running"],
+  ["waiting", "Waiting"],
+  ["paused", "Paused"],
+  ["blocked", "Blocked"],
+  ["queued", "Queued"],
+];
+
+const SCHEDULED = "Scheduled work";
+
+/** A thread's sessions, lead first, so sub-agents sit under their lead. */
+function byThread(sessions: LiveTask[]): [string, LiveTask[]][] {
+  const groups = new Map<string, LiveTask[]>();
+  sessions.forEach((session) => {
+    const heading = session.thread_title
+      ? `${session.lead_name} · ${session.thread_title}`
+      : SCHEDULED;
+    groups.set(heading, [...(groups.get(heading) ?? []), session]);
+  });
+  const leadFirst = (a: LiveTask, b: LiveTask) => Number(isSubAgent(a)) - Number(isSubAgent(b));
+  return [...groups].map(([heading, group]) => [heading, [...group].sort(leadFirst)]);
+}
+
+/** Whether a session is a sub-agent's: on a thread, and not the thread's lead. */
+function isSubAgent(session: LiveTask): boolean {
+  return session.lead_name !== null && session.lead_name !== session.employee_name;
+}
+
+/** Every session in one state, under its thread and lead. */
+function SessionsInState({
+  title,
+  sessions,
+  onChoose,
+}: {
+  title: string;
+  sessions: LiveTask[];
+  onChoose: (id: string) => void;
+}) {
+  if (sessions.length === 0) return null;
+  return (
+    <Section title={title} aside={`${sessions.length}`}>
+      {byThread(sessions).map(([heading, group]) => (
+        <div key={heading} className="stack" style={{ ["--gap" as string]: "var(--space-1)" }}>
+          <h3 className="small muted">{heading}</h3>
+          <div className="list">
+            {group.map((session) => (
+              <button
+                key={session.id}
+                type="button"
+                className={`list-row ${isSubAgent(session) ? "sub-agent" : ""}`}
+                onClick={() => onChoose(session.id)}
+              >
+                <TaskLine task={session} />
+                {isSubAgent(session) && <span className="tag">sub-agent</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </Section>
+  );
+}
+
 /** The Live page. */
 export default function Live() {
   const layout = useLayout();
@@ -133,23 +207,15 @@ export default function Live() {
     <QueryState query={tasks}>
       {(all) => (
         <>
-          <LiveCard tasks={all} />
-          <Section title="Queued">
-            <div className="list">
-              {all
-                .filter((task) => task.queued)
-                .map((task) => (
-                  <button
-                    key={task.id}
-                    type="button"
-                    className="list-row"
-                    onClick={() => choose(task.id)}
-                  >
-                    <TaskLine task={task} />
-                  </button>
-                ))}
-            </div>
-          </Section>
+          <LiveCard tasks={all} listRunning={false} />
+          {STATE_SECTIONS.map(([state, words]) => (
+            <SessionsInState
+              key={state}
+              title={words}
+              sessions={all.filter((session) => session.session_state === state)}
+              onChoose={choose}
+            />
+          ))}
         </>
       )}
     </QueryState>

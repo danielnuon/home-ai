@@ -31,7 +31,9 @@ export function TaskLine({ task }: { task: LiveTask }) {
         <span className="row-title">
           {task.employee_name} · {task.item}
         </span>
-        <span className="muted small">{task.paused ? "Paused" : task.doing}</span>
+        <span className="muted small">
+          {task.session_state === "paused" ? "Paused" : task.doing}
+        </span>
       </span>
       {task.tokens_per_second !== null && (
         <span className="small">
@@ -43,9 +45,18 @@ export function TaskLine({ task }: { task: LiveTask }) {
 }
 
 /** The field and the running tasks, linking each to its transcript on Live. */
-export function LiveCard({ tasks, linkTo = "/live" }: { tasks: LiveTask[]; linkTo?: string }) {
-  const running = tasks.filter((task) => !task.queued);
-  const queued = tasks.length - running.length;
+export function LiveCard({
+  tasks,
+  linkTo = "/live",
+  listRunning = true,
+}: {
+  tasks: LiveTask[];
+  linkTo?: string;
+  /** False on a page that lists the sessions itself, such as Live. */
+  listRunning?: boolean;
+}) {
+  const running = tasks.filter((task) => task.session_state === "running");
+  const queued = tasks.filter((task) => task.session_state === "queued").length;
   return (
     <section className="card stack field-card" aria-label="Live">
       <div className="section-head">
@@ -62,13 +73,15 @@ export function LiveCard({ tasks, linkTo = "/live" }: { tasks: LiveTask[]; linkT
       <Suspense fallback={<div className="activity-field" />}>
         <ActivityField tasks={tasks} />
       </Suspense>
-      <div className="list">
-        {running.map((task) => (
-          <Link key={task.id} to={`/live?task=${task.id}`} className="list-row">
-            <TaskLine task={task} />
-          </Link>
-        ))}
-      </div>
+      {listRunning && (
+        <div className="list">
+          {running.map((task) => (
+            <Link key={task.id} to={`/live?task=${task.id}`} className="list-row">
+              <TaskLine task={task} />
+            </Link>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

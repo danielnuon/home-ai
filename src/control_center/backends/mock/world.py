@@ -11,7 +11,9 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Protocol
 
-from control_center.backends.mock.fixtures import chat, gate, ops, personal, work
+from control_center.backends.mock.fixtures import chat, gate, ops, people, personal, settings, work
+from control_center.backends.mock.fixtures import threads as thread_fixtures
+from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
 from control_center.contract.personal import AutomaticChange, Case, Contact, SetupStep
 from control_center.contract.status import Job, MaintenanceFix
@@ -45,6 +47,7 @@ class MockWorld:
     contacts: dict[str, Contact]
     tasks: dict[str, LiveTask]
     transcripts: dict[str, list[TranscriptEntry]]
+    threads: dict[str, ThreadRecord]
     work_items: list[WorkItem]
     employees: dict[str, Employee]
     proposals: dict[str, LifecycleProposal]
@@ -92,13 +95,14 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         clock=clock,
         approvals=by_id(gate.approvals(now)),
         decisions=by_id(gate.decisions(now)),
-        settings={setting.key: setting for setting in gate.settings(now)},
+        settings={setting.key: setting for setting in settings.settings(now)},
         contacts=by_id(gate.contacts()),
         tasks=by_id(work.live_tasks(now)),
         transcripts=work.transcripts(),
+        threads=by_id(thread_fixtures.threads()),
         work_items=work.work_items(),
-        employees=by_id(work.employees()),
-        proposals=by_id(work.proposals()),
+        employees=by_id(people.employees()),
+        proposals=by_id(people.proposals()),
         cases=by_id(personal.cases()),
         changes=by_id(personal.recent_changes()),
         setup=by_id(personal.setup_steps()),

@@ -1,11 +1,13 @@
-"""Mock pipeline engine: tasks and interventions, work, directory, personal records and Setup."""
+"""Mock pipeline engine: personal records, Setup, schedule, maintenance, docs and search.
 
-import secrets
+The half that tracks work (sessions, threads, the Work board, the Directory) is `engine_work`.
+"""
+
 from typing import Literal
 
 from control_center.backends.errors import ConflictError, NotFoundError
-from control_center.backends.mock.fixtures import ops, personal, work
-from control_center.backends.mock.world import MockWorld
+from control_center.backends.mock.engine_work import WorkDesk
+from control_center.backends.mock.fixtures import ops, personal, reference
 from control_center.contract.common import Principal, StatusLabel
 from control_center.contract.personal import (
     Case,
@@ -21,14 +23,6 @@ from control_center.contract.status import (
     ScheduleOverview,
 )
 from control_center.contract.today import AgendaItem, SearchResults, SearchSection
-from control_center.contract.work import (
-    Directory,
-    Intervention,
-    LiveTask,
-    TaskDetail,
-    TranscriptEntry,
-    WorkBoard,
-)
 
 CASE_STATE_AFTER: dict[str, Literal["open", "done", "snoozed"]] = {
     "done": "done",
@@ -37,102 +31,13 @@ CASE_STATE_AFTER: dict[str, Literal["open", "done", "snoozed"]] = {
 }
 """The state a case is in after each Owner action."""
 
-INSTRUMENT_COUNT = 7
-"""Deterministic instruments in the organization (spec 14.3)."""
 
+class MockPipelineEngine(WorkDesk):
+    """In-memory stand-in for the pipeline engine (spec C3). Implements `PipelineEngine`.
 
-class MockPipelineEngine:
-    """In-memory stand-in for the pipeline engine (spec C3). Implements `PipelineEngine`."""
-
-    def __init__(self, world: MockWorld) -> None:
-        """Use `world` for state and its bus for events."""
-        self._world = world
-
-    # Live tasks ----------------------------------------------------------------------------
-
-    def live_tasks(self) -> list[LiveTask]:
-        """Running tasks first. While the kill switch is on, every task shows as paused."""
-        tasks = sorted(self._world.tasks.values(), key=lambda t: t.queued)
-        if self._world.stopped:
-            return [
-                task.model_copy(update={"paused": True, "tokens_per_second": None})
-                for task in tasks
-            ]
-        return tasks
-
-    def _task(self, task_id: str) -> LiveTask:
-        try:
-            return self._world.tasks[task_id]
-        except KeyError:
-            raise NotFoundError("That task has finished or never existed.") from None
-
-    def task_detail(self, task_id: str) -> TaskDetail:
-        """The task, its stage rail if it belongs to a work item, and its transcript."""
-        task = self._task(task_id)
-        stage = work.TASK_STAGES.get(task_id)
-        return TaskDetail(
-            task=task,
-            stage_rail=work.stage_rail(stage) if stage is not None else [],
-            transcript=self._world.transcripts.get(task_id, []),
-        )
-
-    def intervene(self, task_id: str, intervention: Intervention) -> TaskDetail:
-        """Apply a note, pause, resume, redirect or stop (spec 7.10).
-
-        A note never approves anything or widens a tool list; it is only added to the transcript
-        as trusted Owner input that the employee reads before its next step.
-
-        Args:
-            task_id: The running or queued task.
-            intervention: What to do, with the text for a note or redirect.
-
-        Returns:
-            The task's updated transcript.
-
-        Raises:
-            NotFoundError: No such task.
-            ConflictError: A note or redirect without text.
-        """  # noqa: DOC503 NotFoundError is raised by self._task()
-        task = self._task(task_id)
-        kind = intervention.kind
-        if kind in ("note", "redirect") and not (intervention.text or "").strip():
-            raise ConflictError("Write the note first.")
-        if kind in ("note", "redirect"):
-            self._append_owner_note(task_id, intervention.text or "")
-        if kind == "pause":
-            task.paused = True
-        elif kind == "resume":
-            task.paused = False
-        elif kind == "redirect":
-            task.doing = "is restarting with your note"
-            task.paused = False
-        elif kind == "stop":
-            del self._world.tasks[task_id]
-            self._world.bus.changed("live", "today", "platform")
-            return TaskDetail(task=task, stage_rail=[], transcript=[])
-        self._world.bus.changed("live", "today")
-        return self.task_detail(task_id)
-
-    def _append_owner_note(self, task_id: str, text: str) -> None:
-        entry = TranscriptEntry(id=f"N-{secrets.token_hex(3)}", kind="owner_note", text=text)
-        self._world.transcripts.setdefault(task_id, []).append(entry)
-        self._world.bus.publish(
-            "transcript.append", {"task_id": task_id, "entry": entry.model_dump()}
-        )
-
-    # Work and directory --------------------------------------------------------------------
-
-    def work_board(self) -> WorkBoard:
-        """Work items, ideas and reviews."""
-        return WorkBoard(items=self._world.work_items, ideas=work.ideas(), reviews=work.reviews())
-
-    def directory(self) -> Directory:
-        """Employees, open proposals and the instrument count."""
-        return Directory(
-            employees=list(self._world.employees.values()),
-            proposals=list(self._world.proposals.values()),
-            instruments=INSTRUMENT_COUNT,
-        )
+    Sessions, threads, the Work board and the Directory are in `WorkDesk`; personal records,
+    Setup, the schedule, maintenance, docs and search are here.
+    """
 
     # Personal ------------------------------------------------------------------------------
 
@@ -320,7 +225,7 @@ class MockPipelineEngine:
 
     def docs(self) -> DocsOverview:
         """Documentation by area."""
-        return DocsOverview(groups=ops.doc_groups())
+        return DocsOverview(groups=reference.doc_groups())
 
     def search(self, query: str) -> SearchResults:
         """Case-insensitive substring search over the fixture index."""
@@ -334,10 +239,14 @@ class MockPipelineEngine:
                     if needle in hit.title.lower() or needle in hit.meta.lower()
                 ],
             )
-            for section in ops.search_index()
+            for section in reference.search_index()
         ]
         answer = next(
-            (text for word, text in ops.WAYFINDER_ANSWERS.items() if needle and word in needle),
+            (
+                text
+                for word, text in reference.WAYFINDER_ANSWERS.items()
+                if needle and word in needle
+            ),
             None,
         )
         return SearchResults(

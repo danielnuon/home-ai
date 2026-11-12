@@ -64,6 +64,8 @@ from control_center.contract.work import (
     LiveTask,
     ProposalDecision,
     TaskDetail,
+    Thread,
+    ThreadsOverview,
     WorkBoard,
 )
 from control_center.events import EventBus
@@ -161,7 +163,19 @@ class PipelineEngine(Protocol):
     """Owner commands and the engine's read endpoints (spec C3, C4)."""
 
     def live_tasks(self) -> list[LiveTask]:
-        """Running tasks first, then queued ones."""
+        """Every open session with its state (spec 15.8.2), running ones first."""
+        ...
+
+    def threads(self) -> ThreadsOverview:
+        """Open threads in the state order of spec 15.8.3, then the recently resolved."""
+        ...
+
+    def resolve_thread(self, thread_id: str) -> Thread:
+        """Resolve a thread and end its sessions. Refused while it waits on the Owner."""
+        ...
+
+    def reopen_thread(self, thread_id: str) -> Thread:
+        """Reopen a resolved thread; the undo of resolving."""
         ...
 
     def task_detail(self, task_id: str) -> TaskDetail:
@@ -173,11 +187,11 @@ class PipelineEngine(Protocol):
         ...
 
     def work_board(self) -> WorkBoard:
-        """Work items, ideas and review requests."""
+        """Threads, work items, ideas and review requests."""
         ...
 
     def directory(self) -> Directory:
-        """Every employee and open lifecycle proposal."""
+        """Every employee, with its status rolled up from sessions, and open proposals."""
         ...
 
     def agenda(self) -> list[AgendaItem]:

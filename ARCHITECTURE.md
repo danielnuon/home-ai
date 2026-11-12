@@ -45,7 +45,7 @@ pages ── queries.ts ─ GET /api/v1/* ▶ routes/*  ──▶ ApprovalGate  
 | `contract/` | Pydantic models for every request and response. The front end's types are generated from these. `version.py` holds the API and event versions |
 | `backends/protocols.py` | The four interfaces from spec 6.2, and `Backends`, the bundle of them every route receives |
 | `backends/errors.py` | Not found, step-up required, conflict, refused; `app.py` maps them to 404, 403, 409, 422 |
-| `backends/mock/` | The mock implementations over one shared `MockWorld`, plus `activity.py`, which keeps the team "working". The gate is `gate.py` plus `gate_step_up.py`, `gate_decisions.py` and `gate_controls.py` |
+| `backends/mock/` | The mock implementations over one shared `MockWorld`, plus `activity.py`, which keeps the team "working". The gate is `gate.py` plus `gate_step_up.py`, `gate_decisions.py` and `gate_controls.py`; the engine is `engine.py` plus `engine_work.py`. `threads.py` holds the rule that derives a thread's state (spec 15.8.3) |
 | `routes/` | One module per area. Each handler is a single backend call |
 | `wiring.py` | The only file that names the mocks |
 
@@ -56,6 +56,16 @@ Write a class that satisfies the protocol (for example `ApprovalGate`), raise th
 `wiring.py` in place of the mock. `mypy --strict` checks the protocol match. The rules the mock
 applies to settings are in `backends/mock/setting_rules.py` with their own tests, so the real gate
 can be held to the same cases.
+
+### Threads and sessions (spec 15.8)
+
+Every piece of Owner-visible work is a thread, and every agent on it runs in a session. Neither
+state is stored. `LiveTask.session_state` is computed from the session's recorded facts, and
+`backends/mock/threads.py` derives each thread's state from its sessions, its pending Owner
+decisions and what its lead recorded, in the order of 15.8.3. Work opens on the Threads view,
+Live groups sessions by state with sub-agents under their thread and lead, Today counts blocked
+and review-ready threads, and the Directory rolls each employee's status up from its sessions.
+A thread that waits on the Owner cannot be resolved, because closing it would hide the decision.
 
 ### Built to change (spec 1.2 rule 8; 17.18, design practice 8)
 

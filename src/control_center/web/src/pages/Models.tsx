@@ -1,8 +1,10 @@
 /**
- * @file Models: which local model serves each family, the pool's mode, and the independent
- * reviewer option with its impact preview (design: Models; spec 7.18).
+ * @file Models: which local model serves each family, the pool's mode, the Tokens panel with its
+ * caps, and the independent reviewer option with its impact preview (design: Models; spec 7.18,
+ * 8.8.7).
  */
 import { useModels, useSettings } from "../api/queries";
+import type { ModelsOverview, SourcedFigure } from "../api/types";
 import { ImpactCard } from "../components/ImpactCard";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
@@ -18,6 +20,52 @@ function ReviewerSetting() {
       <SettingRow setting={setting} />
     </div>
   ) : null;
+}
+
+/** One group of figures, each with where it comes from (spec 7.18). */
+function Figures({ title, figures }: { title: string; figures: SourcedFigure[] }) {
+  return (
+    <div className="stack" style={{ ["--gap" as string]: "var(--space-1)" }}>
+      <h3 className="small muted">{title}</h3>
+      <ul className="list">
+        {figures.map((figure) => (
+          <li key={figure.name} className="list-row">
+            <span className="grow row-title">{figure.name}</span>
+            <span className="small">{figure.value}</span>
+            <span className="tag">{figure.source}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** The token caps, from the shared settings. Lowering one is one tap; raising one asks. */
+function TokenCaps() {
+  const caps = (useSettings().data?.settings ?? []).filter((setting) =>
+    setting.key.startsWith("models.tokens."),
+  );
+  return (
+    <div className="list">
+      {caps.map((setting) => (
+        <SettingRow key={setting.key} setting={setting} />
+      ))}
+    </div>
+  );
+}
+
+/** The Tokens panel: how fast the GPU turns tokens into finished work (spec 8.8.7). */
+function Tokens({ tokens }: { tokens: ModelsOverview["tokens"] }) {
+  return (
+    <Section title="Tokens">
+      <Figures title="Speed and use" figures={tokens.speeds} />
+      <Figures title="Tokens per outcome, by role" figures={tokens.tokens_per_outcome} />
+      <Figures title="GPU-seconds today, by priority" figures={tokens.gpu_seconds} />
+      <h3 className="small muted">Caps</h3>
+      <ImpactCard lines={tokens.cap_impact} />
+      <TokenCaps />
+    </Section>
+  );
 }
 
 /** The Models page. */
@@ -45,6 +93,7 @@ export default function Models() {
               ))}
             </ul>
           </Section>
+          <Tokens tokens={models.tokens} />
           <Section title="Independent reviewer">
             <ReviewerSetting />
             <ImpactCard lines={models.reviewer_impact} />

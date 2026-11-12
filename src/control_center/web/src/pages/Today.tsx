@@ -2,8 +2,10 @@
  * @file Today: the one page that answers "is everything all right, and does anything need me?"
  * (design: Today; spec 7.2).
  *
- * Top to bottom: the open critical decision if there is one, what needs the Owner, the live field,
- * the day's agenda, the team, and system tiles.
+ * Top to bottom: the open critical decision if there is one, what needs the Owner (approval cards
+ * and threads waiting on a decision), the live field, the day's agenda, the team, and system
+ * tiles. The chips under the greeting count blocked threads and threads ready for review; those
+ * stay out of Needs you, because nothing waits on them (spec 15.8.9).
  */
 import { Link } from "react-router-dom";
 import { usePlatform, useSettings, useToday } from "../api/queries";
@@ -16,6 +18,7 @@ import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { MetricTiles } from "../components/Rows";
 import { SettingRow } from "../components/SettingControl";
+import { ThreadCard } from "../components/ThreadCard";
 import { useStaleStatus } from "../design/stale";
 import { StatusText } from "../design/status";
 
@@ -29,11 +32,21 @@ const COUNT_WORDS = [
 /** The status chips under the greeting. */
 function StatusChips({ today }: { today: TodayOverview }) {
   const platform = usePlatform().data;
-  const running = today.tasks.filter((task) => !task.queued).length;
+  const running = today.tasks.filter((task) => task.session_state === "running").length;
   return (
     <div className="row wrap" style={{ ["--gap" as string]: "var(--space-2)" }}>
       {platform && <StatusText value={platform.overall} className="chip" />}
       <span className="chip status-in_progress">◐ {running} working</span>
+      {today.blocked_threads > 0 && (
+        <Link to="/work" className="chip status-problem">
+          ■ {today.blocked_threads} blocked
+        </Link>
+      )}
+      {today.review_ready_threads > 0 && (
+        <Link to="/work" className="chip status-healthy">
+          ● {today.review_ready_threads} ready for review
+        </Link>
+      )}
       <Link to="/spend" className="chip">
         {today.spend_label}
       </Link>
@@ -47,6 +60,9 @@ function NeedsYou({ today }: { today: TodayOverview }) {
     <Section title={words} aside={<Link to="/approvals">All approvals</Link>}>
       {today.needs_you.map((approval) => (
         <ApprovalCard key={approval.id} approval={approval} />
+      ))}
+      {today.needs_you_threads.map((thread) => (
+        <ThreadCard key={thread.id} thread={thread} />
       ))}
     </Section>
   );

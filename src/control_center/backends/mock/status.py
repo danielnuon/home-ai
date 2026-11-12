@@ -117,6 +117,7 @@ class MockStatusAggregator:
             independent_reviewer=independent,
             reviewer_impact=platform.reviewer_impact(),
             stats=platform.model_stats(),
+            tokens=platform.tokens_panel(),
         )
 
     def spend(self) -> SpendOverview:
