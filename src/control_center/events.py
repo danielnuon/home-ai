@@ -15,12 +15,16 @@ Four event kinds carry data, chosen so the client store stays small:
 - ``chat.message``: the whole of a chat message as it streams; the client replaces it by id.
 
 A fifth, ``hello``, is never published: the stream sends it first to tell the client where it
-stands (its id) and the server's clock (``now``), so a client that has seen no event yet can
-still resume, and stale tiles are judged on the server's time rather than the device's.
+stands (its id), the server's clock (``now``) and which run of the server this is (``boot``). A
+client that has seen no event yet can still resume, stale tiles are judged on the server's time
+rather than the device's, and a client that reconnects to a different ``boot`` refetches
+everything. Event ids start again with every run, so ids alone cannot show a restart: the new
+run may already have passed the id the client last saw.
 """
 
 import asyncio
 import json
+import secrets
 from collections import deque
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass
@@ -56,6 +60,8 @@ class EventBus:
         self._buffer: deque[Event] = deque(maxlen=buffer_size)
         self._next_id = 1
         self._subscribers: set[asyncio.Queue[Event]] = set()
+        self.boot = secrets.token_urlsafe(8)
+        """Names this run of the server. Ids from another run mean nothing to this bus."""
 
     @property
     def last_id(self) -> int:
@@ -95,7 +101,9 @@ class EventBus:
         If `last_seen` is older than the buffer, the client has missed events that are gone; it
         gets a ``changed`` event for every resource instead (``resources: ["*"]``) so it refetches
         everything rather than showing a silently stale page. The same happens when `last_seen`
-        is newer than any event here, which means Brain restarted and its ids began again.
+        is newer than any event here, which means Brain restarted and its ids began again. A
+        restart whose ids have already passed `last_seen` is caught by the client instead, from
+        the ``boot`` in ``hello``.
         """
         if self._has_gap(last_seen):
             return [Event(id=self.last_id, kind="changed", payload={"resources": ["*"]})]

@@ -8,7 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useLiveEvents } from "./api/events";
 import { StepUpProvider } from "./components/StepUp";
 import { ToastProvider } from "./components/Toasts";
-import { loadMotionFeatures } from "./design/motion";
+import motionFeatures from "./design/motionFeatures";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./routes";
 import { AppShell } from "./shell/AppShell";
@@ -45,7 +45,7 @@ function LiveEvents() {
 export function App({ client = makeQueryClient() }: { client?: QueryClient }) {
   return (
     <QueryClientProvider client={client}>
-      <LazyMotion features={loadMotionFeatures} strict>
+      <LazyMotion features={motionFeatures} strict>
         <MotionConfig reducedMotion="user">
           <ToastProvider>
             <StepUpProvider>

@@ -100,3 +100,16 @@ async def test_the_stream_opens_with_where_the_client_stands_and_the_server_time
     await frames.aclose()
 
     assert hello.startswith('id: 2\nevent: hello\ndata: {"now": ')
+
+
+async def test_the_stream_says_which_run_of_the_server_it_is() -> None:
+    """Spec 7.3: ids start again after a restart, so `hello` names the run for the client."""
+    before_restart, after_restart = EventBus(), EventBus()
+    frames = _frames(before_restart, start=0)
+
+    await anext(frames)
+    hello = await anext(frames)
+    await frames.aclose()
+
+    assert f'"boot": "{before_restart.boot}"' in hello
+    assert before_restart.boot != after_restart.boot

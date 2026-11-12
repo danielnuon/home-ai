@@ -1,7 +1,7 @@
 /**
  * @file Small, valid API objects for tests. Each takes overrides for the fields a test cares about.
  */
-import type { Approval, ContactsOverview, Setting } from "../api/types";
+import type { Approval, ContactsOverview, CriticalDecision, Setting } from "../api/types";
 
 /** A pending one-tap approval. */
 export function makeApproval(overrides: Partial<Approval> = {}): Approval {
@@ -55,6 +55,29 @@ export function makeMoneySetting(overrides: Partial<Setting> = {}): Setting {
     owner_page: "spend",
     cost_note: "Hard ceiling $20 a month",
     history: [],
+    ...overrides,
+  };
+}
+
+/** An acknowledged critical decision that is in effect, so a veto would revert it. */
+export function makeDecision(overrides: Partial<CriticalDecision> = {}): CriticalDecision {
+  return {
+    id: "CDR-1",
+    title: "Use the smaller embedding model",
+    summary: "Frees 2 GB for the coding model.",
+    rationale: "Search quality held in the evaluation.",
+    rejected: [],
+    risks: "Slightly weaker recall on long documents.",
+    evidence: "Evaluation run 41.",
+    effect: "immediate",
+    window_ends: null,
+    veto_preview: "Vetoing reloads the larger model.",
+    status: "in_effect",
+    acknowledged: true,
+    decided_on: "Oct 28",
+    veto_reason: null,
+    open: false,
+    vetoable: true,
     ...overrides,
   };
 }

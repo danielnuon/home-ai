@@ -50,3 +50,19 @@ test("a step-up request is not mistaken for an expired session", async () => {
   });
   expect(sent.filter((r) => r.method === "POST")).toHaveLength(1);
 });
+
+test("two writes refused together share one new session", async () => {
+  let opens = 0;
+  const sent = fakeServer({
+    "GET /api/session": () => ({ csrf_token: `token-${++opens}` }),
+    "POST /api/platform/stop": (request) =>
+      request.headers["X-CSRF-Token"] === "token-1"
+        ? { status: 403, body: { error: "session_expired", reason: "Your session expired." } }
+        : { stopped: true },
+  });
+
+  const both = Promise.all([send("POST", "/platform/stop"), send("POST", "/platform/stop")]);
+
+  await expect(both).resolves.toEqual([{ stopped: true }, { stopped: true }]);
+  expect(sent.filter((r) => r.path === "/api/session")).toHaveLength(2);
+});

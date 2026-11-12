@@ -83,3 +83,13 @@ def test_an_expired_session_says_so_in_a_code_the_front_end_can_retry_on(
 
     assert answer.status_code == 403
     assert answer.json()["error"] == "session_expired"
+
+
+def test_a_non_ascii_owner_login_is_recognised() -> None:
+    """Spec 7.1: the Owner's login matches even when it is not ASCII (headers arrive as bytes)."""
+    owner = "dänny@example.com"
+    client = TestClient(create_app(make_config(dev_identity=False, owner_login=owner)))
+
+    answer = client.get("/api/today", headers={"Tailscale-User-Login": owner.encode()})
+
+    assert answer.status_code == 200

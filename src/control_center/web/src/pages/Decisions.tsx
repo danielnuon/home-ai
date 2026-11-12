@@ -69,8 +69,9 @@ export default function Decisions() {
                 {decisions
                   .filter((decision) => !decision.open)
                   .map((decision) =>
-                    // Acknowledged but still vetoable: keep the countdown and the Veto button.
-                    decision.vetoable && decision.status === "pending_window" ? (
+                    // Acknowledged but still vetoable, whether waiting or already in effect: keep
+                    // the card, so the Veto button stays within reach (spec 7.2, Decisions).
+                    decision.vetoable ? (
                       <DecisionCard key={decision.id} decision={decision} />
                     ) : (
                       <PastDecision key={decision.id} decision={decision} />
