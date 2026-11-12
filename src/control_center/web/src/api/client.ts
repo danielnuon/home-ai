@@ -77,10 +77,12 @@ export async function send<T>(
   body?: unknown,
   stepUp?: string,
 ): Promise<T> {
+  let usedToken: Promise<string> | null = null;
   const post = async () => {
+    usedToken = sessionToken();
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      [CSRF_HEADER]: await sessionToken(),
+      [CSRF_HEADER]: await usedToken,
     };
     if (stepUp) {
       headers[STEP_UP_HEADER] = stepUp;
@@ -95,8 +97,12 @@ export async function send<T>(
   let response = await post();
   if (response.status === 403 && (await isSessionRefusal(response))) {
     // The server forgot the session (a restart clears it): open a new one and try once more.
-    // The refusal came before the action ran, so retrying cannot do anything twice.
-    csrfToken = null;
+    // The refusal came before the action ran, so retrying cannot do anything twice. Forget the
+    // token only if it is still the one this request used: another write refused at the same
+    // moment may already have opened the new session, and that one must be shared, not replaced.
+    if (csrfToken === usedToken) {
+      csrfToken = null;
+    }
     response = await post();
   }
   if (!response.ok) {

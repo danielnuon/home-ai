@@ -17,6 +17,37 @@ from control_center.contract.work import (
 STAGE_CODES = [f"D{n}" for n in range(11)]
 """Development stages D0 to D10 (spec 17.3)."""
 
+PHASE_OF_STAGE = {
+    "D0": "Requirements",
+    "D1": "Planning",
+    "D2": "Design",
+    "D3": "Build",
+    "D4": "Build",
+    "D5": "Test",
+    "D6": "Test",
+    "D7": "Test",
+    "D8": "Release",
+    "D9": "Release",
+    "D10": "Operate and maintain",
+}
+"""The life-cycle phase each development stage belongs to (the table in spec 17.20)."""
+
+
+def phase_label(stage: int, doing: str) -> str:
+    """A work item's status words: its phase, then what is happening at its stage.
+
+    Every work-item card names the phase with the stage (spec 17.20), so the label is built here
+    rather than typed into each item.
+
+    Args:
+        stage: The item's current stage number, 0 to 10.
+        doing: What is happening, like "D4 implement" or "Needs you at G3".
+
+    Returns:
+        The label, like "Build · D4 implement".
+    """
+    return f"{PHASE_OF_STAGE[STAGE_CODES[stage]]} · {doing}"
+
 
 def stage_rail(current: int) -> list[Stage]:
     """A D0–D10 rail with every stage before `current` done."""
@@ -129,7 +160,7 @@ def work_items() -> list[WorkItem]:
             id="WI-0031",
             title="Lease Reminders 1.2",
             risk="R2",
-            status=StatusLabel(status="in_progress", label="Build · D4 implement"),
+            status=StatusLabel(status="in_progress", label=phase_label(4, "D4 implement")),
             stages=stage_rail(4),
             progress=0.4,
             employee_name="Bolt",
@@ -144,13 +175,13 @@ def work_items() -> list[WorkItem]:
             id="WI-0029",
             title="Receipt scanner: better totals",
             risk="R1",
-            status=StatusLabel(status="attention", label="Needs you at G3"),
-            stages=stage_rail(3),
-            progress=0.3,
+            status=StatusLabel(status="attention", label=phase_label(2, "Needs you at G3")),
+            stages=stage_rail(2),
+            progress=0.2,
             employee_name="Foreman",
             department="governance",
             employee_state="waiting",
-            now="Foreman needs a yes on the test plan",
+            now="Foreman needs a yes on the design",
             eta="Paused until you decide",
             cost_usd=0.0,
             waiting_on_owner=True,

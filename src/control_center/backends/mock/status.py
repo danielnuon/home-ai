@@ -12,6 +12,7 @@ from control_center.contract.status import (
     PaidFeature,
     RestoreDrill,
     SecurityOverview,
+    ServiceGroup,
     ServicesOverview,
     SpendOverview,
     SystemOverview,
@@ -24,6 +25,12 @@ CALL_SCRIPT = (
     "Four fixed lines per voice. No names, amounts or codes are ever spoken."
 )
 """What an approval call says (spec 11.5.1). The same fixed lines for every voice."""
+
+POOL_MODE = "Mode L"
+"""The model pool's mode, shown on Models and on Today's tile."""
+
+BACKUP_MODE = StatusLabel(status="attention", label="Starter backup · one location")
+"""The backup mode, shown on Backups and on Today's tile."""
 
 
 class MockStatusAggregator:
@@ -41,20 +48,26 @@ class MockStatusAggregator:
         """Stamp fixture tiles with the latest sample time."""
         return [tile.model_copy(update={"sampled_at": self._world.sampled_at}) for tile in tiles]
 
-    def subsystem_tiles(self) -> list[Tile]:
-        """Today's tiles, built from this aggregator's own pages so the figures agree."""
-        pool = next(z for z in self.system().zones if z.name == "Model pool")
-        spend = self.spend()
+    def subsystem_tiles(self, spend: SpendOverview) -> list[Tile]:
+        """Today's tiles, from the same figures the pages show, without building the pages.
+
+        Args:
+            spend: The Spend page's data, which the caller already has.
+
+        Returns:
+            One tile per subsystem, stamped with the latest sample time.
+        """
+        pool = next(z for z in platform.MEMORY_ZONES if z.name == "Model pool")
         healthy = StatusLabel(status="healthy", label="Healthy")
         tiles = [
-            ("Services", self.services().summary.split(" · ")[0], healthy, "/services"),
+            ("Services", f"{_running(platform.service_groups())} running", healthy, "/services"),
             (
                 "Model pool",
                 f"{pool.used_gb:g} / {pool.budget_gb:g} GB",
-                StatusLabel(status="healthy", label=self.models().pool_mode),
+                StatusLabel(status="healthy", label=POOL_MODE),
                 "/models",
             ),
-            ("Backups", "20:00 today", self.backups().mode, "/backups"),
+            ("Backups", "20:00 today", BACKUP_MODE, "/backups"),
             ("Spend", f"${spend.total_usd:.2f}", spend.summary, "/spend"),
             (
                 "Connections",
@@ -88,9 +101,8 @@ class MockStatusAggregator:
     def services(self) -> ServicesOverview:
         """Every service with its health."""
         groups = platform.service_groups()
-        running = sum(1 for g in groups for s in g.services if s.status.status == "healthy")
         return ServicesOverview(
-            summary=f"{running} running · health checked every minute",
+            summary=f"{_running(groups)} running · health checked every minute",
             groups=groups,
         )
 
@@ -98,7 +110,7 @@ class MockStatusAggregator:
         """Assignments and the independent-reviewer preview, following the setting."""
         independent = self._world.is_on("models.review.independent")
         return ModelsOverview(
-            pool_mode="Mode L",
+            pool_mode=POOL_MODE,
             resident="Conversation model + embeddings",
             swaps_today="3 · plan ≤ 6",
             assignments=platform.family_assignments(independent),
@@ -154,7 +166,7 @@ class MockStatusAggregator:
     def backups(self) -> BackupsOverview:
         """Starter mode, targets, the last drill and retention."""
         return BackupsOverview(
-            mode=StatusLabel(status="attention", label="Starter backup · one location"),
+            mode=BACKUP_MODE,
             mode_note=(
                 "Your two drives back each other up. That covers a failed drive and mistakes, "
                 "not theft, fire or a power surge that takes both."
@@ -198,3 +210,10 @@ class MockStatusAggregator:
             profiles=ops.voice_profiles(self._world.setting("voice.profile"), celebrity),
             script=CALL_SCRIPT,
         )
+
+
+def _running(groups: list[ServiceGroup]) -> int:
+    """How many services are healthy."""
+    return sum(
+        1 for group in groups for service in group.services if service.status.status == "healthy"
+    )

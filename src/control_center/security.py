@@ -104,10 +104,12 @@ def require_owner(
     if config.dev_identity:
         return
     # Bytes, not str: compare_digest raises on non-ASCII str, which would answer 500, not 403.
+    # Starlette decodes header bytes as latin-1, so encoding the same way gives back the bytes the
+    # proxy sent, which are UTF-8 like the configured login.
     if (
         not login
         or not config.owner_login
-        or not secrets.compare_digest(login.encode(), config.owner_login.encode())
+        or not secrets.compare_digest(login.encode("latin-1"), config.owner_login.encode())
     ):
         raise HTTPException(status_code=403, detail="Brain is only for the Owner's devices.")
 

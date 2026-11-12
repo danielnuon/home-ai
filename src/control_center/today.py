@@ -21,6 +21,7 @@ def build_today(backends: Backends, now: datetime) -> TodayOverview:
     steps = backends.engine.setup_steps()
     required = [step for step in steps if step.required]
     required_done = sum(1 for step in required if step.state == "done")
+    spend = backends.status.spend()
     local = now.astimezone(OWNER_TIME_ZONE)
     return TodayOverview(
         date=local.strftime("%A, %B %-d"),
@@ -31,12 +32,12 @@ def build_today(backends: Backends, now: datetime) -> TodayOverview:
         agenda=backends.engine.agenda(),
         team=_team(tasks),
         tasks=tasks,
-        tiles=backends.status.subsystem_tiles(),
+        tiles=backends.status.subsystem_tiles(spend),
         metrics=backends.status.health_metrics(),
         setup=None
         if required_done == len(required)
         else SetupProgress(required_done=required_done, required_total=len(required)),
-        spend_label=f"${backends.status.spend().total_usd:.2f} this month",
+        spend_label=f"${spend.total_usd:.2f} this month",
     )
 
 

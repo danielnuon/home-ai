@@ -82,3 +82,55 @@ def test_acknowledging_an_immediate_decision_in_effect_is_allowed(gate: MockAppr
     assert acknowledged.acknowledged
     assert not acknowledged.open
     assert acknowledged.vetoable
+
+
+def test_a_card_cannot_be_approved_at_the_instant_it_expires(
+    gate: MockApprovalGate, clock: FakeClock
+) -> None:
+    """Spec 11: a card lapses at its expiry, the same boundary as a decision's veto window."""
+    clock.now = START + timedelta(hours=6)  # exactly AP-0107's expiry
+
+    with pytest.raises(ConflictError, match="expired"):
+        gate.decide("AP-0107", ApprovalDecision(decision="approve"), step_up=None)
+
+
+def test_a_card_that_expires_under_a_tap_tells_open_pages(clock: FakeClock) -> None:
+    """Spec 7.13: state is pushed, so a refused approve refreshes Today and the badge."""
+    bus = EventBus()
+    gate = MockApprovalGate(build_world(bus, clock))
+    clock.now = START + timedelta(hours=7)
+
+    with pytest.raises(ConflictError):
+        gate.decide("AP-0107", ApprovalDecision(decision="approve"), step_up=None)
+
+    assert "approvals" in _changed_resources(bus)
+
+
+def test_a_decision_taking_effect_tells_open_pages(clock: FakeClock) -> None:
+    """Spec 7.13: a decision whose window ends is pushed to open pages when it is noticed."""
+    bus = EventBus()
+    gate = MockApprovalGate(build_world(bus, clock))
+    clock.now = START + timedelta(hours=19)
+
+    gate.list_decisions()
+
+    assert "decisions" in _changed_resources(bus)
+
+
+def test_a_superseded_decision_cannot_be_reopened(gate: MockApprovalGate) -> None:
+    """Spec 11.9: reopening undoes an acknowledgement or a veto, nothing else."""
+    record = next(d for d in gate.list_decisions() if d.id == "CDR-0012")
+    record.status = "superseded"
+
+    with pytest.raises(ConflictError, match="reopened"):
+        gate.reopen("CDR-0012")
+
+
+def _changed_resources(bus: EventBus) -> set[str]:
+    """Every resource named by a `changed` event since the bus began."""
+    return {
+        str(resource)
+        for event in bus.replay_after(0)
+        if event.kind == "changed" and isinstance(event.payload["resources"], list)
+        for resource in event.payload["resources"]
+    }

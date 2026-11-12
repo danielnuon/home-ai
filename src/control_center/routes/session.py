@@ -106,7 +106,7 @@ async def events(
 async def _frames(bus: EventBus, start: int) -> AsyncIterator[str]:
     """Yield SSE frames, with a keepalive comment whenever the bus is quiet."""
     yield "retry: 2000\n\n"
-    hello: dict[str, JsonValue] = {"now": datetime.now(UTC).isoformat()}
+    hello: dict[str, JsonValue] = {"now": datetime.now(UTC).isoformat(), "boot": bus.boot}
     yield Event(id=bus.resume_point(start), kind="hello", payload=hello).to_sse()
     stream = bus.subscribe(start)
     pending = asyncio.ensure_future(stream.__anext__())

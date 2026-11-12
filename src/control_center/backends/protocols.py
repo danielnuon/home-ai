@@ -246,8 +246,11 @@ class StatusAggregator(Protocol):
         """When health and metrics were last collected. Tiles show this so they can go stale."""
         ...
 
-    def subsystem_tiles(self) -> list[Tile]:
-        """One tile per subsystem for Today (spec 7.2), each stamped with its sample time."""
+    def subsystem_tiles(self, spend: SpendOverview) -> list[Tile]:
+        """One tile per subsystem for Today (spec 7.2), each stamped with its sample time.
+
+        Takes the Spend page's data, which Today also shows, so it is gathered once.
+        """
         ...
 
     def health_metrics(self) -> list[Metric]:

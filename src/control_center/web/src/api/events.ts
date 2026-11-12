@@ -88,6 +88,29 @@ function applyChat(client: QueryClient, message: ChatMessage): void {
   });
 }
 
+/** What the stream sends first on every connection. */
+interface Hello {
+  now: string;
+  /** Names one run of the server; a new value means Brain restarted. */
+  boot: string;
+}
+
+/** The run of the server this tab last heard from; null until the first `hello`. */
+let knownBoot: string | null = null;
+
+/**
+ * Notes the server's clock and, when the server has restarted since this tab last heard from it,
+ * refetches everything. Event ids start again after a restart, so the ids replayed on such a
+ * reconnect belong to different events and cannot be trusted to bring the page up to date.
+ */
+function applyHello(client: QueryClient, hello: Hello): void {
+  setServerNow(hello.now);
+  if (knownBoot !== null && knownBoot !== hello.boot) {
+    refresh(client, ["*"]);
+  }
+  knownBoot = hello.boot;
+}
+
 /**
  * Opens the stream and wires each event kind to the cache. With `after`, the server first replays
  * every event newer than it; without, the stream starts from now.
@@ -103,9 +126,9 @@ function openStream(
       onId(Number(event.lastEventId));
       apply(JSON.parse(event.data) as Payload);
     });
-  // Sent first on every connection: where this client stands, even before any event, and the
-  // server's clock, which stale tiles are judged against.
-  listen<{ now: string }>("hello", (p) => setServerNow(p.now));
+  // Sent first on every connection: where this client stands, even before any event, the
+  // server's clock, which stale tiles are judged against, and which run of the server this is.
+  listen<Hello>("hello", (p) => applyHello(client, p));
   listen<{ resources: string[] }>("changed", (p) => refresh(client, p.resources));
   listen<TaskProgress>("task.progress", (p) => applyProgress(client, p));
   listen<TranscriptAppend>("transcript.append", (p) => applyTranscript(client, p));
