@@ -32,7 +32,9 @@ function isStatusAnswer(answer: Answer): answer is { status: number; body: unkno
 /** Replaces `fetch` with the handlers and returns the list of requests made. */
 export function fakeServer(handlers: Record<string, Handler>): SentRequest[] {
   const sent: SentRequest[] = [];
-  const base: Record<string, Handler> = { "GET /api/session": () => ({ csrf_token: "test-csrf" }) };
+  const base: Record<string, Handler> = {
+    "GET /api/v1/session": () => ({ csrf_token: "test-csrf" }),
+  };
   vi.stubGlobal("fetch", (url: string, init: RequestInit = {}) => {
     const method = init.method ?? "GET";
     const path = url.split("?")[0] ?? url;

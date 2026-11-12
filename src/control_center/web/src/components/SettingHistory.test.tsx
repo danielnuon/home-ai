@@ -22,7 +22,7 @@ test("a setting at its default says so and offers no history", () => {
 
 test("a changed setting shows its default, its history, and reverts in one step", async () => {
   const sent = fakeServer({
-    "POST /api/settings/budget.voice/revert": () => makeMoneySetting({ value: "5" }),
+    "POST /api/v1/settings/budget.voice/revert": () => makeMoneySetting({ value: "5" }),
   });
   renderPage(<SettingRow setting={changed} />);
 

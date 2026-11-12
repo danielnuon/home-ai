@@ -2,11 +2,11 @@
 
 from datetime import datetime
 
+from control_center.backends.protocols import Backends
 from control_center.config import OWNER_TIME_ZONE
 from control_center.contract.gate import CriticalDecision
 from control_center.contract.today import SetupProgress, TeamMember, TodayOverview
 from control_center.contract.work import LiveTask
-from control_center.wiring import Backends
 
 NEEDS_YOU_SHOWN = 2
 """Approval cards shown in full on Today; the rest are a count with a link (design: Today)."""

@@ -13,6 +13,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "httpx==0.28.1",
+    "import-linter==2.16",
     "mypy==2.4.0",
     "pydoclint==0.11.0",
     "pytest==9.1.1",
@@ -89,3 +90,26 @@ asyncio_default_fixture_loop_scope = "function"
 paths = ["src/control_center", "tests/vulture_allowlist.py"]
 exclude = ["src/control_center/web/"]
 min_confidence = 80
+
+# One seam per dependency (spec 17.18, design practice 8). `make lint` runs these contracts.
+[tool.importlinter]
+root_package = "control_center"
+
+[[tool.importlinter.contracts]]
+name = "Backends are reached only through their protocols; only start-up wiring names the mocks"
+type = "forbidden"
+source_modules = [
+    "control_center.config",
+    "control_center.contract",
+    "control_center.events",
+    "control_center.routes",
+    "control_center.security",
+    "control_center.today",
+]
+forbidden_modules = ["control_center.backends.mock"]
+
+[[tool.importlinter.contracts]]
+name = "The contract is plain data: nothing from the backends, routes or app inside it"
+type = "forbidden"
+source_modules = ["control_center.contract"]
+forbidden_modules = ["control_center.backends", "control_center.routes", "control_center.app"]

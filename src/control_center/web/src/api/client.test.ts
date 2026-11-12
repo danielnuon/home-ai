@@ -14,9 +14,9 @@ beforeEach(async () => {
 test("a failed session open is not reused by the next write", async () => {
   let opens = 0;
   fakeServer({
-    "GET /api/session": () =>
+    "GET /api/v1/session": () =>
       ++opens === 1 ? { status: 503, body: { reason: "Starting" } } : { csrf_token: "fresh" },
-    "POST /api/platform/stop": () => ({ stopped: true }),
+    "POST /api/v1/platform/stop": () => ({ stopped: true }),
   });
 
   await expect(send("POST", "/platform/stop")).rejects.toMatchObject({ status: 503 });
@@ -26,8 +26,8 @@ test("a failed session open is not reused by the next write", async () => {
 test("an expired session is reopened and the write retried once with the new token", async () => {
   let opens = 0;
   const sent = fakeServer({
-    "GET /api/session": () => ({ csrf_token: `token-${++opens}` }),
-    "POST /api/platform/stop": (request) =>
+    "GET /api/v1/session": () => ({ csrf_token: `token-${++opens}` }),
+    "POST /api/v1/platform/stop": (request) =>
       request.headers["X-CSRF-Token"] === "token-1"
         ? { status: 403, body: { error: "session_expired", reason: "Your session expired." } }
         : { stopped: true },
@@ -39,7 +39,7 @@ test("an expired session is reopened and the write retried once with the new tok
 
 test("a step-up request is not mistaken for an expired session", async () => {
   const sent = fakeServer({
-    "POST /api/platform/resume": () => ({
+    "POST /api/v1/platform/resume": () => ({
       status: 403,
       body: { error: "step_up_required", reason: "Resuming needs your passkey." },
     }),
@@ -54,8 +54,8 @@ test("a step-up request is not mistaken for an expired session", async () => {
 test("two writes refused together share one new session", async () => {
   let opens = 0;
   const sent = fakeServer({
-    "GET /api/session": () => ({ csrf_token: `token-${++opens}` }),
-    "POST /api/platform/stop": (request) =>
+    "GET /api/v1/session": () => ({ csrf_token: `token-${++opens}` }),
+    "POST /api/v1/platform/stop": (request) =>
       request.headers["X-CSRF-Token"] === "token-1"
         ? { status: 403, body: { error: "session_expired", reason: "Your session expired." } }
         : { stopped: true },
@@ -64,5 +64,5 @@ test("two writes refused together share one new session", async () => {
   const both = Promise.all([send("POST", "/platform/stop"), send("POST", "/platform/stop")]);
 
   await expect(both).resolves.toEqual([{ stopped: true }, { stopped: true }]);
-  expect(sent.filter((r) => r.path === "/api/session")).toHaveLength(2);
+  expect(sent.filter((r) => r.path === "/api/v1/session")).toHaveLength(2);
 });

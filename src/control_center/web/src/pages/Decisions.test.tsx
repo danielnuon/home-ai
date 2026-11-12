@@ -10,8 +10,9 @@ import Decisions from "./Decisions";
 
 test("an acknowledged decision in effect can still be vetoed", async () => {
   const sent = fakeServer({
-    "GET /api/decisions": () => [makeDecision()],
-    "POST /api/decisions/CDR-1/veto": () => makeDecision({ status: "reversed", vetoable: false }),
+    "GET /api/v1/decisions": () => [makeDecision()],
+    "POST /api/v1/decisions/CDR-1/veto": () =>
+      makeDecision({ status: "reversed", vetoable: false }),
   });
   renderPage(<Decisions />);
 
@@ -23,7 +24,7 @@ test("an acknowledged decision in effect can still be vetoed", async () => {
 
 test("a reversed decision offers no veto", async () => {
   fakeServer({
-    "GET /api/decisions": () => [makeDecision({ status: "reversed", vetoable: false })],
+    "GET /api/v1/decisions": () => [makeDecision({ status: "reversed", vetoable: false })],
   });
   renderPage(<Decisions />);
 

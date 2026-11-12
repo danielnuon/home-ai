@@ -9,7 +9,7 @@ from typing import Annotated
 
 from fastapi import Depends, Header, Request
 
-from control_center.wiring import Backends
+from control_center.backends.protocols import Backends
 
 STEP_UP_HEADER = "X-Step-Up"
 
@@ -22,4 +22,4 @@ def get_backends(request: Request) -> Backends:
 
 BackendsDep = Annotated[Backends, Depends(get_backends)]
 StepUp = Annotated[str | None, Header(alias=STEP_UP_HEADER)]
-"""A step-up proof from `POST /api/step-up/verify`, passed through to the gate untouched."""
+"""A step-up proof from `POST /api/v1/step-up/verify`, passed through to the gate untouched."""
