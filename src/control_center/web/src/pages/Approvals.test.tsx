@@ -11,9 +11,9 @@ import Approvals from "./Approvals";
 
 test("approve, then undo within the window", async () => {
   const sent = fakeServer({
-    "GET /api/approvals": () => [makeApproval()],
-    "POST /api/approvals/AP-1/decision": () => makeApproval({ state: "approved" }),
-    "POST /api/approvals/AP-1/undo": () => makeApproval(),
+    "GET /api/v1/approvals": () => [makeApproval()],
+    "POST /api/v1/approvals/AP-1/decision": () => makeApproval({ state: "approved" }),
+    "POST /api/v1/approvals/AP-1/undo": () => makeApproval(),
   });
   renderPage(<Approvals />);
 
@@ -30,8 +30,8 @@ test("approve, then undo within the window", async () => {
 
 test("deny sends the reason to the employee", async () => {
   const sent = fakeServer({
-    "GET /api/approvals": () => [makeApproval()],
-    "POST /api/approvals/AP-1/decision": () => makeApproval({ state: "denied" }),
+    "GET /api/v1/approvals": () => [makeApproval()],
+    "POST /api/v1/approvals/AP-1/decision": () => makeApproval({ state: "denied" }),
   });
   renderPage(<Approvals />);
 
@@ -48,8 +48,8 @@ test("deny sends the reason to the employee", async () => {
 
 test("a refusal shows the server's reason", async () => {
   fakeServer({
-    "GET /api/approvals": () => [makeApproval()],
-    "POST /api/approvals/AP-1/decision": () => ({
+    "GET /api/v1/approvals": () => [makeApproval()],
+    "POST /api/v1/approvals/AP-1/decision": () => ({
       status: 409,
       body: { error: "conflict", reason: "This approval was already decided in Discord." },
     }),
@@ -64,14 +64,14 @@ test("a refusal shows the server's reason", async () => {
 });
 
 test("a lapsed approval says nothing was sent", async () => {
-  fakeServer({ "GET /api/approvals": () => [makeApproval({ state: "expired" })] });
+  fakeServer({ "GET /api/v1/approvals": () => [makeApproval({ state: "expired" })] });
   renderPage(<Approvals />);
 
   expect(await screen.findByText("Lapsed. Nothing was sent.")).toBeInTheDocument();
 });
 
 test("the page has no detectable accessibility violations", async () => {
-  fakeServer({ "GET /api/approvals": () => [makeApproval()] });
+  fakeServer({ "GET /api/v1/approvals": () => [makeApproval()] });
   const { container } = renderPage(<Approvals />);
   await screen.findByRole("button", { name: "Approve" });
 

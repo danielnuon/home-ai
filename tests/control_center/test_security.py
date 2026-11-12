@@ -18,26 +18,27 @@ def tailnet_client() -> TestClient:
 
 def test_requests_without_the_owner_login_are_refused(tailnet_client: TestClient) -> None:
     """Spec 7.1: only the Owner's Tailscale identity gets an answer."""
-    assert tailnet_client.get("/api/today").status_code == 403
+    assert tailnet_client.get("/api/v1/today").status_code == 403
     stranger = {"Tailscale-User-Login": "someone@example.com"}
-    assert tailnet_client.get("/api/today", headers=stranger).status_code == 403
+    assert tailnet_client.get("/api/v1/today", headers=stranger).status_code == 403
     assert (
-        tailnet_client.get("/api/today", headers={"Tailscale-User-Login": OWNER}).status_code == 200
+        tailnet_client.get("/api/v1/today", headers={"Tailscale-User-Login": OWNER}).status_code
+        == 200
     )
 
 
 def test_state_changes_need_the_csrf_token(client: TestClient) -> None:
     """Spec 7.6: every state-changing request carries the CSRF token."""
     del client.headers["X-CSRF-Token"]
-    assert client.post("/api/platform/stop").status_code == 403
+    assert client.post("/api/v1/platform/stop").status_code == 403
 
     client.headers["X-CSRF-Token"] = "wrong"
-    assert client.post("/api/platform/stop").status_code == 403
+    assert client.post("/api/v1/platform/stop").status_code == 403
 
 
 def test_every_response_carries_the_strict_policy(client: TestClient) -> None:
     """Spec 7.6: every response sets the strict content security policy."""
-    headers = client.get("/api/today").headers
+    headers = client.get("/api/v1/today").headers
 
     assert "script-src 'self'" in headers["Content-Security-Policy"]
     assert "frame-ancestors 'none'" in headers["Content-Security-Policy"]
@@ -69,7 +70,7 @@ def test_health_answers_without_identity(tailnet_client: TestClient) -> None:
 def test_a_non_ascii_login_is_refused_not_an_error(tailnet_client: TestClient) -> None:
     """Spec 7.1 principle 6: any login that is not the Owner's gets 403, never a server error."""
     answer = tailnet_client.get(
-        "/api/today", headers={"Tailscale-User-Login": "dänny@example".encode()}
+        "/api/v1/today", headers={"Tailscale-User-Login": "dänny@example".encode()}
     )
 
     assert answer.status_code == 403
@@ -79,7 +80,7 @@ def test_an_expired_session_says_so_in_a_code_the_front_end_can_retry_on(
     client: TestClient,
 ) -> None:
     """Spec 7.1 principle 6: a stale CSRF token gets "session_expired", distinct from a step-up."""
-    answer = client.post("/api/platform/stop", headers={"X-CSRF-Token": "from-before-a-restart"})
+    answer = client.post("/api/v1/platform/stop", headers={"X-CSRF-Token": "from-before-a-restart"})
 
     assert answer.status_code == 403
     assert answer.json()["error"] == "session_expired"
@@ -90,6 +91,6 @@ def test_a_non_ascii_owner_login_is_recognised() -> None:
     owner = "dänny@example.com"
     client = TestClient(create_app(make_config(dev_identity=False, owner_login=owner)))
 
-    answer = client.get("/api/today", headers={"Tailscale-User-Login": owner.encode()})
+    answer = client.get("/api/v1/today", headers={"Tailscale-User-Login": owner.encode()})
 
     assert answer.status_code == 200

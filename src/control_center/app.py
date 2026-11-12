@@ -20,6 +20,7 @@ from control_center.backends.errors import (
 )
 from control_center.backends.mock.activity import simulate_activity
 from control_center.config import Config
+from control_center.contract.version import API_PREFIX
 from control_center.routes import gate, personal, session, status, work
 from control_center.security import (
     CsrfChecked,
@@ -86,7 +87,7 @@ def create_app(config: Config) -> FastAPI:
     app.add_exception_handler(BackendError, _backend_error)
     app.add_exception_handler(SessionExpiredError, _session_expired)
 
-    api = APIRouter(prefix="/api", dependencies=[OwnerOnly, CsrfChecked])
+    api = APIRouter(prefix=API_PREFIX, dependencies=[OwnerOnly, CsrfChecked])
     for module in (session, gate, work, personal, status):
         api.include_router(module.router)
     app.include_router(api)

@@ -19,6 +19,7 @@ Arguments named `step_up` carry a proof from `ApprovalGate.verify_step_up`, or N
 Brain, decides whether an action needs one, and raises `StepUpRequiredError` when it is missing.
 """
 
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
 
@@ -65,6 +66,7 @@ from control_center.contract.work import (
     TaskDetail,
     WorkBoard,
 )
+from control_center.events import EventBus
 
 
 class ApprovalGate(Protocol):
@@ -300,3 +302,14 @@ class ChatRelay(Protocol):
     def send(self, lead_id: str, text: str) -> ChatThread:
         """Send the Owner's message; the reply arrives as `chat.message` events."""
         ...
+
+
+@dataclass(frozen=True)
+class Backends:
+    """The services every route can reach, plus the event bus they publish to."""
+
+    gate: ApprovalGate
+    engine: PipelineEngine
+    status: StatusAggregator
+    chat: ChatRelay
+    bus: EventBus

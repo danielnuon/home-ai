@@ -5,7 +5,7 @@
  * with an undo window such as an approval (8 seconds, spec 7.4), offers the way back for exactly
  * that long.
  */
-import { AnimatePresence, m } from "motion/react";
+import { AnimatePresence, m } from "../design/motion";
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
 interface Toast {

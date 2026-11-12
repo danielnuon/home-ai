@@ -15,7 +15,8 @@ Four event kinds carry data, chosen so the client store stays small:
 - ``chat.message``: the whole of a chat message as it streams; the client replaces it by id.
 
 A fifth, ``hello``, is never published: the stream sends it first to tell the client where it
-stands (its id), the server's clock (``now``) and which run of the server this is (``boot``). A
+stands (its id), the server's clock (``now``), which run of the server this is (``boot``) and the
+version of these event shapes (``events_version``, see `control_center.contract.version`). A
 client that has seen no event yet can still resume, stale tiles are judged on the server's time
 rather than the device's, and a client that reconnects to a different ``boot`` refetches
 everything. Event ids start again with every run, so ids alone cannot show a restart: the new

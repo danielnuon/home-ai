@@ -9,33 +9,33 @@ from control_center.app import create_app
 from tests.control_center.conftest import make_config
 
 PAGES = [
-    "/api/platform",
-    "/api/today",
-    "/api/approvals",
-    "/api/decisions",
-    "/api/settings",
-    "/api/contacts",
-    "/api/live",
-    "/api/live/T-5521",
-    "/api/work",
-    "/api/directory",
-    "/api/personal",
-    "/api/finance/owner",
-    "/api/finance/mom",
-    "/api/setup",
-    "/api/search?q=patel",
-    "/api/chat/atlas",
-    "/api/system",
-    "/api/services",
-    "/api/models",
-    "/api/spend",
-    "/api/schedule",
-    "/api/security",
-    "/api/backups",
-    "/api/maintenance",
-    "/api/connections",
-    "/api/voice",
-    "/api/docs",
+    "/api/v1/platform",
+    "/api/v1/today",
+    "/api/v1/approvals",
+    "/api/v1/decisions",
+    "/api/v1/settings",
+    "/api/v1/contacts",
+    "/api/v1/live",
+    "/api/v1/live/T-5521",
+    "/api/v1/work",
+    "/api/v1/directory",
+    "/api/v1/personal",
+    "/api/v1/finance/owner",
+    "/api/v1/finance/mom",
+    "/api/v1/setup",
+    "/api/v1/search?q=patel",
+    "/api/v1/chat/atlas",
+    "/api/v1/system",
+    "/api/v1/services",
+    "/api/v1/models",
+    "/api/v1/spend",
+    "/api/v1/schedule",
+    "/api/v1/security",
+    "/api/v1/backups",
+    "/api/v1/maintenance",
+    "/api/v1/connections",
+    "/api/v1/voice",
+    "/api/v1/docs",
 ]
 
 
@@ -47,7 +47,7 @@ def test_every_page_answers(client: TestClient, path: str) -> None:
 
 def test_chat_stores_the_owner_message(client: TestClient) -> None:
     """Spec 7.7: a message to a lead is kept in that lead's thread."""
-    thread = client.post("/api/chat/atlas", json={"text": "What's on today?"}).json()
+    thread = client.post("/api/v1/chat/atlas", json={"text": "What's on today?"}).json()
 
     assert thread["messages"][-1]["author"] in ("owner", "lead")
     assert any(m["text"] == "What's on today?" for m in thread["messages"])
@@ -65,3 +65,9 @@ def test_front_end_routes_fall_back_to_the_app_and_never_escape_dist(tmp_path: P
     assert "Brain" in client.get("/decisions").text
     assert client.get("/icon.svg").text == "<svg/>"
     assert "Brain" in client.get("/..%2Fpyproject.toml").text
+
+
+def test_the_api_is_served_under_its_version(client: TestClient) -> None:
+    """Spec 17.18, design practice 8: the API carries a version, in every path."""
+    assert client.get("/api/v1/today").status_code == 200
+    assert client.get("/api/today").status_code == 404

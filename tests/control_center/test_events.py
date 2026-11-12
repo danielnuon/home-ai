@@ -113,3 +113,14 @@ async def test_the_stream_says_which_run_of_the_server_it_is() -> None:
 
     assert f'"boot": "{before_restart.boot}"' in hello
     assert before_restart.boot != after_restart.boot
+
+
+async def test_the_stream_states_the_version_of_its_event_shapes() -> None:
+    """Spec 17.18, design practice 8: events carry a version the client can check."""
+    frames = _frames(EventBus(), start=0)
+
+    await anext(frames)
+    hello = await anext(frames)
+    await frames.aclose()
+
+    assert '"events_version": 1' in hello

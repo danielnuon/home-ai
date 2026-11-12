@@ -10,7 +10,7 @@ import { SettingRow } from "./SettingControl";
 
 test("saving a cap sends the new value", async () => {
   const sent = fakeServer({
-    "PUT /api/settings/budget.voice": () => makeMoneySetting({ value: "10" }),
+    "PUT /api/v1/settings/budget.voice": () => makeMoneySetting({ value: "10" }),
   });
   renderPage(<SettingRow setting={makeMoneySetting()} />);
 

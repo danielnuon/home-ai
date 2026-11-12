@@ -6,6 +6,12 @@
  * server wrote for the Owner.
  */
 
+/**
+ * Where the server's API is mounted. The version is part of every path (spec 17.18, design
+ * practice 8); it matches `API_PREFIX` in the server's `contract/version.py`.
+ */
+export const API_BASE = "/api/v1";
+
 const CSRF_HEADER = "X-CSRF-Token";
 const STEP_UP_HEADER = "X-Step-Up";
 /** The error code the server's CSRF check answers with (`security.py`). */
@@ -29,7 +35,7 @@ let csrfToken: Promise<string> | null = null;
  * write tries again instead of reusing the failure for the life of the page.
  */
 function sessionToken(): Promise<string> {
-  csrfToken ??= fetch("/api/session", { credentials: "same-origin" })
+  csrfToken ??= fetch(`${API_BASE}/session`, { credentials: "same-origin" })
     .then(async (response) => {
       if (!response.ok) throw await toApiError(response);
       return ((await response.json()) as { csrf_token: string }).csrf_token;
@@ -55,7 +61,7 @@ async function toApiError(response: Response): Promise<ApiError> {
 
 /** GETs a JSON resource. */
 export async function getJson<T>(path: string): Promise<T> {
-  const response = await fetch(`/api${path}`, { credentials: "same-origin" });
+  const response = await fetch(`${API_BASE}${path}`, { credentials: "same-origin" });
   if (!response.ok) {
     throw await toApiError(response);
   }
@@ -66,7 +72,7 @@ export async function getJson<T>(path: string): Promise<T> {
  * Sends a state-changing request.
  *
  * @param method - POST or PUT.
- * @param path - Path under `/api`.
+ * @param path - Path under the API base.
  * @param body - JSON body, if any.
  * @param stepUp - A proof from a fresh passkey step-up, for actions the gate gates.
  * @returns The parsed JSON answer, or undefined for 204 No Content.
@@ -87,7 +93,7 @@ export async function send<T>(
     if (stepUp) {
       headers[STEP_UP_HEADER] = stepUp;
     }
-    return fetch(`/api${path}`, {
+    return fetch(`${API_BASE}${path}`, {
       method,
       headers,
       credentials: "same-origin",

@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  "/api/session": {
+  "/api/v1/session": {
     parameters: {
       query?: never;
       header?: never;
@@ -15,7 +15,7 @@ export interface paths {
      * Open Session
      * @description Start or continue a session and return its CSRF token.
      */
-    get: operations["open_session_api_session_get"];
+    get: operations["open_session_api_v1_session_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -24,7 +24,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/step-up/challenge": {
+  "/api/v1/step-up/challenge": {
     parameters: {
       query?: never;
       header?: never;
@@ -37,14 +37,14 @@ export interface paths {
      * Step Up Challenge
      * @description Ask the gate for a passkey challenge.
      */
-    post: operations["step_up_challenge_api_step_up_challenge_post"];
+    post: operations["step_up_challenge_api_v1_step_up_challenge_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/step-up/verify": {
+  "/api/v1/step-up/verify": {
     parameters: {
       query?: never;
       header?: never;
@@ -57,14 +57,14 @@ export interface paths {
      * Step Up Verify
      * @description Hand the assertion to the gate, which verifies it and returns a single-use proof.
      */
-    post: operations["step_up_verify_api_step_up_verify_post"];
+    post: operations["step_up_verify_api_v1_step_up_verify_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/platform": {
+  "/api/v1/platform": {
     parameters: {
       query?: never;
       header?: never;
@@ -75,7 +75,7 @@ export interface paths {
      * Platform State
      * @description Global banners and navigation badges.
      */
-    get: operations["platform_state_api_platform_get"];
+    get: operations["platform_state_api_v1_platform_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -84,7 +84,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/platform/stop": {
+  "/api/v1/platform/stop": {
     parameters: {
       query?: never;
       header?: never;
@@ -97,14 +97,14 @@ export interface paths {
      * Stop All
      * @description Kill switch. One tap, never gated: stopping is always the safe direction.
      */
-    post: operations["stop_all_api_platform_stop_post"];
+    post: operations["stop_all_api_v1_platform_stop_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/platform/resume": {
+  "/api/v1/platform/resume": {
     parameters: {
       query?: never;
       header?: never;
@@ -117,14 +117,14 @@ export interface paths {
      * Resume All
      * @description Resume after a stop; the gate asks for a step-up.
      */
-    post: operations["resume_all_api_platform_resume_post"];
+    post: operations["resume_all_api_v1_platform_resume_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/events": {
+  "/api/v1/events": {
     parameters: {
       query?: never;
       header?: never;
@@ -138,7 +138,7 @@ export interface paths {
      *     The browser sends `Last-Event-ID` on its own reconnects; the front end passes `after` when it
      *     reopens the stream itself, for example when the app returns from the background.
      */
-    get: operations["events_api_events_get"];
+    get: operations["events_api_v1_events_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -147,7 +147,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/approvals": {
+  "/api/v1/approvals": {
     parameters: {
       query?: never;
       header?: never;
@@ -158,7 +158,7 @@ export interface paths {
      * List Approvals
      * @description Every approval card, pending first.
      */
-    get: operations["list_approvals_api_approvals_get"];
+    get: operations["list_approvals_api_v1_approvals_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -167,7 +167,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/approvals/{approval_id}/decision": {
+  "/api/v1/approvals/{approval_id}/decision": {
     parameters: {
       query?: never;
       header?: never;
@@ -180,14 +180,14 @@ export interface paths {
      * Decide
      * @description Approve or deny one card.
      */
-    post: operations["decide_api_approvals__approval_id__decision_post"];
+    post: operations["decide_api_v1_approvals__approval_id__decision_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/approvals/{approval_id}/undo": {
+  "/api/v1/approvals/{approval_id}/undo": {
     parameters: {
       query?: never;
       header?: never;
@@ -200,14 +200,14 @@ export interface paths {
      * Undo Decision
      * @description Take back a decision while the gate is holding its action.
      */
-    post: operations["undo_decision_api_approvals__approval_id__undo_post"];
+    post: operations["undo_decision_api_v1_approvals__approval_id__undo_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/decisions": {
+  "/api/v1/decisions": {
     parameters: {
       query?: never;
       header?: never;
@@ -218,7 +218,7 @@ export interface paths {
      * List Decisions
      * @description Every critical decision record, open ones first.
      */
-    get: operations["list_decisions_api_decisions_get"];
+    get: operations["list_decisions_api_v1_decisions_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -227,7 +227,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/decisions/{decision_id}/acknowledge": {
+  "/api/v1/decisions/{decision_id}/acknowledge": {
     parameters: {
       query?: never;
       header?: never;
@@ -240,14 +240,14 @@ export interface paths {
      * Acknowledge
      * @description Acknowledge an open decision.
      */
-    post: operations["acknowledge_api_decisions__decision_id__acknowledge_post"];
+    post: operations["acknowledge_api_v1_decisions__decision_id__acknowledge_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/decisions/{decision_id}/veto": {
+  "/api/v1/decisions/{decision_id}/veto": {
     parameters: {
       query?: never;
       header?: never;
@@ -260,14 +260,14 @@ export interface paths {
      * Veto
      * @description Veto a decision, with an optional reason for the team.
      */
-    post: operations["veto_api_decisions__decision_id__veto_post"];
+    post: operations["veto_api_v1_decisions__decision_id__veto_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/decisions/{decision_id}/reopen": {
+  "/api/v1/decisions/{decision_id}/reopen": {
     parameters: {
       query?: never;
       header?: never;
@@ -280,14 +280,14 @@ export interface paths {
      * Reopen
      * @description Undo an acknowledgement or veto while the window is open.
      */
-    post: operations["reopen_api_decisions__decision_id__reopen_post"];
+    post: operations["reopen_api_v1_decisions__decision_id__reopen_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/settings": {
+  "/api/v1/settings": {
     parameters: {
       query?: never;
       header?: never;
@@ -298,7 +298,7 @@ export interface paths {
      * Settings
      * @description Every setting and the hard limits.
      */
-    get: operations["settings_api_settings_get"];
+    get: operations["settings_api_v1_settings_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -307,7 +307,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/settings/{key}": {
+  "/api/v1/settings/{key}": {
     parameters: {
       query?: never;
       header?: never;
@@ -319,7 +319,7 @@ export interface paths {
      * Change Setting
      * @description Change one setting; the gate decides whether it needs a step-up.
      */
-    put: operations["change_setting_api_settings__key__put"];
+    put: operations["change_setting_api_v1_settings__key__put"];
     post?: never;
     delete?: never;
     options?: never;
@@ -327,7 +327,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/settings/{key}/revert": {
+  "/api/v1/settings/{key}/revert": {
     parameters: {
       query?: never;
       header?: never;
@@ -340,14 +340,14 @@ export interface paths {
      * Revert Setting
      * @description Return a setting to its previous value.
      */
-    post: operations["revert_setting_api_settings__key__revert_post"];
+    post: operations["revert_setting_api_v1_settings__key__revert_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/contacts": {
+  "/api/v1/contacts": {
     parameters: {
       query?: never;
       header?: never;
@@ -358,7 +358,7 @@ export interface paths {
      * Contacts
      * @description Household principals and contacts.
      */
-    get: operations["contacts_api_contacts_get"];
+    get: operations["contacts_api_v1_contacts_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -367,7 +367,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/contacts/{contact_id}/trust": {
+  "/api/v1/contacts/{contact_id}/trust": {
     parameters: {
       query?: never;
       header?: never;
@@ -379,7 +379,7 @@ export interface paths {
      * Set Trust
      * @description Change a contact's trust level.
      */
-    put: operations["set_trust_api_contacts__contact_id__trust_put"];
+    put: operations["set_trust_api_v1_contacts__contact_id__trust_put"];
     post?: never;
     delete?: never;
     options?: never;
@@ -387,7 +387,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/services/{service_id}/restart": {
+  "/api/v1/services/{service_id}/restart": {
     parameters: {
       query?: never;
       header?: never;
@@ -400,14 +400,14 @@ export interface paths {
      * Restart Service
      * @description Restart a service through a signed control record.
      */
-    post: operations["restart_service_api_services__service_id__restart_post"];
+    post: operations["restart_service_api_v1_services__service_id__restart_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/backups/restore": {
+  "/api/v1/backups/restore": {
     parameters: {
       query?: never;
       header?: never;
@@ -420,14 +420,14 @@ export interface paths {
      * Restore
      * @description Restore into a side folder, never over the original.
      */
-    post: operations["restore_api_backups_restore_post"];
+    post: operations["restore_api_v1_backups_restore_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/live": {
+  "/api/v1/live": {
     parameters: {
       query?: never;
       header?: never;
@@ -438,7 +438,7 @@ export interface paths {
      * Live Tasks
      * @description Running and queued tasks.
      */
-    get: operations["live_tasks_api_live_get"];
+    get: operations["live_tasks_api_v1_live_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -447,7 +447,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/live/{task_id}": {
+  "/api/v1/live/{task_id}": {
     parameters: {
       query?: never;
       header?: never;
@@ -458,7 +458,7 @@ export interface paths {
      * Task Detail
      * @description One task's stage rail and transcript.
      */
-    get: operations["task_detail_api_live__task_id__get"];
+    get: operations["task_detail_api_v1_live__task_id__get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -467,7 +467,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/live/{task_id}/interventions": {
+  "/api/v1/live/{task_id}/interventions": {
     parameters: {
       query?: never;
       header?: never;
@@ -480,14 +480,14 @@ export interface paths {
      * Intervene
      * @description Note, pause, resume, redirect or stop a task: an Owner command to the engine.
      */
-    post: operations["intervene_api_live__task_id__interventions_post"];
+    post: operations["intervene_api_v1_live__task_id__interventions_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/work": {
+  "/api/v1/work": {
     parameters: {
       query?: never;
       header?: never;
@@ -498,7 +498,7 @@ export interface paths {
      * Work Board
      * @description Work items, ideas and reviews.
      */
-    get: operations["work_board_api_work_get"];
+    get: operations["work_board_api_v1_work_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -507,7 +507,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/directory": {
+  "/api/v1/directory": {
     parameters: {
       query?: never;
       header?: never;
@@ -518,7 +518,7 @@ export interface paths {
      * Directory
      * @description Employees and lifecycle proposals.
      */
-    get: operations["directory_api_directory_get"];
+    get: operations["directory_api_v1_directory_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -527,7 +527,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/directory/{employee_id}/enabled": {
+  "/api/v1/directory/{employee_id}/enabled": {
     parameters: {
       query?: never;
       header?: never;
@@ -539,7 +539,7 @@ export interface paths {
      * Set Employee Enabled
      * @description Enable or disable an employee. This is a setting, so it goes to the gate.
      */
-    put: operations["set_employee_enabled_api_directory__employee_id__enabled_put"];
+    put: operations["set_employee_enabled_api_v1_directory__employee_id__enabled_put"];
     post?: never;
     delete?: never;
     options?: never;
@@ -547,7 +547,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/proposals/{proposal_id}/decision": {
+  "/api/v1/proposals/{proposal_id}/decision": {
     parameters: {
       query?: never;
       header?: never;
@@ -560,14 +560,14 @@ export interface paths {
      * Decide Proposal
      * @description Approve or decline a lifecycle proposal.
      */
-    post: operations["decide_proposal_api_proposals__proposal_id__decision_post"];
+    post: operations["decide_proposal_api_v1_proposals__proposal_id__decision_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/today": {
+  "/api/v1/today": {
     parameters: {
       query?: never;
       header?: never;
@@ -578,7 +578,7 @@ export interface paths {
      * Today
      * @description Everything on Today in one response.
      */
-    get: operations["today_api_today_get"];
+    get: operations["today_api_v1_today_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -587,7 +587,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/personal": {
+  "/api/v1/personal": {
     parameters: {
       query?: never;
       header?: never;
@@ -598,7 +598,7 @@ export interface paths {
      * Personal
      * @description Cases, domains and recent automatic changes.
      */
-    get: operations["personal_api_personal_get"];
+    get: operations["personal_api_v1_personal_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -607,7 +607,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/cases/{case_id}/action": {
+  "/api/v1/cases/{case_id}/action": {
     parameters: {
       query?: never;
       header?: never;
@@ -620,14 +620,14 @@ export interface paths {
      * Case Action
      * @description Mark a case done, snooze it or reopen it.
      */
-    post: operations["case_action_api_cases__case_id__action_post"];
+    post: operations["case_action_api_v1_cases__case_id__action_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/changes/{change_id}/undo": {
+  "/api/v1/changes/{change_id}/undo": {
     parameters: {
       query?: never;
       header?: never;
@@ -640,14 +640,14 @@ export interface paths {
      * Undo Change
      * @description Undo an automatic change.
      */
-    post: operations["undo_change_api_changes__change_id__undo_post"];
+    post: operations["undo_change_api_v1_changes__change_id__undo_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/finance/{principal}": {
+  "/api/v1/finance/{principal}": {
     parameters: {
       query?: never;
       header?: never;
@@ -658,7 +658,7 @@ export interface paths {
      * Finance
      * @description Finance for one principal.
      */
-    get: operations["finance_api_finance__principal__get"];
+    get: operations["finance_api_v1_finance__principal__get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -667,7 +667,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/setup": {
+  "/api/v1/setup": {
     parameters: {
       query?: never;
       header?: never;
@@ -678,7 +678,7 @@ export interface paths {
      * Setup Steps
      * @description Every Setup step.
      */
-    get: operations["setup_steps_api_setup_get"];
+    get: operations["setup_steps_api_v1_setup_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -687,7 +687,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/setup/{step_id}": {
+  "/api/v1/setup/{step_id}": {
     parameters: {
       query?: never;
       header?: never;
@@ -700,14 +700,14 @@ export interface paths {
      * Setup Action
      * @description Start, defer, resume or redo a step.
      */
-    post: operations["setup_action_api_setup__step_id__post"];
+    post: operations["setup_action_api_v1_setup__step_id__post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/search": {
+  "/api/v1/search": {
     parameters: {
       query?: never;
       header?: never;
@@ -718,7 +718,7 @@ export interface paths {
      * Search
      * @description Search everything the Owner can see.
      */
-    get: operations["search_api_search_get"];
+    get: operations["search_api_v1_search_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -727,7 +727,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/chat/{lead_id}": {
+  "/api/v1/chat/{lead_id}": {
     parameters: {
       query?: never;
       header?: never;
@@ -738,20 +738,20 @@ export interface paths {
      * Chat Thread
      * @description A lead's chat history.
      */
-    get: operations["chat_thread_api_chat__lead_id__get"];
+    get: operations["chat_thread_api_v1_chat__lead_id__get"];
     put?: never;
     /**
      * Chat Send
      * @description Send a message. Async because the mock relay streams its reply on the event loop.
      */
-    post: operations["chat_send_api_chat__lead_id__post"];
+    post: operations["chat_send_api_v1_chat__lead_id__post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/system": {
+  "/api/v1/system": {
     parameters: {
       query?: never;
       header?: never;
@@ -762,7 +762,7 @@ export interface paths {
      * System
      * @description Machine and memory.
      */
-    get: operations["system_api_system_get"];
+    get: operations["system_api_v1_system_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -771,7 +771,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/services": {
+  "/api/v1/services": {
     parameters: {
       query?: never;
       header?: never;
@@ -782,7 +782,7 @@ export interface paths {
      * Services
      * @description Every service.
      */
-    get: operations["services_api_services_get"];
+    get: operations["services_api_v1_services_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -791,7 +791,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/models": {
+  "/api/v1/models": {
     parameters: {
       query?: never;
       header?: never;
@@ -802,7 +802,7 @@ export interface paths {
      * Models
      * @description Model assignments and the reviewer preview.
      */
-    get: operations["models_api_models_get"];
+    get: operations["models_api_v1_models_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -811,7 +811,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/spend": {
+  "/api/v1/spend": {
     parameters: {
       query?: never;
       header?: never;
@@ -822,7 +822,7 @@ export interface paths {
      * Spend
      * @description The ledger and the paid features.
      */
-    get: operations["spend_api_spend_get"];
+    get: operations["spend_api_v1_spend_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -831,7 +831,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/schedule": {
+  "/api/v1/schedule": {
     parameters: {
       query?: never;
       header?: never;
@@ -842,7 +842,7 @@ export interface paths {
      * Schedule
      * @description Jobs and quiet hours.
      */
-    get: operations["schedule_api_schedule_get"];
+    get: operations["schedule_api_v1_schedule_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -851,7 +851,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/schedule/{job_id}/paused": {
+  "/api/v1/schedule/{job_id}/paused": {
     parameters: {
       query?: never;
       header?: never;
@@ -863,7 +863,7 @@ export interface paths {
      * Set Job Paused
      * @description Pause or resume a job.
      */
-    put: operations["set_job_paused_api_schedule__job_id__paused_put"];
+    put: operations["set_job_paused_api_v1_schedule__job_id__paused_put"];
     post?: never;
     delete?: never;
     options?: never;
@@ -871,7 +871,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/schedule/{job_id}/run": {
+  "/api/v1/schedule/{job_id}/run": {
     parameters: {
       query?: never;
       header?: never;
@@ -884,14 +884,14 @@ export interface paths {
      * Run Job
      * @description Run a job now.
      */
-    post: operations["run_job_api_schedule__job_id__run_post"];
+    post: operations["run_job_api_v1_schedule__job_id__run_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/security": {
+  "/api/v1/security": {
     parameters: {
       query?: never;
       header?: never;
@@ -902,7 +902,7 @@ export interface paths {
      * Security
      * @description Kill switch, flags and the audit log.
      */
-    get: operations["security_api_security_get"];
+    get: operations["security_api_v1_security_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -911,7 +911,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/backups": {
+  "/api/v1/backups": {
     parameters: {
       query?: never;
       header?: never;
@@ -922,7 +922,7 @@ export interface paths {
      * Backups
      * @description Backup mode, targets and drills.
      */
-    get: operations["backups_api_backups_get"];
+    get: operations["backups_api_v1_backups_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -931,7 +931,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/maintenance": {
+  "/api/v1/maintenance": {
     parameters: {
       query?: never;
       header?: never;
@@ -942,7 +942,7 @@ export interface paths {
      * Maintenance
      * @description Pipeline C.
      */
-    get: operations["maintenance_api_maintenance_get"];
+    get: operations["maintenance_api_v1_maintenance_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -951,7 +951,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/maintenance/running": {
+  "/api/v1/maintenance/running": {
     parameters: {
       query?: never;
       header?: never;
@@ -963,7 +963,7 @@ export interface paths {
      * Set Maintenance Running
      * @description Pause or resume Pipeline C.
      */
-    put: operations["set_maintenance_running_api_maintenance_running_put"];
+    put: operations["set_maintenance_running_api_v1_maintenance_running_put"];
     post?: never;
     delete?: never;
     options?: never;
@@ -971,7 +971,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/maintenance/fixes/{fix_id}/revert": {
+  "/api/v1/maintenance/fixes/{fix_id}/revert": {
     parameters: {
       query?: never;
       header?: never;
@@ -984,14 +984,14 @@ export interface paths {
      * Toggle Fix Reverted
      * @description Revert a fix, or undo the revert.
      */
-    post: operations["toggle_fix_reverted_api_maintenance_fixes__fix_id__revert_post"];
+    post: operations["toggle_fix_reverted_api_v1_maintenance_fixes__fix_id__revert_post"];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  "/api/connections": {
+  "/api/v1/connections": {
     parameters: {
       query?: never;
       header?: never;
@@ -1002,7 +1002,7 @@ export interface paths {
      * Connections
      * @description Accounts and providers.
      */
-    get: operations["connections_api_connections_get"];
+    get: operations["connections_api_v1_connections_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -1011,7 +1011,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/voice": {
+  "/api/v1/voice": {
     parameters: {
       query?: never;
       header?: never;
@@ -1022,7 +1022,7 @@ export interface paths {
      * Voice
      * @description Voice profiles.
      */
-    get: operations["voice_api_voice_get"];
+    get: operations["voice_api_v1_voice_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -1031,7 +1031,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/docs": {
+  "/api/v1/docs": {
     parameters: {
       query?: never;
       header?: never;
@@ -1042,7 +1042,7 @@ export interface paths {
      * Docs
      * @description Documentation by area.
      */
-    get: operations["docs_api_docs_get"];
+    get: operations["docs_api_v1_docs_get"];
     put?: never;
     post?: never;
     delete?: never;
@@ -2535,7 +2535,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  open_session_api_session_get: {
+  open_session_api_v1_session_get: {
     parameters: {
       query?: never;
       header?: {
@@ -2569,7 +2569,7 @@ export interface operations {
       };
     };
   };
-  step_up_challenge_api_step_up_challenge_post: {
+  step_up_challenge_api_v1_step_up_challenge_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2603,7 +2603,7 @@ export interface operations {
       };
     };
   };
-  step_up_verify_api_step_up_verify_post: {
+  step_up_verify_api_v1_step_up_verify_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2641,7 +2641,7 @@ export interface operations {
       };
     };
   };
-  platform_state_api_platform_get: {
+  platform_state_api_v1_platform_get: {
     parameters: {
       query?: never;
       header?: {
@@ -2675,7 +2675,7 @@ export interface operations {
       };
     };
   };
-  stop_all_api_platform_stop_post: {
+  stop_all_api_v1_platform_stop_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2709,7 +2709,7 @@ export interface operations {
       };
     };
   };
-  resume_all_api_platform_resume_post: {
+  resume_all_api_v1_platform_resume_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2744,7 +2744,7 @@ export interface operations {
       };
     };
   };
-  events_api_events_get: {
+  events_api_v1_events_get: {
     parameters: {
       query?: {
         after?: number | null;
@@ -2781,7 +2781,7 @@ export interface operations {
       };
     };
   };
-  list_approvals_api_approvals_get: {
+  list_approvals_api_v1_approvals_get: {
     parameters: {
       query?: never;
       header?: {
@@ -2815,7 +2815,7 @@ export interface operations {
       };
     };
   };
-  decide_api_approvals__approval_id__decision_post: {
+  decide_api_v1_approvals__approval_id__decision_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2856,7 +2856,7 @@ export interface operations {
       };
     };
   };
-  undo_decision_api_approvals__approval_id__undo_post: {
+  undo_decision_api_v1_approvals__approval_id__undo_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2892,7 +2892,7 @@ export interface operations {
       };
     };
   };
-  list_decisions_api_decisions_get: {
+  list_decisions_api_v1_decisions_get: {
     parameters: {
       query?: never;
       header?: {
@@ -2926,7 +2926,7 @@ export interface operations {
       };
     };
   };
-  acknowledge_api_decisions__decision_id__acknowledge_post: {
+  acknowledge_api_v1_decisions__decision_id__acknowledge_post: {
     parameters: {
       query?: never;
       header?: {
@@ -2962,7 +2962,7 @@ export interface operations {
       };
     };
   };
-  veto_api_decisions__decision_id__veto_post: {
+  veto_api_v1_decisions__decision_id__veto_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3002,7 +3002,7 @@ export interface operations {
       };
     };
   };
-  reopen_api_decisions__decision_id__reopen_post: {
+  reopen_api_v1_decisions__decision_id__reopen_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3038,7 +3038,7 @@ export interface operations {
       };
     };
   };
-  settings_api_settings_get: {
+  settings_api_v1_settings_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3072,7 +3072,7 @@ export interface operations {
       };
     };
   };
-  change_setting_api_settings__key__put: {
+  change_setting_api_v1_settings__key__put: {
     parameters: {
       query?: never;
       header?: {
@@ -3113,7 +3113,7 @@ export interface operations {
       };
     };
   };
-  revert_setting_api_settings__key__revert_post: {
+  revert_setting_api_v1_settings__key__revert_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3150,7 +3150,7 @@ export interface operations {
       };
     };
   };
-  contacts_api_contacts_get: {
+  contacts_api_v1_contacts_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3184,7 +3184,7 @@ export interface operations {
       };
     };
   };
-  set_trust_api_contacts__contact_id__trust_put: {
+  set_trust_api_v1_contacts__contact_id__trust_put: {
     parameters: {
       query?: never;
       header?: {
@@ -3225,7 +3225,7 @@ export interface operations {
       };
     };
   };
-  restart_service_api_services__service_id__restart_post: {
+  restart_service_api_v1_services__service_id__restart_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3260,7 +3260,7 @@ export interface operations {
       };
     };
   };
-  restore_api_backups_restore_post: {
+  restore_api_v1_backups_restore_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3299,7 +3299,7 @@ export interface operations {
       };
     };
   };
-  live_tasks_api_live_get: {
+  live_tasks_api_v1_live_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3333,7 +3333,7 @@ export interface operations {
       };
     };
   };
-  task_detail_api_live__task_id__get: {
+  task_detail_api_v1_live__task_id__get: {
     parameters: {
       query?: never;
       header?: {
@@ -3369,7 +3369,7 @@ export interface operations {
       };
     };
   };
-  intervene_api_live__task_id__interventions_post: {
+  intervene_api_v1_live__task_id__interventions_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3409,7 +3409,7 @@ export interface operations {
       };
     };
   };
-  work_board_api_work_get: {
+  work_board_api_v1_work_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3443,7 +3443,7 @@ export interface operations {
       };
     };
   };
-  directory_api_directory_get: {
+  directory_api_v1_directory_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3477,7 +3477,7 @@ export interface operations {
       };
     };
   };
-  set_employee_enabled_api_directory__employee_id__enabled_put: {
+  set_employee_enabled_api_v1_directory__employee_id__enabled_put: {
     parameters: {
       query?: never;
       header?: {
@@ -3516,7 +3516,7 @@ export interface operations {
       };
     };
   };
-  decide_proposal_api_proposals__proposal_id__decision_post: {
+  decide_proposal_api_v1_proposals__proposal_id__decision_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3554,7 +3554,7 @@ export interface operations {
       };
     };
   };
-  today_api_today_get: {
+  today_api_v1_today_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3588,7 +3588,7 @@ export interface operations {
       };
     };
   };
-  personal_api_personal_get: {
+  personal_api_v1_personal_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3622,7 +3622,7 @@ export interface operations {
       };
     };
   };
-  case_action_api_cases__case_id__action_post: {
+  case_action_api_v1_cases__case_id__action_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3662,7 +3662,7 @@ export interface operations {
       };
     };
   };
-  undo_change_api_changes__change_id__undo_post: {
+  undo_change_api_v1_changes__change_id__undo_post: {
     parameters: {
       query?: never;
       header?: {
@@ -3698,7 +3698,7 @@ export interface operations {
       };
     };
   };
-  finance_api_finance__principal__get: {
+  finance_api_v1_finance__principal__get: {
     parameters: {
       query?: never;
       header?: {
@@ -3734,7 +3734,7 @@ export interface operations {
       };
     };
   };
-  setup_steps_api_setup_get: {
+  setup_steps_api_v1_setup_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3768,7 +3768,7 @@ export interface operations {
       };
     };
   };
-  setup_action_api_setup__step_id__post: {
+  setup_action_api_v1_setup__step_id__post: {
     parameters: {
       query?: never;
       header?: {
@@ -3808,7 +3808,7 @@ export interface operations {
       };
     };
   };
-  search_api_search_get: {
+  search_api_v1_search_get: {
     parameters: {
       query?: {
         q?: string;
@@ -3844,7 +3844,7 @@ export interface operations {
       };
     };
   };
-  chat_thread_api_chat__lead_id__get: {
+  chat_thread_api_v1_chat__lead_id__get: {
     parameters: {
       query?: never;
       header?: {
@@ -3880,7 +3880,7 @@ export interface operations {
       };
     };
   };
-  chat_send_api_chat__lead_id__post: {
+  chat_send_api_v1_chat__lead_id__post: {
     parameters: {
       query?: never;
       header?: {
@@ -3920,7 +3920,7 @@ export interface operations {
       };
     };
   };
-  system_api_system_get: {
+  system_api_v1_system_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3954,7 +3954,7 @@ export interface operations {
       };
     };
   };
-  services_api_services_get: {
+  services_api_v1_services_get: {
     parameters: {
       query?: never;
       header?: {
@@ -3988,7 +3988,7 @@ export interface operations {
       };
     };
   };
-  models_api_models_get: {
+  models_api_v1_models_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4022,7 +4022,7 @@ export interface operations {
       };
     };
   };
-  spend_api_spend_get: {
+  spend_api_v1_spend_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4056,7 +4056,7 @@ export interface operations {
       };
     };
   };
-  schedule_api_schedule_get: {
+  schedule_api_v1_schedule_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4090,7 +4090,7 @@ export interface operations {
       };
     };
   };
-  set_job_paused_api_schedule__job_id__paused_put: {
+  set_job_paused_api_v1_schedule__job_id__paused_put: {
     parameters: {
       query?: never;
       header?: {
@@ -4130,7 +4130,7 @@ export interface operations {
       };
     };
   };
-  run_job_api_schedule__job_id__run_post: {
+  run_job_api_v1_schedule__job_id__run_post: {
     parameters: {
       query?: never;
       header?: {
@@ -4166,7 +4166,7 @@ export interface operations {
       };
     };
   };
-  security_api_security_get: {
+  security_api_v1_security_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4200,7 +4200,7 @@ export interface operations {
       };
     };
   };
-  backups_api_backups_get: {
+  backups_api_v1_backups_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4234,7 +4234,7 @@ export interface operations {
       };
     };
   };
-  maintenance_api_maintenance_get: {
+  maintenance_api_v1_maintenance_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4268,7 +4268,7 @@ export interface operations {
       };
     };
   };
-  set_maintenance_running_api_maintenance_running_put: {
+  set_maintenance_running_api_v1_maintenance_running_put: {
     parameters: {
       query?: never;
       header?: {
@@ -4306,7 +4306,7 @@ export interface operations {
       };
     };
   };
-  toggle_fix_reverted_api_maintenance_fixes__fix_id__revert_post: {
+  toggle_fix_reverted_api_v1_maintenance_fixes__fix_id__revert_post: {
     parameters: {
       query?: never;
       header?: {
@@ -4342,7 +4342,7 @@ export interface operations {
       };
     };
   };
-  connections_api_connections_get: {
+  connections_api_v1_connections_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4376,7 +4376,7 @@ export interface operations {
       };
     };
   };
-  voice_api_voice_get: {
+  voice_api_v1_voice_get: {
     parameters: {
       query?: never;
       header?: {
@@ -4410,7 +4410,7 @@ export interface operations {
       };
     };
   };
-  docs_api_docs_get: {
+  docs_api_v1_docs_get: {
     parameters: {
       query?: never;
       header?: {

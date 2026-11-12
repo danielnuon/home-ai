@@ -26,16 +26,16 @@ def make_config(*, dev_identity: bool = True, owner_login: str | None = None) ->
 def client() -> Iterator[TestClient]:
     """A client with a session open and its CSRF token set on every request."""
     with TestClient(create_app(make_config())) as test_client:
-        token = test_client.get("/api/session").json()["csrf_token"]
+        token = test_client.get("/api/v1/session").json()["csrf_token"]
         test_client.headers["X-CSRF-Token"] = token
         yield test_client
 
 
 def step_up(client: TestClient) -> str:
     """Run the mock passkey round and return a fresh proof."""
-    challenge = client.post("/api/step-up/challenge").json()["challenge"]
+    challenge = client.post("/api/v1/step-up/challenge").json()["challenge"]
     answer = client.post(
-        "/api/step-up/verify", json={"challenge": challenge, "assertion": f"virtual:{challenge}"}
+        "/api/v1/step-up/verify", json={"challenge": challenge, "assertion": f"virtual:{challenge}"}
     )
     proof: str = answer.json()["proof"]
     return proof

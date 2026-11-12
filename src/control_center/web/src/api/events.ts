@@ -11,6 +11,7 @@
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { ChatMessage, ChatThread, LiveTask, TaskDetail, TodayOverview } from "./types";
+import { API_BASE } from "./client";
 import { setServerNow } from "../design/stale";
 
 /** Settings are shown on the pages that own them, so a settings change refreshes those too. */
@@ -88,15 +89,29 @@ function applyChat(client: QueryClient, message: ChatMessage): void {
   });
 }
 
+/**
+ * The version of the event kinds and payloads this front end was built for. It matches
+ * `EVENTS_VERSION` in the server's `contract/version.py` (spec 17.18, design practice 8).
+ */
+const EVENTS_VERSION = 1;
+
 /** What the stream sends first on every connection. */
 interface Hello {
   now: string;
   /** Names one run of the server; a new value means Brain restarted. */
   boot: string;
+  /** The version of the event shapes the server sends. */
+  events_version: number;
 }
 
 /** The run of the server this tab last heard from; null until the first `hello`. */
 let knownBoot: string | null = null;
+
+/**
+ * Whether the server's events have the shapes this front end knows. False for a tab that was
+ * open across a deploy that changed them: it then refetches instead of patching its cache.
+ */
+let eventsUnderstood = true;
 
 /**
  * Notes the server's clock and, when the server has restarted since this tab last heard from it,
@@ -105,6 +120,7 @@ let knownBoot: string | null = null;
  */
 function applyHello(client: QueryClient, hello: Hello): void {
   setServerNow(hello.now);
+  eventsUnderstood = hello.events_version === EVENTS_VERSION;
   if (knownBoot !== null && knownBoot !== hello.boot) {
     refresh(client, ["*"]);
   }
@@ -120,7 +136,8 @@ function openStream(
   after: number | null,
   onId: (id: number) => void,
 ): EventSource {
-  const source = new EventSource(after === null ? "/api/events" : `/api/events?after=${after}`);
+  const url = `${API_BASE}/events`;
+  const source = new EventSource(after === null ? url : `${url}?after=${after}`);
   const listen = <Payload>(kind: string, apply: (payload: Payload) => void) =>
     source.addEventListener(kind, (event: MessageEvent<string>) => {
       onId(Number(event.lastEventId));
@@ -130,9 +147,13 @@ function openStream(
   // server's clock, which stale tiles are judged against, and which run of the server this is.
   listen<Hello>("hello", (p) => applyHello(client, p));
   listen<{ resources: string[] }>("changed", (p) => refresh(client, p.resources));
-  listen<TaskProgress>("task.progress", (p) => applyProgress(client, p));
-  listen<TranscriptAppend>("transcript.append", (p) => applyTranscript(client, p));
-  listen<ChatMessage>("chat.message", (p) => applyChat(client, p));
+  // In-place patches depend on the payload's shape. `changed` is the one kind every version
+  // shares, so with an unknown version a patch becomes a refetch of the resource it would touch.
+  const patch = <Payload>(kind: string, resource: string, apply: (payload: Payload) => void) =>
+    listen<Payload>(kind, (p) => (eventsUnderstood ? apply(p) : refresh(client, [resource])));
+  patch<TaskProgress>("task.progress", "live", (p) => applyProgress(client, p));
+  patch<TranscriptAppend>("transcript.append", "live", (p) => applyTranscript(client, p));
+  patch<ChatMessage>("chat.message", "chat", (p) => applyChat(client, p));
   return source;
 }
 

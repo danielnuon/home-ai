@@ -8,6 +8,19 @@ import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+const MOTION_SEAM = {
+  name: "motion/react",
+  message: "Import animation from src/design/motion.ts, the one module that names the library.",
+};
+const THREE_SEAM = {
+  name: "three",
+  message: "three.js is used only by src/components/ActivityField.tsx.",
+};
+const SERVER_SEAM = ["fetch", "EventSource"].map((name) => ({
+  name,
+  message: "Reach the server through src/api, the one place that talks HTTP to Brain.",
+}));
+
 export default tseslint.config(
   { ignores: ["dist", "node_modules", "src/api/schema.d.ts", "public/sw.js"] },
   js.configs.recommended,
@@ -38,13 +51,31 @@ export default tseslint.config(
         },
       ],
       "jsdoc/no-types": "error",
+      // One seam per dependency (17.18, design practice 8): a library with a credible
+      // replacement is imported in one module, and the server is reached only from `src/api`.
+      // The blocks below lift each rule for the module that owns that seam.
+      "no-restricted-imports": ["error", { paths: [MOTION_SEAM, THREE_SEAM] }],
+      "no-restricted-globals": ["error", ...SERVER_SEAM],
     },
+  },
+  {
+    files: ["src/design/motion.ts"],
+    rules: { "no-restricted-imports": ["error", { paths: [THREE_SEAM] }] },
+  },
+  {
+    files: ["src/components/ActivityField.tsx"],
+    rules: { "no-restricted-imports": ["error", { paths: [MOTION_SEAM] }] },
+  },
+  {
+    files: ["src/api/**"],
+    rules: { "no-restricted-globals": "off" },
   },
   {
     files: ["**/*.test.{ts,tsx}", "src/test/**"],
     rules: {
       "max-lines-per-function": "off",
       "jsdoc/require-jsdoc": "off",
+      "no-restricted-globals": "off",
     },
   },
   {

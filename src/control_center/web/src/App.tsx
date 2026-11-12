@@ -3,12 +3,11 @@
  * stream, and the router.
  */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { LazyMotion, MotionConfig } from "motion/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useLiveEvents } from "./api/events";
 import { StepUpProvider } from "./components/StepUp";
 import { ToastProvider } from "./components/Toasts";
-import motionFeatures from "./design/motionFeatures";
+import { LazyMotion, MotionConfig, motionFeatures } from "./design/motion";
 import NotFound from "./pages/NotFound";
 import { ROUTES } from "./routes";
 import { AppShell } from "./shell/AppShell";
