@@ -8,12 +8,24 @@ import { useState } from "react";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { useDirectory } from "../api/queries";
-import type { Directory as DirectoryData, Employee } from "../api/types";
+import type { Directory as DirectoryData, Employee, StatusLabel } from "../api/types";
 import { Avatar } from "../components/Avatar";
 import { Switch } from "../components/Controls";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { Sheet } from "../components/Sheet";
+import { StatusText } from "../design/status";
+
+/** An employee's status, rolled up from its sessions by the engine (spec 15.8.9). */
+const EMPLOYEE_STATUS: Record<Employee["status"], StatusLabel> = {
+  active_now: { status: "in_progress", label: "Active now" },
+  waiting_on_owner: { status: "attention", label: "Waiting on you" },
+  blocked: { status: "problem", label: "Blocked" },
+  paused: { status: "neutral", label: "Paused" },
+  idle: { status: "neutral", label: "Idle" },
+  not_yet_hired: { status: "neutral", label: "Not yet hired" },
+  disabled: { status: "neutral", label: "Disabled" },
+};
 
 /** The profile sheet's body. */
 function Profile({ employee }: { employee: Employee }) {
@@ -37,6 +49,10 @@ function Profile({ employee }: { employee: Employee }) {
       </div>
       <p>{employee.mission}</p>
       <dl className="facts small">
+        <dt>Status</dt>
+        <dd>
+          <StatusText value={EMPLOYEE_STATUS[employee.status]} />
+        </dd>
         <dt>Now</dt>
         <dd>{employee.now}</dd>
         <dt>Model</dt>
@@ -140,11 +156,9 @@ export default function Directory() {
                         name={employee.name}
                       />
                       <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
-                        <span className="row-title">
-                          {employee.name}
-                          {!employee.enabled && <span className="tag"> off</span>}
-                        </span>
+                        <span className="row-title">{employee.name}</span>
                         <span className="muted small">{employee.title}</span>
+                        <StatusText value={EMPLOYEE_STATUS[employee.status]} className="small" />
                       </span>
                     </button>
                   ))}

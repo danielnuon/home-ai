@@ -1,4 +1,4 @@
-"""Live tasks and stepping in, the Work board and the Directory."""
+"""Live sessions and stepping in, threads, the Work board and the Directory."""
 
 from fastapi import APIRouter
 
@@ -9,6 +9,7 @@ from control_center.contract.work import (
     LiveTask,
     ProposalDecision,
     TaskDetail,
+    Thread,
     WorkBoard,
 )
 from control_center.routes import BackendsDep, StepUp
@@ -18,7 +19,7 @@ router = APIRouter()
 
 @router.get("/live")
 def live_tasks(backends: BackendsDep) -> list[LiveTask]:
-    """Running and queued tasks."""
+    """Every open session with its state."""
     return backends.engine.live_tasks()
 
 
@@ -36,8 +37,20 @@ def intervene(task_id: str, body: Intervention, backends: BackendsDep) -> TaskDe
 
 @router.get("/work")
 def work_board(backends: BackendsDep) -> WorkBoard:
-    """Work items, ideas and reviews."""
+    """Threads, work items, ideas and reviews."""
     return backends.engine.work_board()
+
+
+@router.post("/threads/{thread_id}/resolve")
+def resolve_thread(thread_id: str, backends: BackendsDep) -> Thread:
+    """Resolve a thread: an Owner command, one tap, undone by reopening (spec 15.8.10)."""
+    return backends.engine.resolve_thread(thread_id)
+
+
+@router.post("/threads/{thread_id}/reopen")
+def reopen_thread(thread_id: str, backends: BackendsDep) -> Thread:
+    """Reopen a resolved thread."""
+    return backends.engine.reopen_thread(thread_id)
 
 
 @router.get("/directory")

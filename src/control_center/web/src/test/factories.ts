@@ -1,7 +1,14 @@
 /**
  * @file Small, valid API objects for tests. Each takes overrides for the fields a test cares about.
  */
-import type { Approval, ContactsOverview, CriticalDecision, Setting } from "../api/types";
+import type {
+  Approval,
+  ContactsOverview,
+  CriticalDecision,
+  LiveTask,
+  Setting,
+  Thread,
+} from "../api/types";
 
 /** A pending one-tap approval. */
 export function makeApproval(overrides: Partial<Approval> = {}): Approval {
@@ -78,6 +85,53 @@ export function makeDecision(overrides: Partial<CriticalDecision> = {}): Critica
     veto_reason: null,
     open: false,
     vetoable: true,
+    ...overrides,
+  };
+}
+
+/** A thread Bolt is working on, led by Foreman. */
+export function makeThread(overrides: Partial<Thread> = {}): Thread {
+  return {
+    id: "TH-1",
+    title: "Lease Reminders 1.2",
+    kind: "work_item",
+    unit_id: "WI-0031",
+    lead_id: "foreman",
+    lead_name: "Foreman",
+    lead_department: "governance",
+    pipeline: "Development",
+    principal: "owner",
+    state: "working",
+    detail: "Bolt is writing the reminder schedule",
+    since: "Oct 27",
+    closing_summary: null,
+    approval_id: null,
+    ...overrides,
+  };
+}
+
+/** Bolt's running sub-agent session on Foreman's thread. */
+export function makeSession(overrides: Partial<LiveTask> = {}): LiveTask {
+  return {
+    id: "T-1",
+    employee_id: "ENG-1",
+    employee_name: "Bolt",
+    department: "engineering",
+    state: "generating",
+    doing: "is writing the reminder schedule",
+    item: "WI-0031 Lease Reminders",
+    model: "coding model",
+    lane: "development",
+    started_at: null,
+    tokens_per_second: 41,
+    queued: false,
+    paused: false,
+    waiting_on: null,
+    blocked_code: null,
+    thread_id: "TH-1",
+    thread_title: "Lease Reminders 1.2",
+    lead_name: "Foreman",
+    session_state: "running",
     ...overrides,
   };
 }

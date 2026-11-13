@@ -17,6 +17,9 @@ TEAM_SHOWN = 4
 def build_today(backends: Backends, now: datetime) -> TodayOverview:
     """Gather Today's sections from the gate, the engine and the status aggregator."""
     approvals = [a for a in backends.gate.list_approvals() if a.state == "pending"]
+    threads = backends.engine.threads().open
+    # A thread that waits on an approval card is already in Needs you, as that card.
+    asking = [t for t in threads if t.state == "needs_owner" and t.approval_id is None]
     tasks = backends.engine.live_tasks()
     steps = backends.engine.setup_steps()
     required = [step for step in steps if step.required]
@@ -28,7 +31,10 @@ def build_today(backends: Backends, now: datetime) -> TodayOverview:
         greeting=_greeting(local.hour),
         open_decision=_first_open(backends.gate.list_decisions()),
         needs_you=approvals[:NEEDS_YOU_SHOWN],
-        needs_you_count=len(approvals),
+        needs_you_threads=asking,
+        needs_you_count=len(approvals) + len(asking),
+        blocked_threads=sum(1 for t in threads if t.state == "blocked"),
+        review_ready_threads=sum(1 for t in threads if t.state == "review_ready"),
         agenda=backends.engine.agenda(),
         team=_team(tasks),
         tasks=tasks,

@@ -598,3 +598,8 @@ dl.list.facts {
   color: var(--muted);
   filter: grayscale(1);
 }
+
+/* A sub-agent's session, nested under its lead's on Live (spec 15.8.9). */
+.list-row.sub-agent {
+  padding-left: var(--space-6);
+}

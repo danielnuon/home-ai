@@ -6,7 +6,7 @@ from typing import Literal
 from control_center.contract.base import ContractModel
 from control_center.contract.common import Department, EmployeeState, Metric, StatusLabel
 from control_center.contract.gate import Approval, CriticalDecision
-from control_center.contract.work import LiveTask
+from control_center.contract.work import LiveTask, Thread
 
 
 class AgendaItem(ContractModel):
@@ -50,13 +50,21 @@ class SetupProgress(ContractModel):
 
 
 class TodayOverview(ContractModel):
-    """Everything on Today, in one request (spec 7.17: one data request per page)."""
+    """Everything on Today, in one request (spec 7.17: one data request per page).
+
+    `needs_you_threads` are the threads waiting on an Owner decision that is not one of the
+    approval cards in `needs_you`; `needs_you_count` counts both. Threads ready for review are
+    counted apart and stay out of Needs you, because nothing waits on them (spec 15.8.9).
+    """
 
     date: str
     greeting: str
     open_decision: CriticalDecision | None
     needs_you: list[Approval]
+    needs_you_threads: list[Thread]
     needs_you_count: int
+    blocked_threads: int
+    review_ready_threads: int
     agenda: list[AgendaItem]
     team: list[TeamMember]
     tasks: list[LiveTask]

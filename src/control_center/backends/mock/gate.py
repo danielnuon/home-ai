@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock import setting_rules
-from control_center.backends.mock.fixtures import gate as gate_fixtures
+from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
 from control_center.backends.mock.world import MockWorld
@@ -28,8 +28,8 @@ from control_center.contract.gate import (
 UNDO_WINDOW = timedelta(seconds=8)
 """How long the gate holds an approved action so the Owner can undo it (spec 7.15, "Undo 8 s")."""
 
-APPROVAL_PAGES = ("approvals", "today", "platform", "chat")
-"""The resources that show approval cards; each refetches when a card changes."""
+APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
+"""The resources that show approval cards, or a thread waiting on one."""
 
 
 class MockApprovalGate(DecisionLedger, GateControls):
@@ -120,7 +120,7 @@ class MockApprovalGate(DecisionLedger, GateControls):
         """Every setting, and the hard limits."""
         return SettingsIndex(
             settings=list(self._world.settings.values()),
-            hard_limits=gate_fixtures.hard_limits(),
+            hard_limits=settings_fixtures.hard_limits(),
         )
 
     def _setting(self, key: str) -> Setting:
@@ -183,7 +183,7 @@ class MockApprovalGate(DecisionLedger, GateControls):
         world = self._world
         pending = sum(1 for a in self.list_approvals() if a.state == "pending")
         open_decisions = sum(1 for d in self.list_decisions() if d.open)
-        running = sum(1 for t in world.tasks.values() if not t.queued)
+        running = sum(1 for t in world.tasks.values() if t.session_state == "running")
         if world.stopped:
             overall = StatusLabel(status="problem", label="Stopped")
         elif world.is_on("away_mode"):
