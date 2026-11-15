@@ -1804,7 +1804,7 @@ export interface components {
     };
     /**
      * MemoryZone
-     * @description One zone of the 48GB memory budget (spec 8.3), in gigabytes.
+     * @description One zone of the 64GB memory budget (spec 8.3), in gigabytes.
      */
     MemoryZone: {
       /** Name */

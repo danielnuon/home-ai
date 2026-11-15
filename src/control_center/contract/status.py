@@ -23,7 +23,7 @@ class ImpactLine(ContractModel):
 
 
 class MemoryZone(ContractModel):
-    """One zone of the 48GB memory budget (spec 8.3), in gigabytes."""
+    """One zone of the 64GB memory budget (spec 8.3), in gigabytes."""
 
     name: str
     used_gb: float

@@ -55,7 +55,7 @@ def _paid_feature(
     ]
 
 
-CLOUD_NOTE = "Cloud model · used only where it beats local by 15% and data allows"
+CLOUD_NOTE = "Cloud model · used only at targeted points and where data allows"
 
 
 def _model_settings() -> list[Setting]:

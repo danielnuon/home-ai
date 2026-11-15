@@ -190,7 +190,7 @@ class MockPipelineEngine(WorkDesk):
         running = self._world.maintenance_running
         return MaintenanceOverview(
             running=running,
-            summary="Custodian · 2 repositories opted in · 0 reverts in 30 days",
+            summary="Custodian · 2 products scanned, 2 with fixes on · 0 reverts in 30 days",
             stats=ops.maintenance_stats(),
             batch=list(self._world.fixes.values()),
             findings=ops.findings(),
