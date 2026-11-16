@@ -117,7 +117,7 @@ def decisions(now: datetime) -> list[CriticalDecision]:
             ),
             RejectedOption(
                 option="Use the larger 8-bit build",
-                effect="does not fit the 27GB pool beside EMBED",
+                effect="does not fit the 42GB pool beside EMBED",
                 outcome="rejected",
             ),
         ],

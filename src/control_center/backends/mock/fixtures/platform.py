@@ -20,10 +20,10 @@ MEMORY_ZONES = [
     MemoryZone(name="macOS and your session", used_gb=7.1, budget_gb=8),
     MemoryZone(name="Containers (Colima)", used_gb=4.2, budget_gb=6),
     MemoryZone(name="Platform services", used_gb=2.1, budget_gb=3),
-    MemoryZone(name="Model pool", used_gb=22.0, budget_gb=27),
-    MemoryZone(name="Headroom, never used", used_gb=0, budget_gb=4),
+    MemoryZone(name="Model pool", used_gb=22.0, budget_gb=42),
+    MemoryZone(name="Headroom, never used", used_gb=0, budget_gb=5),
 ]
-"""The 8 / 6 / 3 / 27 / 4 GB budget of spec 8.3, with sample usage."""
+"""The 8 / 6 / 3 / 42 / 5 GB budget of spec 8.3 (64GB Mac, decision 95), with sample usage."""
 
 
 def system_tiles() -> list[Metric]:
@@ -147,7 +147,7 @@ def service_groups() -> list[ServiceGroup]:
         ServiceGroup(
             name="In your session",
             services=[
-                service("mlx-worker", "MLX worker", "owner · mode L · 22 / 27 GB"),
+                service("mlx-worker", "MLX worker", "owner · mode L · 22 / 42 GB"),
                 service("colima", "Colima VM", "owner · 6 GB · 2 containers"),
                 service("docker-proxy", "Docker API proxy", "owner · 0 refused today"),
                 service("mac-bridge", "Mac bridge", "owner · 4 of 5 permissions"),

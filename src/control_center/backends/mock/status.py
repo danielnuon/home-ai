@@ -90,7 +90,7 @@ class MockStatusAggregator:
         """Machine, memory zones and hardware signals."""
         return SystemOverview(
             summary=StatusLabel(status="healthy", label="All clear"),
-            machine="Mac mini M5 Pro · 48 GB · up 12 d 4 h · 0 unexpected reboots",
+            machine="Mac mini M5 Pro · 64 GB · up 12 d 4 h · 0 unexpected reboots",
             zones=platform.MEMORY_ZONES,
             pressure=StatusLabel(status="healthy", label="Normal"),
             swap="0.3 GB · alert at 2 GB",
