@@ -43,12 +43,16 @@ check "Remote Login (SSH) on"               bash -c 'launchctl print system/com.
 check "SSH public keys only"                bash -c '/usr/sbin/sshd -T | grep -qx "passwordauthentication no"'
 check "Screen Sharing on"                   bash -c 'launchctl print system/com.apple.screensharing >/dev/null'
 check "pf enabled"                          bash -c 'pfctl -s info | grep -q "Status: Enabled"'
+# The main ruleset must call the anchor: rules sitting in an uncalled anchor do nothing (decision 102 e).
+check "main pf ruleset calls the aiplatform anchor" bash -c 'pfctl -s rules | grep -q "^anchor \"aiplatform\""'
 check "pf anchor limits 22 and 5900 to the tailnet" bash -c 'pfctl -a aiplatform -s rules | grep -q "5900"'
-check "pf LaunchDaemon loaded at boot"      launchctl print system/com.aiplatform.pf
+check "pf guard LaunchDaemon loaded (every 60 s)" launchctl print system/com.aiplatform.pf
 
 step "Tailscale (24.3 step 6)"
 check "tailscaled system daemon loaded"     launchctl print system/com.tailscale.tailscaled
 check "signed in to the tailnet"            bash -c 'tailscale status >/dev/null'
+# With key expiry disabled, Self carries no KeyExpiry (decision 102 d) [CHECK on first run].
+check "key expiry disabled for this Mac"    bash -c '! tailscale status --json --peers=false | grep -q "\"KeyExpiry\""'
 check "MagicDNS resolver 100.100.100.100 set" bash -c 'scutil --dns | grep -q 100.100.100.100'
 tailscale version 2>/dev/null | head -1 | sed 's/^/  version /' || true
 

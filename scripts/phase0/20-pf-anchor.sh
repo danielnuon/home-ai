@@ -14,6 +14,8 @@ PF_DIR=/etc/aiplatform/pf
 PLIST=/Library/LaunchDaemons/com.aiplatform.pf.plist
 ensure_dir /etc/aiplatform root wheel 755
 ensure_dir "${PF_DIR}" root wheel 755
+ensure_dir /opt/aiplatform root wheel 755
+ensure_dir /opt/aiplatform/bin root wheel 755
 
 install_file() {  # path mode < content
   local path="$1" mode="$2" tmp
@@ -44,6 +46,23 @@ EOF
 pfctl -nf "${PF_DIR}/pf.conf" || die "pf rejects ${PF_DIR}/pf.conf; nothing was loaded"
 ok "ruleset parses"
 
+# The guard runs at boot and every 60 seconds (decision 102 e): Apple's own boot job reloads
+# /etc/pf.conf, which drops the call to our anchor while the anchor keeps its rules, so the
+# guard checks the main ruleset itself and reloads ours whenever the call is missing.
+install_file /opt/aiplatform/bin/pf-guard.sh 755 <<EOF
+#!/bin/bash
+# Installed by scripts/phase0/20-pf-anchor.sh (spec 4.4, decision 102 e).
+set -u
+if ! /sbin/pfctl -s info 2>/dev/null | grep -q 'Status: Enabled'; then
+  /sbin/pfctl -E >/dev/null 2>&1
+  echo "\$(date -u +%FT%TZ) pf was disabled; enabled"
+fi
+if ! /sbin/pfctl -s rules 2>/dev/null | grep -q '^anchor "aiplatform"'; then
+  /sbin/pfctl -f ${PF_DIR}/pf.conf 2>&1
+  echo "\$(date -u +%FT%TZ) main ruleset lacked the aiplatform anchor; reloaded"
+fi
+EOF
+
 install_file "${PLIST}" 644 <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -51,8 +70,10 @@ install_file "${PLIST}" 644 <<EOF
 <dict>
   <key>Label</key><string>com.aiplatform.pf</string>
   <key>ProgramArguments</key>
-  <array><string>/sbin/pfctl</string><string>-E</string><string>-f</string><string>${PF_DIR}/pf.conf</string></array>
+  <array><string>/opt/aiplatform/bin/pf-guard.sh</string></array>
   <key>RunAtLoad</key><true/>
+  <key>StartInterval</key><integer>60</integer>
+  <key>StandardOutPath</key><string>/var/log/aiplatform-pf.log</string>
   <key>StandardErrorPath</key><string>/var/log/aiplatform-pf.log</string>
 </dict>
 </plist>
@@ -63,5 +84,6 @@ launchctl bootout system/com.aiplatform.pf 2>/dev/null || true
 launchctl bootstrap system "${PLIST}"
 sleep 1
 if pfctl -s info 2>/dev/null | grep -q 'Status: Enabled'; then ok "pf enabled"; else fail "pf not enabled"; fi
-if pfctl -a aiplatform -s rules 2>/dev/null | grep -q '5900'; then ok "aiplatform anchor loaded"
+if pfctl -s rules 2>/dev/null | grep -q '^anchor "aiplatform"' && pfctl -a aiplatform -s rules 2>/dev/null | grep -q '5900'
+then ok "main ruleset calls the aiplatform anchor, and the anchor holds its rules"
 else fail "aiplatform anchor not loaded; see /var/log/aiplatform-pf.log"; fi

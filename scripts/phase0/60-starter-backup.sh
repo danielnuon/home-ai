@@ -38,8 +38,10 @@ else
 EOF
   read -r -p "  Type 'written' once it is on paper: " answer
   [[ "${answer}" == "written" ]] || die "stopped; the password was not stored, rerun to get a new one"
-  security add-generic-password -a root -s "${RESTIC_KEYCHAIN_SERVICE}" -T /usr/bin/security \
-    -w "${password}" "${SYSTEM_KEYCHAIN}"
+  # Sent through security's interactive mode on stdin, so the password never appears in a
+  # process's arguments (printf is a shell builtin, not a process) [CHECK on first run].
+  printf 'add-generic-password -a root -s %s -T /usr/bin/security -w "%s" %s\n' \
+    "${RESTIC_KEYCHAIN_SERVICE}" "${password}" "${SYSTEM_KEYCHAIN}" | security -i >/dev/null
   unset password
   clear
   did "password stored in the System keychain"
