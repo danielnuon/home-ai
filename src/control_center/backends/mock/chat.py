@@ -1,4 +1,4 @@
-"""Mock chat relay: keeps each lead's history and streams a canned reply word by word."""
+"""Mock lead chat: keeps each lead's history and streams a canned reply word by word."""
 
 import asyncio
 import secrets
@@ -12,8 +12,8 @@ WORD_DELAY_SECONDS = 0.06
 """Pause between streamed words, close to a local model's speed on this hardware (8.1)."""
 
 
-class MockChatRelay:
-    """In-memory stand-in for the chat relay (spec 6.2). Implements `ChatRelay`.
+class MockLeadChat:
+    """In-memory stand-in for the engine's chat endpoints (spec 6.2). Implements `LeadChat`.
 
     `send` must be called from inside the server's event loop, because it schedules the streamed
     reply on that loop.
@@ -75,7 +75,7 @@ class MockChatRelay:
             author="lead",
             text="",
             at=self._world.clock(),
-            note="Mock relay · nothing sent anywhere",
+            note="Mock chat · nothing sent anywhere",
             streaming=True,
         )
         self._world.chats[lead_id].append(message)

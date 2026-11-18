@@ -28,7 +28,7 @@ Browser (React)                    Brain server (FastAPI, 127.0.0.1:8406)       
 pages ── queries.ts ─ GET /api/v1/* ▶ routes/*  ──▶ ApprovalGate     ──▶ mock today,
       ── actions.ts ── POST/PUT ───▶  (no rules)  PipelineEngine        real services
       ◀─ events.ts ◀── SSE /api/v1/events ◀────── StatusAggregator      later (24.1)
-                                                  ChatRelay
+                                                  LeadChat
                                                   EventBus (fan-out, replay)
 ```
 

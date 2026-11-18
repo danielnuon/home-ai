@@ -8,8 +8,8 @@ Each protocol mirrors one real interface in spec 6.2:
   work, the directory, personal records, Setup, the schedule and maintenance.
 - `StatusAggregator`: Brain's own aggregator of every service's `GET /health` and `GET /metrics`,
   the watchdog's status file and the audit query socket (spec 7.3).
-- `ChatRelay`: the relay that alone holds the OpenClaw gateway token and forwards only
-  `chat.history` and `chat.send` for the leads' web identities (spec 6.2, decision 80).
+- `LeadChat`: the pipeline engine's chat endpoints on 127.0.0.1:8407, which run each turn in the
+  thread's lead session (spec 6.2, 15.8.8, decision 103).
 
 Only mocks implement them today (`control_center.backends.mock`). They exist as protocols rather
 than as the mocks' concrete types because each one gets a second, real implementation in the build
@@ -306,8 +306,8 @@ class StatusAggregator(Protocol):
         ...
 
 
-class ChatRelay(Protocol):
-    """Web chat with the leads, through the chat relay (spec 6.2)."""
+class LeadChat(Protocol):
+    """Web chat with the leads, through the pipeline engine's chat endpoints (spec 6.2)."""
 
     def thread(self, lead_id: str) -> ChatThread:
         """The lead and its message history."""
@@ -325,5 +325,5 @@ class Backends:
     gate: ApprovalGate
     engine: PipelineEngine
     status: StatusAggregator
-    chat: ChatRelay
+    chat: LeadChat
     bus: EventBus
