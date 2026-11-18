@@ -1,5 +1,7 @@
 # Phase 0 runbook: the Owner's privileged steps
 
+To have Claude Code run these for you, use `QUICKSTART.md` instead; this is the manual version.
+
 Spec 24.3, 4.4, 5.3, 5.5 and 13.1, in the order to run them on the Mac mini. Each script is
 idempotent: rerunning it changes only what is missing and prints `ok`, `changed`, `skipped`,
 `WARN` or `FAIL` per item. Allow about 1.5 hours [estimate].

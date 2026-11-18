@@ -46,6 +46,13 @@ require_macos() {
   [[ "$(uname -s)" == "Darwin" ]] || die "run this on the Mac mini, not $(uname -s)"
 }
 
+# sudo for scripts that run as deskadmin. Under Claude Code there is no terminal for sudo's
+# prompt, so the quick start sets SUDO_ASKPASS to askpass.sh and macOS shows a password dialog;
+# the password goes from the dialog to sudo and never through Claude.
+asroot() {
+  if [[ -n "${SUDO_ASKPASS:-}" ]]; then sudo -A "$@"; else sudo "$@"; fi
+}
+
 require_root() {
   require_macos
   [[ "${EUID}" -eq 0 ]] || die "run with sudo from the deskadmin account"

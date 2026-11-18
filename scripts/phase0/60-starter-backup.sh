@@ -26,6 +26,9 @@ step "Repository password (System keychain, and on paper with the FileVault reco
 if security find-generic-password -s "${RESTIC_KEYCHAIN_SERVICE}" "${SYSTEM_KEYCHAIN}" >/dev/null 2>&1; then
   ok "password already in the System keychain (not shown)"
 else
+  # The password is shown on screen once. Refuse to show it anywhere but a person's own
+  # terminal, so it never lands in an AI session's transcript or a log (quick start step 6).
+  [[ -t 0 && -t 1 ]] || die "run this step yourself in a Terminal window, not through Claude or a pipe"
   password="$(openssl rand -base64 30 | tr -d '/+=' | cut -c1-32)"
   clear
   cat <<EOF

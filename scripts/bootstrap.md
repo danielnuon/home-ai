@@ -1,6 +1,6 @@
 # Day 0 desk checklist (24.5, part 1)
 
-Print this. Each line points to its step in `owner_privileged_steps.md`. Tick it when done.
+Print this. `QUICKSTART.md` has Claude Code do most of these for you. Each line points to its step in `owner_privileged_steps.md`. Tick it when done.
 Secrets go only on the paper sheet, never in a file or chat.
 
 | Done | ID | What | Step |
