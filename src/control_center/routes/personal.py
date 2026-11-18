@@ -77,5 +77,5 @@ def chat_thread(lead_id: str, backends: BackendsDep) -> ChatThread:
 
 @router.post("/chat/{lead_id}")
 async def chat_send(lead_id: str, body: ChatSend, backends: BackendsDep) -> ChatThread:
-    """Send a message. Async because the mock relay streams its reply on the event loop."""
+    """Send a message. Async because the mock chat streams its reply on the event loop."""
     return backends.chat.send(lead_id, body.text)

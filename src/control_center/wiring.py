@@ -1,6 +1,6 @@
 """Which implementation of each backend Brain uses. The only place that names the mocks."""
 
-from control_center.backends.mock.chat import MockChatRelay
+from control_center.backends.mock.chat import MockLeadChat
 from control_center.backends.mock.engine import MockPipelineEngine
 from control_center.backends.mock.gate import MockApprovalGate
 from control_center.backends.mock.status import MockStatusAggregator
@@ -17,7 +17,7 @@ def build_mock_backends() -> tuple[Backends, MockWorld]:
         gate=MockApprovalGate(world),
         engine=MockPipelineEngine(world),
         status=MockStatusAggregator(world),
-        chat=MockChatRelay(world),
+        chat=MockLeadChat(world),
         bus=bus,
     )
     return backends, world

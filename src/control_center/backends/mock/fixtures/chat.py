@@ -11,7 +11,7 @@ LEADS = [
     ChatLead(id="custodian", name="Custodian", title="Maintenance Lead", department="engineering"),
     ChatLead(id="wayfinder", name="Wayfinder", title="Platform Guide", department="governance"),
 ]
-"""The leads with web identities (spec 7.8). Brain may chat with these and no one else."""
+"""The leads web chat reaches (spec 7.8, 22.4). Brain may chat with these and no one else."""
 
 
 def atlas_history(now: datetime) -> list[ChatMessage]:
@@ -48,7 +48,7 @@ def atlas_history(now: datetime) -> list[ChatMessage]:
 
 
 MOCK_REPLY = (
-    "I'm the mock relay, standing in for {name} until OpenClaw runs on the Mac. "
-    "In the real platform this answer comes from {name}'s web identity through the chat relay."
+    "I'm the mock chat, standing in for {name} until the platform runs on the Mac. "
+    "In the real platform this answer comes from {name}'s lead session in the pipeline engine."
 )
 """What every lead says in the mock. Plain about being a stand-in, so nobody mistakes it."""
