@@ -78,7 +78,8 @@ expect_mode /var/lib/aiplatform/gate      aigate:aigate:700
 expect_mode /var/lib/aiplatform/ledger    aiegress:aiegress:700
 expect_mode /var/lib/aiplatform/portal    aiportal:aiportal:700
 expect_mode /var/lib/aiplatform/site      aitools:aisite:2750
-expect_mode /var/lib/aiplatform/openclaw  aiagent:aiagent:700
+expect_mode /var/lib/aiplatform/assistant aiagent:aiagent:700
+expect_mode /var/lib/aiplatform/memory    aitools:aitools:700
 expect_mode /var/log/aiplatform/audit     root:wheel:700
 # A permission test, not only a mode read: a service user cannot read another's state.
 check "aiportal cannot list aitools state"  bash -c '! sudo -u aiportal ls /var/lib/aiplatform/tasks'

@@ -22,7 +22,8 @@ ensure_dir /var/lib/aiplatform/gate/voices aigate  aigate   700
 ensure_dir /var/lib/aiplatform/ledger     aiegress aiegress 700
 ensure_dir /var/lib/aiplatform/portal     aiportal aiportal 700
 ensure_dir /var/lib/aiplatform/site       aitools  aisite   2750
-ensure_dir /var/lib/aiplatform/openclaw   aiagent  aiagent  700
+ensure_dir /var/lib/aiplatform/assistant  aiagent  aiagent  700
+ensure_dir /var/lib/aiplatform/memory     aitools  aitools  700
 ensure_dir /var/log/aiplatform            root     wheel    755
 ensure_dir /var/log/aiplatform/audit      root     wheel    700
 ensure_dir "${EVIDENCE_DIR}"              root     wheel    755
