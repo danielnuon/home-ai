@@ -59,6 +59,13 @@ for repo in "${repos[@]}"; do
   ok "restic check --read-data"
   scratch="/var/backups/aiplatform/restore-test-${STAMP}"
   "${RESTIC_BIN}" -r "${repo}" restore latest --target "${scratch}" --include "${CANARY}"
+  # The restored copy must be a real folder inside the scratch folder. If restic ever restored
+  # /var (a symlink to /private/var on macOS) as a link, the path would lead back to the live
+  # canary and the comparison would pass against itself.
+  real="$(cd "${scratch}${CANARY}" 2>/dev/null && pwd -P || true)"
+  if [[ "${real}" != "$(cd "${scratch}" && pwd -P)"/* ]]; then
+    fail "restored canary is not inside ${scratch} (${real:-missing})"; result=fail; rm -rf "${scratch}"; continue
+  fi
   restored="$(manifest "${scratch}${CANARY}")"
   if [[ "${restored}" == "${expected}" ]]; then
     ok "restored canary matches: contents, owners, modes and links"

@@ -53,7 +53,7 @@ Rules:
 Steps:
 1. Download the repository without git:
    curl -fsSL https://github.com/danielnuon/home-ai/archive/refs/heads/main.tar.gz | tar xz -C ~
-   Then cd ~/home-ai-main/scripts/phase0 and run `xattr -dr com.apple.quarantine .` there.
+   Then cd ~/home-ai-main/scripts/phase0 and run `xattr -cr .` there.
 2. Run ./00-preflight.sh and summarize it in five lines: macOS build, chip and memory,
    whether FileVault is on, whether deskadmin and owner exist with the right roles, and whether
    /Volumes/Data is mounted.
@@ -78,20 +78,24 @@ Steps:
 10. Ask me to run this in my own Terminal window and reply "done":
     cd ~/home-ai-main/scripts/phase0 && sudo ./60-starter-backup.sh
 11. Run 70-restore-test.sh with sudo -A. It must end with "restore test: pass".
-12. Run 90-verify.sh with sudo -A. Then walk me through its three MANUAL checks one at a time
-    (the authrestart remote login from my MacBook, the LAN block test, and the UPS check if I
-    have one). Before the authrestart, tell me this session will end and that I should reopen
-    Claude Code afterwards and say "continue Phase 0 from step 12".
+12. Run 90-verify.sh with sudo -A. Then walk me through its three MANUAL checks one at a time:
+    the LAN block test and the UPS check (if I have one) first, then the authrestart remote
+    login from my MacBook. `fdesetup authrestart` asks for a FileVault user's password, so I run
+    `sudo fdesetup authrestart` myself in my own Terminal. Before that, tell me this session will
+    end and that I should reopen Claude Code afterwards and say "continue Phase 0 from step 13".
 13. Write ~/phase0-summary.md: each step with ok, changed, skipped or FAIL, the versions of
     macOS, tailscale and restic, every [CHECK] line the scripts printed, and the paths of the
     newest verify-*.txt and restore-test-*.txt in /var/log/aiplatform/phase0/. It must not
-    contain any secret. Tell me to share that file in my project thread.
+    contain any secret. Tell me to share that file in my project thread, then to log out of
+    deskadmin and log in as owner with the screen locked (spec 5.1 and 5.3: deskadmin is never
+    left logged in).
 ```
 
 ## While it runs
 
 - **A "sudo" password dialog** is Claude asking to run one administrator step. Type the
-  `deskadmin` password into the dialog. Never type it into the chat.
+  `deskadmin` password into the dialog. Never type it into the chat. Expect about ten of them,
+  because sudo can't remember the password without a terminal.
 - **Claude Code also asks before each command.** Read the command, then approve it.
 - **The backup password** (step 10) appears only in your own Terminal window. Write it on paper,
   then type `written`.
@@ -99,7 +103,8 @@ Steps:
 ## When it ends
 
 Share `~/phase0-summary.md` in the project thread. The results then go into `INFRASTRUCTURE.md`,
-Phase 0 closes, and Phase 0a (hardware acceptance, inside the return window) starts. When the
+Phase 0 closes, and Phase 0a (hardware acceptance) starts. Phase 0a must finish, with its
+keep-or-return record, before the return window closes; see the dates in decision 107. When the
 working drive arrives, follow step 11 of `owner_privileged_steps.md`, then ask Claude to rerun
 `40-directories.sh`, `70-restore-test.sh` and `90-verify.sh`. The backup switches to two-drive
 mode by itself.
