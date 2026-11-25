@@ -25,7 +25,7 @@ if asroot launchctl print system/com.tailscale.tailscaled >/dev/null 2>&1; then 
 else asroot "$(brew --prefix)/bin/tailscaled" install-system-daemon; did "tailscaled installed as a LaunchDaemon"; fi
 
 step "Join the tailnet"
-if tailscale status >/dev/null 2>&1; then ok "already signed in as $(tailscale status --self --json 2>/dev/null | grep -m1 '"DNSName"' | cut -d'"' -f4)"
+if tailscale status >/dev/null 2>&1; then ok "already signed in as $(tailscale status --json --peers=false 2>/dev/null | grep -m1 '"DNSName"' | cut -d'"' -f4)"
 else
   echo "  Open the link below on your phone or MacBook and sign in with your Tailscale account."
   asroot tailscale up
@@ -53,7 +53,7 @@ if [[ "${1:-}" == "--serve-check" ]]; then
   trap 'kill ${server} 2>/dev/null; asroot tailscale serve reset 2>/dev/null || true' EXIT
   sleep 1
   asroot tailscale serve --bg 8406
-  name="$(tailscale status --self --json | grep -m1 '"DNSName"' | cut -d'"' -f4)"; name="${name%.}"
+  name="$(tailscale status --json --peers=false | grep -m1 '"DNSName"' | cut -d'"' -f4)"; name="${name%.}"
   if curl -fsS --max-time 30 "https://${name}/" >/dev/null; then ok "https://${name}/ served with a trusted certificate"
   else fail "serve over HTTPS did not answer; check that HTTPS certificates are on in the admin console"; fi
 fi

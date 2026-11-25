@@ -11,7 +11,7 @@ require_root
 
 step "Power (4.4): never sleep, disks never sleep, restart after power failure, wake on network"
 pmset -a sleep 0 disksleep 0 autorestart 1 womp 1
-pmset -g | grep -E ' sleep |disksleep|autorestart|womp'
+pmset -g | grep -E ' sleep |disksleep|autorestart|womp' || true
 if pmset -g batt | grep -qi 'UPS'; then
   pmset -u haltlevel 30
   did "UPS found: shut down at 30% battery"

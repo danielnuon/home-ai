@@ -48,7 +48,7 @@ As `deskadmin`, either download the repository ZIP from GitHub in Safari, or Air
 
 ```sh
 cd ~/Downloads/home-ai/scripts/phase0     # wherever it landed
-xattr -dr com.apple.quarantine .           # downloaded scripts are quarantined
+xattr -cr .                                # clear the download quarantine
 ./00-preflight.sh                          # read-only inventory; save its output
 ```
 
