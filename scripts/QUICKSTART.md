@@ -45,6 +45,8 @@ Rules:
   deskadmin password into a macOS dialog, not into this chat.
 - Do not run 60-starter-backup.sh yourself. When you reach it, ask me to run it in my own
   Terminal window, because it shows the backup password once for my paper copy.
+- Stay in Claude Code's default permission mode, where I approve each command. Before I type a
+  password into a sudo dialog, show me the exact `sudo -A` command it is for.
 - Do not erase, format or partition any disk. Do not turn FileVault off or change it.
 - Change nothing outside what the scripts do. If a script prints FAIL or exits with an error,
   stop, show me the output, explain what you think went wrong, and wait for me.
@@ -52,8 +54,9 @@ Rules:
 
 Steps:
 1. Download the repository without git:
-   curl -fsSL https://github.com/danielnuon/home-ai/archive/refs/heads/main.tar.gz | tar xz -C ~
-   Then cd ~/home-ai-main/scripts/phase0 and run `xattr -cr .` there.
+   mkdir -p ~/home-ai-phase0 && curl -fsSL https://github.com/danielnuon/home-ai/archive/9e9e6afb5d92c76b128bddd253684a9824a4f45d.tar.gz | tar xz -C ~/home-ai-phase0 --strip-components 1
+   This is pinned to one reviewed commit, so a later push to main cannot change what runs
+   under sudo. Then cd ~/home-ai-phase0/scripts/phase0 and run `xattr -cr .` there.
 2. Run ./00-preflight.sh and summarize it in five lines: macOS build, chip and memory,
    whether FileVault is on, whether deskadmin and owner exist with the right roles, and whether
    /Volumes/Data is mounted.
@@ -76,14 +79,15 @@ Steps:
    If a new external drive is attached but not set up, do not touch it. Tell me to follow step 11
    of owner_privileged_steps.md, which erases the drive, and wait.
 10. Ask me to run this in my own Terminal window and reply "done":
-    cd ~/home-ai-main/scripts/phase0 && sudo ./60-starter-backup.sh
+    cd ~/home-ai-phase0/scripts/phase0 && sudo ./60-starter-backup.sh
 11. Run 70-restore-test.sh with sudo -A. It must end with "restore test: pass".
 12. Run 90-verify.sh with sudo -A. Then walk me through its three MANUAL checks one at a time:
     the LAN block test and the UPS check (if I have one) first, then the authrestart remote
     login from my MacBook. `fdesetup authrestart` asks for a FileVault user's password, so I run
     `sudo fdesetup authrestart` myself in my own Terminal. Before that, tell me this session will
     end and that I should reopen Claude Code afterwards and say "continue Phase 0 from step 13".
-13. Write ~/phase0-summary.md: each step with ok, changed, skipped or FAIL, the versions of
+13. Write ~/phase0-summary.md: the commit the scripts came from (step 1), each step with ok,
+    changed, skipped or FAIL, the versions of
     macOS, tailscale and restic, every [CHECK] line the scripts printed, and the paths of the
     newest verify-*.txt and restore-test-*.txt in /var/log/aiplatform/phase0/. It must not
     contain any secret. Tell me to share that file in my project thread, then to log out of
@@ -96,7 +100,9 @@ Steps:
 - **A "sudo" password dialog** is Claude asking to run one administrator step. Type the
   `deskadmin` password into the dialog. Never type it into the chat. Expect about ten of them,
   because sudo can't remember the password without a terminal.
-- **Claude Code also asks before each command.** Read the command, then approve it.
+- **Claude Code also asks before each command.** Keep it in its default permission mode (no
+  auto-accept or bypass). The password dialog doesn't say what it's for, so read the `sudo -A`
+  command Claude Code shows you before typing the password.
 - **The backup password** (step 10) appears only in your own Terminal window. Write it on paper,
   then type `written`.
 
