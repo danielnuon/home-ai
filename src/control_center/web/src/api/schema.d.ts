@@ -782,7 +782,7 @@ export interface paths {
     put?: never;
     /**
      * Chat Send
-     * @description Send a message. Async because the mock relay streams its reply on the event loop.
+     * @description Send a message. Async because the mock chat streams its reply on the event loop.
      */
     post: operations["chat_send_api_v1_chat__lead_id__post"];
     delete?: never;
