@@ -24,13 +24,14 @@ types:  ## Regenerate the front end's API types from the server's models.
 	uv run python scripts/export_openapi.py build/openapi.json
 	cd $(WEB) && pnpm types
 
-lint:  ## Every style, type, docstring, dead-code and duplication check.
+lint:  ## Every style, type, docstring, dead-code and duplication check, and shellcheck on scripts/phase0.
 	uv run ruff format --check .
 	uv run ruff check .
 	uv run mypy
 	uv run lint-imports
 	uv run pydoclint src
 	uv run vulture
+	uv run shellcheck -x -S warning scripts/phase0/*.sh
 	cd $(WEB) && pnpm lint && pnpm exec tsc -b
 
 test:  ## Server and front-end tests.
