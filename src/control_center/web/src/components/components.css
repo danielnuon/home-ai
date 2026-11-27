@@ -721,6 +721,11 @@ dl.list.facts {
   box-shadow: none;
 }
 
+/* No card, so no scroll-light sheen across it either (spec 7.12, "Light"). */
+.shell-phone .chat::before {
+  content: none;
+}
+
 .shell-phone .chat-head {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
@@ -742,11 +747,18 @@ dl.list.facts {
   display: none;
 }
 
+/*
+ * Fixed to the screen, not sticky: a sticky box anchors to its scroller, and where the page
+ * scrolls inside a frame (the preview) that bottom edge is not the bar's, which left a gap.
+ */
 .shell-phone .composer {
-  position: sticky;
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
-  z-index: 1;
-  margin-inline: calc(-1 * var(--space-4));
+  z-index: 30;
+  height: var(--composer-height);
+  margin: 0;
   padding: var(--space-2) var(--space-4);
   border-top: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 78%, transparent);
@@ -754,9 +766,15 @@ dl.list.facts {
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
 }
 
-/* The page ends at the message box, which rests directly on the bar. */
+/* The page ends just above the message box, which rests directly on the bar. */
+.shell-phone {
+  --composer-height: 57px;
+}
+
 .shell-phone .content:has(.composer) {
-  padding-bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+  padding-bottom: calc(
+    var(--tab-bar-height) + var(--composer-height) + var(--space-3) + env(safe-area-inset-bottom)
+  );
 }
 
 /* The message box already sits on the bar, so the shade above the bar would fall across it. */
