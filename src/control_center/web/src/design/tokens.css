@@ -45,6 +45,9 @@
   --dept-governance: var(--data-3);
   --avatar-eye: #ffffff;
 
+  /* Content dims under an edge it scrolls beneath, such as the tab bar */
+  --edge-shade: rgb(0 0 0 / 10%);
+
   /* The activity field is always dark water, in both themes (design: Today, Live) */
   --field-bg: #0f1418;
   --field-text: #e6e8e6;
@@ -81,6 +84,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="day"]) {
+    --edge-shade: rgb(0 0 0 / 35%);
     --bg: #0f1418;
     --surface: #151c21;
     --raised: #1b242a;
