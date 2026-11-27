@@ -11,8 +11,8 @@ import { useState } from "react";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { CriticalDecision } from "../api/types";
-import { ARRIVE, m } from "../design/motion";
 import { timeLeft } from "../design/time";
+import { Reveal } from "./Reflow";
 import { Sheet } from "./Sheet";
 
 const STATUS_WORDS: Record<CriticalDecision["status"], string> = {
@@ -156,11 +156,9 @@ export function DecisionCard({ decision, full = false }: DecisionCardProps) {
           <ChevronDown size={18} aria-hidden="true" className="expand-chevron" />
         </button>
       )}
-      {(full || expanded) && (
-        <m.div id={reasoningId} className="stack" {...(full ? {} : ARRIVE)}>
-          <Reasoning decision={decision} />
-        </m.div>
-      )}
+      <Reveal when={full || expanded} id={reasoningId} className="stack">
+        <Reasoning decision={decision} />
+      </Reveal>
       {decision.veto_reason && <p className="muted small">Your reason: {decision.veto_reason}</p>}
       {decision.vetoable && <DecisionActions decision={decision} onVeto={() => setVetoing(true)} />}
       <VetoSheet decision={decision} open={vetoing} onClose={() => setVetoing(false)} />

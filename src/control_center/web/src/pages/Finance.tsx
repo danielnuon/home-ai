@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useFinance } from "../api/queries";
 import type { FinanceOverview, Principal } from "../api/types";
 import { Segmented } from "../components/Controls";
+import { Swap } from "../components/Reflow";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { MetricTiles } from "../components/Rows";
@@ -99,11 +100,11 @@ export default function Finance() {
     >
       <QueryState query={query}>
         {(finance) => (
-          <>
+          <Swap id={principal}>
             <Budget finance={finance} />
             <MetricTiles metrics={[finance.net_worth]} />
             <Imports finance={finance} />
-          </>
+          </Swap>
         )}
       </QueryState>
     </Page>

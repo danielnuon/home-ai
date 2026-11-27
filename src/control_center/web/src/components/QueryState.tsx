@@ -7,14 +7,28 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { ApiError } from "../api/client";
+import { Swap } from "./Reflow";
 
 interface QueryStateProps<Data> {
   query: UseQueryResult<Data>;
   children: (data: Data) => ReactNode;
 }
 
-/** Renders `children(data)` once the query has data. */
+/**
+ * Renders `children(data)` once the query has data. The placeholder, an error and the data
+ * crossfade into one another rather than replacing each other in one frame (decision 128).
+ */
 export function QueryState<Data>({ query, children }: QueryStateProps<Data>) {
+  const state = query.data !== undefined ? "data" : query.isError ? "error" : "loading";
+  return (
+    <Swap id={state} className="swap stack">
+      <QueryBody query={query}>{children}</QueryBody>
+    </Swap>
+  );
+}
+
+/** The placeholder, the error with Try again, or the data. */
+function QueryBody<Data>({ query, children }: QueryStateProps<Data>) {
   if (query.data !== undefined) return <>{children(query.data)}</>;
   if (query.isError) {
     const reason = query.error instanceof ApiError ? query.error.reason : "Brain didn't answer.";

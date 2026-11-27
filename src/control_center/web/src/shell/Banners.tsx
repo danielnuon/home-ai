@@ -4,12 +4,41 @@
  * One calm banner per state, never flashing (7.12, "Status"): stopped, away mode, a degraded mode
  * or quiet hours.
  */
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { usePlatform } from "../api/queries";
+import { Reflow, ReflowItem } from "../components/Reflow";
 
-/** The banners for whatever global states are active right now. */
+/** One banner: what is going on, and its way out. */
+function Banner({
+  tone,
+  children,
+  action,
+}: {
+  tone: string;
+  children: ReactNode;
+  action: ReactNode;
+}) {
+  return (
+    <div className={`banner ${tone}`} role="status">
+      <span className="grow">{children}</span>
+      {action}
+    </div>
+  );
+}
+
+/** A banner's way out that is another page. */
+function GoTo({ to, label }: { to: string; label: string }) {
+  return (
+    <Link to={to} className="btn compact">
+      {label}
+    </Link>
+  );
+}
+
+/** The banners for whatever global states are active right now; each one slides in and out. */
 export function Banners() {
   const platform = usePlatform().data;
   const action = useAction({ refresh: ["platform"] });
@@ -18,45 +47,44 @@ export function Banners() {
   const resume = () => action.run((proof) => send("POST", "/platform/resume", undefined, proof));
   const leaveAway = () =>
     action.run((proof) => send("PUT", "/settings/away_mode", { value: "off" }, proof));
+  const button = (label: string, onClick: () => void) => (
+    <button type="button" className="btn compact" disabled={action.busy} onClick={onClick}>
+      {label}
+    </button>
+  );
 
   return (
     <div className="banners">
-      {platform.stopped && (
-        <div className="banner problem" role="status">
-          <span className="grow">
-            ■ Everything is stopped. Nothing runs or leaves the house until you resume.
-          </span>
-          <button type="button" className="btn compact" disabled={action.busy} onClick={resume}>
-            Resume
-          </button>
-        </div>
-      )}
-      {platform.away && (
-        <div className="banner attention" role="status">
-          <span className="grow">
-            ▲ Away mode. Pipelines are paused; reminders and backups keep running.
-          </span>
-          <button type="button" className="btn compact" disabled={action.busy} onClick={leaveAway}>
-            I'm back
-          </button>
-        </div>
-      )}
-      {platform.degraded.map((mode) => (
-        <div key={mode} className="banner attention" role="status">
-          <span className="grow">▲ {mode}</span>
-          <Link to="/system" className="btn compact">
-            See System
-          </Link>
-        </div>
-      ))}
-      {platform.quiet_hours && (
-        <div className="banner info" role="status">
-          <span className="grow">◐ Quiet hours. Alerts are held until morning.</span>
-          <Link to="/schedule" className="btn compact">
-            Schedule
-          </Link>
-        </div>
-      )}
+      <Reflow>
+        {platform.stopped && (
+          <ReflowItem key="stopped">
+            <Banner tone="problem" action={button("Resume", resume)}>
+              ■ Everything is stopped. Nothing runs or leaves the house until you resume.
+            </Banner>
+          </ReflowItem>
+        )}
+        {platform.away && (
+          <ReflowItem key="away">
+            <Banner tone="attention" action={button("I'm back", leaveAway)}>
+              ▲ Away mode. Pipelines are paused; reminders and backups keep running.
+            </Banner>
+          </ReflowItem>
+        )}
+        {platform.degraded.map((mode) => (
+          <ReflowItem key={mode}>
+            <Banner tone="attention" action={<GoTo to="/system" label="See System" />}>
+              ▲ {mode}
+            </Banner>
+          </ReflowItem>
+        ))}
+        {platform.quiet_hours && (
+          <ReflowItem key="quiet">
+            <Banner tone="info" action={<GoTo to="/schedule" label="Schedule" />}>
+              ◐ Quiet hours. Alerts are held until morning.
+            </Banner>
+          </ReflowItem>
+        )}
+      </Reflow>
     </div>
   );
 }

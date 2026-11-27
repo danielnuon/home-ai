@@ -44,7 +44,7 @@ export const useDirectory = () => useResource<T.Directory>(["directory"], "/dire
 export const usePersonal = () => useResource<T.PersonalOverview>(["personal"], "/personal");
 /** Finance for one principal. */
 export const useFinance = (principal: T.Principal) =>
-  useResource<T.FinanceOverview>(["finance", principal], `/finance/${principal}`);
+  useResource<T.FinanceOverview>(["finance", principal], `/finance/${principal}`, true, true);
 /** Contacts and household. */
 export const useContacts = () => useResource<T.ContactsOverview>(["contacts"], "/contacts");
 /** Setup steps. */

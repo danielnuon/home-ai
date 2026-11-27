@@ -35,6 +35,15 @@ export const ARRIVE = {
   transition: { duration: 0.24, ease: [0.2, 0.8, 0.2, 1] },
 } as const;
 
+/**
+ * How a card joins a list that a filter just widened: it fades in from slightly smaller where it
+ * will sit, while the cards already there glide aside (decision 128).
+ */
+export const ENTER = {
+  initial: { opacity: 0, scale: 0.98 },
+  animate: { opacity: 1, scale: 1 },
+} as const;
+
 /** How a card leaves a list: it fades and settles back while the rest close the gap. */
 export const LEAVE = { opacity: 0, scale: 0.98, transition: { duration: 0.16 } } as const;
 

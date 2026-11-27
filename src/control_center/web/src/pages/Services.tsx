@@ -8,6 +8,7 @@ import { useServices } from "../api/queries";
 import type { ServiceRow } from "../api/types";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
+import { Reveal } from "../components/Reflow";
 import { StatusText } from "../design/status";
 
 /** One service; tapping it shows its last log lines. */
@@ -31,27 +32,25 @@ function Service({ service }: { service: ServiceRow }) {
         </span>
         <StatusText value={service.status} className="small" />
       </button>
-      {open && (
-        <div className="service-detail stack">
-          <pre className="log mono tiny">
-            {service.log_lines.join("\n") || "No recent log lines."}
-          </pre>
-          {service.restartable && (
-            <button
-              type="button"
-              className="btn compact"
-              disabled={restart.busy}
-              onClick={() =>
-                restart.run((proof) =>
-                  send("POST", `/services/${service.id}/restart`, undefined, proof),
-                )
-              }
-            >
-              Restart
-            </button>
-          )}
-        </div>
-      )}
+      <Reveal when={open} className="service-detail stack">
+        <pre className="log mono tiny">
+          {service.log_lines.join("\n") || "No recent log lines."}
+        </pre>
+        {service.restartable && (
+          <button
+            type="button"
+            className="btn compact"
+            disabled={restart.busy}
+            onClick={() =>
+              restart.run((proof) =>
+                send("POST", `/services/${service.id}/restart`, undefined, proof),
+              )
+            }
+          >
+            Restart
+          </button>
+        )}
+      </Reveal>
     </div>
   );
 }
