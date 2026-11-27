@@ -1,21 +1,13 @@
 /**
- * @file The live summary shared by Today and Live: the activity field, the total token rate, and
- * who is doing what.
+ * @file The Live widget on Today (decision 126): the same deck as the top of Live (the total token
+ * rate, its waveform and every session's face in orbit), then who is doing what.
  */
-import { lazy, Suspense } from "react";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { LiveTask } from "../api/types";
 import { Avatar } from "./Avatar";
 import { Counter } from "./Counter";
-
-/** three.js is only fetched on pages that show the field (spec 7.17). */
-const ActivityField = lazy(() => import("./ActivityField"));
-
-/** The total rate of everything generating right now. */
-function totalRate(tasks: LiveTask[]): number {
-  return tasks.reduce((sum, task) => sum + (task.tokens_per_second ?? 0), 0);
-}
+import { LiveDeck } from "./LiveDeck";
 
 /** One running or queued task, with its employee's face. */
 function TaskLine({ task }: { task: LiveTask }) {
@@ -45,41 +37,28 @@ function TaskLine({ task }: { task: LiveTask }) {
   );
 }
 
-/** The field and the running tasks, linking each to its transcript on Live. */
-export function LiveCard({
-  tasks,
-  linkTo = "/live",
-  listRunning = true,
-}: {
-  tasks: LiveTask[];
-  linkTo?: string;
-  /** False on a page that lists the sessions itself, such as Live. */
-  listRunning?: boolean;
-}) {
+/** The deck and the running tasks, linking each to its transcript on Live. */
+export function LiveCard({ tasks }: { tasks: LiveTask[] }) {
   const running = tasks.filter((task) => task.session_state === "running");
   const queued = tasks.filter((task) => task.session_state === "queued").length;
   return (
     <section className="card stack field-card" aria-label="Live">
-      <Link to={linkTo} className="section-head section-link">
+      <Link to="/live" className="section-head section-link">
         <h2>Live</h2>
         <span className="section-cue">
-          <Counter value={totalRate(running)} suffix=" tok/s" /> · {running.length} running
+          {running.length} running
           {queued > 0 && ` · ${queued} queued`}
           <ChevronRight size={16} aria-hidden="true" />
         </span>
       </Link>
-      <Suspense fallback={<div className="activity-field" />}>
-        <ActivityField tasks={tasks} />
-      </Suspense>
-      {listRunning && (
-        <div className="list">
-          {running.map((task) => (
-            <Link key={task.id} to={`/live?task=${task.id}`} className="list-row">
-              <TaskLine task={task} />
-            </Link>
-          ))}
-        </div>
-      )}
+      <LiveDeck tasks={tasks} />
+      <div className="list">
+        {running.map((task) => (
+          <Link key={task.id} to={`/live?task=${task.id}`} className="list-row">
+            <TaskLine task={task} />
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }

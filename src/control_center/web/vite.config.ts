@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => ({
           // The strict CSP (spec 7.6) forbids inline scripts, so nothing may be inlined as a data URI.
           assetsInlineLimit: 0,
           sourcemap: false,
-          // three.js alone is about 520 KB before compression; it is lazy and loads only on Today and Live.
+          // The main chunk (React, the router, Motion) is just over 500 KB before compression.
           chunkSizeWarningLimit: 600,
         },
   test: {
