@@ -1414,19 +1414,20 @@ dl.list.facts {
   background: currentColor;
 }
 
+/* Tints stay light and the words lean toward the text color, so each pill holds 4.5:1 (17.16). */
 .state-pill.state-running {
-  color: var(--healthy-text);
-  background: color-mix(in srgb, var(--healthy-fill) 16%, transparent);
+  color: color-mix(in srgb, var(--healthy-text) 85%, var(--text));
+  background: color-mix(in srgb, var(--healthy-fill) 10%, transparent);
 }
 
 .state-pill.state-waiting {
-  color: var(--sand-text);
-  background: color-mix(in srgb, var(--sand-fill) 18%, transparent);
+  color: color-mix(in srgb, var(--sand-text) 80%, var(--text));
+  background: color-mix(in srgb, var(--sand-fill) 10%, transparent);
 }
 
 .state-pill.state-blocked {
-  color: var(--clay-text);
-  background: color-mix(in srgb, var(--clay-fill) 15%, transparent);
+  color: color-mix(in srgb, var(--clay-text) 80%, var(--text));
+  background: color-mix(in srgb, var(--clay-fill) 8%, transparent);
 }
 
 .needs-you {
@@ -1567,7 +1568,7 @@ dl.list.facts {
   color: var(--text);
 }
 
-.relay-stop.state-queued {
+.relay-stop.state-queued .avatar {
   opacity: 0.6;
 }
 

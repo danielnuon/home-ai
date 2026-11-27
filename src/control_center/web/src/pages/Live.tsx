@@ -233,18 +233,22 @@ function Relay({
             type="button"
             className={`relay-stop state-${session.session_state}`}
             aria-pressed={chosen === session.id}
-            aria-label={`${session.employee_name}, ${STATE_WORDS[session.session_state]}: ${session.item}`}
             onClick={() => onChoose(session.id)}
           >
-            <Avatar
-              department={session.department}
-              state={session.state}
-              name={session.employee_name}
-              size={session.session_state === "running" ? 36 : 28}
-              rate={session.tokens_per_second}
-              peek={false}
-            />
+            <span aria-hidden="true">
+              <Avatar
+                department={session.department}
+                state={session.state}
+                name={session.employee_name}
+                size={session.session_state === "running" ? 36 : 28}
+                rate={session.tokens_per_second}
+                peek={false}
+              />
+            </span>
             <span className="tiny">{session.employee_name}</span>
+            <span className="visually-hidden">
+              , {STATE_WORDS[session.session_state]}: {session.item}
+            </span>
           </button>
         </li>
       ))}

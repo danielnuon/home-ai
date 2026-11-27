@@ -57,9 +57,9 @@ test("what needs you comes first, then a card per thread with its sessions as a 
   const thread = screen.getByRole("article", { name: "Lease Reminders 1.2" });
   const relay = within(thread).getByRole("list", { name: "Sessions on this thread" });
   const stops = within(relay).getAllByRole("button");
-  expect(stops.map((stop) => stop.getAttribute("aria-label"))).toEqual([
-    "Bolt, running: WI-0031 Lease Reminders",
-    "Redline, queued: Review WI-0031",
+  expect(stops).toEqual([
+    within(relay).getByRole("button", { name: "Bolt, running: WI-0031 Lease Reminders" }),
+    within(relay).getByRole("button", { name: "Redline, queued: Review WI-0031" }),
   ]);
 
   const brief = screen.getByRole("article", { name: "Daily brief" });
