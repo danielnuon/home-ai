@@ -1452,7 +1452,7 @@ dl.list.facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .live-card.open {
+  .live-cards > :has(> .live-card.open) {
     grid-column: 1 / -1;
   }
 }
@@ -1600,4 +1600,10 @@ dl.list.facts {
   .stage-seg-current {
     animation: none;
   }
+}
+
+/* Lists that change in place (decision 128): each item's wrapper lets its card fill the cell */
+.reflow-item {
+  display: grid;
+  min-width: 0;
 }

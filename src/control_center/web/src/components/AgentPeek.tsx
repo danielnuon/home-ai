@@ -15,7 +15,7 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { useDirectory } from "../api/queries";
 import type { Employee, EmployeeState } from "../api/types";
-import { m } from "../design/motion";
+import { AnimatePresence, m } from "../design/motion";
 import { Sheet } from "./Sheet";
 
 /** How long a pointer rests on a face before its card shows, in ms. */
@@ -176,6 +176,7 @@ function PeekCard({
       style={{ ...place, width: CARD_WIDTH }}
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.14, ease: "easeOut" }}
       {...card}
     >
@@ -203,11 +204,13 @@ export function AgentPeek({
 }) {
   return (
     <>
-      {mode === "card" && (
-        <PeekCard place={place} card={card} onClose={onClose}>
-          <PeekBody name={name} face={face} />
-        </PeekCard>
-      )}
+      <AnimatePresence>
+        {mode === "card" && (
+          <PeekCard place={place} card={card} onClose={onClose}>
+            <PeekBody name={name} face={face} />
+          </PeekCard>
+        )}
+      </AnimatePresence>
       <Sheet open={mode === "sheet"} title={name} onClose={onClose}>
         {mode === "sheet" && <PeekBody name={name} face={face} />}
       </Sheet>

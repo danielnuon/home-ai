@@ -10,6 +10,7 @@ import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { Approval } from "../api/types";
 import { LiveAvatar } from "./LiveFace";
+import { Reveal, Swap } from "./Reflow";
 
 const DECIDED_WORDS: Partial<Record<Approval["state"], string>> = {
   approved: "Approved",
@@ -61,7 +62,7 @@ function ApprovalActions({ approval }: { approval: Approval }) {
 
   return (
     <>
-      {denying && (
+      <Reveal when={denying} className="stack">
         <textarea
           className="field"
           aria-label="Reason for the employee (optional)"
@@ -69,7 +70,7 @@ function ApprovalActions({ approval }: { approval: Approval }) {
           value={reason}
           onChange={(event) => setReason(event.target.value)}
         />
-      )}
+      </Reveal>
       <div className="row">
         <button
           type="button"
@@ -115,11 +116,13 @@ export function ApprovalCard({ approval }: { approval: Approval }) {
       <p className="small">{approval.summary}</p>
       {approval.draft && <blockquote className="draft">{approval.draft}</blockquote>}
       {approval.release && <ReleaseLine release={approval.release} />}
-      {pending ? (
-        <ApprovalActions approval={approval} />
-      ) : (
-        <p className="muted small">{DECIDED_WORDS[approval.state]}</p>
-      )}
+      <Swap id={pending ? "pending" : approval.state} className="stack">
+        {pending ? (
+          <ApprovalActions approval={approval} />
+        ) : (
+          <p className="muted small">{DECIDED_WORDS[approval.state]}</p>
+        )}
+      </Swap>
     </article>
   );
 }

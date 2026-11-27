@@ -38,6 +38,7 @@ import {
 import { LiveAvatar } from "../components/LiveFace";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
+import { Reflow, ReflowItem, Reveal } from "../components/Reflow";
 
 /** One transcript entry: tool calls are chips, generating text has a soft cursor. */
 function Entry({ entry }: { entry: TranscriptEntry }) {
@@ -333,7 +334,7 @@ function ThreadCard({
         />
       )}
       <Now session={open ?? first} />
-      {open && <TaskTranscript taskId={open.id} />}
+      <Reveal when={Boolean(open)}>{open && <TaskTranscript taskId={open.id} />}</Reveal>
     </article>
   );
 }
@@ -386,11 +387,60 @@ function NeedsYou({
               </span>
               <ChevronDown className="live-card-chevron" size={18} aria-hidden="true" />
             </button>
-            {open && <TaskTranscript taskId={session.id} />}
+            <Reveal when={open}>
+              <TaskTranscript taskId={session.id} />
+            </Reveal>
           </div>
         );
       })}
     </section>
+  );
+}
+
+/** What needs the Owner, then a card per thread; both reflow as the filter changes. */
+function Sessions({
+  visible,
+  chosen,
+  onChoose,
+}: {
+  visible: LiveTask[];
+  chosen: string | null;
+  onChoose: (id: string | null) => void;
+}) {
+  const needs = visible.filter(needsOwner);
+  const cards = intoCards(visible.filter((task) => !needsOwner(task)));
+  return (
+    <>
+      <Reflow>
+        {needs.length > 0 && (
+          <ReflowItem key="needs">
+            <NeedsYou sessions={needs} chosen={chosen} onChoose={onChoose} />
+          </ReflowItem>
+        )}
+      </Reflow>
+      <Reflow>
+        {cards.length > 0 && (
+          <ReflowItem key="threads">
+            <Section title="Threads" aside={`${cards.length}`}>
+              <div className="live-cards">
+                <Reflow>
+                  {cards.map((card) => (
+                    <ReflowItem key={card.key}>
+                      <ThreadCard card={card} chosen={chosen} onChoose={onChoose} />
+                    </ReflowItem>
+                  ))}
+                </Reflow>
+              </div>
+            </Section>
+          </ReflowItem>
+        )}
+        {visible.length === 0 && (
+          <ReflowItem key="empty">
+            <p className="empty">Nothing here right now.</p>
+          </ReflowItem>
+        )}
+      </Reflow>
+    </>
   );
 }
 
@@ -419,23 +469,11 @@ export default function Live() {
       <QueryState query={tasks}>
         {(all) => {
           const visible = all.filter((task) => passes(task, filter));
-          const needs = visible.filter(needsOwner);
-          const cards = intoCards(visible.filter((task) => !needsOwner(task)));
           return (
             <>
               <LiveDeck tasks={all} mode={poolMode} />
               <LiveFilters tasks={all} filter={filter} onFilter={(show) => update({ show })} />
-              <NeedsYou sessions={needs} chosen={chosen} onChoose={choose} />
-              {cards.length > 0 && (
-                <Section title="Threads" aside={`${cards.length}`}>
-                  <div className="live-cards">
-                    {cards.map((card) => (
-                      <ThreadCard key={card.key} card={card} chosen={chosen} onChoose={choose} />
-                    ))}
-                  </div>
-                </Section>
-              )}
-              {visible.length === 0 && <p className="empty">Nothing here right now.</p>}
+              <Sessions visible={visible} chosen={chosen} onChoose={choose} />
             </>
           );
         }}

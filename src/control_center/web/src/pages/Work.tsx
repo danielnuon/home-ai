@@ -13,6 +13,7 @@ import { Segmented } from "../components/Controls";
 import { AvatarGroup, LiveAvatar } from "../components/LiveFace";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
+import { Reflow, ReflowItem, Swap } from "../components/Reflow";
 import { StageRail } from "../components/StageRail";
 import { ThreadCard, THREAD_STATE } from "../components/ThreadCard";
 import { StatusText } from "../design/status";
@@ -120,6 +121,21 @@ function LeadFilter({
   );
 }
 
+/** A grid of thread cards whose cards come, go and glide as a filter changes. */
+function ThreadGrid({ threads }: { threads: Thread[] }) {
+  return (
+    <div className="card-grid">
+      <Reflow>
+        {threads.map((thread) => (
+          <ReflowItem key={thread.id}>
+            <ThreadCard thread={thread} />
+          </ReflowItem>
+        ))}
+      </Reflow>
+    </div>
+  );
+}
+
 /** The Threads view: a lead filter, open threads by state, then the recently resolved. */
 function Threads({
   threads,
@@ -137,25 +153,27 @@ function Threads({
   return (
     <>
       <LeadFilter leads={leads} value={lead} onChange={onLead} />
-      {open.length === 0 && <p className="card empty">No open threads here.</p>}
-      {byState(open).map(([state, group]) => (
-        <Section key={state} title={THREAD_STATE[state].label} aside={`${group.length}`}>
-          <div className="card-grid">
-            {group.map((thread) => (
-              <ThreadCard key={thread.id} thread={thread} />
-            ))}
-          </div>
-        </Section>
-      ))}
-      {resolved.length > 0 && (
-        <Section title="Recently resolved">
-          <div className="card-grid">
-            {resolved.map((thread) => (
-              <ThreadCard key={thread.id} thread={thread} />
-            ))}
-          </div>
-        </Section>
-      )}
+      <Reflow>
+        {open.length === 0 && (
+          <ReflowItem key="empty">
+            <p className="card empty">No open threads here.</p>
+          </ReflowItem>
+        )}
+        {byState(open).map(([state, group]) => (
+          <ReflowItem key={state}>
+            <Section title={THREAD_STATE[state].label} aside={`${group.length}`}>
+              <ThreadGrid threads={group} />
+            </Section>
+          </ReflowItem>
+        ))}
+        {resolved.length > 0 && (
+          <ReflowItem key="resolved">
+            <Section title="Recently resolved">
+              <ThreadGrid threads={resolved} />
+            </Section>
+          </ReflowItem>
+        )}
+      </Reflow>
     </>
   );
 }
@@ -229,17 +247,19 @@ export default function Work() {
         onChange={(next) => setParams(next === "boards" ? { view: next } : {})}
       />
       <QueryState query={query}>
-        {(board) =>
-          view === "boards" ? (
-            <Boards board={board} />
-          ) : (
-            <Threads
-              threads={board.threads}
-              lead={lead}
-              onLead={(next) => setParams(next === ALL_LEADS ? {} : { lead: next })}
-            />
-          )
-        }
+        {(board) => (
+          <Swap id={view}>
+            {view === "boards" ? (
+              <Boards board={board} />
+            ) : (
+              <Threads
+                threads={board.threads}
+                lead={lead}
+                onLead={(next) => setParams(next === ALL_LEADS ? {} : { lead: next })}
+              />
+            )}
+          </Swap>
+        )}
       </QueryState>
     </Page>
   );
