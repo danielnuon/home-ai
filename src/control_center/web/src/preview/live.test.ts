@@ -4,6 +4,7 @@
  */
 import { Bus, busEventSource, type BusEvent } from "./bus";
 import { chatSend } from "./live";
+import { healthMetrics } from "./status";
 import { buildWorld } from "./world";
 
 const NOW = new Date("2026-10-25T16:00:00Z");
@@ -48,5 +49,20 @@ describe("the preview's event stream", () => {
       ["hello", "0"],
       ["changed", "1"],
     ]);
+  });
+});
+
+describe("the preview's health samples", () => {
+  /** "Chat first token p95" after `samples` samples, as `tests/control_center/test_health_samples.py`. */
+  const firstToken = (samples: number) => {
+    const world = buildWorld(new Bus(), () => NOW);
+    world.samples = samples;
+    return healthMetrics(world).find((metric) => metric.name === "Chat first token p95");
+  };
+
+  it("reads the next value and rolls the sparkline on, as the server does", () => {
+    expect(firstToken(0)).toMatchObject({ value: "1.4 s", spark: [12, 10, 13, 9, 11, 8, 9] });
+    expect(firstToken(1)).toMatchObject({ value: "1.3 s", spark: [10, 13, 9, 11, 8, 9, 10] });
+    expect(firstToken(9)).toMatchObject({ value: "1.2 s", spark: [9, 11, 13, 10, 10, 12, 9] });
   });
 });

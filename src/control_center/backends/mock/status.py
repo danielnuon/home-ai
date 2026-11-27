@@ -84,7 +84,7 @@ class MockStatusAggregator:
 
     def health_metrics(self) -> list[Metric]:
         """Today's live figures, stamped like every other sample."""
-        return self._sampled(platform.health_metrics())
+        return self._sampled(platform.health_metrics(self._world.samples))
 
     def system(self) -> SystemOverview:
         """Machine, memory zones and hardware signals."""

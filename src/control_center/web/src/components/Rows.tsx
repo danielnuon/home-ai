@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Metric, Row, RowGroup } from "../api/types";
+import { AnimatePresence, m } from "../design/motion";
 import { useStaleStatus } from "../design/stale";
 import { StatusText } from "../design/status";
 import { Section } from "./Page";
@@ -57,6 +58,14 @@ export function RowGroups({ groups }: { groups: RowGroup[] }) {
   );
 }
 
+/** A new reading rolls up into place and the old one rolls away above it (decision 129). */
+const ROLL = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.32, ease: [0.2, 0.8, 0.2, 1] },
+} as const;
+
 /** One stat tile, greyed with "Stale" once its sample is 3 minutes old (spec 7.3). */
 function MetricTile({ metric }: { metric: Metric }) {
   const stale = useStaleStatus(metric.sampled_at);
@@ -65,8 +74,14 @@ function MetricTile({ metric }: { metric: Metric }) {
     <div className={`card tile${stale ? " stale" : ""}`}>
       <span className="muted small">{metric.name}</span>
       <span className="row">
-        <span className="tile-value grow">{metric.value}</span>
-        <Sparkline values={metric.spark} />
+        <span className="tile-value grow">
+          <AnimatePresence initial={false} mode="popLayout">
+            <m.span key={metric.value} className="tile-value-now" {...ROLL}>
+              {metric.value}
+            </m.span>
+          </AnimatePresence>
+        </span>
+        <Sparkline values={metric.spark} live={Boolean(metric.sampled_at) && !stale} />
       </span>
       {status && <StatusText value={status} className="small" />}
     </div>

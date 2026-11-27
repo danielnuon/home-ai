@@ -61,6 +61,8 @@ class MockWorld:
     """When the simulated status aggregator last collected health and metrics."""
     stopped: bool = False
     maintenance_running: bool = True
+    samples: int = 0
+    """How many health samples the simulated aggregator has taken; the figures move with it."""
     step_up_challenges: set[str] = field(default_factory=set)
     step_up_proofs: dict[str, datetime] = field(default_factory=dict)
 

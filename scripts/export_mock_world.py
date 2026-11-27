@@ -90,6 +90,9 @@ def fixtures() -> dict[str, Any]:
         "service_groups": dump(platform.service_groups()),
         "memory_zones": dump(platform.MEMORY_ZONES),
         "health_metrics": dump(platform.health_metrics()),
+        "health_readings": {
+            name: list(map(list, r)) for name, r in platform.HEALTH_READINGS.items()
+        },
         "system_tiles": dump(platform.system_tiles()),
         "system_rows": dump(platform.system_rows()),
         "family_assignments": {

@@ -2365,6 +2365,124 @@
     "sampled_at": null
    }
   ],
+  "health_readings": {
+   "Chat first token p95": [
+    [
+     "1.3 s",
+     10
+    ],
+    [
+     "1.5 s",
+     12
+    ],
+    [
+     "1.2 s",
+     9
+    ],
+    [
+     "1.4 s",
+     11
+    ],
+    [
+     "1.6 s",
+     13
+    ],
+    [
+     "1.3 s",
+     10
+    ]
+   ],
+   "Chat on fallback model": [
+    [
+     "9 min/d",
+     10
+    ],
+    [
+     "10 min/d",
+     11
+    ],
+    [
+     "9 min/d",
+     9
+    ],
+    [
+     "8 min/d",
+     8
+    ],
+    [
+     "9 min/d",
+     10
+    ]
+   ],
+   "Model swaps today": [
+    [
+     "3 of ≤6",
+     11
+    ],
+    [
+     "3 of ≤6",
+     10
+    ]
+   ],
+   "Review wait p50": [
+    [
+     "7 min",
+     9
+    ],
+    [
+     "5 min",
+     7
+    ],
+    [
+     "6 min",
+     8
+    ],
+    [
+     "8 min",
+     10
+    ],
+    [
+     "6 min",
+     8
+    ]
+   ],
+   "Memory pressure": [
+    [
+     "Normal",
+     13
+    ],
+    [
+     "Normal",
+     12
+    ],
+    [
+     "Normal",
+     14
+    ],
+    [
+     "Normal",
+     13
+    ]
+   ],
+   "Bug catch rate": [
+    [
+     "81%",
+     8
+    ],
+    [
+     "82%",
+     9
+    ],
+    [
+     "81%",
+     8
+    ],
+    [
+     "80%",
+     7
+    ]
+   ]
+  },
   "system_tiles": [
    {
     "name": "GPU busy",
@@ -4531,7 +4649,7 @@
   },
   "tick_seconds": 0.5,
   "transcript_every_ticks": 3,
-  "sample_every_ticks": 60,
+  "sample_every_ticks": 20,
   "rate_bounds": [
    12.0,
    60.0
