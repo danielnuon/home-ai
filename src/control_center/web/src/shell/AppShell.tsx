@@ -9,6 +9,7 @@ import { ARRIVE, m } from "../design/motion";
 import { useLayout } from "../design/useLayout";
 import { Banners } from "./Banners";
 import { Sidebar, TabBar } from "./Navigation";
+import { useScrollMemory } from "./scroll";
 
 /** "Search or ask Wayfinder": opens Search with the words typed. */
 function SearchField() {
@@ -50,6 +51,7 @@ function PageArrival() {
 /** The app frame for the current layout. */
 export function AppShell() {
   const layout = useLayout();
+  useScrollMemory();
   return (
     <div className={`shell shell-${layout}`}>
       {layout === "desktop" && <Sidebar />}
