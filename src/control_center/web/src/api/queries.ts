@@ -5,13 +5,22 @@
  * events (see `events.ts`), so an event that names "approvals" refetches exactly the queries whose
  * key starts with "approvals". Nothing here polls: data changes arrive as events (spec 7.13).
  */
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getJson } from "./client";
 import type * as T from "./types";
 
-/** Fetches one resource under its query key. */
-function useResource<Data>(key: readonly unknown[], path: string, enabled = true) {
-  return useQuery({ queryKey: key, queryFn: () => getJson<Data>(path), enabled });
+/**
+ * Fetches one resource under its query key. With `keep`, switching to a new key keeps showing the
+ * last answer until the new one arrives, so the page does not drop to a loading state between
+ * two leads or two searches (spec 7.14, continuity).
+ */
+function useResource<Data>(key: readonly unknown[], path: string, enabled = true, keep = false) {
+  return useQuery({
+    queryKey: key,
+    queryFn: () => getJson<Data>(path),
+    enabled,
+    placeholderData: keep ? keepPreviousData : undefined,
+  });
 }
 
 /** Global banners and navigation badges. */
@@ -68,7 +77,7 @@ export const useVoice = () => useResource<T.VoiceOverview>(["voice"], "/voice");
 export const useDocs = () => useResource<T.DocsOverview>(["docs"], "/docs");
 /** A lead's chat thread. */
 export const useChat = (leadId: string) =>
-  useResource<T.ChatThread>(["chat", leadId], `/chat/${leadId}`);
+  useResource<T.ChatThread>(["chat", leadId], `/chat/${leadId}`, true, true);
 /** Search results; disabled for an empty query. */
 export const useSearch = (query: string) =>
   useResource<T.SearchResults>(

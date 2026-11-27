@@ -53,6 +53,15 @@ def test_chat_stores_the_owner_message(client: TestClient) -> None:
     assert any(m["text"] == "What's on today?" for m in thread["messages"])
 
 
+def test_chat_leads_carry_their_live_state(client: TestClient) -> None:
+    """Spec 7.2, Chat: each contact circle shows the lead's current state from the Directory."""
+    leads = {lead["id"]: lead for lead in client.get("/api/v1/chat/atlas").json()["leads"]}
+
+    assert leads["atlas"]["state"] == "generating"
+    assert leads["atlas"]["now"]
+    assert leads["wayfinder"]["state"] == "idle"
+
+
 def test_front_end_routes_fall_back_to_the_app_and_never_escape_dist(tmp_path: Path) -> None:
     """Spec 7.6: page routes serve the app, and paths never reach files outside the build."""
     (tmp_path / "assets").mkdir()

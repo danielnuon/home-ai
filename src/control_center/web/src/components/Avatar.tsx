@@ -17,7 +17,8 @@ interface AvatarProps {
   rate?: number | null;
 }
 
-const STATE_WORDS: Record<EmployeeState, string> = {
+/** The state in words, for labels and for the line under a contact circle. */
+export const STATE_WORDS: Record<EmployeeState, string> = {
   idle: "idle",
   thinking: "thinking",
   generating: "writing",

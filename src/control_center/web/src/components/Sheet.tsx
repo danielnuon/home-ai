@@ -5,7 +5,7 @@
  * list stays visible beside it (7.12, "list beside detail"). It is a modal dialog: focus moves into
  * it, Escape or the backdrop closes it, and focus returns to whatever opened it.
  */
-import { AnimatePresence, m } from "../design/motion";
+import { AnimatePresence, m, SETTLE } from "../design/motion";
 import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { useLayout } from "../design/useLayout";
@@ -16,9 +16,6 @@ interface SheetProps {
   onClose: () => void;
   children: ReactNode;
 }
-
-/** A spring that settles without bounce (7.14). */
-const SETTLE = { type: "spring", stiffness: 380, damping: 40 } as const;
 
 /** Moves focus into the panel while it is open and puts it back afterwards. */
 function useFocusReturn(open: boolean, panel: React.RefObject<HTMLDivElement | null>) {
