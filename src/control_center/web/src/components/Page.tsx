@@ -39,7 +39,7 @@ interface SectionProps {
   aside?: ReactNode;
   /**
    * Where the whole heading goes when pressed, with the page's name as its cue. A heading that
-   * leads somewhere is one pressable bar, never a small text link beside it (spec 7.16, rule 11).
+   * leads somewhere is one pressable bar, never a small text link beside it (spec 7.16, rule 13).
    */
   to?: { path: string; label: string };
   children: ReactNode;

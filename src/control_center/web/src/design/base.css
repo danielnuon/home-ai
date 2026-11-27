@@ -126,7 +126,7 @@ textarea {
 }
 
 /*
- * Pressable surfaces, not text links (spec 7.16, rule 11). Whatever leads somewhere is a whole
+ * Pressable surfaces, not text links (spec 7.16, rule 13). Whatever leads somewhere is a whole
  * bar, chip, row or card with a chevron that says so, pressed down a little under the finger.
  * Underlined links stay only for references inside running text.
  */

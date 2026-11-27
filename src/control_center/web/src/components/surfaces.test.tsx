@@ -1,6 +1,6 @@
 /**
  * @file Things that lead somewhere are pressable surfaces, opened in place where they can be
- * (spec 7.16, rule 11): a decision's reasoning expands inside its card, and an approval named in a
+ * (spec 7.16, rule 13): a decision's reasoning expands inside its card, and an approval named in a
  * chat message opens in the sheet.
  */
 import { screen } from "@testing-library/react";

@@ -1,6 +1,6 @@
 /**
  * @file An approval named inside another object, such as a chat message, opened where it is
- * mentioned (spec 7.16, rules 2 and 11).
+ * mentioned (spec 7.16, rules 2 and 13).
  *
  * The mention is a button that opens the approval's own card in the sheet, so the Owner can
  * approve or deny without leaving the conversation, and closing the sheet puts them back where
