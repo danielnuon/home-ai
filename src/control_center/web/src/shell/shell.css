@@ -203,7 +203,7 @@
 }
 
 /* The bar keeps a hard top edge, and content dims as it nears that edge,
-   as if slipping under the bar. It only ever darkens: fading toward the
+   as if slipping under the bar, and blurs as it goes. It only ever darkens: fading toward the
    page colour lightened dark cards and read as a glow (decision 132). */
 .tab-bar::before {
   content: "";
@@ -212,8 +212,21 @@
   right: 0;
   bottom: calc(100% + 1px); /* sits above the border, not over it */
   height: 28px;
-  background: linear-gradient(to bottom, transparent, var(--edge-shade));
+  background: var(--edge-shade); /* the mask below ramps it in */
+  /* The blur builds with the shade: none at the top of the band, full at
+     the line, so nothing has a visible start (decision 133). */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
   pointer-events: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tab-bar::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 .tab-bar .nav-item {
