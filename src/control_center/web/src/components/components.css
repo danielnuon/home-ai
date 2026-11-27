@@ -1193,3 +1193,444 @@ dl.list.facts {
 .face-filter .avatar-group > * + * {
   margin-left: calc(var(--avatar-size) * -0.28);
 }
+
+/*
+ * Live (spec 7.13, 15.8.9; decision 125). The deck is a dark panel in both themes, like the
+ * activity field it replaces: the rate, a waveform, and every session's face in orbit around a
+ * core. Writers sit on the inner ring with light flowing from them to the core at their own rate.
+ * Under it, filters, what needs you, and a card per thread whose sessions read as a relay.
+ */
+.live-deck {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-radius: var(--radius-card);
+  background: radial-gradient(120% 90% at 50% 0%, #1d2a31 0%, var(--field-bg) 70%);
+  color: #e6e8e6;
+  overflow: hidden;
+}
+
+.live-deck-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.live-deck-rate {
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.live-deck-unit {
+  color: var(--field-muted);
+  font-size: 13px;
+}
+
+.live-deck-mode {
+  margin-left: auto;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--field-muted);
+  font-size: 12px;
+}
+
+.live-orbit {
+  position: relative;
+  width: min(100%, 460px);
+  height: 190px;
+  margin: var(--space-2) auto 0;
+}
+
+@media (min-width: 900px) {
+  .live-orbit {
+    width: min(100%, 620px);
+    height: 260px;
+  }
+}
+
+.live-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.live-ring-outer {
+  width: 86%;
+  height: 70.5%;
+}
+
+.live-ring-inner {
+  width: 52%;
+  height: 42.6%;
+}
+
+.live-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(143, 179, 160, 0.55), rgba(143, 179, 160, 0) 70%);
+  animation: live-core var(--breath) ease-in-out infinite;
+}
+
+@keyframes live-core {
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+  }
+}
+
+.live-beams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.live-beams line {
+  stroke: #8fb3a0;
+  stroke-width: 1.2;
+  stroke-dasharray: 1.5 3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+  animation: live-flow var(--flow, 1.5s) linear infinite;
+}
+
+@keyframes live-flow {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+.live-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform: translate(-50%, -50%);
+}
+
+.live-node.inner .avatar {
+  filter: drop-shadow(0 0 10px rgba(37, 163, 131, 0.55));
+}
+
+.live-node.outer {
+  opacity: 0.85;
+}
+
+.live-node.state-queued {
+  opacity: 0.5;
+}
+
+.live-node-rate {
+  color: #bfe3d2;
+  font-size: 11px;
+}
+
+.live-wave {
+  width: 100%;
+  height: 36px;
+}
+
+.live-wave path {
+  fill: none;
+  stroke: #8fb3a0;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  transition: d 900ms linear;
+}
+
+.live-filters {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(var(--space-1) * -1);
+  padding: var(--space-1);
+}
+
+.live-filter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.live-filter:active {
+  transform: scale(0.97);
+}
+
+.live-filter[aria-pressed="true"] {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.live-filter.needs:not([aria-pressed="true"]) {
+  border-color: color-mix(in srgb, var(--sand-fill) 55%, var(--line));
+}
+
+.state-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.state-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.state-pill.state-running {
+  color: var(--healthy-text);
+  background: color-mix(in srgb, var(--healthy-fill) 16%, transparent);
+}
+
+.state-pill.state-waiting {
+  color: var(--sand-text);
+  background: color-mix(in srgb, var(--sand-fill) 18%, transparent);
+}
+
+.state-pill.state-blocked {
+  color: var(--clay-text);
+  background: color-mix(in srgb, var(--clay-fill) 15%, transparent);
+}
+
+.needs-you {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-color: color-mix(in srgb, var(--sand-fill) 45%, var(--line));
+  background: color-mix(in srgb, var(--sand-fill) 9%, var(--surface));
+}
+
+.needs-row + .needs-row {
+  border-top: 1px solid color-mix(in srgb, var(--sand-fill) 25%, var(--line));
+}
+
+.needs-row-head,
+.live-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--touch);
+  padding: var(--space-2) 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.needs-row-head:active,
+.live-card-head:active {
+  transform: scale(0.99);
+}
+
+.live-card-chevron {
+  flex: none;
+  color: var(--muted);
+  transition: transform 200ms ease-out;
+}
+
+[aria-expanded="true"] > .live-card-chevron {
+  transform: rotate(180deg);
+}
+
+.live-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .live-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .live-card.open {
+    grid-column: 1 / -1;
+  }
+}
+
+.live-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+.relay {
+  display: flex;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.relay-step {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.relay-step:first-child {
+  flex: none;
+}
+
+.relay-link {
+  flex: 1;
+  position: relative;
+  height: 2px;
+  margin-top: 20px;
+  border-radius: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.relay-link.live {
+  background: color-mix(in srgb, var(--healthy-fill) 25%, var(--line));
+}
+
+.relay-link.live::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 2px;
+  background: var(--healthy-fill);
+  animation: relay-run 1.3s linear infinite;
+}
+
+@keyframes relay-run {
+  to {
+    left: 100%;
+  }
+}
+
+.relay-stop {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 64px;
+  min-height: var(--touch);
+  padding: var(--space-1) 0;
+  border: 0;
+  border-radius: var(--radius-row);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.relay-stop.state-running {
+  color: var(--text);
+}
+
+.relay-stop.state-queued {
+  opacity: 0.6;
+}
+
+.relay-stop[aria-pressed="true"] {
+  background: var(--raised);
+}
+
+.live-now {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-row);
+  background: var(--raised);
+}
+
+.live-now-label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--muted);
+}
+
+.live-open {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.stage-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stage-bar ol {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-seg {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--raised);
+}
+
+.stage-seg-done {
+  background: var(--healthy-fill);
+}
+
+.stage-seg-current {
+  background: var(--mist-fill);
+  animation: breathe var(--breath) ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-core,
+  .live-beams line,
+  .relay-link.live::after,
+  .stage-seg-current {
+    animation: none;
+  }
+}
