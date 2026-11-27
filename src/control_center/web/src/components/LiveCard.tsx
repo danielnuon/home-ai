@@ -18,7 +18,7 @@ function totalRate(tasks: LiveTask[]): number {
 }
 
 /** One running or queued task, with its employee's face. */
-export function TaskLine({ task }: { task: LiveTask }) {
+function TaskLine({ task }: { task: LiveTask }) {
   return (
     <>
       <Avatar
