@@ -1,18 +1,20 @@
 /**
  * @file The employee bot face (spec 7.12, "Avatars"; 7.13, "What alive looks like").
  *
- * Drawn locally as SVG: a rounded head, two-dot eyes, and an antenna whose shape says the
- * department, so a face is recognisable without color. Each state has its own motion, styled in
- * `components.css` (spec 7.13): idle sleeps (eyes shut, a slow breath, drifting z's), thinking
- * glances side to side, writing nods in time with its token rate, a tool's eyes follow the
- * orbiting dot, waiting on you hops for attention, and blocked gives a small shake. The head and
- * eyes are separate HTML layers so every motion is a transform on its own layer, which keeps it on
- * the compositor. With reduced motion each state holds a still pose that still tells it apart:
- * closed eyes and one z for idle, raised eyes for waiting, squinting for blocked. The state is
- * always also given as words in the label for screen readers.
+ * Drawn locally as SVG: a rounded head, two-dot eyes, an antenna whose shape says the
+ * department, and below the eyes a mark of the employee's own job (`emblems.tsx`), so every face
+ * is recognisable, and tells you what it does, without color. Each state has its own motion,
+ * styled in `components.css` (spec 7.13): idle sleeps (eyes shut, a slow breath, drifting z's),
+ * thinking glances side to side, writing nods in time with its token rate, a tool's eyes follow
+ * the orbiting dot, waiting on you hops for attention, and blocked gives a small shake. The head
+ * and eyes are separate HTML layers so every motion is a transform on its own layer, which keeps
+ * it on the compositor. With reduced motion each state holds a still pose that still tells it
+ * apart: closed eyes and one z for idle, raised eyes for waiting, squinting for blocked. The state
+ * is always also given as words in the label for screen readers.
  */
 import type { Department, EmployeeState } from "../api/types";
 import { AgentPeek, HOLD_TIME, usePeek } from "./AgentPeek";
+import { Emblem } from "./emblems";
 
 interface AvatarProps {
   department: Department;
@@ -118,6 +120,7 @@ function Face({ department, state, name, size = 40, rate }: Omit<AvatarProps, "p
           <span className="avatar-eye" />
           <span className="avatar-eye" />
         </span>
+        <Emblem name={name} />
       </span>
       {state === "tool" && <span className="avatar-orbit" aria-hidden="true" />}
       {state === "idle" && (
