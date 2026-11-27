@@ -8,7 +8,22 @@ import { QueryState } from "../components/QueryState";
 import { MetricTiles, RowList } from "../components/Rows";
 import { StatusText } from "../design/status";
 
-const ZONE_COLORS = ["var(--data-1)", "var(--data-2)", "var(--data-3)", "var(--line-strong)"];
+/**
+ * One color per memory zone, in the order of spec 8.3 (macOS, containers, services, model pool,
+ * headroom), matching the design canvas. Headroom stays neutral because it is never allocated.
+ */
+export const ZONE_COLORS = [
+  "var(--mist-fill)",
+  "var(--data-2)",
+  "var(--data-3)",
+  "var(--data-1)",
+  "var(--line-strong)",
+];
+
+/** The color for the zone at `index`; wraps around if the budget ever gains zones. */
+export function zoneColor(index: number): string {
+  return ZONE_COLORS[index % ZONE_COLORS.length] ?? "var(--line-strong)";
+}
 
 /** Memory zones as one bar, each zone's share of its budget, with a legend in words. */
 function MemoryBar({ zones }: { zones: MemoryZone[] }) {
@@ -19,7 +34,7 @@ function MemoryBar({ zones }: { zones: MemoryZone[] }) {
         {zones.map((zone, index) => (
           <span
             key={zone.name}
-            style={{ flexGrow: zone.budget_gb / total, background: ZONE_COLORS[index % 4] }}
+            style={{ flexGrow: zone.budget_gb / total, background: zoneColor(index) }}
           >
             <span style={{ transform: `scaleX(${Math.min(zone.used_gb / zone.budget_gb, 1)})` }} />
           </span>
@@ -28,11 +43,7 @@ function MemoryBar({ zones }: { zones: MemoryZone[] }) {
       <ul className="legend small">
         {zones.map((zone, index) => (
           <li key={zone.name}>
-            <span
-              className="swatch"
-              style={{ background: ZONE_COLORS[index % 4] }}
-              aria-hidden="true"
-            />
+            <span className="swatch" style={{ background: zoneColor(index) }} aria-hidden="true" />
             {zone.name} · {zone.used_gb} of {zone.budget_gb} GB
           </li>
         ))}
