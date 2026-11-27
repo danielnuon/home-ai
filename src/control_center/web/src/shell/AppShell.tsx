@@ -3,9 +3,10 @@
  * search field, and the page itself.
  */
 import { Search } from "lucide-react";
-import { Suspense, useState, type FormEvent } from "react";
+import { Suspense, useEffect, useState, type FormEvent } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ARRIVE, m } from "../design/motion";
+import { startScrollLight } from "../design/light";
 import { useLayout } from "../design/useLayout";
 import { Banners } from "./Banners";
 import { Sidebar, TabBar } from "./Navigation";
@@ -52,6 +53,7 @@ function PageArrival() {
 export function AppShell() {
   const layout = useLayout();
   useScrollMemory();
+  useEffect(startScrollLight, []);
   return (
     <div className={`shell shell-${layout}`}>
       {layout === "desktop" && <Sidebar />}

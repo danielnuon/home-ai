@@ -1,0 +1,56 @@
+/*
+ * The scroll light (spec 7.12, "Light"). Scrolling moves a soft light up and down the right edge
+ * of the screen, where a scrollbar's thumb would be, and the surfaces near it catch it: a faint
+ * sheen across the card that also tints its border on the side nearest the light. It brightens
+ * while the page moves and settles when it stops.
+ *
+ * One gradient, fixed to the screen, is drawn through every surface (`background-attachment:
+ * fixed`), so a single custom property, written at most once a frame, moves the light for all of
+ * them; no card is measured or touched one by one. The sheen sits behind the card's content, so
+ * text keeps its contrast. With reduced motion or reduced transparency there is no light.
+ */
+:root {
+  --sheen: color-mix(in srgb, var(--accent-fill) 14%, transparent);
+  --light-size: 520px 380px;
+}
+
+.card,
+.list {
+  position: relative;
+  z-index: 0;
+}
+
+/*
+ * The sheen covers the card and its one-pixel border, so the border nearest the light takes the
+ * tint too and reads as a brighter rim, with no second layer or mask to paint each frame.
+ */
+.card::before,
+.list::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+      var(--light-size) at 100% var(--light-y, -1000px),
+      var(--sheen),
+      transparent 70%
+    )
+    fixed;
+  opacity: 0.55;
+  transition: opacity 500ms ease-out;
+}
+
+:root[data-scrolling] .card::before,
+:root[data-scrolling] .list::before {
+  opacity: 1;
+  transition-duration: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce), (prefers-reduced-transparency: reduce) {
+  .card::before,
+  .list::before {
+    content: none;
+  }
+}
