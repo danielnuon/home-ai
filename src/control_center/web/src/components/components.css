@@ -970,3 +970,45 @@ dl.list.facts {
 .list-row.sub-agent {
   padding-left: var(--space-6);
 }
+
+/* Several faces together, overlapping like a group photo; each keeps its own motion. */
+.avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.avatar-group > .avatar + .avatar,
+.avatar-group > .avatar-more {
+  margin-left: calc(var(--avatar-size, 24px) * -0.15);
+}
+
+.avatar-group > .avatar {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.avatar-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--avatar-size, 24px);
+  height: var(--avatar-size, 24px);
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 10px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* A filter chip that leads with a face. */
+.face-chip {
+  gap: var(--space-2);
+  padding-left: var(--space-1);
+}
+
+.chip[aria-pressed="true"] .avatar-group > .avatar,
+.chip[aria-pressed="true"] .avatar-more {
+  box-shadow: 0 0 0 2px var(--text);
+}

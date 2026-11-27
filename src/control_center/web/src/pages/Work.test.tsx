@@ -72,3 +72,25 @@ test("a resolved thread can be reopened", async () => {
 
   expect(sent.some((r) => r.path === "/api/v1/threads/TH-1/reopen")).toBe(true);
 });
+
+test("the lead filter shows each lead's face in its live state, and All shows them together", async () => {
+  fakeServer({
+    "GET /api/v1/work": () =>
+      board([
+        makeThread({ id: "TH-1" }),
+        makeThread({ id: "TH-2", lead_name: "Atlas", lead_department: "personal" }),
+      ]),
+    "GET /api/v1/directory": () => ({
+      employees: [{ name: "Atlas", department: "personal", state: "generating" }],
+      proposals: [],
+      instruments: 0,
+    }),
+  });
+  renderPage(<Work />);
+
+  const filter = await screen.findByRole("group", { name: "Lead" });
+  const all = within(filter).getByRole("button", { name: /All leads/ });
+  expect(within(all).getAllByRole("img")).toHaveLength(2);
+  expect(await within(filter).findAllByRole("img", { name: "Atlas, writing" })).toHaveLength(2);
+  expect(within(all).getByRole("img", { name: "Foreman, idle" })).toBeInTheDocument();
+});

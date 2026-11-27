@@ -11,6 +11,7 @@ import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { StatusLabel, Thread } from "../api/types";
 import { StatusText } from "../design/status";
+import { LiveAvatar } from "./LiveFace";
 
 /** Each thread state as the Owner reads it: a status color and shape, and a word. */
 export const THREAD_STATE: Record<Thread["state"], StatusLabel> = {
@@ -98,6 +99,12 @@ export function ThreadCard({ thread }: { thread: Thread }) {
       </div>
       <p className="small">{thread.detail}</p>
       <div className="row wrap small">
+        <LiveAvatar
+          name={thread.lead_name}
+          department={thread.lead_department}
+          size={24}
+          idleAs={thread.state === "needs_owner" ? "waiting" : undefined}
+        />
         <span className="grow muted">
           {thread.lead_name} · {thread.pipeline} ·{" "}
           <span className="mono">{thread.unit_id ?? thread.id}</span>

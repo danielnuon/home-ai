@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { Approval } from "../api/types";
-import { Avatar } from "./Avatar";
+import { LiveAvatar } from "./LiveFace";
 
 const DECIDED_WORDS: Partial<Record<Approval["state"], string>> = {
   approved: "Approved",
@@ -101,11 +101,10 @@ export function ApprovalCard({ approval }: { approval: Approval }) {
       aria-label={approval.title}
     >
       <div className="row">
-        <Avatar
-          department={approval.department}
-          state={pending ? "waiting" : "idle"}
+        <LiveAvatar
           name={approval.employee_name}
-          size={32}
+          department={approval.department}
+          idleAs={pending ? "waiting" : undefined}
         />
         <div className="grow">
           <h3>{approval.title}</h3>
