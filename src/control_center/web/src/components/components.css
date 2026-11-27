@@ -977,12 +977,11 @@ dl.list.facts {
   align-items: center;
 }
 
-.avatar-group > .avatar + .avatar,
-.avatar-group > .avatar-more {
+.avatar-group > * + * {
   margin-left: calc(var(--avatar-size, 24px) * -0.15);
 }
 
-.avatar-group > .avatar {
+.avatar-group .avatar {
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--surface);
 }
@@ -1002,13 +1001,152 @@ dl.list.facts {
   box-shadow: 0 0 0 2px var(--surface);
 }
 
-/* A filter chip that leads with a face. */
-.face-chip {
-  gap: var(--space-2);
-  padding-left: var(--space-1);
+/*
+ * A face opens its owner (spec 7.13): rest the pointer on it for a card, or press and hold it.
+ * While held the face sinks a little and a ring fills around it; the sheet opens as the ring
+ * closes, and letting go early cancels. With reduced motion the ring is simply shown, full.
+ */
+.avatar-peek {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  border-radius: 50%;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-.chip[aria-pressed="true"] .avatar-group > .avatar,
-.chip[aria-pressed="true"] .avatar-more {
-  box-shadow: 0 0 0 2px var(--text);
+.avatar-peek > .avatar {
+  transition: transform 160ms ease-out;
+}
+
+.avatar-peek.holding > .avatar {
+  transform: scale(0.9);
+  transition-duration: var(--hold, 500ms);
+}
+
+.avatar-hold-ring {
+  position: absolute;
+  inset: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.avatar-hold-ring circle {
+  fill: none;
+  stroke: var(--accent-fill);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: hold-fill var(--hold, 500ms) linear forwards;
+}
+
+@keyframes hold-fill {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-hold-ring circle {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+.peek-card {
+  position: fixed;
+  z-index: 55;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+  transform-origin: top left;
+}
+
+.peek-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px var(--space-3);
+  margin: 0;
+}
+
+.peek-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.peek-body .link-chip {
+  align-self: flex-start;
+}
+
+/*
+ * A filter of people: faces with their names under them, no chip around each. The chosen one is
+ * marked by a short line under its name; the faces keep moving but drop their outer status ring,
+ * which would crowd a row this small.
+ */
+.face-filter {
+  display: flex;
+  gap: var(--space-1);
+  margin-inline: calc(var(--space-2) * -1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.face-filter > button {
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+  min-height: var(--touch);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.face-filter > button:active {
+  transform: scale(0.96);
+}
+
+.face-filter > button > span:last-child {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.face-filter > button[aria-pressed="true"] {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}
+
+.face-filter > button[aria-pressed="true"] > span:last-child::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-fill);
+}
+
+.face-filter .avatar::after {
+  content: none;
+}
+
+.face-filter .avatar-group .avatar {
+  box-shadow: none;
+}
+
+.face-filter .avatar-group > * + * {
+  margin-left: calc(var(--avatar-size) * -0.28);
 }

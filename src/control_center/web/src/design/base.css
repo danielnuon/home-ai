@@ -393,6 +393,7 @@ button.chip {
 
 .segmented {
   display: inline-flex;
+  align-self: flex-start;
   padding: 2px;
   gap: 2px;
   border-radius: var(--radius-control);
