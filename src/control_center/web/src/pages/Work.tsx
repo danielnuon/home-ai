@@ -9,6 +9,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useWorkBoard } from "../api/queries";
 import type { Department, Thread, ThreadsOverview, WorkBoard, WorkItem } from "../api/types";
+import { Segmented } from "../components/Controls";
 import { AvatarGroup, LiveAvatar } from "../components/LiveFace";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
@@ -65,35 +66,6 @@ function byState(threads: Thread[]): [Thread["state"], Thread[]][] {
   return [...groups];
 }
 
-/** A row of chips that picks one value; the pressed chip is the current one. */
-function Chips({
-  label,
-  options,
-  value,
-  onChange,
-}: {
-  label: string;
-  options: [string, string][];
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div className="row wrap" role="group" aria-label={label}>
-      {options.map(([option, words]) => (
-        <button
-          key={option}
-          type="button"
-          className="chip"
-          aria-pressed={option === value}
-          onClick={() => onChange(option)}
-        >
-          {words}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 interface Lead {
   name: string;
   department: Department;
@@ -108,8 +80,11 @@ function leadsOf(threads: Thread[]): Lead[] {
   return [...leads.values()];
 }
 
-/** The lead filter: each lead's face and name, and All as the faces together. */
-function LeadChips({
+/**
+ * The lead filter: a quiet row of faces with their names, no chips. All shows the faces together.
+ * The chosen one is marked by a line under its name; pressing it again goes back to All.
+ */
+function LeadFilter({
   leads,
   value,
   onChange,
@@ -118,27 +93,27 @@ function LeadChips({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const pick = (next: string) => onChange(next === value ? ALL_LEADS : next);
   return (
-    <div className="row wrap" role="group" aria-label="Lead">
+    <div className="face-filter" role="group" aria-label="Lead">
       <button
         type="button"
-        className="chip face-chip"
+        aria-label="All leads"
         aria-pressed={value === ALL_LEADS}
         onClick={() => onChange(ALL_LEADS)}
       >
-        <AvatarGroup faces={leads} size={20} />
-        All leads
+        <AvatarGroup faces={leads} size={26} max={3} />
+        <span>All</span>
       </button>
       {leads.map((lead) => (
         <button
           key={lead.name}
           type="button"
-          className="chip face-chip"
           aria-pressed={value === lead.name}
-          onClick={() => onChange(lead.name)}
+          onClick={() => pick(lead.name)}
         >
-          <LiveAvatar name={lead.name} department={lead.department} size={20} />
-          {lead.name}
+          <LiveAvatar name={lead.name} department={lead.department} size={26} />
+          <span>{lead.name}</span>
         </button>
       ))}
     </div>
@@ -161,7 +136,7 @@ function Threads({
   const resolved = threads.recently_resolved.filter(shown);
   return (
     <>
-      <LeadChips leads={leads} value={lead} onChange={onLead} />
+      <LeadFilter leads={leads} value={lead} onChange={onLead} />
       {open.length === 0 && <p className="card empty">No open threads here.</p>}
       {byState(open).map(([state, group]) => (
         <Section key={state} title={THREAD_STATE[state].label} aside={`${group.length}`}>
@@ -186,6 +161,11 @@ function Threads({
 }
 
 const ALL_LEADS = "all";
+
+const VIEWS = [
+  { value: "threads", label: "Threads" },
+  { value: "boards", label: "Boards" },
+] as const;
 
 /** The boards view: work items by stage, reviews waiting, and ideas. */
 function Boards({ board }: { board: WorkBoard }) {
@@ -242,12 +222,9 @@ export default function Work() {
   const lead = params.get("lead") ?? ALL_LEADS;
   return (
     <Page title="Work" subtitle="Every piece of work the team has open, and where each one is.">
-      <Chips
+      <Segmented
         label="View"
-        options={[
-          ["threads", "Threads"],
-          ["boards", "Boards"],
-        ]}
+        options={VIEWS}
         value={view}
         onChange={(next) => setParams(next === "boards" ? { view: next } : {})}
       />

@@ -977,12 +977,11 @@ dl.list.facts {
   align-items: center;
 }
 
-.avatar-group > .avatar + .avatar,
-.avatar-group > .avatar-more {
+.avatar-group > * + * {
   margin-left: calc(var(--avatar-size, 24px) * -0.15);
 }
 
-.avatar-group > .avatar {
+.avatar-group .avatar {
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--surface);
 }
@@ -1000,17 +999,6 @@ dl.list.facts {
   color: var(--muted);
   font-size: 10px;
   box-shadow: 0 0 0 2px var(--surface);
-}
-
-/* A filter chip that leads with a face. */
-.face-chip {
-  gap: var(--space-2);
-  padding-left: var(--space-1);
-}
-
-.chip[aria-pressed="true"] .avatar-group > .avatar,
-.chip[aria-pressed="true"] .avatar-more {
-  box-shadow: 0 0 0 2px var(--text);
 }
 
 /*
@@ -1095,7 +1083,70 @@ dl.list.facts {
   align-self: flex-start;
 }
 
-/* In a filter chip the face alone tells the state; the outer ring would crowd the chip. */
-.face-chip .avatar::after {
+/*
+ * A filter of people: faces with their names under them, no chip around each. The chosen one is
+ * marked by a short line under its name; the faces keep moving but drop their outer status ring,
+ * which would crowd a row this small.
+ */
+.face-filter {
+  display: flex;
+  gap: var(--space-1);
+  margin-inline: calc(var(--space-2) * -1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.face-filter > button {
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+  min-height: var(--touch);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.face-filter > button:active {
+  transform: scale(0.96);
+}
+
+.face-filter > button > span:last-child {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.face-filter > button[aria-pressed="true"] {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}
+
+.face-filter > button[aria-pressed="true"] > span:last-child::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-fill);
+}
+
+.face-filter .avatar::after {
   content: none;
+}
+
+.face-filter .avatar-group .avatar {
+  box-shadow: none;
+}
+
+.face-filter .avatar-group > * + * {
+  margin-left: calc(var(--avatar-size) * -0.28);
 }
