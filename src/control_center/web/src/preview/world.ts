@@ -1,0 +1,202 @@
+/**
+ * @file The in-browser mock world: the state the server's mock backends start from, moved to now.
+ *
+ * `mock-world.json` is written by `scripts/export_mock_world.py` from the Python fixtures, so the
+ * preview and the server start from the same data and a fixture edit reaches both (`make ci`
+ * fails if the file is stale). Every time in it was built against one fixed instant; loading
+ * moves each one by the same amount, so "expires in 6 hours" still reads that way today.
+ */
+import exported from "./mock-world.json";
+import type { Bus } from "./bus";
+import type {
+  Approval,
+  Case,
+  ChatLead,
+  ChatMessage,
+  Contact,
+  CriticalDecision,
+  Employee,
+  Job,
+  LiveTask,
+  Setting,
+  SetupStep,
+  TranscriptEntry,
+  WorkItem,
+} from "../api/types";
+import type { components } from "../api/schema";
+
+type Schemas = components["schemas"];
+
+/** What is recorded about a thread; its state is derived from this (`threads.py`). */
+export interface ThreadRecord {
+  id: string;
+  title: string;
+  kind: Schemas["Thread"]["kind"];
+  unit_id: string | null;
+  lead_id: string;
+  lead_name: string;
+  lead_department: Schemas["Thread"]["lead_department"];
+  pipeline: string;
+  principal: Schemas["Thread"]["principal"];
+  since: string;
+  owner_decision: string | null;
+  approval_id: string | null;
+  proposed_resolution: string | null;
+  waiting_for: string | null;
+  outcome: string | null;
+}
+
+/** Every piece of mutable mock state, as in `world.py`. */
+interface WorldState {
+  approvals: Record<string, Approval>;
+  decisions: Record<string, CriticalDecision>;
+  settings: Record<string, Setting>;
+  contacts: Record<string, Contact>;
+  tasks: Record<string, LiveTask>;
+  transcripts: Record<string, TranscriptEntry[]>;
+  threads: Record<string, ThreadRecord>;
+  work_items: WorkItem[];
+  employees: Record<string, Employee>;
+  proposals: Record<string, Schemas["LifecycleProposal"]>;
+  cases: Record<string, Case>;
+  changes: Record<string, Schemas["AutomaticChange"]>;
+  setup: Record<string, SetupStep>;
+  jobs: Record<string, Job>;
+  fixes: Record<string, Schemas["MaintenanceFix"]>;
+  chats: Record<string, ChatMessage[]>;
+  stopped: boolean;
+  maintenance_running: boolean;
+}
+
+/** A paid feature row: id, name, kind, switch setting, cap setting (`platform.PAID_FEATURES`). */
+export type PaidFeatureRow = [string, string, string, string, string];
+
+/** The read-only fixture views, with each variant a setting can select. */
+interface Fixtures {
+  hard_limits: Schemas["SettingsIndex"]["hard_limits"];
+  household: Schemas["ContactsOverview"]["household"];
+  service_groups: Schemas["ServiceGroup"][];
+  memory_zones: Schemas["MemoryZone"][];
+  health_metrics: Schemas["Metric"][];
+  system_tiles: Schemas["Metric"][];
+  system_rows: Schemas["SystemOverview"]["rows"];
+  family_assignments: Record<"independent" | "shared", Schemas["ModelsOverview"]["assignments"]>;
+  reviewer_impact: Schemas["ModelsOverview"]["reviewer_impact"];
+  model_stats: Schemas["ModelsOverview"]["stats"];
+  tokens_panel: Schemas["ModelsOverview"]["tokens"];
+  paid_features: PaidFeatureRow[];
+  cloud_impact: Record<string, Schemas["PaidFeature"]["impact"]>;
+  security_tiles: Schemas["Metric"][];
+  security_flags: Schemas["SecurityOverview"]["flags"];
+  sign_in_rows: Schemas["SecurityOverview"]["sign_in"];
+  audit_lines: Schemas["SecurityOverview"]["audit"];
+  backup_targets: Schemas["BackupsOverview"]["targets"];
+  retention: Schemas["BackupsOverview"]["retention"];
+  connection_groups: Schemas["RowGroup"][];
+  voice_profiles: Record<string, Schemas["VoiceOverview"]["profiles"]>;
+  maintenance_stats: Schemas["MaintenanceOverview"]["stats"];
+  findings: Schemas["MaintenanceOverview"]["findings"];
+  agenda: Schemas["TodayOverview"]["agenda"];
+  domains: Schemas["PersonalOverview"]["domains"];
+  finance: Record<string, Schemas["FinanceOverview"]>;
+  doc_groups: Schemas["DocsOverview"]["groups"];
+  search_index: Schemas["SearchSection"][];
+  wayfinder_answers: Record<string, string>;
+  ideas: Schemas["WorkBoard"]["ideas"];
+  reviews: Schemas["WorkBoard"]["reviews"];
+  task_stages: Record<string, string>;
+  stage_rails: Record<string, Schemas["Stage"][]>;
+  not_yet_hired: string[];
+  chat_leads: ChatLead[];
+  mock_reply: string;
+}
+
+/** The rules' numbers and words, read from the Python modules instead of repeated here. */
+interface Constants {
+  undo_window_seconds: number;
+  step_up_lifetime_seconds: number;
+  mock_assertion_prefix: string;
+  word_delay_seconds: number;
+  instrument_count: number;
+  needs_you_shown: number;
+  team_shown: number;
+  state_order: Schemas["Thread"]["state"][];
+  blocked_words: Record<string, string>;
+  waiting_words: Record<string, string>;
+  call_script: string;
+  pool_mode: string;
+  backup_mode: Schemas["StatusLabel"];
+  tick_seconds: number;
+  transcript_every_ticks: number;
+  sample_every_ticks: number;
+  rate_bounds: [number, number];
+  streamed_code: string;
+}
+
+interface Exported {
+  exported_at: string;
+  world: WorldState;
+  fixtures: Fixtures;
+  constants: Constants;
+}
+
+/** Makes ids the way `secrets.token_hex` and `token_urlsafe` do; tests pass a counter instead. */
+export type IdSource = (bytes: number) => string;
+
+/** A random id of `bytes` bytes, hex encoded. */
+const randomIds: IdSource = (bytes) =>
+  Array.from(crypto.getRandomValues(new Uint8Array(bytes)), (b) =>
+    b.toString(16).padStart(2, "0"),
+  ).join("");
+
+/** The world, its clock, its event bus and the fixtures, as every mock part sees them. */
+export interface MockWorld extends WorldState {
+  bus: Bus;
+  clock: () => Date;
+  ids: IdSource;
+  fixtures: Fixtures;
+  constants: Constants;
+  sampledAt: Date;
+  stepUpChallenges: Set<string>;
+  stepUpProofs: Map<string, Date>;
+}
+
+const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
+
+/** A deep copy of `value` with every ISO time moved by `shiftMs`. */
+function shifted<T>(value: T, shiftMs: number): T {
+  return JSON.parse(JSON.stringify(value), (_key, item: unknown) =>
+    typeof item === "string" && ISO_TIME.test(item)
+      ? new Date(Date.parse(item) + shiftMs).toISOString()
+      : item,
+  ) as T;
+}
+
+const DATA = exported as unknown as Exported;
+
+/** A fresh world, with every exported time moved so the export instant becomes `clock()`. */
+export function buildWorld(bus: Bus, clock: () => Date, ids: IdSource = randomIds): MockWorld {
+  const now = clock();
+  const shiftMs = now.getTime() - Date.parse(DATA.exported_at);
+  return {
+    ...shifted(DATA.world, shiftMs),
+    bus,
+    clock,
+    ids,
+    fixtures: shifted(DATA.fixtures, shiftMs),
+    constants: DATA.constants,
+    sampledAt: now,
+    stepUpChallenges: new Set(),
+    stepUpProofs: new Map(),
+  };
+}
+
+/** The current value of a setting. */
+export function setting(world: MockWorld, key: string): string {
+  const found = world.settings[key];
+  if (!found) throw new Error(`Unknown setting ${key}`);
+  return found.value;
+}
+
+/** Whether a switch setting is on. */
+export const isOn = (world: MockWorld, key: string): boolean => setting(world, key) === "on";

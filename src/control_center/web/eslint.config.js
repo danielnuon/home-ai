@@ -22,7 +22,7 @@ const SERVER_SEAM = ["fetch", "EventSource"].map((name) => ({
 }));
 
 export default tseslint.config(
-  { ignores: ["dist", "node_modules", "src/api/schema.d.ts", "public/sw.js"] },
+  { ignores: ["dist", "dist-preview", "node_modules", "src/api/schema.d.ts", "public/sw.js"] },
   js.configs.recommended,
   ...tseslint.configs.strict,
   {

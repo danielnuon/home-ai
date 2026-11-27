@@ -3,7 +3,8 @@
  * stream, and the router.
  */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useState } from "react";
+import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router-dom";
 import { useLiveEvents } from "./api/events";
 import { StepUpProvider } from "./components/StepUp";
 import { ToastProvider } from "./components/Toasts";
@@ -24,7 +25,8 @@ function makeQueryClient(): QueryClient {
   });
 }
 
-const router = createBrowserRouter([
+/** Every page inside the shell. The preview mounts the same tree on a memory router. */
+export const ROUTE_TREE: RouteObject[] = [
   {
     element: <AppShell />,
     children: [
@@ -32,7 +34,9 @@ const router = createBrowserRouter([
       { path: "*", element: <NotFound /> },
     ],
   },
-]);
+];
+
+type AppRouter = ReturnType<typeof createBrowserRouter>;
 
 /** Subscribes to live events inside the query provider. */
 function LiveEvents() {
@@ -40,8 +44,15 @@ function LiveEvents() {
   return null;
 }
 
-/** The whole app. `client` is injectable for tests. */
-export function App({ client = makeQueryClient() }: { client?: QueryClient }) {
+/** The whole app. `client` is injectable for tests; `makeRouter` lets the preview use its own. */
+export function App({
+  client = makeQueryClient(),
+  makeRouter = () => createBrowserRouter(ROUTE_TREE),
+}: {
+  client?: QueryClient;
+  makeRouter?: () => AppRouter;
+}) {
+  const [router] = useState(makeRouter);
   return (
     <QueryClientProvider client={client}>
       <LazyMotion features={motionFeatures} strict>
