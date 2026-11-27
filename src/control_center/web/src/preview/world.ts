@@ -78,6 +78,8 @@ interface Fixtures {
   service_groups: Schemas["ServiceGroup"][];
   memory_zones: Schemas["MemoryZone"][];
   health_metrics: Schemas["Metric"][];
+  /** What each health sample reads next, per figure: the words and the new sparkline point. */
+  health_readings: Record<string, [string, number][]>;
   system_tiles: Schemas["Metric"][];
   system_rows: Schemas["SystemOverview"]["rows"];
   family_assignments: Record<"independent" | "shared", Schemas["ModelsOverview"]["assignments"]>;
@@ -157,6 +159,8 @@ export interface MockWorld extends WorldState {
   fixtures: Fixtures;
   constants: Constants;
   sampledAt: Date;
+  /** How many health samples have been taken; the health figures move with it. */
+  samples: number;
   stepUpChallenges: Set<string>;
   stepUpProofs: Map<string, Date>;
 }
@@ -186,6 +190,7 @@ export function buildWorld(bus: Bus, clock: () => Date, ids: IdSource = randomId
     fixtures: shifted(DATA.fixtures, shiftMs),
     constants: DATA.constants,
     sampledAt: now,
+    samples: 0,
     stepUpChallenges: new Set(),
     stepUpProofs: new Map(),
   };

@@ -55,9 +55,26 @@ export function subsystemTiles(world: MockWorld, spend: SpendOverview): Tile[] {
   }));
 }
 
-/** Today's live figures, stamped like every other sample. */
+/** A figure after `samples` health samples: the latest reading, the sparkline rolled on. */
+function advanced(metric: Metric, readings: [string, number][], samples: number): Metric {
+  if (readings.length === 0 || samples === 0) return metric;
+  const width = metric.spark.length;
+  const taken = [];
+  for (let i = Math.max(0, samples - width); i < samples; i += 1) {
+    taken.push(readings[i % readings.length] as [string, number]);
+  }
+  const spark = [...metric.spark, ...taken.map(([, point]) => point)].slice(-width);
+  return { ...metric, value: taken[taken.length - 1]?.[0] ?? metric.value, spark };
+}
+
+/** Today's live figures after the samples taken so far, stamped like every other sample. */
 export const healthMetrics = (world: MockWorld): Metric[] =>
-  sampled(world, world.fixtures.health_metrics);
+  sampled(
+    world,
+    world.fixtures.health_metrics.map((metric) =>
+      advanced(metric, world.fixtures.health_readings[metric.name] ?? [], world.samples),
+    ),
+  );
 
 /** Machine, memory zones and hardware signals. */
 export function system(world: MockWorld): SystemOverview {

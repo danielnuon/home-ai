@@ -1607,3 +1607,43 @@ dl.list.facts {
   display: grid;
   min-width: 0;
 }
+
+/* A live figure (decision 129): the reading rolls in, and the sparkline's newest point breathes */
+.tile-value {
+  position: relative;
+  overflow: hidden;
+}
+
+.tile-value-now {
+  display: inline-block;
+}
+
+.spark-now {
+  fill: var(--data-1);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spark-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes spark-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spark-now {
+    animation: none;
+  }
+}
+
+.sparkline {
+  overflow: visible;
+}

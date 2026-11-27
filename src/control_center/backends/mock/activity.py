@@ -1,6 +1,7 @@
 """Simulated agent activity, so the mock platform looks and streams like a working one.
 
-Every 30 seconds the status aggregator "samples", so tiles stay fresh. Every tick, each generating
+Every 10 seconds the status aggregator "samples", so tiles stay fresh and the health figures
+move. Every tick, each generating
 task's token rate drifts a little and is published as a `task.progress` event; every few ticks,
 Bolt's open transcript line grows by a few words. This is what lets the activity field, the
 counters and the transcript view be built and checked before any model runs (spec 7.13: "feel the
@@ -18,8 +19,10 @@ TICK_SECONDS = 0.5
 TRANSCRIPT_EVERY_TICKS = 3
 """Append transcript text every 1.5 seconds."""
 
-SAMPLE_EVERY_TICKS = 60
-"""Collect health and metrics every 30 seconds, well inside the 3-minute stale limit (spec 7.3)."""
+SAMPLE_EVERY_TICKS = 20
+"""Collect health and metrics every 10 seconds, well inside the 3-minute stale limit (spec 7.3).
+The real aggregator samples every 30 seconds; the mock samples faster so its figures visibly
+move while the interface is being built and reviewed (decision 129)."""
 
 RATE_BOUNDS = (12.0, 60.0)
 """Plausible tokens per second for the local models on this hardware (spec 8.1)."""
@@ -50,6 +53,7 @@ async def simulate_activity(world: MockWorld, rng: random.Random | None = None) 
 def _sample(world: MockWorld) -> None:
     """Take a fresh health sample, as the aggregator does even while the platform is stopped."""
     world.sampled_at = world.clock()
+    world.samples += 1
     world.bus.changed("today", "system", "security")
 
 

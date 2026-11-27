@@ -235,8 +235,49 @@ def reviewer_impact() -> list[ImpactLine]:
     ]
 
 
-def health_metrics() -> list[Metric]:
-    """The "How it's running" list on desktop Today, a selection from the 7.18 catalog."""
+HEALTH_READINGS: dict[str, list[tuple[str, float]]] = {
+    "Chat first token p95": [
+        ("1.3 s", 10),
+        ("1.5 s", 12),
+        ("1.2 s", 9),
+        ("1.4 s", 11),
+        ("1.6 s", 13),
+        ("1.3 s", 10),
+    ],
+    "Chat on fallback model": [
+        ("9 min/d", 10),
+        ("10 min/d", 11),
+        ("9 min/d", 9),
+        ("8 min/d", 8),
+        ("9 min/d", 10),
+    ],
+    "Model swaps today": [("3 of ≤6", 11), ("3 of ≤6", 10)],
+    "Review wait p50": [("7 min", 9), ("5 min", 7), ("6 min", 8), ("8 min", 10), ("6 min", 8)],
+    "Memory pressure": [("Normal", 13), ("Normal", 12), ("Normal", 14), ("Normal", 13)],
+    "Bug catch rate": [("81%", 8), ("82%", 9), ("81%", 8), ("80%", 7)],
+}
+"""What each health sample reads next, in turn, so the mock figures move like measured ones
+(decision 129). Each reading is the words on the tile and the new point on its sparkline."""
+
+
+def _advanced(metric: Metric, samples: int) -> Metric:
+    """A figure after `samples` health samples: the latest reading, the sparkline rolled on."""
+    readings = HEALTH_READINGS.get(metric.name, [])
+    if not readings or samples == 0:
+        return metric
+    width = len(metric.spark)
+    taken = [readings[i % len(readings)] for i in range(max(0, samples - width), samples)]
+    spark = (metric.spark + [point for _, point in taken])[-width:]
+    return metric.model_copy(update={"value": taken[-1][0], "spark": spark})
+
+
+def health_metrics(samples: int = 0) -> list[Metric]:
+    """The "How it's running" list on Today after `samples` health samples (7.18 catalog)."""
+    return [_advanced(metric, samples) for metric in _health_base()]
+
+
+def _health_base() -> list[Metric]:
+    """The "How it's running" figures before any sample."""
     healthy = StatusLabel(status="healthy", label="")
     return [
         Metric(name="Chat first token p95", value="1.4 s", spark=[12, 10, 13, 9, 11, 8, 9]),

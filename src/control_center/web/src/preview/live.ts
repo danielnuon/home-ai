@@ -119,6 +119,7 @@ export function simulateActivity(world: MockWorld): () => void {
     tick += 1;
     if (tick % c.sample_every_ticks === 0) {
       world.sampledAt = world.clock();
+      world.samples += 1;
       world.bus.changed("today", "system", "security");
     }
     if (world.stopped) return;
