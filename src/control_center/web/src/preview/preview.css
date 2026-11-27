@@ -1,0 +1,19 @@
+/*
+ * The preview's one difference in layout. Its host may grow the frame to the page's full height,
+ * which would leave the phone's tab bar at the bottom of the whole page instead of the screen.
+ * On a phone the page is therefore exactly one screen tall and the app scrolls inside it.
+ */
+@media (max-width: 599px) {
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

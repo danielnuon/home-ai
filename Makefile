@@ -3,7 +3,7 @@
 WEB := src/control_center/web
 export UV_SYSTEM_CERTS := 1
 
-.PHONY: install dev server web types lint test build a11y ci
+.PHONY: install dev server web types mock-data preview lint test build a11y ci
 
 install:  ## Install Python and front-end dependencies, and the browser `make a11y` drives.
 	uv sync
@@ -23,6 +23,16 @@ types:  ## Regenerate the front end's API types from the server's models.
 	mkdir -p build
 	uv run python scripts/export_openapi.py build/openapi.json
 	cd $(WEB) && pnpm types
+
+PREVIEW_DIR := $(WEB)/src/preview
+
+mock-data:  ## Re-export the mock world and re-record the server's answers for the preview.
+	uv run python scripts/export_mock_world.py $(PREVIEW_DIR)/mock-world.json
+	uv run python scripts/record_mock_parity.py $(PREVIEW_DIR)/parity.json
+
+preview: mock-data  ## The in-browser preview: the app and its mock backend in one HTML file.
+	cd $(WEB) && pnpm build:preview
+	@echo "Preview: $(WEB)/dist-preview/brain-preview.html"
 
 lint:  ## Every style, type, docstring, dead-code and duplication check, and shellcheck on scripts/phase0.
 	uv run ruff format --check .
@@ -57,7 +67,9 @@ a11y: build  ## axe on every page in a real browser, Day and Night, phone and de
 		{ echo "a11y: Brain did not answer /health within 10 s." >&2; exit 1; }; \
 	cd $(WEB) && BRAIN_URL=http://127.0.0.1:$(A11Y_PORT) pnpm a11y
 
-ci: lint test build a11y  ## Everything CI checks, and also that the generated types are current.
+ci: lint test build a11y  ## Everything CI checks, and that the generated types and mock data are current.
+	$(MAKE) mock-data
+	git diff --exit-code -- $(PREVIEW_DIR)/mock-world.json $(PREVIEW_DIR)/parity.json
 	mkdir -p build
 	uv run python scripts/export_openapi.py build/openapi.json
 	cd $(WEB) && pnpm types

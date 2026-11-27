@@ -1,0 +1,4541 @@
+{
+ "exported_at": "2026-10-25T16:00:00+00:00",
+ "world": {
+  "approvals": {
+   "AP-0107": {
+    "id": "AP-0107",
+    "title": "Reply to Dr. Patel's office",
+    "employee_name": "Chrono",
+    "department": "personal",
+    "domain": "Calendar and admin",
+    "data_class": "internal",
+    "approval_class": "P",
+    "tier": "T2",
+    "principal": "Owner",
+    "recipient": "front.desk@[clinic domain]",
+    "recipient_trust": "allowlisted",
+    "summary": "Confirm Tuesday at 10:30 · from your Gmail",
+    "draft": "Hi, confirming Tuesday at 10:30. Thank you!",
+    "release": null,
+    "expires_at": "2026-10-25T22:00:00Z",
+    "needs_step_up": false,
+    "state": "pending",
+    "decided_note": null,
+    "undo_until": null
+   },
+   "AP-0108": {
+    "id": "AP-0108",
+    "title": "Send October rent receipt",
+    "employee_name": "Keystone",
+    "department": "personal",
+    "domain": "Rental",
+    "data_class": "restricted",
+    "approval_class": "P",
+    "tier": "T3",
+    "principal": "Owner",
+    "recipient": "Unit B tenant",
+    "recipient_trust": "known",
+    "summary": "New recipient · attachment: receipt-2026-10.pdf",
+    "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+    "release": null,
+    "expires_at": "2026-10-26T12:00:00Z",
+    "needs_step_up": true,
+    "state": "pending",
+    "decided_note": null,
+    "undo_until": null
+   },
+   "AP-0109": {
+    "id": "AP-0109",
+    "title": "Release Lease Reminders 1.2",
+    "employee_name": "Liftoff",
+    "department": "engineering",
+    "domain": "Development",
+    "data_class": "internal",
+    "approval_class": "R",
+    "tier": null,
+    "principal": "Owner",
+    "recipient": null,
+    "recipient_trust": null,
+    "summary": "R2 · gate G7",
+    "draft": null,
+    "release": {
+     "added_lines": 412,
+     "removed_lines": 96,
+     "files": 9,
+     "checks_passed": 14,
+     "checks_total": 14,
+     "rollback": "One step to 1.1.4"
+    },
+    "expires_at": "2026-10-31T16:00:00Z",
+    "needs_step_up": false,
+    "state": "pending",
+    "decided_note": null,
+    "undo_until": null
+   },
+   "AP-0110": {
+    "id": "AP-0110",
+    "title": "Email the insurer from Dad's account",
+    "employee_name": "Pulse",
+    "department": "personal",
+    "domain": "Health",
+    "data_class": "restricted",
+    "approval_class": "P",
+    "tier": "T3",
+    "principal": "Dad",
+    "recipient": "Insurer member services",
+    "recipient_trust": "known",
+    "summary": "New recipient · asks to confirm in-network status for one pharmacy",
+    "draft": "Hello, could you confirm whether the pharmacy on Elm Street is in network for my plan? Thank you.",
+    "release": null,
+    "expires_at": "2026-10-26T16:00:00Z",
+    "needs_step_up": true,
+    "state": "pending",
+    "decided_note": null,
+    "undo_until": null
+   }
+  },
+  "decisions": {
+   "CDR-0012": {
+    "id": "CDR-0012",
+    "title": "Switch the coding model to a newer release",
+    "summary": "Passed 9% more held-out tasks at the same memory. Rejected: keeping the current model, which is slower on long files.",
+    "rationale": "Passed 9% more held-out Python and TypeScript tasks than the current model, at the same 4-bit size and 18 tok/s faster on files over 2,000 lines.",
+    "rejected": [
+     {
+      "option": "Keep the current model",
+      "effect": "slower on long files",
+      "outcome": "more time per work item"
+     },
+     {
+      "option": "Use the larger 8-bit build",
+      "effect": "does not fit the 42GB pool beside EMBED",
+      "outcome": "rejected"
+     }
+    ],
+    "risks": "New release has 3 weeks of community use. The old model stays downloaded; reverting is one step.",
+    "evidence": "Benchmark cards for both models",
+    "effect": "after_window",
+    "window_ends": "2026-10-26T10:04:00Z",
+    "status": "pending_window",
+    "acknowledged": false,
+    "veto_preview": "The switch is cancelled. Bolt keeps the current coding model, and the selector won't propose this model again for 30 days.",
+    "veto_reason": null,
+    "decided_on": "Oct 27",
+    "open": true,
+    "vetoable": true
+   },
+   "CDR-0011": {
+    "id": "CDR-0011",
+    "title": "Reviews run on the coding model (option off)",
+    "summary": "",
+    "rationale": "",
+    "rejected": [],
+    "risks": "",
+    "evidence": "",
+    "effect": "immediate",
+    "window_ends": null,
+    "status": "in_effect",
+    "acknowledged": true,
+    "veto_preview": "",
+    "veto_reason": null,
+    "decided_on": "Oct 26",
+    "open": false,
+    "vetoable": true
+   },
+   "CDR-0010": {
+    "id": "CDR-0010",
+    "title": "Restricted domains show summaries in Discord",
+    "summary": "",
+    "rationale": "",
+    "rejected": [],
+    "risks": "",
+    "evidence": "",
+    "effect": "immediate",
+    "window_ends": null,
+    "status": "in_effect",
+    "acknowledged": true,
+    "veto_preview": "",
+    "veto_reason": null,
+    "decided_on": "Oct 26",
+    "open": false,
+    "vetoable": true
+   },
+   "CDR-0009": {
+    "id": "CDR-0009",
+    "title": "Nightly maintenance moved to 02:30",
+    "summary": "",
+    "rationale": "",
+    "rejected": [],
+    "risks": "",
+    "evidence": "",
+    "effect": "immediate",
+    "window_ends": null,
+    "status": "vetoed",
+    "acknowledged": false,
+    "veto_preview": "",
+    "veto_reason": null,
+    "decided_on": "Oct 24",
+    "open": false,
+    "vetoable": false
+   },
+   "CDR-0001": {
+    "id": "CDR-0001",
+    "title": "AI reviews the security-critical code",
+    "summary": "",
+    "rationale": "",
+    "rejected": [],
+    "risks": "",
+    "evidence": "",
+    "effect": "immediate",
+    "window_ends": null,
+    "status": "in_effect",
+    "acknowledged": true,
+    "veto_preview": "",
+    "veto_reason": null,
+    "decided_on": "Oct 24",
+    "open": false,
+    "vetoable": true
+   }
+  },
+  "settings": {
+   "models.review.independent": {
+    "key": "models.review.independent",
+    "label": "Independent reviewer",
+    "note": "Review code on a different model family; shows its impact first",
+    "category": "Models and performance",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": false,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "cloud.providers.anthropic": {
+    "key": "cloud.providers.anthropic",
+    "label": "Claude (Anthropic)",
+    "note": "Cloud model · used only at targeted points and where data allows",
+    "category": "Models and performance",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "spend",
+    "cost_note": "Costs money",
+    "history": []
+   },
+   "budget.anthropic": {
+    "key": "budget.anthropic",
+    "label": "Claude (Anthropic): monthly cap",
+    "note": "Spending stops at the cap",
+    "category": "Models and performance",
+    "kind": "money",
+    "value": "0",
+    "default": "0",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": 100,
+    "owner_page": "spend",
+    "cost_note": "Hard ceiling $100 a month",
+    "history": []
+   },
+   "cloud.providers.openai": {
+    "key": "cloud.providers.openai",
+    "label": "GPT-6 Sol (OpenAI)",
+    "note": "Cloud model · used only at targeted points and where data allows",
+    "category": "Models and performance",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "spend",
+    "cost_note": "Costs money",
+    "history": []
+   },
+   "budget.openai": {
+    "key": "budget.openai",
+    "label": "GPT-6 Sol (OpenAI): monthly cap",
+    "note": "Spending stops at the cap",
+    "category": "Models and performance",
+    "kind": "money",
+    "value": "0",
+    "default": "0",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": 100,
+    "owner_page": "spend",
+    "cost_note": "Hard ceiling $100 a month",
+    "history": []
+   },
+   "video.cloud": {
+    "key": "video.cloud",
+    "label": "Cloud video",
+    "note": "Per second of video",
+    "category": "Models and performance",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "spend",
+    "cost_note": "Costs money",
+    "history": []
+   },
+   "budget.video": {
+    "key": "budget.video",
+    "label": "Cloud video: monthly cap",
+    "note": "Spending stops at the cap",
+    "category": "Models and performance",
+    "kind": "money",
+    "value": "0",
+    "default": "0",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": 50,
+    "owner_page": "spend",
+    "cost_note": "Hard ceiling $50 a month",
+    "history": []
+   },
+   "image.enabled": {
+    "key": "image.enabled",
+    "label": "Image generation",
+    "note": "Local, free",
+    "category": "Models and performance",
+    "kind": "switch",
+    "value": "on",
+    "default": "on",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.CONVERSE": {
+    "key": "models.tokens.output_cap.CONVERSE",
+    "label": "Answer cap: CONVERSE",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "1536",
+    "default": "1536",
+    "choices": [
+     "768",
+     "1536",
+     "3072"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.EXTRACT": {
+    "key": "models.tokens.output_cap.EXTRACT",
+    "label": "Answer cap: EXTRACT",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "1024",
+    "default": "1024",
+    "choices": [
+     "512",
+     "1024",
+     "2048"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.WRITE": {
+    "key": "models.tokens.output_cap.WRITE",
+    "label": "Answer cap: WRITE",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "4096",
+    "default": "4096",
+    "choices": [
+     "2048",
+     "4096",
+     "8192"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.REASON": {
+    "key": "models.tokens.output_cap.REASON",
+    "label": "Answer cap: REASON",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "4096",
+    "default": "4096",
+    "choices": [
+     "2048",
+     "4096",
+     "8192"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.CODE": {
+    "key": "models.tokens.output_cap.CODE",
+    "label": "Answer cap: CODE",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "8192",
+    "default": "8192",
+    "choices": [
+     "4096",
+     "8192",
+     "16384"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.output_cap.REVIEW": {
+    "key": "models.tokens.output_cap.REVIEW",
+    "label": "Answer cap: REVIEW",
+    "note": "Longest answer in tokens, thinking not counted",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "3072",
+    "default": "3072",
+    "choices": [
+     "1536",
+     "3072",
+     "6144"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.reasoning.ceiling.CONVERSE": {
+    "key": "models.tokens.reasoning.ceiling.CONVERSE",
+    "label": "Thinking ceiling: CONVERSE",
+    "note": "Most tokens spent thinking before an answer",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "1024",
+    "default": "1024",
+    "choices": [
+     "512",
+     "1024",
+     "2048"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.reasoning.ceiling.REASON": {
+    "key": "models.tokens.reasoning.ceiling.REASON",
+    "label": "Thinking ceiling: REASON",
+    "note": "Most tokens spent thinking before an answer",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "8192",
+    "default": "8192",
+    "choices": [
+     "4096",
+     "8192",
+     "16384"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.reasoning.ceiling.CODE": {
+    "key": "models.tokens.reasoning.ceiling.CODE",
+    "label": "Thinking ceiling: CODE",
+    "note": "Most tokens spent thinking before an answer",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "4096",
+    "default": "4096",
+    "choices": [
+     "2048",
+     "4096",
+     "8192"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.reasoning.ceiling.REVIEW": {
+    "key": "models.tokens.reasoning.ceiling.REVIEW",
+    "label": "Thinking ceiling: REVIEW",
+    "note": "Most tokens spent thinking before an answer",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "4096",
+    "default": "4096",
+    "choices": [
+     "2048",
+     "4096",
+     "8192"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "models.tokens.tool_result_inline_max": {
+    "key": "models.tokens.tool_result_inline_max",
+    "label": "Tool result kept in context",
+    "note": "A larger result becomes a summary and a handle",
+    "category": "Tokens",
+    "kind": "level",
+    "value": "2000",
+    "default": "2000",
+    "choices": [
+     "1000",
+     "2000",
+     "4000"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "models",
+    "cost_note": "",
+    "history": []
+   },
+   "discord.detail.restricted": {
+    "key": "discord.detail.restricted",
+    "label": "Discord detail: restricted domains",
+    "note": "Health, finance, investing, taxes, rental",
+    "category": "Privacy",
+    "kind": "level",
+    "value": "summary",
+    "default": "summary",
+    "choices": [
+     "counts",
+     "summary",
+     "full"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "settings",
+    "cost_note": "",
+    "history": []
+   },
+   "discord.detail.other": {
+    "key": "discord.detail.other",
+    "label": "Discord detail: other domains",
+    "note": "Admin, household, career, business",
+    "category": "Privacy",
+    "kind": "level",
+    "value": "full",
+    "default": "full",
+    "choices": [
+     "counts",
+     "summary",
+     "full"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "settings",
+    "cost_note": "",
+    "history": []
+   },
+   "stepup.restricted_views": {
+    "key": "stepup.restricted_views",
+    "label": "Step-up to view restricted",
+    "note": "Passkey before opening those pages",
+    "category": "Privacy",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": false,
+    "ceiling": null,
+    "owner_page": "settings",
+    "cost_note": "",
+    "history": []
+   },
+   "voice.enabled": {
+    "key": "voice.enabled",
+    "label": "Approval calls",
+    "note": "Twilio · class C approvals by phone",
+    "category": "Calls",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "spend",
+    "cost_note": "Costs money",
+    "history": []
+   },
+   "budget.voice": {
+    "key": "budget.voice",
+    "label": "Approval calls: monthly cap",
+    "note": "Spending stops at the cap",
+    "category": "Calls",
+    "kind": "money",
+    "value": "0",
+    "default": "0",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": 20,
+    "owner_page": "spend",
+    "cost_note": "Hard ceiling $20 a month",
+    "history": []
+   },
+   "voice.profile": {
+    "key": "voice.profile",
+    "label": "Call voice",
+    "note": "Who reads the approval call · free",
+    "category": "Calls",
+    "kind": "choice",
+    "value": "heart",
+    "default": "twilio_default",
+    "choices": [
+     "twilio_default",
+     "heart",
+     "michael",
+     "my_voice",
+     "mom"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "voice",
+    "cost_note": "",
+    "history": [
+     {
+      "at": "2026-10-22T16:00:00Z",
+      "old": "twilio_default",
+      "new": "heart",
+      "via": "discord"
+     }
+    ]
+   },
+   "voice.profiles.celebrity_clones": {
+    "key": "voice.profiles.celebrity_clones",
+    "label": "Private celebrity clones",
+    "note": "Legal risk you accept; calls to you only",
+    "category": "Calls",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "voice",
+    "cost_note": "",
+    "history": []
+   },
+   "away_mode": {
+    "key": "away_mode",
+    "label": "Away mode",
+    "note": "Pauses pipelines A–D; reminders and backups keep running",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": false,
+    "ceiling": null,
+    "owner_page": "today",
+    "cost_note": "",
+    "history": []
+   },
+   "quiet_hours": {
+    "key": "quiet_hours",
+    "label": "Quiet hours",
+    "note": "Alerts held; approvals' expiry starts at delivery",
+    "category": "Operations",
+    "kind": "choice",
+    "value": "22:00–06:00",
+    "default": "22:00–06:00",
+    "choices": [
+     "21:00–06:00",
+     "22:00–06:00",
+     "23:00–07:00"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "schedule",
+    "cost_note": "",
+    "history": [
+     {
+      "at": "2026-10-16T16:00:00Z",
+      "old": "23:00–07:00",
+      "new": "22:00–06:00",
+      "via": "brain"
+     },
+     {
+      "at": "2026-09-15T16:00:00Z",
+      "old": "22:00–06:00",
+      "new": "23:00–07:00",
+      "via": "desk"
+     }
+    ]
+   },
+   "heartbeat.enabled": {
+    "key": "heartbeat.enabled",
+    "label": "Heartbeat monitor",
+    "note": "Free Healthchecks.io check",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "on",
+    "default": "on",
+    "choices": [],
+    "on_is_loosening": false,
+    "ceiling": null,
+    "owner_page": "system",
+    "cost_note": "",
+    "history": []
+   },
+   "offsite.paid_storage": {
+    "key": "offsite.paid_storage",
+    "label": "Paid offsite backup",
+    "note": "restic to S3-compatible storage",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "spend",
+    "cost_note": "Costs money",
+    "history": []
+   },
+   "budget.offsite": {
+    "key": "budget.offsite",
+    "label": "Paid offsite backup: monthly cap",
+    "note": "Spending stops at the cap",
+    "category": "Operations",
+    "kind": "money",
+    "value": "0",
+    "default": "0",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": 20,
+    "owner_page": "spend",
+    "cost_note": "Hard ceiling $20 a month",
+    "history": []
+   },
+   "outbound.mail_send": {
+    "key": "outbound.mail_send",
+    "label": "Sending email",
+    "note": "Off until Phase 16; sending still follows action tiers",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "settings",
+    "cost_note": "",
+    "history": []
+   }
+  },
+  "contacts": {
+   "C-01": {
+    "id": "C-01",
+    "name": "Dr. Patel's office",
+    "meta": "Health · email",
+    "trust": "allowlisted"
+   },
+   "C-02": {
+    "id": "C-02",
+    "name": "Unit B tenant",
+    "meta": "Rental · email, text",
+    "trust": "known"
+   },
+   "C-03": {
+    "id": "C-03",
+    "name": "A-1 Plumbing",
+    "meta": "Home · vendor",
+    "trust": "allowlisted"
+   },
+   "C-04": {
+    "id": "C-04",
+    "name": "Tax preparer",
+    "meta": "Taxes · email",
+    "trust": "allowlisted"
+   },
+   "C-05": {
+    "id": "C-05",
+    "name": "Insurer member services",
+    "meta": "Health · Dad · new",
+    "trust": "known"
+   },
+   "C-06": {
+    "id": "C-06",
+    "name": "Promo sender",
+    "meta": "14 messages filed",
+    "trust": "blocked"
+   }
+  },
+  "tasks": {
+   "T-5521": {
+    "id": "T-5521",
+    "employee_id": "ENG-1",
+    "employee_name": "Bolt",
+    "department": "engineering",
+    "state": "generating",
+    "doing": "is writing the reminder schedule",
+    "item": "WI-0031 Lease Reminders",
+    "model": "coding model",
+    "lane": "development",
+    "started_at": "2026-10-25T15:53:48Z",
+    "tokens_per_second": 41.0,
+    "queued": false,
+    "paused": false,
+    "waiting_on": null,
+    "blocked_code": null,
+    "thread_id": "TH-0131",
+    "thread_title": "Lease Reminders 1.2",
+    "lead_name": "Foreman",
+    "session_state": "running"
+   },
+   "T-5522": {
+    "id": "T-5522",
+    "employee_id": "PO-1",
+    "employee_name": "Atlas",
+    "department": "personal",
+    "state": "generating",
+    "doing": "is drafting tomorrow's brief",
+    "item": "Daily brief",
+    "model": "conversation model",
+    "lane": "personal",
+    "started_at": "2026-10-25T15:59:00Z",
+    "tokens_per_second": 23.0,
+    "queued": false,
+    "paused": false,
+    "waiting_on": null,
+    "blocked_code": null,
+    "thread_id": null,
+    "thread_title": null,
+    "lead_name": null,
+    "session_state": "running"
+   },
+   "T-5519": {
+    "id": "T-5519",
+    "employee_id": "GOV-1",
+    "employee_name": "Foreman",
+    "department": "governance",
+    "state": "waiting",
+    "doing": "is waiting for your yes on the design",
+    "item": "WI-0029 Receipt scanner",
+    "model": "coding model",
+    "lane": "development",
+    "started_at": "2026-10-25T13:00:00Z",
+    "tokens_per_second": null,
+    "queued": false,
+    "paused": false,
+    "waiting_on": "owner",
+    "blocked_code": null,
+    "thread_id": "TH-0129",
+    "thread_title": "Receipt scanner: better totals",
+    "lead_name": "Foreman",
+    "session_state": "waiting"
+   },
+   "T-5525": {
+    "id": "T-5525",
+    "employee_id": "PO-9",
+    "employee_name": "Keystone",
+    "department": "personal",
+    "state": "idle",
+    "doing": "is waiting for the tenant's reply",
+    "item": "Lease renewal",
+    "model": "conversation model",
+    "lane": "personal",
+    "started_at": "2026-10-24T16:00:00Z",
+    "tokens_per_second": null,
+    "queued": false,
+    "paused": false,
+    "waiting_on": "third_party",
+    "blocked_code": null,
+    "thread_id": "TH-0214",
+    "thread_title": "Lease renewal for the rental",
+    "lead_name": "Atlas",
+    "session_state": "waiting"
+   },
+   "T-5517": {
+    "id": "T-5517",
+    "employee_id": "IDEA-1",
+    "employee_name": "Spark",
+    "department": "ideation",
+    "state": "blocked",
+    "doing": "has reached this idea's budget cap",
+    "item": "ID-0013 Calendar digest",
+    "model": "coding model",
+    "lane": "development",
+    "started_at": "2026-10-25T11:00:00Z",
+    "tokens_per_second": null,
+    "queued": false,
+    "paused": false,
+    "waiting_on": null,
+    "blocked_code": "budget",
+    "thread_id": "TH-0120",
+    "thread_title": "Shared family calendar digest",
+    "lead_name": "Spark",
+    "session_state": "blocked"
+   },
+   "T-5523": {
+    "id": "T-5523",
+    "employee_id": "QA-3",
+    "employee_name": "Redline",
+    "department": "quality",
+    "state": "idle",
+    "doing": "is waiting for Bolt",
+    "item": "Review WI-0031",
+    "model": "coding model",
+    "lane": "development",
+    "started_at": null,
+    "tokens_per_second": null,
+    "queued": true,
+    "paused": false,
+    "waiting_on": null,
+    "blocked_code": null,
+    "thread_id": "TH-0131",
+    "thread_title": "Lease Reminders 1.2",
+    "lead_name": "Foreman",
+    "session_state": "queued"
+   },
+   "T-5524": {
+    "id": "T-5524",
+    "employee_id": "PO-3",
+    "employee_name": "Sieve",
+    "department": "personal",
+    "state": "idle",
+    "doing": "will triage 6 new emails",
+    "item": "Inbox triage",
+    "model": "conversation model",
+    "lane": "personal",
+    "started_at": null,
+    "tokens_per_second": null,
+    "queued": true,
+    "paused": false,
+    "waiting_on": null,
+    "blocked_code": null,
+    "thread_id": null,
+    "thread_title": null,
+    "lead_name": null,
+    "session_state": "queued"
+   }
+  },
+  "transcripts": {
+   "T-5521": [
+    {
+     "id": "E-1",
+     "kind": "tool",
+     "text": "repo.read src/reminders/",
+     "done": true
+    },
+    {
+     "id": "E-2",
+     "kind": "tool",
+     "text": "tests.run · 3 failing",
+     "done": true
+    },
+    {
+     "id": "E-3",
+     "kind": "message",
+     "text": "The three failing tests expect reminders 30, 14 and 3 days before the lease end. I'll add a schedule table and compute the dates from the lease's end date, so a renewal moves every reminder.",
+     "done": true
+    },
+    {
+     "id": "E-4",
+     "kind": "tool",
+     "text": "fs.write src/reminders/schedule.py",
+     "done": true
+    },
+    {
+     "id": "E-5",
+     "kind": "generating",
+     "text": "",
+     "done": false
+    }
+   ],
+   "T-5522": [
+    {
+     "id": "E-1",
+     "kind": "tool",
+     "text": "calendar.list · tomorrow",
+     "done": true
+    },
+    {
+     "id": "E-2",
+     "kind": "generating",
+     "text": "Good morning. Today you have",
+     "done": false
+    }
+   ]
+  },
+  "threads": {
+   "TH-0120": {
+    "id": "TH-0120",
+    "title": "Shared family calendar digest",
+    "kind": "idea",
+    "unit_id": "ID-0013",
+    "lead_id": "spark",
+    "lead_name": "Spark",
+    "lead_department": "ideation",
+    "pipeline": "Ideation",
+    "principal": "owner",
+    "since": "Monday",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0129": {
+    "id": "TH-0129",
+    "title": "Receipt scanner: better totals",
+    "kind": "work_item",
+    "unit_id": "WI-0029",
+    "lead_id": "foreman",
+    "lead_name": "Foreman",
+    "lead_department": "governance",
+    "pipeline": "Development",
+    "principal": "owner",
+    "since": "yesterday",
+    "owner_decision": "Foreman needs a yes on the design (gate G3).",
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0209": {
+    "id": "TH-0209",
+    "title": "Reply to Dr. Patel's office",
+    "kind": "case",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "today",
+    "owner_decision": null,
+    "approval_id": "AP-0107",
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0131": {
+    "id": "TH-0131",
+    "title": "Lease Reminders 1.2",
+    "kind": "work_item",
+    "unit_id": "WI-0031",
+    "lead_id": "foreman",
+    "lead_name": "Foreman",
+    "lead_department": "governance",
+    "pipeline": "Development",
+    "principal": "owner",
+    "since": "Oct 27",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0207": {
+    "id": "TH-0207",
+    "title": "Book the oil change",
+    "kind": "case",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "today",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0214": {
+    "id": "TH-0214",
+    "title": "Lease renewal for the rental",
+    "kind": "case",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "Tuesday",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": "the tenant's reply, expected by Thursday",
+    "outcome": null
+   },
+   "TH-0118": {
+    "id": "TH-0118",
+    "title": "Garden watering planner",
+    "kind": "idea",
+    "unit_id": "ID-0014",
+    "lead_id": "spark",
+    "lead_name": "Spark",
+    "lead_department": "ideation",
+    "pipeline": "Ideation",
+    "principal": "owner",
+    "since": "Tuesday",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
+   "TH-0201": {
+    "id": "TH-0201",
+    "title": "Renew the car registration",
+    "kind": "case",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "Oct 22",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": "Renewed online. The sticker arrives by mail."
+   },
+   "TH-0127": {
+    "id": "TH-0127",
+    "title": "Lease Reminders 1.1",
+    "kind": "work_item",
+    "unit_id": "WI-0027",
+    "lead_id": "foreman",
+    "lead_name": "Foreman",
+    "lead_department": "governance",
+    "pipeline": "Development",
+    "principal": "owner",
+    "since": "Oct 20",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": "Released, and its 7-day review is done."
+   }
+  },
+  "work_items": [
+   {
+    "id": "WI-0031",
+    "title": "Lease Reminders 1.2",
+    "risk": "R2",
+    "status": {
+     "status": "in_progress",
+     "label": "Build · D4 implement"
+    },
+    "stages": [
+     {
+      "code": "D0",
+      "state": "done"
+     },
+     {
+      "code": "D1",
+      "state": "done"
+     },
+     {
+      "code": "D2",
+      "state": "done"
+     },
+     {
+      "code": "D3",
+      "state": "done"
+     },
+     {
+      "code": "D4",
+      "state": "current"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "progress": 0.4,
+    "employee_name": "Bolt",
+    "department": "engineering",
+    "employee_state": "generating",
+    "now": "Bolt is writing the reminder schedule",
+    "eta": "About 2–4 h left",
+    "cost_usd": 0.0,
+    "waiting_on_owner": false
+   },
+   {
+    "id": "WI-0029",
+    "title": "Receipt scanner: better totals",
+    "risk": "R1",
+    "status": {
+     "status": "attention",
+     "label": "Design · Needs you at G3"
+    },
+    "stages": [
+     {
+      "code": "D0",
+      "state": "done"
+     },
+     {
+      "code": "D1",
+      "state": "done"
+     },
+     {
+      "code": "D2",
+      "state": "current"
+     },
+     {
+      "code": "D3",
+      "state": "todo"
+     },
+     {
+      "code": "D4",
+      "state": "todo"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "progress": 0.2,
+    "employee_name": "Foreman",
+    "department": "governance",
+    "employee_state": "waiting",
+    "now": "Foreman needs a yes on the design",
+    "eta": "Paused until you decide",
+    "cost_usd": 0.0,
+    "waiting_on_owner": true
+   }
+  ],
+  "employees": {
+   "PO-1": {
+    "id": "PO-1",
+    "name": "Atlas",
+    "title": "Chief of Staff",
+    "department": "personal",
+    "group": "Leads",
+    "state": "generating",
+    "now": "Writing the brief",
+    "tagline": "Keeps the household running on time.",
+    "mission": "Keeps the household running on time.",
+    "tools": [
+     "calendar.list",
+     "mail.draft",
+     "records.write"
+    ],
+    "model": "conversation model",
+    "hired": "Phase 9",
+    "tasks_done": 214,
+    "enabled": true,
+    "status": "idle"
+   },
+   "GOV-1": {
+    "id": "GOV-1",
+    "name": "Foreman",
+    "title": "Development Lead",
+    "department": "governance",
+    "group": "Leads",
+    "state": "waiting",
+    "now": "Waiting on you",
+    "tagline": "Turns ideas into shipped, documented software.",
+    "mission": "Turns ideas into shipped, documented software.",
+    "tools": [
+     "pipeline.start",
+     "pipeline.request_gate"
+    ],
+    "model": "coding model",
+    "hired": "Phase 11",
+    "tasks_done": 61,
+    "enabled": true,
+    "status": "idle"
+   },
+   "IDEA-1": {
+    "id": "IDEA-1",
+    "name": "Spark",
+    "title": "Ideation Lead",
+    "department": "ideation",
+    "group": "Leads",
+    "state": "blocked",
+    "now": "Blocked: an idea reached its budget",
+    "tagline": "Finds the flaw before the code exists.",
+    "mission": "Finds the flaw before the code exists.",
+    "tools": [],
+    "model": "coding model",
+    "hired": "Phase 12",
+    "tasks_done": 18,
+    "enabled": true,
+    "status": "idle"
+   },
+   "MNT-1": {
+    "id": "MNT-1",
+    "name": "Custodian",
+    "title": "Maintenance Lead",
+    "department": "engineering",
+    "group": "Leads",
+    "state": "idle",
+    "now": "Next run 01:00",
+    "tagline": "Keeps released products healthy.",
+    "mission": "Keeps released products healthy.",
+    "tools": [],
+    "model": "coding model",
+    "hired": "Phase 14",
+    "tasks_done": 40,
+    "enabled": true,
+    "status": "idle"
+   },
+   "PO-2": {
+    "id": "PO-2",
+    "name": "Chrono",
+    "title": "Scheduler",
+    "department": "personal",
+    "group": "Personal",
+    "state": "idle",
+    "now": "Idle",
+    "tagline": "Finds the time, books it, reminds you.",
+    "mission": "Finds the time, books it, reminds you.",
+    "tools": [
+     "calendar.freebusy",
+     "calendar.upsert_own"
+    ],
+    "model": "conversation model",
+    "hired": "Phase 9",
+    "tasks_done": 96,
+    "enabled": true,
+    "status": "idle"
+   },
+   "PO-9": {
+    "id": "PO-9",
+    "name": "Keystone",
+    "title": "Property Manager",
+    "department": "personal",
+    "group": "Personal",
+    "state": "idle",
+    "now": "Waiting for the tenant's reply",
+    "tagline": "Runs the rental like a small business.",
+    "mission": "Runs the rental like a small business.",
+    "tools": [],
+    "model": "conversation model",
+    "hired": "Phase 10",
+    "tasks_done": 37,
+    "enabled": true,
+    "status": "idle"
+   },
+   "PO-8": {
+    "id": "PO-8",
+    "name": "Ledger",
+    "title": "Budget Analyst",
+    "department": "personal",
+    "group": "Personal",
+    "state": "idle",
+    "now": "Idle",
+    "tagline": "Every figure computed in code.",
+    "mission": "Every figure computed in code.",
+    "tools": [],
+    "model": "conversation model",
+    "hired": "Phase 10",
+    "tasks_done": 22,
+    "enabled": true,
+    "status": "idle"
+   },
+   "PO-10": {
+    "id": "PO-10",
+    "name": "Pulse",
+    "title": "Health and Benefits",
+    "department": "personal",
+    "group": "Personal",
+    "state": "idle",
+    "now": "Idle",
+    "tagline": "Appointments, plans and paperwork.",
+    "mission": "Appointments, plans and paperwork.",
+    "tools": [],
+    "model": "conversation model",
+    "hired": "Phase 10",
+    "tasks_done": 19,
+    "enabled": true,
+    "status": "idle"
+   },
+   "ENG-1": {
+    "id": "ENG-1",
+    "name": "Bolt",
+    "title": "Software Engineer",
+    "department": "engineering",
+    "group": "Engineering and quality",
+    "state": "generating",
+    "now": "Writing code",
+    "tagline": "Red, green, refactor.",
+    "mission": "Red, green, refactor.",
+    "tools": [
+     "fs.write",
+     "exec.run",
+     "git.commit"
+    ],
+    "model": "coding model",
+    "hired": "Phase 11",
+    "tasks_done": 128,
+    "enabled": true,
+    "status": "idle"
+   },
+   "QA-1": {
+    "id": "QA-1",
+    "name": "Probe",
+    "title": "Test Author",
+    "department": "quality",
+    "group": "Engineering and quality",
+    "state": "idle",
+    "now": "14 tests done",
+    "tagline": "Writes the tests before the code.",
+    "mission": "Writes the tests before the code.",
+    "tools": [],
+    "model": "coding model",
+    "hired": "Phase 11",
+    "tasks_done": 74,
+    "enabled": true,
+    "status": "idle"
+   },
+   "QA-3": {
+    "id": "QA-3",
+    "name": "Redline",
+    "title": "Code Reviewer",
+    "department": "quality",
+    "group": "Engineering and quality",
+    "state": "idle",
+    "now": "Queued for review",
+    "tagline": "Reads every change like a newcomer.",
+    "mission": "Reads every change like a newcomer.",
+    "tools": [],
+    "model": "coding model",
+    "hired": "Phase 11",
+    "tasks_done": 59,
+    "enabled": true,
+    "status": "idle"
+   },
+   "QA-5": {
+    "id": "QA-5",
+    "name": "Gremlin",
+    "title": "Adversarial Tester",
+    "department": "quality",
+    "group": "Engineering and quality",
+    "state": "idle",
+    "now": "Arrives in Phase 13",
+    "tagline": "Breaks things on purpose.",
+    "mission": "Breaks things on purpose.",
+    "tools": [],
+    "model": "coding model",
+    "hired": "Phase 13",
+    "tasks_done": 0,
+    "enabled": true,
+    "status": "idle"
+   }
+  },
+  "proposals": {
+   "LP-0003": {
+    "id": "LP-0003",
+    "text": "Disable Logistix: 2 tasks in 30 days, low impact. Spark would cover operations questions.",
+    "source": "Cadence · monthly review",
+    "state": "open"
+   }
+  },
+  "cases": {
+   "CS-0201": {
+    "id": "CS-0201",
+    "title": "Car registration renewal",
+    "domain": "Home and auto",
+    "principal": "owner",
+    "employee_name": "Hearth",
+    "due": "today",
+    "status": {
+     "status": "attention",
+     "label": "Due today"
+    },
+    "state": "open"
+   },
+   "CS-0198": {
+    "id": "CS-0198",
+    "title": "Estimated tax payment Q4",
+    "domain": "Taxes",
+    "principal": "owner",
+    "employee_name": "Taxonomy",
+    "due": "Jan 15",
+    "status": {
+     "status": "in_progress",
+     "label": "Open"
+    },
+    "state": "open"
+   },
+   "CS-0187": {
+    "id": "CS-0187",
+    "title": "Unit B lease renewal",
+    "domain": "Rental",
+    "principal": "owner",
+    "employee_name": "Keystone",
+    "due": "Nov 30",
+    "status": {
+     "status": "in_progress",
+     "label": "Open"
+    },
+    "state": "open"
+   },
+   "CS-0176": {
+    "id": "CS-0176",
+    "title": "Medicare plan review",
+    "domain": "Health",
+    "principal": "dad",
+    "employee_name": "Pulse",
+    "due": "Dec 7",
+    "status": {
+     "status": "in_progress",
+     "label": "Open"
+    },
+    "state": "open"
+   }
+  },
+  "changes": {
+   "AC-1": {
+    "id": "AC-1",
+    "text": "Filed 3 utility bills into Finance",
+    "undone": false
+   },
+   "AC-2": {
+    "id": "AC-2",
+    "text": "Added \"oil change\" at 5,000 miles",
+    "undone": false
+   }
+  },
+  "setup": {
+   "OI-10": {
+    "id": "OI-10",
+    "title": "Register your passkeys",
+    "duration": "About 5 min",
+    "required": true,
+    "why": "A passkey proves it is you; only your devices can hold one.",
+    "until": "Nothing that needs a step-up can happen.",
+    "stub": "Virtual authenticator",
+    "cta": "Register",
+    "state": "done",
+    "waiting_on": null,
+    "proof": "Test assertion passed Oct 24 · iPhone and security key",
+    "checks": []
+   },
+   "OI-15": {
+    "id": "OI-15",
+    "title": "Allow Mac permissions",
+    "duration": "About 5 min · over Screen Sharing",
+    "required": true,
+    "why": "macOS shows these prompts only to the person logged in.",
+    "until": "Calendar, reminders, contacts and Mail stay off.",
+    "stub": "Recorded test calendar and mailbox",
+    "cta": "Open Screen Sharing",
+    "state": "ready",
+    "waiting_on": null,
+    "proof": null,
+    "checks": [
+     {
+      "name": "Calendar",
+      "status": {
+       "status": "healthy",
+       "label": "Allowed"
+      }
+     },
+     {
+      "name": "Reminders",
+      "status": {
+       "status": "healthy",
+       "label": "Allowed"
+      }
+     },
+     {
+      "name": "Contacts",
+      "status": {
+       "status": "attention",
+       "label": "Waiting"
+      }
+     },
+     {
+      "name": "Mail (Automation)",
+      "status": {
+       "status": "attention",
+       "label": "Waiting"
+      }
+     },
+     {
+      "name": "Messages (Automation)",
+      "status": {
+       "status": "neutral",
+       "label": "Optional"
+      }
+     }
+    ]
+   },
+   "OI-18": {
+    "id": "OI-18",
+    "title": "Profile interview with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "required": false,
+    "why": "Your routines and preferences are facts only you know.",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "stub": "Sample profile",
+    "cta": "Start with Atlas",
+    "state": "ready",
+    "waiting_on": null,
+    "proof": null,
+    "checks": []
+   },
+   "OI-22": {
+    "id": "OI-22",
+    "title": "Confirm your preferences",
+    "duration": "2 min · defaults shown",
+    "required": false,
+    "why": "Quiet hours, brief time and Discord detail are your call.",
+    "until": "Defaults apply: 22:00–06:00, brief 06:15, restricted domains summary.",
+    "stub": "Defaults",
+    "cta": "Review defaults",
+    "state": "ready",
+    "waiting_on": null,
+    "proof": null,
+    "checks": []
+   },
+   "OI-13": {
+    "id": "OI-13",
+    "title": "Discord server and bots",
+    "duration": "About 15 min · two bot tokens",
+    "required": false,
+    "why": "Only you can create bots in your Discord account.",
+    "until": "Brain-only operation; Discord commands are off.",
+    "stub": "Local Discord mock",
+    "cta": "Start guide",
+    "state": "deferred",
+    "waiting_on": null,
+    "proof": null,
+    "checks": []
+   },
+   "OI-16": {
+    "id": "OI-16",
+    "title": "Connect your accounts",
+    "duration": "About 10 min per account",
+    "required": true,
+    "why": "Sign-ins and app passwords belong to you.",
+    "until": "The test mailbox and calendar stand in.",
+    "stub": "Test mail and calendar server",
+    "cta": "Connect",
+    "state": "waiting",
+    "waiting_on": "After Mac permissions",
+    "proof": null,
+    "checks": []
+   },
+   "OI-17": {
+    "id": "OI-17",
+    "title": "Name principals and map accounts",
+    "duration": "About 5 min",
+    "required": true,
+    "why": "Only you know whose account is whose.",
+    "until": "Everything is filed under you.",
+    "stub": "Synthetic principals",
+    "cta": "Map accounts",
+    "state": "waiting",
+    "waiting_on": "After accounts",
+    "proof": null,
+    "checks": []
+   }
+  },
+  "jobs": {
+   "snapshots": {
+    "id": "snapshots",
+    "name": "Snapshots",
+    "when": "Daily 23:30",
+    "next_run": "23:30",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok · 2 min"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "backup-check": {
+    "id": "backup-check",
+    "name": "Backup and audit check",
+    "when": "Daily 00:00",
+    "next_run": "00:00",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok · 14 min"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "maintenance-scan": {
+    "id": "maintenance-scan",
+    "name": "Maintenance scan",
+    "when": "Mon–Fri 01:00, 60 min",
+    "next_run": "01:00",
+    "last_run": {
+     "status": "attention",
+     "label": "skipped: away mode"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "model-selector": {
+    "id": "model-selector",
+    "name": "Model selector",
+    "when": "Mon–Fri 02:15–05:30",
+    "next_run": "02:15",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok · 2 pairs"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "full-maintenance": {
+    "id": "full-maintenance",
+    "name": "Full maintenance",
+    "when": "Sat 01:00–05:00",
+    "next_run": "Sat",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok · 3 fixes"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "pruning": {
+    "id": "pruning",
+    "name": "Pruning",
+    "when": "Sun 04:00",
+    "next_run": "Sun",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "restore-drill": {
+    "id": "restore-drill",
+    "name": "Restore drill",
+    "when": "First Sun 06:30",
+    "next_run": "Nov 1",
+    "last_run": {
+     "status": "healthy",
+     "label": "passed Oct 4"
+    },
+    "heavy": true,
+    "paused": false
+   },
+   "account-sync": {
+    "id": "account-sync",
+    "name": "Account sync",
+    "when": "Every 5 min",
+    "next_run": "22:50",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok"
+    },
+    "heavy": false,
+    "paused": false
+   },
+   "daily-brief": {
+    "id": "daily-brief",
+    "name": "Daily brief",
+    "when": "Daily 06:15",
+    "next_run": "06:15",
+    "last_run": {
+     "status": "healthy",
+     "label": "sent"
+    },
+    "heavy": false,
+    "paused": false
+   },
+   "weekly-review": {
+    "id": "weekly-review",
+    "name": "Weekly review",
+    "when": "Sun 18:00",
+    "next_run": "Sun",
+    "last_run": {
+     "status": "healthy",
+     "label": "sent"
+    },
+    "heavy": false,
+    "paused": false
+   },
+   "monthly-close": {
+    "id": "monthly-close",
+    "name": "Monthly close",
+    "when": "1st 08:00",
+    "next_run": "Nov 1",
+    "last_run": {
+     "status": "healthy",
+     "label": "ok"
+    },
+    "heavy": false,
+    "paused": false
+   }
+  },
+  "fixes": {
+   "F-031": {
+    "id": "F-031",
+    "title": "Off-by-one in lease end reminder",
+    "meta": "lease-reminders · +18 −3 · regression test added",
+    "reverted": false
+   },
+   "F-034": {
+    "id": "F-034",
+    "title": "Patch update: httpx 0.28.1",
+    "meta": "lease-reminders · lockfile only · advisories none",
+    "reverted": false
+   },
+   "F-029": {
+    "id": "F-029",
+    "title": "Remove unused CSV exporter",
+    "meta": "receipt-scanner · −142 · provably unreferenced",
+    "reverted": false
+   }
+  },
+  "chats": {
+   "atlas": [
+    {
+     "id": "M-1",
+     "lead_id": "atlas",
+     "author": "owner",
+     "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
+     "at": "2026-10-25T15:00:00Z",
+     "note": null,
+     "approval_id": null,
+     "streaming": false
+    },
+    {
+     "id": "M-2",
+     "lead_id": "atlas",
+     "author": "lead",
+     "text": "Two things, done and drafted:\n1. Passport renewal is now a case, due March 1, with reminders 60 and 14 days before. I mirrored it to your Reminders.\n2. Health is a restricted domain, so Pulse checked it locally. The plan needs the pharmacy to be in network. I drafted an email to the insurer asking them to confirm.",
+     "at": "2026-10-25T15:01:00Z",
+     "note": "Local model · nothing sent to the cloud",
+     "approval_id": "AP-0110",
+     "streaming": false
+    }
+   ]
+  },
+  "stopped": false,
+  "maintenance_running": true
+ },
+ "fixtures": {
+  "hard_limits": [
+   {
+    "name": "Cloud model spend",
+    "value": "$100 a month"
+   },
+   {
+    "name": "Voice calls spend",
+    "value": "$20 a month"
+   },
+   {
+    "name": "Cloud video spend",
+    "value": "$50 a month"
+   },
+   {
+    "name": "Offsite storage spend",
+    "value": "$20 a month"
+   },
+   {
+    "name": "Never allowed",
+    "value": "Payments, transfers, trades, signing"
+   },
+   {
+    "name": "Host execution",
+    "value": "Denied"
+   },
+   {
+    "name": "Highest Discord detail",
+    "value": "Full"
+   }
+  ],
+  "household": [
+   {
+    "id": "owner",
+    "name": "You",
+    "meta": "Owner · 3 accounts"
+   },
+   {
+    "id": "mom",
+    "name": "Mom",
+    "meta": "Principal · 2 accounts"
+   },
+   {
+    "id": "dad",
+    "name": "Dad",
+    "meta": "Principal · 2 accounts"
+   }
+  ],
+  "service_groups": [
+   {
+    "name": "Core, before login",
+    "services": [
+     {
+      "id": "tailscaled",
+      "name": "Tailscale",
+      "meta": "root · up 6 d 4 h · 0 restarts",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "secrets-broker",
+      "name": "Secrets broker",
+      "meta": "root · v1.4.2 · 0 restarts",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "audit-logger",
+      "name": "Audit logger",
+      "meta": "root · chain verified 00:00",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "watchdog",
+      "name": "Watchdog",
+      "meta": "root · heartbeat 1 min ago",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "config-applier",
+      "name": "Config applier",
+      "meta": "root · last bundle 23:58",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     }
+    ]
+   },
+   {
+    "name": "Platform services",
+    "services": [
+     {
+      "id": "approval-gate",
+      "name": "Approval gate",
+      "meta": "aigate · v1.4.2 · 0 restarts",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "tool-server",
+      "name": "Tool server",
+      "meta": "aitools · policy check p95 4 ms",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "pipeline-engine",
+      "name": "Pipeline engine",
+      "meta": "aitools · 2 running · 2 queued",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "model-router",
+      "name": "Model router",
+      "meta": "aiegress · 1 restart today",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "egress-proxy",
+      "name": "Egress proxy",
+      "meta": "aiegress · 0 denied today",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "connector-service",
+      "name": "Connector service",
+      "meta": "aiconnect · synced 2 min ago",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "assistant-bot",
+      "name": "Assistant bot adapter",
+      "meta": "aiagent · Owner ID only",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "brain",
+      "name": "Brain",
+      "meta": "aiportal · 142 MB",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     }
+    ]
+   },
+   {
+    "name": "In your session",
+    "services": [
+     {
+      "id": "mlx-worker",
+      "name": "MLX worker",
+      "meta": "owner · mode L · 22 / 42 GB",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "colima",
+      "name": "Colima VM",
+      "meta": "owner · 8 GB · dev 3.9 / 6 · ops 0.6 / 1.5",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "docker-proxy",
+      "name": "Docker API proxy",
+      "meta": "owner · 0 refused today",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "mac-bridge",
+      "name": "Mac bridge",
+      "meta": "owner · 4 of 5 permissions",
+      "status": {
+       "status": "healthy",
+       "label": "Running"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": true
+     },
+     {
+      "id": "image-worker",
+      "name": "Image worker",
+      "meta": "starts in image mode",
+      "status": {
+       "status": "neutral",
+       "label": "On demand"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": false
+     },
+     {
+      "id": "messages-reader",
+      "name": "Messages reader",
+      "meta": "apple.messages.read is off",
+      "status": {
+       "status": "neutral",
+       "label": "Off"
+      },
+      "log_lines": [
+       "00:41:07 health ok · 3 ms",
+       "00:40:07 health ok · 2 ms",
+       "23:58:12 reload after SIGHUP · models.lock v14"
+      ],
+      "restartable": false
+     }
+    ]
+   }
+  ],
+  "memory_zones": [
+   {
+    "name": "macOS and your session",
+    "used_gb": 7.1,
+    "budget_gb": 8.0
+   },
+   {
+    "name": "Containers (Colima, two lanes)",
+    "used_gb": 4.5,
+    "budget_gb": 8.0
+   },
+   {
+    "name": "Platform services",
+    "used_gb": 2.1,
+    "budget_gb": 3.0
+   },
+   {
+    "name": "Model pool",
+    "used_gb": 22.0,
+    "budget_gb": 42.0
+   },
+   {
+    "name": "Headroom, never used",
+    "used_gb": 0.0,
+    "budget_gb": 3.0
+   }
+  ],
+  "health_metrics": [
+   {
+    "name": "Chat first token p95",
+    "value": "1.4 s",
+    "status": null,
+    "spark": [
+     12.0,
+     10.0,
+     13.0,
+     9.0,
+     11.0,
+     8.0,
+     9.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Chat on fallback model",
+    "value": "9 min/d",
+    "status": null,
+    "spark": [
+     10.0,
+     9.0,
+     12.0,
+     8.0,
+     10.0,
+     9.0,
+     10.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Model swaps today",
+    "value": "3 of ≤6",
+    "status": {
+     "status": "healthy",
+     "label": ""
+    },
+    "spark": [
+     10.0,
+     12.0,
+     8.0,
+     11.0,
+     10.0,
+     12.0,
+     10.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Review wait p50",
+    "value": "6 min",
+    "status": null,
+    "spark": [
+     14.0,
+     12.0,
+     13.0,
+     10.0,
+     9.0,
+     10.0,
+     8.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Memory pressure",
+    "value": "Normal",
+    "status": {
+     "status": "healthy",
+     "label": ""
+    },
+    "spark": [
+     13.0,
+     13.0,
+     12.0,
+     13.0,
+     13.0,
+     12.0,
+     13.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Bug catch rate",
+    "value": "81%",
+    "status": null,
+    "spark": [
+     9.0,
+     9.0,
+     8.0,
+     9.0,
+     8.0,
+     8.0,
+     8.0
+    ],
+    "sampled_at": null
+   }
+  ],
+  "system_tiles": [
+   {
+    "name": "GPU busy",
+    "value": "31%",
+    "status": {
+     "status": "healthy",
+     "label": "24 h average"
+    },
+    "spark": [
+     12.0,
+     9.0,
+     13.0,
+     6.0,
+     10.0,
+     8.0,
+     11.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Thermal",
+    "value": "Nominal",
+    "status": {
+     "status": "healthy",
+     "label": "Ladder idle · 0 serious min"
+    },
+    "spark": [
+     12.0,
+     12.0,
+     11.0,
+     12.0,
+     12.0,
+     11.0,
+     12.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Power",
+    "value": "38 W",
+    "status": {
+     "status": "neutral",
+     "label": "≈ 27 kWh / month"
+    },
+    "spark": [
+     10.0,
+     11.0,
+     8.0,
+     12.0,
+     9.0,
+     10.0,
+     9.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Decode vs fresh",
+    "value": "98%",
+    "status": {
+     "status": "healthy",
+     "label": "No slowdown"
+    },
+    "spark": [
+     6.0,
+     6.0,
+     7.0,
+     6.0,
+     6.0,
+     7.0,
+     6.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Internal SSD",
+    "value": "212 GB free",
+    "status": {
+     "status": "healthy",
+     "label": "SMART ok · 59% used"
+    },
+    "spark": [
+     8.0,
+     8.0,
+     9.0,
+     9.0,
+     9.0,
+     10.0,
+     10.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Working drive",
+    "value": "3.1 TB free",
+    "status": {
+     "status": "healthy",
+     "label": "SMART ok · 22% used · floor 200 GB"
+    },
+    "spark": [
+     8.0,
+     8.0,
+     8.0,
+     9.0,
+     9.0,
+     9.0,
+     9.0
+    ],
+    "sampled_at": null
+   }
+  ],
+  "system_rows": [
+   {
+    "id": "tailscale",
+    "title": "Tailscale",
+    "meta": "",
+    "status": {
+     "status": "healthy",
+     "label": "Connected · 2 devices"
+    },
+    "href": null
+   },
+   {
+    "id": "heartbeat",
+    "title": "Heartbeat monitor",
+    "meta": "",
+    "status": {
+     "status": "healthy",
+     "label": "Last ping 1 min ago"
+    },
+    "href": null
+   },
+   {
+    "id": "backups",
+    "title": "Backups",
+    "meta": "",
+    "status": {
+     "status": "attention",
+     "label": "Starter mode · one location"
+    },
+    "href": "/backups"
+   },
+   {
+    "id": "panics",
+    "title": "GPU-related panics, 30 days",
+    "meta": "",
+    "status": {
+     "status": "neutral",
+     "label": "0"
+    },
+    "href": null
+   },
+   {
+    "id": "mlx-errors",
+    "title": "MLX errors per 1,000 requests",
+    "meta": "",
+    "status": {
+     "status": "neutral",
+     "label": "0.2"
+    },
+    "href": null
+   }
+  ],
+  "family_assignments": {
+   "independent": [
+    {
+     "family": "CONVERSE",
+     "model": "Qwen3.6-35B-A3B · 4-bit",
+     "meta": "82 tok/s · 21 GB · score 0.81",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "REASON",
+     "model": "Same as CONVERSE",
+     "meta": "within 5% of best · no swap",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "EXTRACT",
+     "model": "Same as CONVERSE",
+     "meta": "injection suite 100%",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "CODE",
+     "model": "GLM-4.7-Flash · 4-bit",
+     "meta": "held-out tests 0.64 · 17 GB",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    },
+    {
+     "family": "REVIEW",
+     "model": "Gemma 4 26B-A4B · 4-bit",
+     "meta": "different family · 14 GB",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    },
+    {
+     "family": "VISION",
+     "model": "Qwen3-VL-30B-A3B · 4-bit",
+     "meta": "scan batches only",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    }
+   ],
+   "shared": [
+    {
+     "family": "CONVERSE",
+     "model": "Qwen3.6-35B-A3B · 4-bit",
+     "meta": "82 tok/s · 21 GB · score 0.81",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "REASON",
+     "model": "Same as CONVERSE",
+     "meta": "within 5% of best · no swap",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "EXTRACT",
+     "model": "Same as CONVERSE",
+     "meta": "injection suite 100%",
+     "residency": {
+      "status": "healthy",
+      "label": "Resident"
+     }
+    },
+    {
+     "family": "CODE",
+     "model": "GLM-4.7-Flash · 4-bit",
+     "meta": "held-out tests 0.64 · 17 GB",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    },
+    {
+     "family": "REVIEW",
+     "model": "Same as CODE",
+     "meta": "same-family controls on",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    },
+    {
+     "family": "VISION",
+     "model": "Qwen3-VL-30B-A3B · 4-bit",
+     "meta": "scan batches only",
+     "residency": {
+      "status": "in_progress",
+      "label": "Batch"
+     }
+    }
+   ]
+  },
+  "reviewer_impact": [
+   {
+    "name": "Model swaps per day",
+    "change": "+4 (3 → 7)",
+    "source": "simulated",
+    "status": {
+     "status": "attention",
+     "label": "Worse"
+    }
+   },
+   {
+    "name": "Load time per swap",
+    "change": "10–30 s",
+    "source": "estimate",
+    "status": null
+   },
+   {
+    "name": "Review wait, R1 item",
+    "change": "0 → up to 4 h",
+    "source": "simulated",
+    "status": {
+     "status": "attention",
+     "label": "Worse"
+    }
+   },
+   {
+    "name": "Chat on fallback model",
+    "change": "+12 min/day",
+    "source": "simulated",
+    "status": {
+     "status": "attention",
+     "label": "Worse"
+    }
+   },
+   {
+    "name": "Peak pool memory",
+    "change": "No change",
+    "source": "measured",
+    "status": {
+     "status": "healthy",
+     "label": "Same"
+    }
+   },
+   {
+    "name": "Bug catch rate",
+    "change": "Unknown until Phase 13",
+    "source": "estimate",
+    "status": null
+   }
+  ],
+  "model_stats": [
+   {
+    "name": "Chat first token p95",
+    "value": "1.4 s",
+    "status": null,
+    "spark": [
+     12.0,
+     10.0,
+     13.0,
+     9.0,
+     11.0,
+     8.0,
+     9.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Swaps per day",
+    "value": "3.1",
+    "status": null,
+    "spark": [
+     10.0,
+     12.0,
+     8.0,
+     11.0,
+     10.0,
+     12.0,
+     10.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Review wait p50",
+    "value": "6 min",
+    "status": null,
+    "spark": [
+     14.0,
+     12.0,
+     13.0,
+     10.0,
+     9.0,
+     10.0,
+     8.0
+    ],
+    "sampled_at": null
+   },
+   {
+    "name": "Average power",
+    "value": "38 W",
+    "status": null,
+    "spark": [
+     9.0,
+     11.0,
+     10.0,
+     12.0,
+     9.0,
+     10.0,
+     11.0
+    ],
+    "sampled_at": null
+   }
+  ],
+  "tokens_panel": {
+   "speeds": [
+    {
+     "name": "Decode speed",
+     "value": "41 tok/s",
+     "source": "simulated"
+    },
+    {
+     "name": "Aggregate speed",
+     "value": "64 tok/s over 2 streams",
+     "source": "simulated"
+    },
+    {
+     "name": "Prefill speed",
+     "value": "620 tok/s",
+     "source": "simulated"
+    },
+    {
+     "name": "Cache hit rate",
+     "value": "74% · target 70%",
+     "source": "simulated"
+    },
+    {
+     "name": "Reasoning share",
+     "value": "18% of generated tokens",
+     "source": "simulated"
+    },
+    {
+     "name": "Capacity use",
+     "value": "46% of GPU time today",
+     "source": "simulated"
+    }
+   ],
+   "tokens_per_outcome": [
+    {
+     "name": "Bolt · per passing slice",
+     "value": "38,400",
+     "source": "simulated"
+    },
+    {
+     "name": "Redline · per review",
+     "value": "11,200",
+     "source": "simulated"
+    },
+    {
+     "name": "Atlas · per closed case",
+     "value": "6,900",
+     "source": "simulated"
+    },
+    {
+     "name": "Sieve · per triaged email",
+     "value": "410",
+     "source": "simulated"
+    }
+   ],
+   "gpu_seconds": [
+    {
+     "name": "Interactive",
+     "value": "1,140 s",
+     "source": "simulated"
+    },
+    {
+     "name": "Pipeline work",
+     "value": "9,870 s",
+     "source": "simulated"
+    },
+    {
+     "name": "Scheduled and batch",
+     "value": "4,260 s",
+     "source": "simulated"
+    }
+   ],
+   "cap_impact": [
+    {
+     "name": "Calls that hit their cap",
+     "change": "1.2% → fewer with a higher cap, more with a lower one",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Work finished per GPU-hour",
+     "change": "Higher with lower caps, if answers still fit",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Spend",
+     "change": "$0 → $0 · local tokens are free",
+     "source": "measured",
+     "status": null
+    }
+   ]
+  },
+  "paid_features": [
+   [
+    "anthropic",
+    "Claude (Anthropic)",
+    "Cloud model",
+    "cloud.providers.anthropic",
+    "budget.anthropic"
+   ],
+   [
+    "openai",
+    "GPT-6 Sol (OpenAI)",
+    "Cloud model",
+    "cloud.providers.openai",
+    "budget.openai"
+   ],
+   [
+    "video",
+    "Cloud video",
+    "Per second of video",
+    "video.cloud",
+    "budget.video"
+   ],
+   [
+    "voice",
+    "Phone-call approvals",
+    "Twilio",
+    "voice.enabled",
+    "budget.voice"
+   ],
+   [
+    "offsite",
+    "Paid offsite backup",
+    "S3-compatible",
+    "offsite.paid_storage",
+    "budget.offsite"
+   ]
+  ],
+  "cloud_impact": {
+   "20": [
+    {
+     "name": "Families that would use it",
+     "change": "Decided by a selector run",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Spend per month",
+     "change": "$0 → up to $20",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Requests sent to cloud",
+     "change": "0 → internal and public only",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Chat first token",
+     "change": "Network-dependent",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Local model swaps",
+     "change": "Fewer, if REASON moves to cloud",
+     "source": "simulated",
+     "status": null
+    }
+   ],
+   "50": [
+    {
+     "name": "Families that would use it",
+     "change": "Decided by a selector run",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Spend per month",
+     "change": "$0 → up to $50",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Requests sent to cloud",
+     "change": "0 → internal and public only",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Chat first token",
+     "change": "Network-dependent",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Local model swaps",
+     "change": "Fewer, if REASON moves to cloud",
+     "source": "simulated",
+     "status": null
+    }
+   ],
+   "100": [
+    {
+     "name": "Families that would use it",
+     "change": "Decided by a selector run",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Spend per month",
+     "change": "$0 → up to $100",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Requests sent to cloud",
+     "change": "0 → internal and public only",
+     "source": "simulated",
+     "status": null
+    },
+    {
+     "name": "Chat first token",
+     "change": "Network-dependent",
+     "source": "estimate",
+     "status": null
+    },
+    {
+     "name": "Local model swaps",
+     "change": "Fewer, if REASON moves to cloud",
+     "source": "simulated",
+     "status": null
+    }
+   ]
+  },
+  "security_tiles": [
+   {
+    "name": "Denied tool calls, 7 d",
+    "value": "4",
+    "status": {
+     "status": "neutral",
+     "label": "All by policy"
+    },
+    "spark": [],
+    "sampled_at": null
+   },
+   {
+    "name": "Flagged requests, 7 d",
+    "value": "1",
+    "status": {
+     "status": "attention",
+     "label": "Review"
+    },
+    "spark": [],
+    "sampled_at": null
+   },
+   {
+    "name": "Data to cloud",
+    "value": "0 B",
+    "status": {
+     "status": "healthy",
+     "label": "All local"
+    },
+    "spark": [],
+    "sampled_at": null
+   },
+   {
+    "name": "Allowlist",
+    "value": "3",
+    "status": {
+     "status": "neutral",
+     "label": "Contacts"
+    },
+    "spark": [],
+    "sampled_at": null
+   }
+  ],
+  "security_flags": [
+   {
+    "id": "FL-0019",
+    "title": "An invoice email asked to update the bank details on file",
+    "meta": "From an email · Sieve's reader · no agent acted on it",
+    "status": {
+     "status": "attention",
+     "label": "Flagged"
+    },
+    "href": null
+   }
+  ],
+  "sign_in_rows": [
+   {
+    "id": "passkeys",
+    "title": "Passkeys",
+    "meta": "iPhone · security key",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "totp",
+    "title": "Discord authenticator",
+    "meta": "Enrolled · last used today",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "sessions",
+    "title": "Active sessions",
+    "meta": "iPhone, iPad, Mac",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "recovery",
+    "title": "Recovery codes",
+    "meta": "Printed Oct 24",
+    "status": null,
+    "href": null
+   }
+  ],
+  "audit_lines": [
+   "07:42:10 approve  T2 mail.draft  Owner (button)",
+   "07:40:55 deny     fs.write ../policy  Bolt",
+   "07:31:02 setting  discord.detail.rental → summary"
+  ],
+  "backup_targets": [
+   {
+    "id": "drive-to-ssd",
+    "title": "Working drive → internal SSD",
+    "meta": "restic · every 4 h · databases, documents, inbox, config",
+    "status": {
+     "status": "healthy",
+     "label": "20:00 today"
+    },
+    "href": null
+   },
+   {
+    "id": "ssd-to-drive",
+    "title": "Internal SSD → working drive",
+    "meta": "restic · nightly · platform state",
+    "status": {
+     "status": "healthy",
+     "label": "00:00"
+    },
+    "href": null
+   },
+   {
+    "id": "time-machine",
+    "title": "Time Machine",
+    "meta": "Turns on when a backup drive is connected",
+    "status": {
+     "status": "neutral",
+     "label": "No drive"
+    },
+    "href": null
+   },
+   {
+    "id": "rotation",
+    "title": "Rotation drives (offsite)",
+    "meta": "Free · swap monthly",
+    "status": {
+     "status": "neutral",
+     "label": "No drives"
+    },
+    "href": null
+   },
+   {
+    "id": "paid-offsite",
+    "title": "Paid offsite storage",
+    "meta": "Optional",
+    "status": {
+     "status": "neutral",
+     "label": "Off"
+    },
+    "href": "/spend"
+   }
+  ],
+  "retention": [
+   {
+    "id": "snapshots",
+    "title": "Starter snapshots",
+    "meta": "7 days + 30 daily",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "audit",
+    "title": "Audit log",
+    "meta": "2 years here",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "transcripts",
+    "title": "Transcripts and sessions",
+    "meta": "1 year",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "logs",
+    "title": "Service logs",
+    "meta": "30 days",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "tax",
+    "title": "Tax documents",
+    "meta": "7 years minimum",
+    "status": null,
+    "href": null
+   },
+   {
+    "id": "ledger",
+    "title": "Approvals and ledger",
+    "meta": "7 years",
+    "status": null,
+    "href": null
+   }
+  ],
+  "connection_groups": [
+   {
+    "name": "This Mac's apps",
+    "note": "Spec 20.16",
+    "rows": [
+     {
+      "id": "calendar",
+      "title": "Calendar",
+      "meta": "All calendars · write own events",
+      "status": {
+       "status": "healthy",
+       "label": "Allowed"
+      },
+      "href": null
+     },
+     {
+      "id": "reminders",
+      "title": "Reminders",
+      "meta": "Mirror list \"Platform\"",
+      "status": {
+       "status": "healthy",
+       "label": "Allowed"
+      },
+      "href": null
+     },
+     {
+      "id": "mail",
+      "title": "Mail",
+      "meta": "3 accounts · drafts only · send off",
+      "status": {
+       "status": "healthy",
+       "label": "Allowed"
+      },
+      "href": null
+     },
+     {
+      "id": "contacts",
+      "title": "Contacts",
+      "meta": "Read",
+      "status": {
+       "status": "attention",
+       "label": "Waiting"
+      },
+      "href": null
+     },
+     {
+      "id": "messages",
+      "title": "Messages",
+      "meta": "Send off · read off",
+      "status": {
+       "status": "neutral",
+       "label": "Off"
+      },
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Accounts by person",
+    "note": "3 principals",
+    "rows": [
+     {
+      "id": "acct-owner",
+      "title": "You",
+      "meta": "iCloud mail, Google calendar",
+      "status": {
+       "status": "healthy",
+       "label": "2 accounts"
+      },
+      "href": null
+     },
+     {
+      "id": "acct-mom",
+      "title": "Mom",
+      "meta": "IMAP mailbox · app password",
+      "status": {
+       "status": "healthy",
+       "label": "1 account"
+      },
+      "href": null
+     },
+     {
+      "id": "acct-dad",
+      "title": "Dad",
+      "meta": "Calendar \"Dad\" on this Mac",
+      "status": {
+       "status": "healthy",
+       "label": "1 mapping"
+      },
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Platform links",
+    "note": "Free",
+    "rows": [
+     {
+      "id": "tailscale",
+      "title": "Tailscale",
+      "meta": "Personal plan · 3 Owner devices",
+      "status": {
+       "status": "healthy",
+       "label": "Connected"
+      },
+      "href": null
+     },
+     {
+      "id": "heartbeat",
+      "title": "Heartbeat monitor",
+      "meta": "Healthchecks.io",
+      "status": {
+       "status": "healthy",
+       "label": "Reporting"
+      },
+      "href": null
+     },
+     {
+      "id": "discord",
+      "title": "Discord bots",
+      "meta": "Assistant and Gatekeeper",
+      "status": {
+       "status": "neutral",
+       "label": "Deferred"
+      },
+      "href": "/setup"
+     },
+     {
+      "id": "huggingface",
+      "title": "Hugging Face",
+      "meta": "Model downloads only",
+      "status": {
+       "status": "healthy",
+       "label": "Ready"
+      },
+      "href": null
+     }
+    ]
+   }
+  ],
+  "voice_profiles": {
+   "twilio_default|true": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": false
+    }
+   ],
+   "twilio_default|false": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": true
+    }
+   ],
+   "heart|true": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": false
+    }
+   ],
+   "heart|false": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": true
+    }
+   ],
+   "michael|true": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": false
+    }
+   ],
+   "michael|false": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": true
+    }
+   ],
+   "my_voice|true": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": false
+    }
+   ],
+   "my_voice|false": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": true
+    }
+   ],
+   "mom|true": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": false
+    }
+   ],
+   "mom|false": [
+    {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · 4 clips",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · your voice · watermarked",
+     "selected": false,
+     "locked": false
+    },
+    {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
+     "selected": true,
+     "locked": false
+    },
+    {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Private celebrity clone · calls to you only",
+     "selected": false,
+     "locked": true
+    }
+   ]
+  },
+  "maintenance_stats": [
+   {
+    "name": "Fixes merged, 30 d",
+    "value": "11",
+    "status": {
+     "status": "healthy",
+     "label": "0 regressions"
+    },
+    "spark": [],
+    "sampled_at": null
+   },
+   {
+    "name": "Mutation score",
+    "value": "0.66",
+    "status": {
+     "status": "healthy",
+     "label": "Up from 0.63"
+    },
+    "spark": [],
+    "sampled_at": null
+   },
+   {
+    "name": "Flaky tests",
+    "value": "2",
+    "status": {
+     "status": "neutral",
+     "label": "None quarantined"
+    },
+    "spark": [],
+    "sampled_at": null
+   }
+  ],
+  "findings": [
+   {
+    "id": "F-040",
+    "severity": "high",
+    "title": "Token compared with == in webhook check",
+    "meta": "receipt-scanner · security · fix branch tonight"
+   },
+   {
+    "id": "F-041",
+    "severity": "medium",
+    "title": "N+1 query on the tenants list",
+    "meta": "lease-reminders · performance · benchmark first"
+   },
+   {
+    "id": "F-042",
+    "severity": "medium",
+    "title": "README setup steps out of date",
+    "meta": "receipt-scanner · docs drift"
+   },
+   {
+    "id": "F-043",
+    "severity": "low",
+    "title": "Duplicated date parsing in 3 files",
+    "meta": "lease-reminders · refactor · proposal"
+   }
+  ],
+  "agenda": [
+   {
+    "id": "EV-1",
+    "time": "09:30",
+    "title": "Call with the property insurer",
+    "meta": "Rental · Keystone prepared notes"
+   },
+   {
+    "id": "EV-2",
+    "time": "13:00",
+    "title": "Dentist cleaning",
+    "meta": "Health · Pulse · leave by 12:35"
+   },
+   {
+    "id": "EV-3",
+    "time": "18:00",
+    "title": "Car registration renewal due",
+    "meta": "Home and auto · case open"
+   }
+  ],
+  "domains": [
+   {
+    "name": "Calendar and admin",
+    "open_cases": "4 open",
+    "data_class": "internal"
+   },
+   {
+    "name": "Home and auto",
+    "open_cases": "3 open · 1 due",
+    "data_class": "internal"
+   },
+   {
+    "name": "Health and benefits",
+    "open_cases": "2 open",
+    "data_class": "restricted"
+   },
+   {
+    "name": "Finance",
+    "open_cases": "1 open",
+    "data_class": "restricted"
+   },
+   {
+    "name": "Investing",
+    "open_cases": "Nothing open",
+    "data_class": "restricted"
+   },
+   {
+    "name": "Taxes",
+    "open_cases": "2 open",
+    "data_class": "restricted"
+   },
+   {
+    "name": "Rental",
+    "open_cases": "3 open",
+    "data_class": "restricted"
+   },
+   {
+    "name": "Career and business",
+    "open_cases": "1 open",
+    "data_class": "internal"
+   }
+  ],
+  "finance": {
+   "owner": {
+    "principal": "owner",
+    "month": "October",
+    "days_elapsed": "25 of 31 days",
+    "budget": [
+     {
+      "name": "Housing",
+      "spent": 2100,
+      "budget": 2100
+     },
+     {
+      "name": "Groceries",
+      "spent": 540,
+      "budget": 650
+     },
+     {
+      "name": "Transport",
+      "spent": 310,
+      "budget": 280
+     },
+     {
+      "name": "Utilities",
+      "spent": 190,
+      "budget": 240
+     },
+     {
+      "name": "Subscriptions",
+      "spent": 86,
+      "budget": 90
+     }
+    ],
+    "net_worth": {
+     "name": "Net worth",
+     "value": "$412,800",
+     "status": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "sampled_at": null
+    },
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "status": "attention",
+       "label": "Overdue"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "meta": "Last export Oct 3",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     }
+    ]
+   },
+   "mom": {
+    "principal": "mom",
+    "month": "October",
+    "days_elapsed": "25 of 31 days",
+    "budget": [
+     {
+      "name": "Housing",
+      "spent": 1260,
+      "budget": 1260
+     },
+     {
+      "name": "Groceries",
+      "spent": 324,
+      "budget": 390
+     },
+     {
+      "name": "Transport",
+      "spent": 186,
+      "budget": 168
+     },
+     {
+      "name": "Utilities",
+      "spent": 114,
+      "budget": 144
+     },
+     {
+      "name": "Subscriptions",
+      "spent": 52,
+      "budget": 54
+     }
+    ],
+    "net_worth": {
+     "name": "Net worth",
+     "value": "$247,680",
+     "status": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "sampled_at": null
+    },
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "status": "attention",
+       "label": "Overdue"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "meta": "Last export Oct 3",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     }
+    ]
+   },
+   "dad": {
+    "principal": "dad",
+    "month": "October",
+    "days_elapsed": "25 of 31 days",
+    "budget": [
+     {
+      "name": "Housing",
+      "spent": 1260,
+      "budget": 1260
+     },
+     {
+      "name": "Groceries",
+      "spent": 324,
+      "budget": 390
+     },
+     {
+      "name": "Transport",
+      "spent": 186,
+      "budget": 168
+     },
+     {
+      "name": "Utilities",
+      "spent": 114,
+      "budget": 144
+     },
+     {
+      "name": "Subscriptions",
+      "spent": 52,
+      "budget": 54
+     }
+    ],
+    "net_worth": {
+     "name": "Net worth",
+     "value": "$247,680",
+     "status": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "sampled_at": null
+    },
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "status": "attention",
+       "label": "Overdue"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "meta": "Last export Oct 3",
+      "status": {
+       "status": "healthy",
+       "label": "Current"
+      }
+     }
+    ]
+   }
+  },
+  "doc_groups": [
+   {
+    "name": "The platform",
+    "note": "",
+    "rows": [
+     {
+      "id": "infra",
+      "title": "INFRASTRUCTURE.md",
+      "meta": "Checks, recovery, remote login · reviewed Oct 26",
+      "status": {
+       "status": "healthy",
+       "label": "Approved"
+      },
+      "href": null
+     },
+     {
+      "id": "run-0004",
+      "title": "Runbook: drive not mounted",
+      "meta": "RUN-0004 · last tested Oct 4",
+      "status": {
+       "status": "healthy",
+       "label": "Approved"
+      },
+      "href": null
+     },
+     {
+      "id": "adr-0007",
+      "title": "ADR-0007 Use MLX for local inference",
+      "meta": "Oct 24",
+      "status": {
+       "status": "healthy",
+       "label": "Accepted"
+      },
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Lease Reminders",
+    "note": "",
+    "rows": [
+     {
+      "id": "prd-0003",
+      "title": "PRD: Lease Reminders",
+      "meta": "PRD-0003 · v1.2",
+      "status": {
+       "status": "healthy",
+       "label": "Approved"
+      },
+      "href": null
+     },
+     {
+      "id": "des-0009",
+      "title": "Design: reminder scheduling",
+      "meta": "DES-0009 · conformance record attached",
+      "status": {
+       "status": "healthy",
+       "label": "Approved"
+      },
+      "href": null
+     },
+     {
+      "id": "rel-12",
+      "title": "Release packet 1.2",
+      "meta": "Waiting on your G7 approval",
+      "status": {
+       "status": "attention",
+       "label": "In review"
+      },
+      "href": "/approvals"
+     }
+    ]
+   },
+   {
+    "name": "Needs attention",
+    "note": "",
+    "rows": [
+     {
+      "id": "rs-readme",
+      "title": "Receipt Scanner README",
+      "meta": "Drift found by Saturday audit",
+      "status": {
+       "status": "problem",
+       "label": "Stale"
+      },
+      "href": null
+     },
+     {
+      "id": "run-restore",
+      "title": "Runbook: restore a record",
+      "meta": "Review due Nov 2",
+      "status": {
+       "status": "attention",
+       "label": "In review"
+      },
+      "href": null
+     }
+    ]
+   }
+  ],
+  "search_index": [
+   {
+    "name": "Cases",
+    "results": [
+     {
+      "id": "CS-0176",
+      "title": "Medicare plan review",
+      "meta": "Health · Dad · due Dec 7",
+      "href": "/personal"
+     },
+     {
+      "id": "EV-1",
+      "title": "Call with the property insurer",
+      "meta": "Rental · today 09:30",
+      "href": "/personal"
+     },
+     {
+      "id": "CS-0187",
+      "title": "Unit B lease renewal",
+      "meta": "Rental · due Nov 30",
+      "href": "/personal"
+     },
+     {
+      "id": "CS-0201",
+      "title": "Car registration renewal",
+      "meta": "Home and auto · due today",
+      "href": "/personal"
+     }
+    ]
+   },
+   {
+    "name": "Documents",
+    "results": [
+     {
+      "id": "DOC-1",
+      "title": "Home insurance policy 2026",
+      "meta": "Household · PDF · renews Dec 14",
+      "href": "/docs"
+     },
+     {
+      "id": "DOC-2",
+      "title": "Landlord policy declarations",
+      "meta": "Rental · restricted",
+      "href": "/docs"
+     }
+    ]
+   },
+   {
+    "name": "Contacts",
+    "results": [
+     {
+      "id": "C-05",
+      "title": "Insurer member services",
+      "meta": "Health · Dad · known",
+      "href": "/contacts"
+     },
+     {
+      "id": "C-01",
+      "title": "Dr. Patel's office",
+      "meta": "Health · allowlisted",
+      "href": "/contacts"
+     }
+    ]
+   },
+   {
+    "name": "Employees",
+    "results": [
+     {
+      "id": "PO-9",
+      "title": "Keystone, Property Manager",
+      "meta": "Prepared the insurer call notes",
+      "href": "/directory"
+     },
+     {
+      "id": "PO-10",
+      "title": "Pulse, Health and Benefits",
+      "meta": "Medicare plan review",
+      "href": "/directory"
+     }
+    ]
+   },
+   {
+    "name": "Audit events",
+    "results": [
+     {
+      "id": "AU-1",
+      "title": "mail.draft by Pulse",
+      "meta": "Oct 25 19:02 · masked",
+      "href": "/security"
+     }
+    ]
+   }
+  ],
+  "wayfinder_answers": {
+   "insur": "Your home policy renews Dec 14. Dad's Medicare plan review is a case due Dec 7. The insurer call is today at 09:30."
+  },
+  "ideas": [
+   {
+    "id": "ID-0014",
+    "title": "Garden watering planner",
+    "state": "Exploring",
+    "lead": "Spark"
+   },
+   {
+    "id": "ID-0013",
+    "title": "Shared family calendar digest",
+    "state": "Validating",
+    "lead": "Spark"
+   },
+   {
+    "id": "ID-0011",
+    "title": "Utility bill anomaly alerts",
+    "state": "Ready",
+    "lead": "Spark"
+   }
+  ],
+  "reviews": [
+   {
+    "id": "RR-0044",
+    "title": "Reminder schedule",
+    "added_lines": 212,
+    "removed_lines": 40,
+    "reviewer": "Redline on the coding model · same-family review controls on",
+    "readability": "Checks passed · cold read correct · 1 note for Bolt"
+   }
+  ],
+  "task_stages": {
+   "T-5521": 4
+  },
+  "stage_rails": {
+   "4": [
+    {
+     "code": "D0",
+     "state": "done"
+    },
+    {
+     "code": "D1",
+     "state": "done"
+    },
+    {
+     "code": "D2",
+     "state": "done"
+    },
+    {
+     "code": "D3",
+     "state": "done"
+    },
+    {
+     "code": "D4",
+     "state": "current"
+    },
+    {
+     "code": "D5",
+     "state": "todo"
+    },
+    {
+     "code": "D6",
+     "state": "todo"
+    },
+    {
+     "code": "D7",
+     "state": "todo"
+    },
+    {
+     "code": "D8",
+     "state": "todo"
+    },
+    {
+     "code": "D9",
+     "state": "todo"
+    },
+    {
+     "code": "D10",
+     "state": "todo"
+    }
+   ]
+  },
+  "not_yet_hired": [
+   "QA-5"
+  ],
+  "chat_leads": [
+   {
+    "id": "atlas",
+    "name": "Atlas",
+    "title": "Chief of Staff",
+    "department": "personal",
+    "state": "idle",
+    "now": ""
+   },
+   {
+    "id": "spark",
+    "name": "Spark",
+    "title": "Ideation Lead",
+    "department": "ideation",
+    "state": "idle",
+    "now": ""
+   },
+   {
+    "id": "foreman",
+    "name": "Foreman",
+    "title": "Development Lead",
+    "department": "governance",
+    "state": "idle",
+    "now": ""
+   },
+   {
+    "id": "custodian",
+    "name": "Custodian",
+    "title": "Maintenance Lead",
+    "department": "engineering",
+    "state": "idle",
+    "now": ""
+   },
+   {
+    "id": "wayfinder",
+    "name": "Wayfinder",
+    "title": "Platform Guide",
+    "department": "governance",
+    "state": "idle",
+    "now": ""
+   }
+  ],
+  "mock_reply": "I'm the mock chat, standing in for {name} until the platform runs on the Mac. In the real platform this answer comes from {name}'s lead session in the pipeline engine."
+ },
+ "constants": {
+  "undo_window_seconds": 8.0,
+  "step_up_lifetime_seconds": 120.0,
+  "mock_assertion_prefix": "virtual:",
+  "word_delay_seconds": 0.06,
+  "instrument_count": 7,
+  "needs_you_shown": 2,
+  "team_shown": 4,
+  "state_order": [
+   "blocked",
+   "needs_owner",
+   "paused",
+   "working",
+   "review_ready",
+   "waiting",
+   "idle",
+   "resolved"
+  ],
+  "blocked_words": {
+   "rework_limit": "Three rework cycles at one gate. The governance reviewer decides next.",
+   "budget": "Its budget cap is reached. The lead can narrow the scope, or you can raise the cap.",
+   "rounds": "Three analysis rounds without a check-in. It needs a word from you.",
+   "stalled": "It stalled twice in a row. The lead is re-planning.",
+   "dependency": "A thread it depends on failed. The lead decides what to do.",
+   "policy_denied": "A tool it needs was denied. The lead is re-planning within the rules.",
+   "resource_lost": "A degraded mode lasted too long. The watchdog is clearing it.",
+   "failed": "Its session failed twice. The lead decides what to do."
+  },
+  "waiting_words": {
+   "gate": "a gate",
+   "agent": "another employee",
+   "resource": "a free model slot",
+   "third_party": "a reply from outside",
+   "time": "its scheduled time"
+  },
+  "call_script": "\"Approval requested: class C. Code on your screen. Enter the code, then press pound.\" Four fixed lines per voice. No names, amounts or codes are ever spoken.",
+  "pool_mode": "Mode L",
+  "backup_mode": {
+   "status": "attention",
+   "label": "Starter backup · one location"
+  },
+  "tick_seconds": 0.5,
+  "transcript_every_ticks": 3,
+  "sample_every_ticks": 60,
+  "rate_bounds": [
+   12.0,
+   60.0
+  ],
+  "streamed_code": "def reminder_dates(lease_end: date) -> list[date]: return [lease_end - timedelta(days=offset) for offset in REMINDER_OFFSETS_DAYS]"
+ }
+}

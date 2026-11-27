@@ -2,9 +2,14 @@
  * @file The employee bot face (spec 7.12, "Avatars"; 7.13, "What alive looks like").
  *
  * Drawn locally as SVG: a rounded head, two-dot eyes, and an antenna whose shape says the
- * department, so a face is recognisable without color. The state is shown by motion around the
- * head (glow, ripple, orbiting dot, halo, outline), styled in `components.css`, and always also
- * given as words in the label for screen readers.
+ * department, so a face is recognisable without color. Each state has its own motion, styled in
+ * `components.css` (spec 7.13): idle sleeps (eyes shut, a slow breath, drifting z's), thinking
+ * glances side to side, writing nods in time with its token rate, a tool's eyes follow the
+ * orbiting dot, waiting on you hops for attention, and blocked gives a small shake. The head and
+ * eyes are separate HTML layers so every motion is a transform on its own layer, which keeps it on
+ * the compositor. With reduced motion each state holds a still pose that still tells it apart:
+ * closed eyes and one z for idle, raised eyes for waiting, squinting for blocked. The state is
+ * always also given as words in the label for screen readers.
  */
 import type { Department, EmployeeState } from "../api/types";
 
@@ -64,17 +69,28 @@ export function Avatar({ department, state, name, size = 40, rate }: AvatarProps
         height: size,
         color: `var(--dept-${department})`,
         ["--ripple" as string]: ripplePeriod(rate),
+        ["--avatar-size" as string]: `${size}px`,
       }}
       role="img"
       aria-label={`${name}, ${STATE_WORDS[state]}`}
     >
-      <svg viewBox="0 0 48 48" width={size} height={size} aria-hidden="true" fill="currentColor">
-        <Antenna department={department} />
-        <rect x="8" y="13" width="32" height="30" rx="11" />
-        <circle cx="18.5" cy="28" r="3" fill="var(--avatar-eye)" />
-        <circle cx="29.5" cy="28" r="3" fill="var(--avatar-eye)" />
-      </svg>
+      <span className="avatar-face" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width={size} height={size} fill="currentColor">
+          <Antenna department={department} />
+          <rect x="8" y="13" width="32" height="30" rx="11" />
+        </svg>
+        <span className="avatar-eyes">
+          <span className="avatar-eye" />
+          <span className="avatar-eye" />
+        </span>
+      </span>
       {state === "tool" && <span className="avatar-orbit" aria-hidden="true" />}
+      {state === "idle" && (
+        <span className="avatar-sleep" aria-hidden="true">
+          <span>z</span>
+          <span>z</span>
+        </span>
+      )}
     </span>
   );
 }

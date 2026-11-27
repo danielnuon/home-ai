@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "types": "openapi-typescript ../../../build/openapi.json -o src/api/schema.d.ts && prettier --write src/api/schema.d.ts",
     "size": "node scripts/check-bundle-size.mjs",
+    "build:preview": "tsc -b && vite build --mode preview && node scripts/build-preview.mjs dist-preview/brain-preview.html",
     "a11y": "node scripts/check-accessibility.mjs"
   },
   "dependencies": {
