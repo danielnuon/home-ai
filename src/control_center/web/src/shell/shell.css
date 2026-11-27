@@ -198,18 +198,20 @@
   grid-template-columns: repeat(5, 1fr);
   height: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid var(--line);
   background: var(--bg);
 }
 
-/* Content fades into the page colour as it nears the bar: no blur, no
-   border and no grey haze, so dark cards dissolve rather than glow. The
-   stops ease in so the fade has no visible start line. */
+/* The bar keeps a hard top edge; the content above it fades into the
+   page colour as it nears that edge, with no blur or grey haze, so dark
+   cards dissolve rather than glow. The stops ease in so the fade has no
+   visible start line. */
 .tab-bar::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 100%;
+  bottom: calc(100% + 1px); /* sits above the border, not over it */
   height: var(--space-8);
   background: linear-gradient(
     to bottom,
