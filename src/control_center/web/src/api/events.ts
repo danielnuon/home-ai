@@ -79,14 +79,17 @@ function applyTranscript(client: QueryClient, append: TranscriptAppend): void {
 
 /** Replaces a streaming chat message by id, or appends it if it is new. */
 function applyChat(client: QueryClient, message: ChatMessage): void {
-  client.setQueryData<ChatThread>(["chat", message.lead_id], (thread) => {
-    if (!thread) return thread;
-    const known = thread.messages.some((m) => m.id === message.id);
-    const messages = known
-      ? thread.messages.map((m) => (m.id === message.id ? message : m))
-      : [...thread.messages, message];
-    return { ...thread, messages };
-  });
+  client.setQueryData<ChatThread>(
+    ["chat", message.lead_id, message.thread_id ?? "new"],
+    (thread) => {
+      if (!thread) return thread;
+      const known = thread.messages.some((m) => m.id === message.id);
+      const messages = known
+        ? thread.messages.map((m) => (m.id === message.id ? message : m))
+        : [...thread.messages, message];
+      return { ...thread, messages };
+    },
+  );
 }
 
 /**

@@ -55,7 +55,7 @@ test("a thread that needs the Owner offers the decision, never Resolve", async (
 
   expect(await screen.findByRole("link", { name: "Answer Foreman" })).toHaveAttribute(
     "href",
-    "/chat?lead=foreman",
+    "/chat?lead=foreman&thread=TH-1",
   );
   expect(screen.queryByRole("button", { name: "Resolve" })).not.toBeInTheDocument();
 });

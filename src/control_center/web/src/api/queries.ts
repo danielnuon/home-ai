@@ -75,9 +75,14 @@ export const useConnections = () =>
 export const useVoice = () => useResource<T.VoiceOverview>(["voice"], "/voice");
 /** Docs page. */
 export const useDocs = () => useResource<T.DocsOverview>(["docs"], "/docs");
-/** A lead's chat thread. */
-export const useChat = (leadId: string) =>
-  useResource<T.ChatThread>(["chat", leadId], `/chat/${leadId}`, true, true);
+/** Chat with a lead: its threads, and one thread's messages (`null` for a new chat). */
+export const useChat = (leadId: string, threadId: string | null) =>
+  useResource<T.ChatThread>(
+    ["chat", leadId, threadId ?? "new"],
+    threadId ? `/chat/${leadId}?thread=${encodeURIComponent(threadId)}` : `/chat/${leadId}`,
+    true,
+    true,
+  );
 /** Search results; disabled for an empty query. */
 export const useSearch = (query: string) =>
   useResource<T.SearchResults>(

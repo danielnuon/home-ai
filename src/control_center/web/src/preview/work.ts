@@ -17,8 +17,9 @@ import type {
 import { conflict, notFound } from "./errors";
 import type { MockWorld, ThreadRecord } from "./world";
 
-const SESSION_PAGES = ["live", "today", "work", "directory"];
-const THREAD_PAGES = [...SESSION_PAGES, "platform"];
+const SESSION_PAGES = ["live", "today", "work", "directory", "chat"];
+/** The resources that show thread states or count running sessions. */
+export const THREAD_PAGES = [...SESSION_PAGES, "platform"];
 
 /** A session's state from its recorded facts; the first that applies wins. */
 export function sessionState(task: LiveTask): SessionState {

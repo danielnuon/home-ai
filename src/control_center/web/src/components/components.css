@@ -688,6 +688,78 @@ dl.list.facts {
   overflow: hidden;
 }
 
+/* A lead's threads: New chat on top, then one row per thread with its state (spec 15.8.9) */
+.chat-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.new-chat {
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.thread-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.thread-row {
+  --gap: var(--space-1);
+  display: flex;
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 160ms ease-out;
+}
+
+.thread-row:hover,
+.thread-row[aria-current="page"] {
+  background: var(--raised);
+}
+
+.thread-row-title,
+.thread-row-detail {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat-title {
+  min-width: 0;
+}
+
+.chat-title > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-back {
+  margin-left: calc(-1 * var(--space-2));
+}
+
+/* On a phone the list is its own screen, rows divided by hairlines as in a messaging app. */
+.shell-phone .thread-rows {
+  gap: 0;
+}
+
+.shell-phone .thread-row {
+  border-radius: 0;
+  margin-inline: calc(-1 * var(--space-4));
+  padding-inline: var(--space-4);
+  border-bottom: 1px solid var(--line);
+}
+
 .chat-head {
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--line);

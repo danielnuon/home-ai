@@ -70,12 +70,12 @@ def search(backends: BackendsDep, q: Annotated[str, Query(max_length=200)] = "")
 
 
 @router.get("/chat/{lead_id}")
-def chat_thread(lead_id: str, backends: BackendsDep) -> ChatThread:
-    """A lead's chat history."""
-    return backends.chat.thread(lead_id)
+def chat_thread(lead_id: str, backends: BackendsDep, thread: str | None = None) -> ChatThread:
+    """Chat with a lead: its threads, and the messages of `thread` (none for a new chat)."""
+    return backends.chat.thread(lead_id, thread)
 
 
 @router.post("/chat/{lead_id}")
 async def chat_send(lead_id: str, body: ChatSend, backends: BackendsDep) -> ChatThread:
     """Send a message. Async because the mock chat streams its reply on the event loop."""
-    return backends.chat.send(lead_id, body.text)
+    return backends.chat.send(lead_id, body.text, body.thread_id)

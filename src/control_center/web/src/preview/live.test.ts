@@ -29,6 +29,19 @@ describe("the preview's chat", () => {
     expect(streamed.at(-2)).toMatchObject({ text: reply, streaming: true });
     expect(streamed.at(-1)).toMatchObject({ text: reply, streaming: false });
   });
+
+  it("starts a conversation thread for a new chat, titled from the first words", () => {
+    const world = buildWorld(new Bus(), () => NOW);
+
+    const sent = chatSend(world, "atlas", "Plan the week of the eighth for me please");
+
+    expect(sent.thread).toMatchObject({
+      kind: "conversation",
+      title: "Plan the week of the eighth…",
+    });
+    expect(sent.threads.map((t) => t.id)).toContain(sent.thread?.id);
+    expect(sent.messages.every((m) => m.thread_id === sent.thread?.id)).toBe(true);
+  });
 });
 
 describe("the preview's event stream", () => {

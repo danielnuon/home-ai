@@ -25,9 +25,14 @@ export const THREAD_STATE: Record<Thread["state"], StatusLabel> = {
   resolved: { status: "healthy", label: "Resolved" },
 };
 
+/** The thread's conversation in Chat. */
+export function chatPath(thread: Thread): string {
+  return `/chat?lead=${thread.lead_id}&thread=${thread.id}`;
+}
+
 /** Where the Owner answers what a thread waits on: its approval card, or its lead in Chat. */
 function answerPath(thread: Thread): string {
-  return thread.approval_id ? "/approvals" : `/chat?lead=${thread.lead_id}`;
+  return thread.approval_id ? "/approvals" : chatPath(thread);
 }
 
 /** Resolve and Reopen for one thread, each offering the other as Undo. */
@@ -80,7 +85,7 @@ function ThreadActions({ thread }: { thread: Thread }) {
         {reviewing ? "Looks good" : "Resolve"}
       </button>
       {reviewing && (
-        <Link to={`/chat?lead=${thread.lead_id}`} className="btn compact">
+        <Link to={chatPath(thread)} className="btn compact">
           Follow up
         </Link>
       )}

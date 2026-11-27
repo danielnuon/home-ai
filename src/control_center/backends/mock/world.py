@@ -57,6 +57,7 @@ class MockWorld:
     jobs: dict[str, Job]
     fixes: dict[str, MaintenanceFix]
     chats: dict[str, list[ChatMessage]]
+    """Chat messages by conversation thread id."""
     sampled_at: datetime
     """When the simulated status aggregator last collected health and metrics."""
     stopped: bool = False
@@ -110,6 +111,6 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         setup=by_id(personal.setup_steps()),
         jobs=by_id(ops.jobs()),
         fixes=by_id(ops.maintenance_batch()),
-        chats={"atlas": chat.atlas_history(now)},
+        chats={chat.ATLAS_THREAD: chat.atlas_history(now)},
         sampled_at=now,
     )

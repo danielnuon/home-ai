@@ -46,11 +46,36 @@ def test_every_page_answers(client: TestClient, path: str) -> None:
 
 
 def test_chat_stores_the_owner_message(client: TestClient) -> None:
-    """Spec 7.7: a message to a lead is kept in that lead's thread."""
-    thread = client.post("/api/v1/chat/atlas", json={"text": "What's on today?"}).json()
+    """Spec 7.7: a message continues the thread it was sent in."""
+    thread = client.post(
+        "/api/v1/chat/atlas", json={"text": "What's on today?", "thread_id": "TH-0216"}
+    ).json()
 
-    assert thread["messages"][-1]["author"] in ("owner", "lead")
+    assert thread["thread"]["id"] == "TH-0216"
     assert any(m["text"] == "What's on today?" for m in thread["messages"])
+
+
+def test_a_new_chat_starts_a_conversation_thread(client: TestClient) -> None:
+    """Spec 15.8.9, Chat: New starts a thread, titled from the first words, in the lead's list."""
+    before = client.get("/api/v1/chat/atlas").json()
+    sent = client.post(
+        "/api/v1/chat/atlas", json={"text": "Plan the week of the eighth for me please"}
+    ).json()
+
+    assert before["thread"] is None and before["messages"] == []
+    assert sent["thread"]["kind"] == "conversation"
+    assert sent["thread"]["title"] == "Plan the week of the eighth…"
+    assert sent["thread"]["id"] in [t["id"] for t in sent["threads"]]
+    assert all(m["thread_id"] == sent["thread"]["id"] for m in sent["messages"])
+
+
+def test_chat_lists_only_the_leads_own_threads(client: TestClient) -> None:
+    """Spec 15.8.9, Chat: each lead lists its own threads; another lead's is not found."""
+    atlas = client.get("/api/v1/chat/atlas").json()
+
+    assert atlas["threads"] and all(t["lead_id"] == "atlas" for t in atlas["threads"])
+    assert client.get("/api/v1/chat/atlas", params={"thread": "TH-0216"}).json()["messages"]
+    assert client.get("/api/v1/chat/wayfinder", params={"thread": "TH-0216"}).status_code == 404
 
 
 def test_chat_leads_carry_their_live_state(client: TestClient) -> None:

@@ -24,6 +24,7 @@ from control_center.backends.mock.fixtures import chat as chat_fixtures
 from control_center.backends.mock.fixtures import gate as gate_fixtures
 from control_center.backends.mock.fixtures import ops, people, personal, platform, reference, work
 from control_center.backends.mock.fixtures import settings as settings_fixtures
+from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import BLOCKED_WORDS, STATE_ORDER, WAITING_WORDS
 from control_center.backends.mock.world import build_world
 from control_center.events import EventBus
@@ -133,6 +134,7 @@ def fixtures() -> dict[str, Any]:
         "not_yet_hired": sorted(people.NOT_YET_HIRED),
         "chat_leads": dump(chat_fixtures.LEADS),
         "mock_reply": chat_fixtures.MOCK_REPLY,
+        "thread_leads": thread_fixtures.LEADS,
     }
 
 
@@ -143,6 +145,7 @@ def constants() -> dict[str, Any]:
         "step_up_lifetime_seconds": gate_step_up.STEP_UP_LIFETIME.total_seconds(),
         "mock_assertion_prefix": gate_step_up.MOCK_ASSERTION_PREFIX,
         "word_delay_seconds": chat.WORD_DELAY_SECONDS,
+        "title_words": chat.TITLE_WORDS,
         "instrument_count": INSTRUMENT_COUNT,
         "needs_you_shown": NEEDS_YOU_SHOWN,
         "team_shown": TEAM_SHOWN,

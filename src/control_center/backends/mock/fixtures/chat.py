@@ -14,6 +14,10 @@ LEADS = [
 """The leads web chat reaches (spec 7.8, 22.4). Brain may chat with these and no one else."""
 
 
+ATLAS_THREAD = "TH-0216"
+"""The conversation thread this morning's exchange belongs to (`fixtures/threads.py`)."""
+
+
 def atlas_history(now: datetime) -> list[ChatMessage]:
     """This morning's exchange with Atlas, ending in an inline approval card."""
     morning = now - timedelta(hours=1)
@@ -21,6 +25,7 @@ def atlas_history(now: datetime) -> list[ChatMessage]:
         ChatMessage(
             id="M-1",
             lead_id="atlas",
+            thread_id=ATLAS_THREAD,
             author="owner",
             text=(
                 "Remind me to renew my passport, and check what Dad's insurance needs for the "
@@ -31,6 +36,7 @@ def atlas_history(now: datetime) -> list[ChatMessage]:
         ChatMessage(
             id="M-2",
             lead_id="atlas",
+            thread_id=ATLAS_THREAD,
             author="lead",
             text=(
                 "Two things, done and drafted:\n"

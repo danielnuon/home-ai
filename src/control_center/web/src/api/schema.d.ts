@@ -776,7 +776,7 @@ export interface paths {
     };
     /**
      * Chat Thread
-     * @description A lead's chat history.
+     * @description Chat with a lead: its threads, and the messages of `thread` (none for a new chat).
      */
     get: operations["chat_thread_api_v1_chat__lead_id__get"];
     put?: never;
@@ -1293,12 +1293,16 @@ export interface components {
     /**
      * ChatMessage
      * @description One message in web chat. `approval_id` puts an inline approval card under the message.
+     *
+     *     `thread_id` is the conversation thread the message belongs to (spec 15.8.1).
      */
     ChatMessage: {
       /** Id */
       id: string;
       /** Lead Id */
       lead_id: string;
+      /** Thread Id */
+      thread_id: string | null;
       /**
        * Author
        * @enum {string}
@@ -1323,20 +1327,29 @@ export interface components {
     };
     /**
      * ChatSend
-     * @description A message from the Owner.
+     * @description A message from the Owner. Without `thread_id` it starts a new conversation thread.
      */
     ChatSend: {
       /** Text */
       text: string;
+      /** Thread Id */
+      thread_id?: string | null;
     };
     /**
      * ChatThread
-     * @description A lead's chat history.
+     * @description Chat with one lead (spec 7.16, Chat; 15.8.9).
+     *
+     *     `threads` is the lead's list: its open threads in state order, then the recently resolved.
+     *     `thread` is the one open in the conversation, or None for a new chat that has no thread yet;
+     *     `messages` are that thread's.
      */
     ChatThread: {
       lead: components["schemas"]["ChatLead"];
       /** Leads */
       leads: components["schemas"]["ChatLead"][];
+      /** Threads */
+      threads: components["schemas"]["Thread"][];
+      thread: components["schemas"]["Thread"] | null;
       /** Messages */
       messages: components["schemas"]["ChatMessage"][];
     };
@@ -4143,7 +4156,9 @@ export interface operations {
   };
   chat_thread_api_v1_chat__lead_id__get: {
     parameters: {
-      query?: never;
+      query?: {
+        thread?: string | null;
+      };
       header?: {
         "Tailscale-User-Login"?: string | null;
         "X-CSRF-Token"?: string | null;

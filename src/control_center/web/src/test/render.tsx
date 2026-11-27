@@ -19,6 +19,8 @@ type Answer = unknown | { status: number; body: unknown };
 export interface SentRequest {
   method: string;
   path: string;
+  /** The query string's parameters. */
+  query: URLSearchParams;
   body: unknown;
   headers: Record<string, string>;
 }
@@ -41,6 +43,7 @@ export function fakeServer(handlers: Record<string, Handler>): SentRequest[] {
     const request: SentRequest = {
       method,
       path,
+      query: new URLSearchParams(url.split("?")[1] ?? ""),
       body: typeof init.body === "string" ? JSON.parse(init.body) : undefined,
       headers: (init.headers ?? {}) as Record<string, string>,
     };
