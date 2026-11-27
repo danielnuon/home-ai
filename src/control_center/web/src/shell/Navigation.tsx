@@ -14,6 +14,7 @@ import { ROUTES, TAB_PATHS, type PageRoute } from "../routes";
 import { useToast } from "../components/Toasts";
 import { scroller, scrollToTop } from "./scroll";
 import { StopControl } from "./StopControl";
+import { FROM_NAV } from "./trail";
 
 const NAV_ROUTES = ROUTES.filter((page) => page.inNav);
 
@@ -32,7 +33,7 @@ function useReselect(path: string) {
   return (event: React.MouseEvent) => {
     if (location.pathname !== path) return;
     event.preventDefault();
-    if (location.search) navigate(path);
+    if (location.search) navigate(path, { state: FROM_NAV });
     else if (scroller().scrollTop > 0) scrollToTop();
     else {
       void client.invalidateQueries();
@@ -46,7 +47,13 @@ function NavItem({ page, badges }: { page: PageRoute; badges: Record<string, Sta
   const Icon = page.icon;
   const reselect = useReselect(page.path);
   return (
-    <NavLink to={page.path} end={page.path === "/"} className="nav-item" onClick={reselect}>
+    <NavLink
+      to={page.path}
+      state={FROM_NAV}
+      end={page.path === "/"}
+      className="nav-item"
+      onClick={reselect}
+    >
       <Icon size={18} aria-hidden="true" />
       <span className="nav-label">{page.label}</span>
       <Badge value={page.badge ? badges[page.badge] : undefined} />

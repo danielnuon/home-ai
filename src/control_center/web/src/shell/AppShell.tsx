@@ -11,6 +11,7 @@ import { useLayout } from "../design/useLayout";
 import { Banners } from "./Banners";
 import { Sidebar, TabBar } from "./Navigation";
 import { useScrollMemory } from "./scroll";
+import { TrailProvider } from "./trail";
 
 /** "Search or ask Wayfinder": opens Search with the words typed. */
 function SearchField() {
@@ -62,7 +63,9 @@ export function AppShell() {
         <Banners />
         <SearchField />
         <Suspense fallback={<div className="loading" aria-busy="true" />}>
-          <PageArrival />
+          <TrailProvider>
+            <PageArrival />
+          </TrailProvider>
         </Suspense>
       </main>
       {layout === "phone" && <TabBar />}
