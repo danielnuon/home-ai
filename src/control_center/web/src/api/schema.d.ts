@@ -1262,6 +1262,9 @@ export interface components {
     /**
      * ChatLead
      * @description A lead the Owner can chat with (spec 7.8): Atlas, Spark, Foreman, Custodian, Wayfinder.
+     *
+     *     `state` and `now` drive the contact circle at the top of Chat: the avatar's ring and the words
+     *     under it (spec 7.2, Chat).
      */
     ChatLead: {
       /** Id */
@@ -1275,6 +1278,17 @@ export interface components {
        * @enum {string}
        */
       department: "personal" | "engineering" | "quality" | "ideation" | "governance";
+      /**
+       * State
+       * @default idle
+       * @enum {string}
+       */
+      state: "idle" | "thinking" | "generating" | "tool" | "waiting" | "blocked";
+      /**
+       * Now
+       * @default
+       */
+      now: string;
     };
     /**
      * ChatMessage

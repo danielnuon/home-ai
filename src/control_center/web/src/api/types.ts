@@ -12,6 +12,7 @@ export type Approval = Schemas["Approval"];
 export type BackupsOverview = Schemas["BackupsOverview"];
 export type Case = Schemas["Case"];
 export type ChatMessage = Schemas["ChatMessage"];
+export type ChatLead = Schemas["ChatLead"];
 export type ChatThread = Schemas["ChatThread"];
 export type Contact = Schemas["Contact"];
 export type ConnectionsOverview = Schemas["ConnectionsOverview"];

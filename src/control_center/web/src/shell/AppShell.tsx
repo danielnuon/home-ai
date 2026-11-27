@@ -4,7 +4,8 @@
  */
 import { Search } from "lucide-react";
 import { Suspense, useState, type FormEvent } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { ARRIVE, m } from "../design/motion";
 import { useLayout } from "../design/useLayout";
 import { Banners } from "./Banners";
 import { Sidebar, TabBar } from "./Navigation";
@@ -32,6 +33,20 @@ function SearchField() {
   );
 }
 
+/**
+ * Each page rises in when you arrive (spec 7.14, "nothing pops in"). Keyed by the path only, so a
+ * filter or a chosen lead in the query string updates in place rather than replaying it. Opacity
+ * and transform only, so it never costs a layout per frame.
+ */
+function PageArrival() {
+  const { pathname } = useLocation();
+  return (
+    <m.div key={pathname} className="page-arrival" {...ARRIVE}>
+      <Outlet />
+    </m.div>
+  );
+}
+
 /** The app frame for the current layout. */
 export function AppShell() {
   const layout = useLayout();
@@ -43,7 +58,7 @@ export function AppShell() {
         <Banners />
         <SearchField />
         <Suspense fallback={<div className="loading" aria-busy="true" />}>
-          <Outlet />
+          <PageArrival />
         </Suspense>
       </main>
       {layout === "phone" && <TabBar />}

@@ -75,12 +75,18 @@ class TodayOverview(ContractModel):
 
 
 class ChatLead(ContractModel):
-    """A lead the Owner can chat with (spec 7.8): Atlas, Spark, Foreman, Custodian, Wayfinder."""
+    """A lead the Owner can chat with (spec 7.8): Atlas, Spark, Foreman, Custodian, Wayfinder.
+
+    `state` and `now` drive the contact circle at the top of Chat: the avatar's ring and the words
+    under it (spec 7.2, Chat).
+    """
 
     id: str
     name: str
     title: str
     department: Department
+    state: EmployeeState = "idle"
+    now: str = ""
 
 
 class ChatMessage(ContractModel):

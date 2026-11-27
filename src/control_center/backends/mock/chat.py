@@ -30,6 +30,13 @@ class MockLeadChat:
             raise NotFoundError("Brain can chat only with the five leads.")
         return lead
 
+    def _with_status(self, lead: ChatLead) -> ChatLead:
+        """The lead with its live state from the Directory, for its contact circle."""
+        employee = next((e for e in self._world.employees.values() if e.name == lead.name), None)
+        if employee is None:
+            return lead
+        return lead.model_copy(update={"state": employee.state, "now": employee.now})
+
     def thread(self, lead_id: str) -> ChatThread:
         """A lead's history.
 
@@ -43,8 +50,8 @@ class MockLeadChat:
             NotFoundError: `lead_id` is not one of the five leads.
         """  # noqa: DOC502 raised by self._lead()
         return ChatThread(
-            lead=self._lead(lead_id),
-            leads=chat_fixtures.LEADS,
+            lead=self._with_status(self._lead(lead_id)),
+            leads=[self._with_status(lead) for lead in chat_fixtures.LEADS],
             messages=self._world.chats.setdefault(lead_id, []),
         )
 

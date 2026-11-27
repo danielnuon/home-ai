@@ -22,6 +22,22 @@ export {
   m,
 } from "motion/react";
 
+/** A spring that settles without bounce (spec 7.14), for sheets and anything that moves. */
+export const SETTLE = { type: "spring", stiffness: 380, damping: 40 } as const;
+
+/**
+ * How content arrives: a short rise and fade, opacity and transform only, so it runs on the
+ * compositor (7.14, "nothing pops in").
+ */
+export const ARRIVE = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.24, ease: [0.2, 0.8, 0.2, 1] },
+} as const;
+
+/** How a card leaves a list: it fades and settles back while the rest close the gap. */
+export const LEAVE = { opacity: 0, scale: 0.98, transition: { duration: 0.16 } } as const;
+
 const REDUCE = "(prefers-reduced-motion: reduce)";
 
 function subscribe(onChange: () => void): () => void {
