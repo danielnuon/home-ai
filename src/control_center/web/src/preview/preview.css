@@ -1,7 +1,9 @@
 /*
  * The preview's one difference in layout. Its host may grow the frame to the page's full height,
  * which would leave the phone's tab bar at the bottom of the whole page instead of the screen.
- * On a phone the page is therefore exactly one screen tall and the app scrolls inside it.
+ * On a phone the page is therefore exactly one screen tall and the app scrolls inside it. The host
+ * pads the page by the phone's safe areas, so the scroller fills what is left (100%) rather than a
+ * whole screen (100dvh), which would push its last screenful below the frame, under the tab bar.
  */
 @media (max-width: 599px) {
   html,
@@ -12,7 +14,8 @@
   }
 
   #root {
-    height: 100dvh;
+    box-sizing: border-box;
+    height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
   }

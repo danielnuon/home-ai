@@ -8,8 +8,8 @@
  */
 import { useSearchParams } from "react-router-dom";
 import { useWorkBoard } from "../api/queries";
-import type { Thread, ThreadsOverview, WorkBoard, WorkItem } from "../api/types";
-import { Avatar } from "../components/Avatar";
+import type { Department, Thread, ThreadsOverview, WorkBoard, WorkItem } from "../api/types";
+import { AvatarGroup, LiveAvatar } from "../components/LiveFace";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { StageRail } from "../components/StageRail";
@@ -24,11 +24,10 @@ function WorkCard({ item }: { item: WorkItem }) {
       aria-label={item.title}
     >
       <div className="row">
-        <Avatar
-          department={item.department}
-          state={item.employee_state}
+        <LiveAvatar
           name={item.employee_name}
-          size={32}
+          department={item.department}
+          fallback={item.employee_state}
         />
         <div className="grow">
           <h3>{item.title}</h3>
@@ -95,6 +94,57 @@ function Chips({
   );
 }
 
+interface Lead {
+  name: string;
+  department: Department;
+}
+
+/** Each lead once, in the order they first appear. */
+function leadsOf(threads: Thread[]): Lead[] {
+  const leads = new Map<string, Lead>();
+  threads.forEach((thread) =>
+    leads.set(thread.lead_name, { name: thread.lead_name, department: thread.lead_department }),
+  );
+  return [...leads.values()];
+}
+
+/** The lead filter: each lead's face and name, and All as the faces together. */
+function LeadChips({
+  leads,
+  value,
+  onChange,
+}: {
+  leads: Lead[];
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="row wrap" role="group" aria-label="Lead">
+      <button
+        type="button"
+        className="chip face-chip"
+        aria-pressed={value === ALL_LEADS}
+        onClick={() => onChange(ALL_LEADS)}
+      >
+        <AvatarGroup faces={leads} size={20} />
+        All leads
+      </button>
+      {leads.map((lead) => (
+        <button
+          key={lead.name}
+          type="button"
+          className="chip face-chip"
+          aria-pressed={value === lead.name}
+          onClick={() => onChange(lead.name)}
+        >
+          <LiveAvatar name={lead.name} department={lead.department} size={20} />
+          {lead.name}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 /** The Threads view: a lead filter, open threads by state, then the recently resolved. */
 function Threads({
   threads,
@@ -105,18 +155,13 @@ function Threads({
   lead: string;
   onLead: (lead: string) => void;
 }) {
-  const leads = [...new Set([...threads.open, ...threads.recently_resolved].map(leadName))];
+  const leads = leadsOf([...threads.open, ...threads.recently_resolved]);
   const shown = (thread: Thread) => lead === ALL_LEADS || thread.lead_name === lead;
   const open = threads.open.filter(shown);
   const resolved = threads.recently_resolved.filter(shown);
   return (
     <>
-      <Chips
-        label="Lead"
-        options={[[ALL_LEADS, "All leads"], ...leads.map((name): [string, string] => [name, name])]}
-        value={lead}
-        onChange={onLead}
-      />
+      <LeadChips leads={leads} value={lead} onChange={onLead} />
       {open.length === 0 && <p className="card empty">No open threads here.</p>}
       {byState(open).map(([state, group]) => (
         <Section key={state} title={THREAD_STATE[state].label} aside={`${group.length}`}>
@@ -142,10 +187,6 @@ function Threads({
 
 const ALL_LEADS = "all";
 
-function leadName(thread: Thread): string {
-  return thread.lead_name;
-}
-
 /** The boards view: work items by stage, reviews waiting, and ideas. */
 function Boards({ board }: { board: WorkBoard }) {
   return (
@@ -161,6 +202,7 @@ function Boards({ board }: { board: WorkBoard }) {
         <ul className="list">
           {board.reviews.map((review) => (
             <li key={review.id} className="list-row">
+              <LiveAvatar name={review.reviewer} size={28} />
               <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
                 <span className="row-title">{review.title}</span>
                 <span className="muted small">
@@ -179,6 +221,7 @@ function Boards({ board }: { board: WorkBoard }) {
         <ul className="list">
           {board.ideas.map((idea) => (
             <li key={idea.id} className="list-row">
+              <LiveAvatar name={idea.lead} size={28} />
               <span className="grow row-title">{idea.title}</span>
               <span className="muted small">
                 {idea.lead} · {idea.state}
