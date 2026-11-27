@@ -270,6 +270,20 @@ dl.list.facts {
   inset: 0;
 }
 
+/* The job mark below the eyes, stroked in the eye color; it moves with the head. */
+.avatar-emblem {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--avatar-eye);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* The eyes sit where the face's eye dots were drawn: centres at (18.5, 28) and (29.5, 28) of 48. */
 .avatar-eye {
   position: absolute;
@@ -717,6 +731,34 @@ dl.list.facts {
   min-height: 420px;
 }
 
+/*
+ * On a phone the conversation is part of the page, with one scroller, the page itself: a panel
+ * that scrolls inside a page that scrolls catches the finger at its ends and hands the gesture
+ * back and forth. The message box stays pinned just above the tab bar.
+ */
+.shell-phone .chat {
+  min-height: 0;
+}
+
+.shell-phone .messages {
+  max-height: none;
+  overflow: visible;
+}
+
+.shell-phone .composer {
+  position: sticky;
+  bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+  z-index: 1;
+  margin-inline: calc(-1 * var(--space-2));
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+.messages-end {
+  scroll-margin-bottom: calc(var(--tab-bar-height, 0px) + 96px);
+}
+
 .messages {
   flex: 1;
   margin: 0;
@@ -727,6 +769,7 @@ dl.list.facts {
   gap: var(--space-3);
   max-height: 60dvh;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .message {

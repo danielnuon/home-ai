@@ -19,6 +19,7 @@ import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { AnimatePresence, ARRIVE, m } from "../design/motion";
 import { clockTime } from "../design/time";
+import { scroller } from "../shell/scroll";
 
 const DEFAULT_LEAD = "atlas";
 
@@ -78,17 +79,47 @@ function Composer({ leadId, leadName }: { leadId: string; leadName: string }) {
   );
 }
 
+/**
+ * Keeps the newest message in view without fighting the reader. On a wide screen the messages
+ * scroll in their own panel, which is moved directly so the page never jumps. On a phone there is
+ * one scroller, the page, so a reply follows the conversation only while the Owner is already at
+ * the bottom (or has just opened it, or just sent something), and never pulls them away from what
+ * they scrolled up to read.
+ */
+function useFollowNewest(leadId: string, change: unknown, ownerLast: string | undefined) {
+  const list = useRef<HTMLOListElement>(null);
+  const end = useRef<HTMLLIElement>(null);
+  const opened = useRef<string | null>(null);
+  const sent = useRef(ownerLast);
+  useEffect(() => {
+    const panel = list.current;
+    if (!panel) return;
+    if (getComputedStyle(panel).overflowY === "auto") {
+      panel.scrollTop = panel.scrollHeight;
+      return;
+    }
+    const page = scroller();
+    const atBottom = page.scrollHeight - page.clientHeight - page.scrollTop < 160;
+    const justSent = sent.current !== ownerLast;
+    if (atBottom || justSent || opened.current !== leadId) {
+      end.current?.scrollIntoView?.({ block: "end" });
+    }
+    opened.current = leadId;
+    sent.current = ownerLast;
+  }, [leadId, change, ownerLast]);
+  return { list, end };
+}
+
 /** The thread, kept scrolled to the newest message. */
 function Thread({ thread }: { thread: ChatThread }) {
-  const end = useRef<HTMLLIElement>(null);
   const last = thread.messages.at(-1);
-  // Braces, not an arrow body: newer browsers return a Promise from scrollIntoView, and React
-  // would call it as the effect's cleanup.
-  useEffect(() => {
-    end.current?.scrollIntoView?.({ block: "end" });
-  }, [last?.id, last?.text]);
+  const { list, end } = useFollowNewest(
+    thread.lead.id,
+    `${last?.id}:${last?.text.length}`,
+    thread.messages.findLast((message) => message.author === "owner")?.id,
+  );
   return (
-    <ol className="messages" aria-live="polite">
+    <ol ref={list} className="messages" aria-live="polite">
       {thread.messages.length === 0 && (
         <li className="empty">
           Ask {thread.lead.name} anything, or ask them to do something for you.
@@ -99,7 +130,7 @@ function Thread({ thread }: { thread: ChatThread }) {
           <Message key={message.id} message={message} thread={thread} />
         ))}
       </AnimatePresence>
-      <li ref={end} aria-hidden="true" />
+      <li ref={end} className="messages-end" aria-hidden="true" />
     </ol>
   );
 }
