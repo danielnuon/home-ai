@@ -18,12 +18,15 @@ OFF = StatusLabel(status="neutral", label="Off")
 
 MEMORY_ZONES = [
     MemoryZone(name="macOS and your session", used_gb=7.1, budget_gb=8),
-    MemoryZone(name="Containers (Colima)", used_gb=4.2, budget_gb=6),
+    MemoryZone(name="Containers (Colima, two lanes)", used_gb=4.5, budget_gb=8),
     MemoryZone(name="Platform services", used_gb=2.1, budget_gb=3),
     MemoryZone(name="Model pool", used_gb=22.0, budget_gb=42),
-    MemoryZone(name="Headroom, never used", used_gb=0, budget_gb=5),
+    MemoryZone(name="Headroom, never used", used_gb=0, budget_gb=3),
 ]
-"""The 8 / 6 / 3 / 42 / 5 GB budget of spec 8.3 (64GB Mac, decision 95), with sample usage."""
+"""The 8 / 8 / 3 / 42 / 3 GB budget of spec 8.3 (64GB Mac, decisions 95 and 116), with sample usage.
+
+The container VM holds a 6GB development lane and a 1.5GB operations lane (spec 8.11.2).
+"""
 
 
 def system_tiles() -> list[Metric]:
@@ -39,7 +42,7 @@ def system_tiles() -> list[Metric]:
         Metric(
             name="Thermal",
             value="Nominal",
-            status=StatusLabel(status=ok, label="0 throttled min"),
+            status=StatusLabel(status=ok, label="Ladder idle · 0 serious min"),
             spark=[12, 12, 11, 12, 12, 11, 12],
         ),
         Metric(
@@ -57,13 +60,13 @@ def system_tiles() -> list[Metric]:
         Metric(
             name="Internal SSD",
             value="212 GB free",
-            status=StatusLabel(status=ok, label="SMART ok"),
+            status=StatusLabel(status=ok, label="SMART ok · 59% used"),
             spark=[8, 8, 9, 9, 9, 10, 10],
         ),
         Metric(
             name="Working drive",
             value="3.1 TB free",
-            status=StatusLabel(status=ok, label="SMART ok · TRIM on"),
+            status=StatusLabel(status=ok, label="SMART ok · 22% used · floor 200 GB"),
             spark=[8, 8, 8, 9, 9, 9, 9],
         ),
     ]
@@ -147,7 +150,7 @@ def service_groups() -> list[ServiceGroup]:
             name="In your session",
             services=[
                 service("mlx-worker", "MLX worker", "owner · mode L · 22 / 42 GB"),
-                service("colima", "Colima VM", "owner · 6 GB · 2 containers"),
+                service("colima", "Colima VM", "owner · 8 GB · dev 3.9 / 6 · ops 0.6 / 1.5"),
                 service("docker-proxy", "Docker API proxy", "owner · 0 refused today"),
                 service("mac-bridge", "Mac bridge", "owner · 4 of 5 permissions"),
                 service("image-worker", "Image worker", "starts in image mode", ON_DEMAND),
