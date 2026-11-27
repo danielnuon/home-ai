@@ -702,23 +702,107 @@ dl.list.facts {
  * that scrolls inside a page that scrolls catches the finger at its ends and hands the gesture
  * back and forth. The message box stays pinned just above the tab bar.
  */
-.shell-phone .chat {
-  min-height: 0;
-}
-
 .shell-phone .messages {
   max-height: none;
   overflow: visible;
 }
 
-.shell-phone .composer {
+/*
+ * On a phone Chat is a messaging screen, not a card on a page (decision 135): no card frame, the
+ * lead's name pinned under the top edge, and the message box resting on the tab bar, both frosted
+ * glass running edge to edge. Contacts drop their status line to stay one compact row.
+ */
+.shell-phone .chat {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* No card, so no scroll-light sheen across it either (spec 7.12, "Light"). */
+.shell-phone .chat::before {
+  content: none;
+}
+
+.shell-phone .chat-head {
   position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 2;
+  margin-inline: calc(-1 * var(--space-4));
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+.shell-phone .contact {
+  width: 72px;
+  padding: var(--space-1);
+}
+
+.shell-phone .contact-now {
+  display: none;
+}
+
+/*
+ * Fixed to the screen, not sticky: a sticky box anchors to its scroller, and where the page
+ * scrolls inside a frame (the preview) that bottom edge is not the bar's, which left a gap.
+ */
+.shell-phone .composer {
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
-  z-index: 1;
-  margin-inline: calc(-1 * var(--space-2));
-  padding: var(--space-2);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  z-index: 30;
+  height: var(--composer-height);
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+/* The page ends just above the message box, which rests directly on the bar. */
+.shell-phone {
+  --composer-height: 57px;
+}
+
+.shell-phone .content:has(.composer) {
+  padding-bottom: calc(
+    var(--tab-bar-height) + var(--composer-height) + var(--space-3) + env(safe-area-inset-bottom)
+  );
+}
+
+/* The message box already sits on the bar, so the shade above the bar would fall across it. */
+.shell-phone:has(.composer) .tab-bar::before {
+  display: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .shell-phone .chat-head,
+  .shell-phone .composer {
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* A pill field and a round send arrow, as in a messaging app */
+.composer .field {
+  border-radius: 999px;
+}
+
+.composer .send {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
 }
 
 .messages-end {
@@ -750,9 +834,14 @@ dl.list.facts {
 }
 
 .bubble {
+  min-width: 0;
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-card);
+  border-radius: 18px 18px 18px 6px;
   background: var(--raised);
+}
+
+.mine .bubble {
+  border-radius: 18px 18px 6px;
 }
 
 .mine .bubble {

@@ -3,10 +3,13 @@
  *
  * It reads like a messaging app: a row of contact circles at the top, one per lead, each with
  * the lead's face, live state and what they are doing; then the conversation and the message box.
+ * On a phone the conversation is the screen itself rather than a card: the lead's name stays
+ * pinned at the top, bubbles run edge to edge, and the message box sits on the tab bar (decision 135).
  * The reply streams in over the event stream as the lead writes it. When a request needs the
  * Owner's approval, the lead's message links to the approval card rather than acting. New
  * messages rise in; nothing pops (spec 7.14).
  */
+import { ArrowUp } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
@@ -72,8 +75,13 @@ function Composer({ leadId, leadName }: { leadId: string; leadName: string }) {
         value={text}
         onChange={(event) => setText(event.target.value)}
       />
-      <button type="submit" className="btn primary" disabled={post.busy || !text.trim()}>
-        Send
+      <button
+        type="submit"
+        className="btn primary send"
+        aria-label="Send"
+        disabled={post.busy || !text.trim()}
+      >
+        <ArrowUp size={18} aria-hidden="true" />
       </button>
     </form>
   );
