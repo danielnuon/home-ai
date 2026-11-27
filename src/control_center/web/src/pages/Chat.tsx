@@ -10,7 +10,8 @@
  * messages rise in; nothing pops (spec 7.14).
  */
 import { ArrowUp } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
@@ -22,6 +23,7 @@ import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { AnimatePresence, ARRIVE, m } from "../design/motion";
 import { clockTime } from "../design/time";
+import { useLayout } from "../design/useLayout";
 import { scroller } from "../shell/scroll";
 
 const DEFAULT_LEAD = "atlas";
@@ -143,6 +145,17 @@ function Thread({ thread }: { thread: ChatThread }) {
   );
 }
 
+/**
+ * On a phone the message box is fixed to the screen on the tab bar. It is drawn into the app
+ * frame rather than inside the page, because the page rises in with a transform, and a fixed box
+ * inside a transformed one is fixed to that box instead: it rode up with the page and then
+ * snapped down onto the bar when the arrival finished.
+ */
+function OnTheBar({ children }: { children: ReactNode }) {
+  const frame = useLayout() === "phone" ? document.querySelector(".shell") : null;
+  return frame ? createPortal(children, frame) : children;
+}
+
 /** The leads as contact circles: face, live state, and what each is doing. */
 function Contacts({
   leads,
@@ -202,7 +215,9 @@ export default function Chat() {
               </span>
             </header>
             <Thread thread={thread} />
-            <Composer leadId={leadId} leadName={thread.lead.name} />
+            <OnTheBar>
+              <Composer leadId={leadId} leadName={thread.lead.name} />
+            </OnTheBar>
           </section>
         </Page>
       )}

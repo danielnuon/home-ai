@@ -760,10 +760,23 @@ dl.list.facts {
   height: var(--composer-height);
   margin: 0;
   padding: var(--space-2) var(--space-4);
+  animation: composer-in 240ms ease-out;
   border-top: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 78%, transparent);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+@keyframes composer-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-phone .composer {
+    animation: none;
+  }
 }
 
 /* The page ends just above the message box, which rests directly on the bar. */
@@ -771,7 +784,7 @@ dl.list.facts {
   --composer-height: 57px;
 }
 
-.shell-phone .content:has(.composer) {
+.shell-phone:has(.composer) .content {
   padding-bottom: calc(
     var(--tab-bar-height) + var(--composer-height) + var(--space-3) + env(safe-area-inset-bottom)
   );
