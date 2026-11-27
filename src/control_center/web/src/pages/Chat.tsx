@@ -8,11 +8,12 @@
  * messages rise in; nothing pops (spec 7.14).
  */
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { useChat } from "../api/queries";
 import type { ChatLead, ChatMessage, ChatThread } from "../api/types";
+import { ApprovalPeek } from "../components/ApprovalPeek";
 import { Avatar, STATE_WORDS } from "../components/Avatar";
 import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
@@ -44,11 +45,7 @@ function Message({ message, thread }: { message: ChatMessage; thread: ChatThread
           )}
         </p>
         {message.note && <p className="muted small">{message.note}</p>}
-        {message.approval_id && (
-          <Link to="/approvals" className="small">
-            Open approval {message.approval_id}
-          </Link>
-        )}
+        {message.approval_id && <ApprovalPeek approvalId={message.approval_id} />}
         <span className="muted tiny">{clockTime(message.at)}</span>
       </div>
     </m.li>

@@ -6,11 +6,12 @@
  * decided, why, what else was considered, and offers Acknowledge or Veto, with the veto's effect
  * shown before it is pressed (rule 5).
  */
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import type { CriticalDecision } from "../api/types";
+import { ARRIVE, m } from "../design/motion";
 import { timeLeft } from "../design/time";
 import { Sheet } from "./Sheet";
 
@@ -99,16 +100,8 @@ function whenWords(decision: CriticalDecision): string {
   return STATUS_WORDS[decision.status];
 }
 
-/** Acknowledge, Veto and (on short cards) Details. */
-function DecisionActions({
-  decision,
-  full,
-  onVeto,
-}: {
-  decision: CriticalDecision;
-  full: boolean;
-  onVeto: () => void;
-}) {
+/** Acknowledge and Veto. */
+function DecisionActions({ decision, onVeto }: { decision: CriticalDecision; onVeto: () => void }) {
   const acknowledge = useAction<CriticalDecision>({
     refresh: ["decisions", "today"],
     done: () => `Acknowledged ${decision.id}`,
@@ -126,11 +119,6 @@ function DecisionActions({
       <button type="button" className="btn" onClick={onVeto}>
         Veto…
       </button>
-      {!full && (
-        <Link to="/decisions" className="btn ghost">
-          Details
-        </Link>
-      )}
     </div>
   );
 }
@@ -138,6 +126,8 @@ function DecisionActions({
 /** One critical decision, highlighted while open, with Acknowledge and Veto while a veto can act. */
 export function DecisionCard({ decision, full = false }: DecisionCardProps) {
   const [vetoing, setVetoing] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const reasoningId = `reasoning-${decision.id}`;
 
   return (
     <article
@@ -152,11 +142,27 @@ export function DecisionCard({ decision, full = false }: DecisionCardProps) {
       </div>
       <h3>{decision.title}</h3>
       <p className="small">{decision.summary}</p>
-      {full && <Reasoning decision={decision} />}
-      {decision.veto_reason && <p className="muted small">Your reason: {decision.veto_reason}</p>}
-      {decision.vetoable && (
-        <DecisionActions decision={decision} full={full} onVeto={() => setVetoing(true)} />
+      {!full && (
+        <button
+          type="button"
+          className="expand-bar"
+          aria-expanded={expanded}
+          aria-controls={reasoningId}
+          onClick={() => setExpanded((open) => !open)}
+        >
+          <span className="grow">
+            {expanded ? "Hide the reasoning" : "Why, what else was weighed, the risks"}
+          </span>
+          <ChevronDown size={18} aria-hidden="true" className="expand-chevron" />
+        </button>
       )}
+      {(full || expanded) && (
+        <m.div id={reasoningId} className="stack" {...(full ? {} : ARRIVE)}>
+          <Reasoning decision={decision} />
+        </m.div>
+      )}
+      {decision.veto_reason && <p className="muted small">Your reason: {decision.veto_reason}</p>}
+      {decision.vetoable && <DecisionActions decision={decision} onVeto={() => setVetoing(true)} />}
       <VetoSheet decision={decision} open={vetoing} onClose={() => setVetoing(false)} />
     </article>
   );

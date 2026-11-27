@@ -8,9 +8,12 @@ import { Page } from "../components/Page";
 export default function NotFound() {
   return (
     <Page title="Not here">
-      <p className="card empty">
-        That page doesn't exist. <Link to="/">Back to Today</Link>
-      </p>
+      <div className="card empty stack" style={{ justifyItems: "center" }}>
+        <p>That page doesn't exist.</p>
+        <Link to="/" className="btn primary">
+          Back to Today
+        </Link>
+      </div>
     </Page>
   );
 }

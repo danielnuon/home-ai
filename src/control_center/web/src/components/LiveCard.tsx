@@ -3,6 +3,7 @@
  * who is doing what.
  */
 import { lazy, Suspense } from "react";
+import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { LiveTask } from "../api/types";
 import { Avatar } from "./Avatar";
@@ -59,17 +60,14 @@ export function LiveCard({
   const queued = tasks.filter((task) => task.session_state === "queued").length;
   return (
     <section className="card stack field-card" aria-label="Live">
-      <div className="section-head">
-        <h2>
-          <Link to={linkTo} className="plain-link">
-            Live
-          </Link>
-        </h2>
-        <span className="small">
+      <Link to={linkTo} className="section-head section-link">
+        <h2>Live</h2>
+        <span className="section-cue">
           <Counter value={totalRate(running)} suffix=" tok/s" /> · {running.length} running
           {queued > 0 && ` · ${queued} queued`}
+          <ChevronRight size={16} aria-hidden="true" />
         </span>
-      </div>
+      </Link>
       <Suspense fallback={<div className="activity-field" />}>
         <ActivityField tasks={tasks} />
       </Suspense>
