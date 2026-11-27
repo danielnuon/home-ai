@@ -202,25 +202,17 @@
   background: var(--bg);
 }
 
-/* The bar keeps a hard top edge; the content above it fades into the
-   page colour as it nears that edge, with no blur or grey haze, so dark
-   cards dissolve rather than glow. The stops ease in so the fade has no
-   visible start line. */
+/* The bar keeps a hard top edge, and content dims as it nears that edge,
+   as if slipping under the bar. It only ever darkens: fading toward the
+   page colour lightened dark cards and read as a glow (decision 132). */
 .tab-bar::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: calc(100% + 1px); /* sits above the border, not over it */
-  height: var(--space-8);
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--bg) 0%, transparent) 0%,
-    color-mix(in srgb, var(--bg) 20%, transparent) 30%,
-    color-mix(in srgb, var(--bg) 60%, transparent) 60%,
-    color-mix(in srgb, var(--bg) 90%, transparent) 85%,
-    var(--bg) 100%
-  );
+  height: 28px;
+  background: linear-gradient(to bottom, transparent, var(--edge-shade));
   pointer-events: none;
 }
 
