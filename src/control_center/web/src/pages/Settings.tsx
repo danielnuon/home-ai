@@ -55,7 +55,12 @@ function byCategory(settings: Setting[]): [string, Setting[]][] {
 /** One setting, linking to its owner page unless that is Settings itself. */
 function IndexRow({ setting }: { setting: Setting }) {
   const owner = ROUTES.find((page) => page.path === `/${setting.owner_page}`);
-  const link = owner && owner.path !== "/settings" && <Link to={owner.path}>{owner.label}</Link>;
+  const link = owner && owner.path !== "/settings" && (
+    <Link to={owner.path} className="chip link-chip">
+      {owner.label}
+      <ChevronRight size={14} aria-hidden="true" />
+    </Link>
+  );
   return <SettingRow setting={setting} owner={link} />;
 }
 

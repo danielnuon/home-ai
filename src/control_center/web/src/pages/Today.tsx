@@ -9,6 +9,7 @@
  * chips count blocked threads and threads ready for review; those stay out of Needs you, because
  * nothing waits on them (spec 15.8.9).
  */
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePlatform, useSettings, useToday } from "../api/queries";
@@ -60,17 +61,20 @@ function StatusChips({ today }: { today: TodayOverview }) {
       {platform && <StatusText value={platform.overall} className="chip" />}
       <span className="chip status-in_progress">◐ {running} working</span>
       {today.blocked_threads > 0 && (
-        <Link to="/work" className="chip status-problem">
+        <Link to="/work" className="chip link-chip status-problem">
           ■ {today.blocked_threads} blocked
+          <ChevronRight size={14} aria-hidden="true" />
         </Link>
       )}
       {today.review_ready_threads > 0 && (
-        <Link to="/work" className="chip status-healthy">
+        <Link to="/work" className="chip link-chip status-healthy">
           ● {today.review_ready_threads} ready for review
+          <ChevronRight size={14} aria-hidden="true" />
         </Link>
       )}
-      <Link to="/spend" className="chip">
+      <Link to="/spend" className="chip link-chip">
         {today.spend_label}
+        <ChevronRight size={14} aria-hidden="true" />
       </Link>
     </div>
   );
@@ -79,7 +83,7 @@ function StatusChips({ today }: { today: TodayOverview }) {
 function NeedsYou({ today }: { today: TodayOverview }) {
   const words = COUNT_WORDS[today.needs_you_count] ?? `${today.needs_you_count} things need you`;
   return (
-    <Section title={words} aside={<Link to="/approvals">All approvals</Link>}>
+    <Section title={words} to={{ path: "/approvals", label: "All approvals" }}>
       <AnimatePresence initial={false} mode="popLayout">
         {today.needs_you.map((approval) => (
           <m.div key={approval.id} layout="position" exit={LEAVE}>
@@ -116,7 +120,7 @@ function Agenda({ today }: { today: TodayOverview }) {
 
 function Team({ today }: { today: TodayOverview }) {
   return (
-    <Section title="Team" aside={<Link to="/directory">Directory</Link>}>
+    <Section title="Team" to={{ path: "/directory", label: "Directory" }}>
       <div className="team-strip">
         {today.team.map((member) => (
           <div key={member.id} className="team-member">
@@ -200,7 +204,7 @@ function WorkSummary({ today }: { today: TodayOverview }) {
     { label: "Working", count: running, tone: "status-in_progress" },
   ];
   return (
-    <Section title="Work" aside={<Link to="/work">Threads</Link>}>
+    <Section title="Work" to={{ path: "/work", label: "Threads" }}>
       <div className="list">
         {rows.map((row) => (
           <Link key={row.label} to="/work" className="list-row plain-link">

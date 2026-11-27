@@ -3,11 +3,14 @@
  *
  * On a phone it rises from the bottom; on a tablet or desktop it slides in from the right, so the
  * list stays visible beside it (7.12, "list beside detail"). It is a modal dialog: focus moves into
- * it, Escape or the backdrop closes it, and focus returns to whatever opened it.
+ * it, Escape or the backdrop closes it, and focus returns to whatever opened it. It renders into
+ * the document's body, so it never inherits spacing or type from what opened it, and a moving
+ * ancestor (a card rising in, a widget reflowing) can't carry the fixed panel with it.
  */
 import { AnimatePresence, m, SETTLE } from "../design/motion";
 import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useLayout } from "../design/useLayout";
 
 interface SheetProps {
@@ -35,7 +38,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
   useFocusReturn(open, panel);
 
   const offscreen = layout === "phone" ? { y: "100%" } : { x: "100%" };
-  return (
+  return createPortal(
     <AnimatePresence>
       {open && (
         <div className="sheet-layer">
@@ -69,6 +72,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
           </m.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
