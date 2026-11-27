@@ -30,6 +30,32 @@
   gap: var(--space-3);
 }
 
+/* Back to the page this one was opened from (decision 127): its own line above the title */
+.back-row {
+  flex-basis: 100%;
+  margin-block: calc(-1 * var(--space-2));
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  margin-left: -10px;
+  padding: 0 var(--space-2) 0 4px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--accent-text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: var(--raised);
+}
+
 .columns {
   display: grid;
   grid-template-columns: 1fr;
