@@ -12,6 +12,7 @@
  * always also given as words in the label for screen readers.
  */
 import type { Department, EmployeeState } from "../api/types";
+import { AgentPeek, HOLD_TIME, usePeek } from "./AgentPeek";
 
 interface AvatarProps {
   department: Department;
@@ -20,6 +21,8 @@ interface AvatarProps {
   size?: number;
   /** Tokens per second; the ripple pulses faster as it rises. */
   rate?: number | null;
+  /** Whether hovering or holding the face opens its details; off for the face inside them. */
+  peek?: boolean;
 }
 
 /** The state in words, for labels and for the line under a contact circle. */
@@ -59,8 +62,40 @@ function ripplePeriod(rate: number | null | undefined): string {
   return `${(2.4 - speed * 1.6).toFixed(2)}s`;
 }
 
-/** An employee's face with its live state. */
-export function Avatar({ department, state, name, size = 40, rate }: AvatarProps) {
+/** An employee's face with its live state; hover or hold it for their details. */
+export function Avatar(props: AvatarProps) {
+  const { peek = true, ...face } = props;
+  const { anchor, mode, place, holding, handlers, card, close } = usePeek();
+  if (!peek) return <Face {...face} />;
+  return (
+    <>
+      <span
+        ref={anchor}
+        className={`avatar-peek${holding ? " holding" : ""}`}
+        style={{ ["--hold" as string]: `${HOLD_TIME}ms` }}
+        {...handlers}
+      >
+        <Face {...face} />
+        {holding && (
+          <svg className="avatar-hold-ring" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" pathLength="100" />
+          </svg>
+        )}
+      </span>
+      <AgentPeek
+        name={face.name}
+        mode={mode}
+        place={place}
+        card={card}
+        onClose={close}
+        face={(live) => <Face {...face} state={live} size={48} />}
+      />
+    </>
+  );
+}
+
+/** The face itself. */
+function Face({ department, state, name, size = 40, rate }: Omit<AvatarProps, "peek">) {
   return (
     <span
       className={`avatar avatar-${state}`}

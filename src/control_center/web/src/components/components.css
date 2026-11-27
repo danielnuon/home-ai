@@ -1012,3 +1012,90 @@ dl.list.facts {
 .chip[aria-pressed="true"] .avatar-more {
   box-shadow: 0 0 0 2px var(--text);
 }
+
+/*
+ * A face opens its owner (spec 7.13): rest the pointer on it for a card, or press and hold it.
+ * While held the face sinks a little and a ring fills around it; the sheet opens as the ring
+ * closes, and letting go early cancels. With reduced motion the ring is simply shown, full.
+ */
+.avatar-peek {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  border-radius: 50%;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.avatar-peek > .avatar {
+  transition: transform 160ms ease-out;
+}
+
+.avatar-peek.holding > .avatar {
+  transform: scale(0.9);
+  transition-duration: var(--hold, 500ms);
+}
+
+.avatar-hold-ring {
+  position: absolute;
+  inset: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.avatar-hold-ring circle {
+  fill: none;
+  stroke: var(--accent-fill);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: hold-fill var(--hold, 500ms) linear forwards;
+}
+
+@keyframes hold-fill {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-hold-ring circle {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+.peek-card {
+  position: fixed;
+  z-index: 55;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+  transform-origin: top left;
+}
+
+.peek-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px var(--space-3);
+  margin: 0;
+}
+
+.peek-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.peek-body .link-chip {
+  align-self: flex-start;
+}
+
+/* In a filter chip the face alone tells the state; the outer ring would crowd the chip. */
+.face-chip .avatar::after {
+  content: none;
+}
