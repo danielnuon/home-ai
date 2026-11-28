@@ -36,6 +36,7 @@ from control_center.backends.mock.fixtures import (
     people,
     personal,
     platform,
+    records,
     reference,
     shell,
     work,
@@ -96,6 +97,13 @@ def world_state() -> dict[str, Any]:
         "memories",
         "alerts",
         "trash",
+        "obligations",
+        "records",
+        "rules",
+        "checklist",
+        "transactions",
+        "imports",
+        "unmapped",
         "accounts",
     ]
     state = {name: dump(getattr(world, name)) for name in fields}
@@ -148,7 +156,41 @@ def fixtures() -> dict[str, Any]:
         "maintenance_stats": dump(ops.maintenance_stats()),
         "agenda": dump(personal.agenda()),
         "domains": dump(personal.domains()),
-        "finance": {p: dump(personal.finance(p)) for p in ("owner", "mom", "dad")},
+        "briefs": dump(records.briefs()),
+        "sync": dump(records.sync_status()),
+        "assignees": records.ASSIGNEES,
+        "domain_ids": records.DOMAIN_IDS,
+        "months": records.MONTHS,
+        "repeat_words": records.REPEAT_WORDS,
+        "categories": records.CATEGORIES,
+        "income": records.INCOME,
+        "budgets": {
+            p: {c: records.scaled(p, b) for c, b in records.BUDGETS.items()}
+            for p in records.PRINCIPALS
+        },
+        "balances": {p: dump(records.balances(p)) for p in records.PRINCIPALS},
+        "cash_flow_history": {
+            p: [
+                {
+                    "key": k,
+                    "month": m,
+                    "money_in": records.scaled(p, i),
+                    "money_out": records.scaled(p, o),
+                    "rows": dump(records.history_rows(p, k)),
+                }
+                for k, m, i, o in records.CASH_FLOW_HISTORY
+            ]
+            for p in records.PRINCIPALS
+        },
+        "net_worth_spark": records.NET_WORTH_SPARK,
+        "bills": {p: dump(records.bills(p)) for p in records.PRINCIPALS},
+        "inbox_folders": records.INBOX_FOLDERS,
+        "principal_names": records.PRINCIPAL_NAMES,
+        "request_words": {k: list(v) for k, v in records.REQUEST_WORDS.items()},
+        "secret_proofs": records.SECRET_PROOFS,
+        "interview_questions": [list(q) for q in records.INTERVIEW_QUESTIONS],
+        "interview_done": records.INTERVIEW_DONE,
+        "fresh_interview": dump(records.interview()),
         "doc_groups": dump(reference.doc_groups()),
         "search_index": dump(reference.search_index()),
         "wayfinder_answers": dump(reference.WAYFINDER_ANSWERS),
@@ -252,6 +294,9 @@ def constants() -> dict[str, Any]:
         "app_features": list(gate.APP_FEATURES),
         "ark_volumes": shell.ARK_VOLUMES,
         "principal_undo_days": contact_fixtures.PRINCIPAL_UNDO_DAYS,
+        "statement_types": list(records.STATEMENT_TYPES),
+        "max_upload_bytes": records.MAX_UPLOAD_BYTES,
+        "secret_min_length": records.SECRET_MIN_LENGTH,
         "outcome_after_seconds": accounts.OUTCOME_AFTER.total_seconds(),
         "spend_month": status.SPEND_MONTH,
     }

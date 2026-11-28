@@ -1,89 +1,23 @@
 /**
- * @file Finance: one principal's month against budget, net worth, and statement imports
- * (design: Finance). Read-only: Brain never moves money (spec 22.2, hard limits).
+ * @file Finance: one principal's month against budget, cash flow, bills, statement imports and
+ * the accounts to map, every figure opening the rows it is computed from (spec 7.2, Finance).
+ * Read-only: Brain never moves money (spec 22.2, hard limits).
  */
 import { useState } from "react";
 import { useFinance } from "../api/queries";
-import type { FinanceOverview, Principal } from "../api/types";
+import type { Principal } from "../api/types";
 import { Segmented } from "../components/Controls";
 import { Swap } from "../components/Reflow";
-import { Page, Section } from "../components/Page";
+import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
-import { MetricTiles } from "../components/Rows";
-import { StatusText } from "../design/status";
-
-const PRINCIPALS = [
-  { value: "owner", label: "You" },
-  { value: "mom", label: "Mom" },
-  { value: "dad", label: "Dad" },
-] as const;
-
-/** Spending against budget for each category this month. */
-function Budget({ finance }: { finance: FinanceOverview }) {
-  return (
-    <Section title={finance.month} aside={finance.days_elapsed}>
-      <ul className="list">
-        {finance.budget.map((line) => {
-          const share = line.budget > 0 ? Math.min(line.spent / line.budget, 1) : 0;
-          return (
-            <li key={line.name} className="list-row budget-line">
-              <span className="grow stack" style={{ ["--gap" as string]: "var(--space-1)" }}>
-                <span className="row">
-                  <span className="grow row-title">{line.name}</span>
-                  <span className="mono small">
-                    ${line.spent} of ${line.budget}
-                  </span>
-                </span>
-                <span
-                  className={`progress ${line.spent > line.budget ? "over" : ""}`}
-                  aria-hidden="true"
-                >
-                  <span style={{ transform: `scaleX(${share})` }} />
-                </span>
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    </Section>
-  );
-}
-
-/**
- * Statement imports. An overdue one offers Upload right here (spec 7.16, rule 4); the button is
- * disabled until the connector service exists to receive the file.
- */
-function Imports({ finance }: { finance: FinanceOverview }) {
-  return (
-    <Section title="Statement imports">
-      <ul className="list">
-        {finance.imports.map((item) => (
-          <li key={item.account} className="list-row">
-            <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
-              <span className="row-title">{item.account}</span>
-              <span className="muted small">{item.meta}</span>
-            </span>
-            <StatusText value={item.status} className="small" />
-            {item.status.status === "attention" && (
-              <button
-                type="button"
-                className="btn compact"
-                disabled
-                title="Uploads arrive with the connector service"
-              >
-                Upload
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
-    </Section>
-  );
-}
+import { Bills, Budget, CashFlow, Imports, Requests, Unmapped } from "./finance/Sections";
+import { SourcesSheet } from "./finance/Sources";
+import { PRINCIPALS } from "./personal/shared";
 
 /** The Finance page. */
 export default function Finance() {
   const [principal, setPrincipal] = useState<Principal>("owner");
+  const [figure, setFigure] = useState<{ id: string; name: string } | null>(null);
   const query = useFinance(principal);
   return (
     <Page
@@ -94,19 +28,26 @@ export default function Finance() {
           label="Whose finances"
           value={principal}
           options={PRINCIPALS}
-          onChange={setPrincipal}
+          onChange={(next) => {
+            setFigure(null);
+            setPrincipal(next);
+          }}
         />
       }
     >
       <QueryState query={query}>
         {(finance) => (
           <Swap id={principal}>
-            <Budget finance={finance} />
-            <MetricTiles metrics={[finance.net_worth]} />
+            <Requests finance={finance} />
+            <Budget finance={finance} onOpen={setFigure} />
+            <CashFlow finance={finance} onOpen={setFigure} />
+            <Bills finance={finance} />
+            <Unmapped finance={finance} />
             <Imports finance={finance} />
           </Swap>
         )}
       </QueryState>
+      <SourcesSheet principal={principal} figure={figure} onClose={() => setFigure(null)} />
     </Page>
   );
 }

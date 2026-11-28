@@ -78,7 +78,7 @@ export async function getJson<T>(path: string): Promise<T> {
  * @returns The parsed JSON answer, or undefined for 204 No Content.
  */
 export async function send<T>(
-  method: "POST" | "PUT",
+  method: "POST" | "PUT" | "DELETE",
   path: string,
   body?: unknown,
   stepUp?: string,

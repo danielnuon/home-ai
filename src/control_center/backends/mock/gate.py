@@ -17,6 +17,7 @@ from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
 from control_center.backends.mock.gate_ops import OpsControls
 from control_center.backends.mock.gate_people import PeopleDesk
+from control_center.backends.mock.gate_records import SetupSecrets
 from control_center.backends.mock.gate_shell import ShellControls
 from control_center.backends.mock.world import MockWorld
 from control_center.config import OWNER_TIME_ZONE
@@ -43,7 +44,13 @@ APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 
 
 class MockApprovalGate(
-    DecisionLedger, GateControls, PeopleDesk, ShellControls, OpsControls, AccountsControls
+    DecisionLedger,
+    GateControls,
+    PeopleDesk,
+    ShellControls,
+    SetupSecrets,
+    OpsControls,
+    AccountsControls,
 ):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 

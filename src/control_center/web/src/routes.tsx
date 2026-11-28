@@ -94,6 +94,9 @@ export const ROUTES: PageRoute[] = [
   route("/voice", "Voice", Mic, () => import("./pages/Voice"), { inNav: false }),
   route("/search", "Search", Search, () => import("./pages/Search"), { inNav: false }),
   route("/docs/:id", "Docs", BookOpen, () => import("./pages/DocReader"), { inNav: false }),
+  route("/personal/:domain", "Personal", User, () => import("./pages/DomainRecords"), {
+    inNav: false,
+  }),
   route("/services/:id", "Services", Server, () => import("./pages/ServiceLogs"), {
     inNav: false,
   }),

@@ -28,6 +28,7 @@ from control_center.routes import (
     ops,
     people,
     personal,
+    records,
     session,
     shell,
     status,
@@ -99,7 +100,19 @@ def create_app(config: Config) -> FastAPI:
     app.add_exception_handler(SessionExpiredError, _session_expired)
 
     api = APIRouter(prefix=API_PREFIX, dependencies=[OwnerOnly, CsrfChecked])
-    for module in (session, gate, people, work, personal, memory, status, shell, ops, accounts):
+    for module in (
+        session,
+        gate,
+        people,
+        work,
+        personal,
+        records,
+        memory,
+        status,
+        shell,
+        ops,
+        accounts,
+    ):
         api.include_router(module.router)
     app.include_router(api)
 

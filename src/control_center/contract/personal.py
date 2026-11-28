@@ -6,6 +6,20 @@ from pydantic import Field
 
 from control_center.contract.base import ContractModel
 from control_center.contract.common import DataClass, Metric, Principal, StatusLabel
+from control_center.contract.records import (
+    Bill,
+    Brief,
+    CaseNote,
+    CashFlowMonth,
+    ChecklistItem,
+    DomainRecord,
+    Interview,
+    Obligation,
+    Rule,
+    SecretField,
+    SyncStatus,
+    UnmappedAccount,
+)
 
 
 class Case(ContractModel):
@@ -19,6 +33,7 @@ class Case(ContractModel):
     due: str
     status: StatusLabel
     state: Literal["open", "done", "snoozed"]
+    notes: list[CaseNote] = Field(default_factory=list)
 
 
 class CaseAction(ContractModel):
@@ -28,8 +43,9 @@ class CaseAction(ContractModel):
 
 
 class Domain(ContractModel):
-    """A personal domain and its data class (spec 20.1)."""
+    """A personal domain and its data class (spec 20.1). `id` opens its records page."""
 
+    id: str
     name: str
     open_cases: str
     data_class: DataClass
@@ -44,16 +60,34 @@ class AutomaticChange(ContractModel):
 
 
 class PersonalOverview(ContractModel):
-    """The Personal page."""
+    """The Personal page (spec 7.2).
+
+    Cases, obligations, domains, rules, briefs, sync status and the onboarding checklist.
+    `assignees` fills the add and reassign forms.
+    """
 
     cases: list[Case]
+    obligations: list[Obligation]
     domains: list[Domain]
+    rules: list[Rule]
+    briefs: list[Brief]
+    sync: list[SyncStatus]
+    checklist: list[ChecklistItem]
     recent_changes: list[AutomaticChange]
+    assignees: list[str]
+
+
+class DomainDetail(ContractModel):
+    """One domain's page: its records and filed documents, for every principal."""
+
+    domain: Domain
+    records: list[DomainRecord]
 
 
 class BudgetLine(ContractModel):
-    """One budget category: spent against budget, in whole dollars."""
+    """One budget category: spent against budget, in whole dollars. `id` names its sources."""
 
+    id: str
     name: str
     spent: int
     budget: int
@@ -62,6 +96,7 @@ class BudgetLine(ContractModel):
 class StatementImport(ContractModel):
     """Import status for one account (spec 7.2, Finance)."""
 
+    id: str
     account: str
     meta: str
     status: StatusLabel
@@ -75,7 +110,12 @@ class FinanceOverview(ContractModel):
     days_elapsed: str
     budget: list[BudgetLine]
     net_worth: Metric
+    cash_flow: list[CashFlowMonth]
+    bills: list[Bill]
     imports: list[StatementImport]
+    unmapped: list[UnmappedAccount]
+    inbox: str
+    """The inbox folder a statement export can be dropped into instead of uploading it."""
 
 
 SetupState = Literal["ready", "waiting", "deferred", "done"]
@@ -107,6 +147,8 @@ class SetupStep(ContractModel):
     waiting_on: str | None = None
     proof: str | None = None
     checks: list[SetupCheck] = Field(default_factory=list)
+    secrets: list[SecretField] = Field(default_factory=list)
+    interview: Interview | None = None
 
 
 class SetupAction(ContractModel):

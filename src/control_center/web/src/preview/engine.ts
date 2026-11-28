@@ -1,5 +1,5 @@
 /**
- * @file The preview engine's personal records, Setup, schedule, maintenance, docs and search.
+ * @file The preview engine's cases, Setup, schedule, maintenance, docs and search.
  * A port of `backends/mock/engine.py`.
  */
 import type {
@@ -11,6 +11,7 @@ import type {
   SetupStep,
 } from "../api/types";
 import { conflict, notFound } from "./errors";
+import { freshInterview, personal } from "./records";
 import { heavyWorkPaused } from "./ops";
 import { setting, type MockWorld } from "./world";
 
@@ -19,15 +20,6 @@ const CASE_STATE_AFTER: Record<string, Case["state"]> = {
   snooze: "snoozed",
   reopen: "open",
 };
-
-/** Open and snoozed cases, domains and recent automatic changes. */
-export function personal(world: MockWorld): PersonalOverview {
-  return {
-    cases: Object.values(world.cases).filter((c) => c.state !== "done"),
-    domains: world.fixtures.domains,
-    recent_changes: Object.values(world.changes),
-  };
-}
 
 /** Marks a case done, snoozes it, or reopens it. */
 export function caseAction(world: MockWorld, id: string, action: string): Case {
@@ -57,6 +49,10 @@ export function setupAction(world: MockWorld, id: string, action: string): Setup
   if (action === "resume" || action === "redo") {
     step.state = "ready";
     step.proof = null;
+  }
+  if (action === "redo") {
+    step.secrets.forEach((field) => (field.saved = false));
+    if (step.interview) step.interview = freshInterview(world);
   }
   world.bus.changed("setup", "today", "platform");
   return step;

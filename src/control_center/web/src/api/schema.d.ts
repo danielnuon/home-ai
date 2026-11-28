@@ -1159,6 +1159,394 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/cases": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Create Case
+     * @description Add a case.
+     */
+    post: operations["create_case_api_v1_cases_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/cases/{case_id}/reassign": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Reassign Case
+     * @description Hand a case to someone else.
+     */
+    post: operations["reassign_case_api_v1_cases__case_id__reassign_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/cases/{case_id}/notes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Case Note
+     * @description Add a note to a case.
+     */
+    post: operations["add_case_note_api_v1_cases__case_id__notes_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/obligations": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Create Obligation
+     * @description Add a date obligation.
+     */
+    post: operations["create_obligation_api_v1_obligations_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/checklist/{item_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Checklist
+     * @description Tick or untick an onboarding checklist step.
+     */
+    put: operations["set_checklist_api_v1_checklist__item_id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/domains/{domain_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Domain Detail
+     * @description One domain's records and documents.
+     */
+    get: operations["domain_detail_api_v1_domains__domain_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/domains/{domain_id}/records": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Record
+     * @description Add a register entry.
+     */
+    post: operations["add_record_api_v1_domains__domain_id__records_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/domains/{domain_id}/documents": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Upload Document
+     * @description File a document.
+     */
+    post: operations["upload_document_api_v1_domains__domain_id__documents_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/records/{record_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Edit Record
+     * @description Change a record or document.
+     */
+    put: operations["edit_record_api_v1_records__record_id__put"];
+    post?: never;
+    /**
+     * Delete Record
+     * @description Move a record or document to the trash.
+     */
+    delete: operations["delete_record_api_v1_records__record_id__delete"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/rules/{rule_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Edit Rule
+     * @description Change a rule.
+     */
+    put: operations["edit_rule_api_v1_rules__rule_id__put"];
+    post?: never;
+    /**
+     * Delete Rule
+     * @description Move a rule to the trash.
+     */
+    delete: operations["delete_rule_api_v1_rules__rule_id__delete"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/finance/{principal}/sources/{figure_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Figure Sources
+     * @description The rows behind one figure.
+     */
+    get: operations["figure_sources_api_v1_finance__principal__sources__figure_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/finance/{principal}/transactions/{transaction_id}/category": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Fix Category
+     * @description Fix a transaction's category; it adds a rule.
+     */
+    post: operations["fix_category_api_v1_finance__principal__transactions__transaction_id__category_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/finance/{principal}/imports/{import_id}/upload": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Upload Statement
+     * @description Import a statement export.
+     */
+    post: operations["upload_statement_api_v1_finance__principal__imports__import_id__upload_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/finance/accounts/{account_id}/map": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Map Account
+     * @description Give a found account to a principal.
+     */
+    post: operations["map_account_api_v1_finance_accounts__account_id__map_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/finance/{principal}/requests": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Finance Request
+     * @description Ask for an import check or the monthly close.
+     */
+    post: operations["finance_request_api_v1_finance__principal__requests_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/setup/{step_id}/secrets/{field_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Save Secret
+     * @description Save a secret from the secret form. Needs a step-up.
+     */
+    post: operations["save_secret_api_v1_setup__step_id__secrets__field_id__post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/setup/{step_id}/interview/answer": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Interview Answer
+     * @description Answer Atlas's current question.
+     */
+    post: operations["interview_answer_api_v1_setup__step_id__interview_answer_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/setup/{step_id}/interview/confirm": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Interview Confirm
+     * @description Save what the interview found.
+     */
+    post: operations["interview_confirm_api_v1_setup__step_id__interview_confirm_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/setup/{step_id}/interview/restart": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Interview Restart
+     * @description Start the interview over.
+     */
+    post: operations["interview_restart_api_v1_setup__step_id__interview_restart_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/memory": {
     parameters: {
       query?: never;
@@ -2568,6 +2956,17 @@ export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /**
+     * AccountMapping
+     * @description The principal an account belongs to.
+     */
+    AccountMapping: {
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+    };
+    /**
      * AgendaItem
      * @description One entry in today's agenda.
      */
@@ -2807,10 +3206,48 @@ export interface components {
       included: boolean;
     };
     /**
+     * Bill
+     * @description An upcoming bill. Brain reminds; it never pays (spec 22.2).
+     */
+    Bill: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Due */
+      due: string;
+      /** Amount */
+      amount: number;
+      /** Account */
+      account: string;
+      status: components["schemas"]["StatusLabel"];
+    };
+    /**
+     * Brief
+     * @description A past daily brief or weekly review (spec 20.13), shown in full on Personal.
+     */
+    Brief: {
+      /** Id */
+      id: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "daily" | "weekly";
+      /** Title */
+      title: string;
+      /** Summary */
+      summary: string;
+      /** Items */
+      items: string[];
+    };
+    /**
      * BudgetLine
-     * @description One budget category: spent against budget, in whole dollars.
+     * @description One budget category: spent against budget, in whole dollars. `id` names its sources.
      */
     BudgetLine: {
+      /** Id */
+      id: string;
       /** Name */
       name: string;
       /** Spent */
@@ -2871,6 +3308,8 @@ export interface components {
        * @enum {string}
        */
       state: "open" | "done" | "snoozed";
+      /** Notes */
+      notes: components["schemas"]["CaseNote"][];
     };
     /**
      * CaseAction
@@ -2882,6 +3321,90 @@ export interface components {
        * @enum {string}
        */
       action: "done" | "snooze" | "reopen";
+    };
+    /**
+     * CaseCreate
+     * @description A new case from the Owner (spec 20.3). `due` is a date; the case shows it as "Dec 3".
+     */
+    CaseCreate: {
+      /** Title */
+      title: string;
+      /** Domain */
+      domain: string;
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * Due
+       * Format: date
+       */
+      due: string;
+      /** Employee Name */
+      employee_name: string;
+    };
+    /**
+     * CaseNote
+     * @description A note the Owner added to a case.
+     */
+    CaseNote: {
+      /** Id */
+      id: string;
+      /** Text */
+      text: string;
+      /**
+       * At
+       * Format: date-time
+       */
+      at: string;
+    };
+    /**
+     * CaseNoteCreate
+     * @description A note to add to a case.
+     */
+    CaseNoteCreate: {
+      /** Text */
+      text: string;
+    };
+    /**
+     * CaseReassign
+     * @description Hand a case to someone else: the Owner ("You") or an employee.
+     */
+    CaseReassign: {
+      /** Employee Name */
+      employee_name: string;
+    };
+    /**
+     * CashFlowMonth
+     * @description Money in and out for one month, in whole dollars, with the figure that holds its rows.
+     */
+    CashFlowMonth: {
+      /** Id */
+      id: string;
+      /** Month */
+      month: string;
+      /** Money In */
+      money_in: number;
+      /** Money Out */
+      money_out: number;
+    };
+    /**
+     * CategoryFix
+     * @description The category a transaction should have.
+     */
+    CategoryFix: {
+      /** Category */
+      category: string;
+    };
+    /**
+     * CategoryFixed
+     * @description A category fix and the rule it added (spec 20.12).
+     */
+    CategoryFixed: {
+      rule: components["schemas"]["Rule"];
+      /** Message */
+      message: string;
     };
     /**
      * ChatEdit
@@ -3022,6 +3545,28 @@ export interface components {
       thread: components["schemas"]["Thread"] | null;
       /** Messages */
       messages: components["schemas"]["ChatMessage"][];
+    };
+    /**
+     * ChecklistChange
+     * @description Tick a checklist step, or untick it.
+     */
+    ChecklistChange: {
+      /** Done */
+      done: boolean;
+    };
+    /**
+     * ChecklistItem
+     * @description One step of the personal onboarding checklist (spec 24.5, "asset and document lists").
+     */
+    ChecklistItem: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /** Detail */
+      detail: string;
+      /** Done */
+      done: boolean;
     };
     /**
      * Connection
@@ -3397,10 +3942,27 @@ export interface components {
       groups: components["schemas"]["RowGroup"][];
     };
     /**
+     * DocumentUpload
+     * @description A file the Owner filed into a domain. The mock keeps its name and size, never its bytes.
+     */
+    DocumentUpload: {
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /** Filename */
+      filename: string;
+      /** Size Bytes */
+      size_bytes: number;
+    };
+    /**
      * Domain
-     * @description A personal domain and its data class (spec 20.1).
+     * @description A personal domain and its data class (spec 20.1). `id` opens its records page.
      */
     Domain: {
+      /** Id */
+      id: string;
       /** Name */
       name: string;
       /** Open Cases */
@@ -3410,6 +3972,39 @@ export interface components {
        * @enum {string}
        */
       data_class: "public" | "internal" | "restricted";
+    };
+    /**
+     * DomainDetail
+     * @description One domain's page: its records and filed documents, for every principal.
+     */
+    DomainDetail: {
+      domain: components["schemas"]["Domain"];
+      /** Records */
+      records: components["schemas"]["DomainRecord"][];
+    };
+    /**
+     * DomainRecord
+     * @description One register entry or filed document in a domain (spec 20.3, "Registers").
+     */
+    DomainRecord: {
+      /** Id */
+      id: string;
+      /** Domain Id */
+      domain_id: string;
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "record" | "document";
+      /** Title */
+      title: string;
+      /** Meta */
+      meta: string;
     };
     /**
      * DraftEdit
@@ -3551,6 +4146,24 @@ export interface components {
       pinned: boolean;
     };
     /**
+     * FigureSources
+     * @description The rows behind one Finance figure and how it is computed from them (spec 7.2).
+     */
+    FigureSources: {
+      /** Figure Id */
+      figure_id: string;
+      /** Title */
+      title: string;
+      /** Formula */
+      formula: string;
+      /** Total */
+      total: number;
+      /** Rows */
+      rows: components["schemas"]["SourceRow"][];
+      /** Categories */
+      categories: string[];
+    };
+    /**
      * FinanceOverview
      * @description The Finance page for one principal. Every figure is computed in code, never by a model.
      */
@@ -3567,8 +4180,27 @@ export interface components {
       /** Budget */
       budget: components["schemas"]["BudgetLine"][];
       net_worth: components["schemas"]["Metric"];
+      /** Cash Flow */
+      cash_flow: components["schemas"]["CashFlowMonth"][];
+      /** Bills */
+      bills: components["schemas"]["Bill"][];
       /** Imports */
       imports: components["schemas"]["StatementImport"][];
+      /** Unmapped */
+      unmapped: components["schemas"]["UnmappedAccount"][];
+      /** Inbox */
+      inbox: string;
+    };
+    /**
+     * FinanceRequest
+     * @description Ask for an import check or the monthly close (spec 20.9).
+     */
+    FinanceRequest: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "import_check" | "monthly_close";
     };
     /**
      * Finding
@@ -3757,6 +4389,44 @@ export interface components {
       kind: "note" | "pause" | "resume" | "redirect" | "stop";
       /** Text */
       text?: string | null;
+    };
+    /**
+     * Interview
+     * @description Atlas's profile interview inside its Setup step (spec 24.5, "Conversation where it fits").
+     *
+     *     `facts` is what Atlas proposes to save once every question is answered; the step is done
+     *     only when the Owner confirms them.
+     */
+    Interview: {
+      /** Turns */
+      turns: components["schemas"]["InterviewTurn"][];
+      /** Asked */
+      asked: number;
+      /** Total */
+      total: number;
+      /** Facts */
+      facts: string[];
+    };
+    /**
+     * InterviewAnswer
+     * @description The Owner's answer to Atlas's current question.
+     */
+    InterviewAnswer: {
+      /** Text */
+      text: string;
+    };
+    /**
+     * InterviewTurn
+     * @description One line of the profile interview.
+     */
+    InterviewTurn: {
+      /**
+       * Speaker
+       * @enum {string}
+       */
+      speaker: "atlas" | "owner";
+      /** Text */
+      text: string;
     };
     /**
      * Job
@@ -4385,6 +5055,71 @@ export interface components {
       risk_acknowledged: boolean;
     };
     /**
+     * Obligation
+     * @description A recurring rule that creates a case when due (spec 20.3).
+     *
+     *     A date obligation has `next_due` and `days`, the whole days until it; a usage one ("every 5,000
+     *     miles") has neither and says where it stands in `rule`.
+     */
+    Obligation: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /** Domain */
+      domain: string;
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "date" | "usage";
+      /** Rule */
+      rule: string;
+      /** Lead Days */
+      lead_days: number;
+      /** Next Due */
+      next_due: string | null;
+      /** Days */
+      days: number | null;
+    };
+    /**
+     * ObligationCreate
+     * @description A new date obligation from the Owner.
+     *
+     *     Usage obligations come from odometer and meter entries, so the Owner adds those in Chat.
+     */
+    ObligationCreate: {
+      /** Title */
+      title: string;
+      /** Domain */
+      domain: string;
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * Due
+       * Format: date
+       */
+      due: string;
+      /**
+       * Repeat
+       * @enum {string}
+       */
+      repeat: "once" | "monthly" | "yearly";
+      /**
+       * Lead Days
+       * @default 14
+       */
+      lead_days: number;
+    };
+    /**
      * OfflinePack
      * @description The offline pack (spec 7.7): what the phone keeps for when the Mac can't be reached.
      *
@@ -4458,15 +5193,30 @@ export interface components {
     };
     /**
      * PersonalOverview
-     * @description The Personal page.
+     * @description The Personal page (spec 7.2).
+     *
+     *     Cases, obligations, domains, rules, briefs, sync status and the onboarding checklist.
+     *     `assignees` fills the add and reassign forms.
      */
     PersonalOverview: {
       /** Cases */
       cases: components["schemas"]["Case"][];
+      /** Obligations */
+      obligations: components["schemas"]["Obligation"][];
       /** Domains */
       domains: components["schemas"]["Domain"][];
+      /** Rules */
+      rules: components["schemas"]["Rule"][];
+      /** Briefs */
+      briefs: components["schemas"]["Brief"][];
+      /** Sync */
+      sync: components["schemas"]["SyncStatus"][];
+      /** Checklist */
+      checklist: components["schemas"]["ChecklistItem"][];
       /** Recent Changes */
       recent_changes: components["schemas"]["AutomaticChange"][];
+      /** Assignees */
+      assignees: string[];
     };
     /**
      * PlatformState
@@ -4679,6 +5429,34 @@ export interface components {
       source: string;
     };
     /**
+     * RecordCreate
+     * @description A new register entry.
+     */
+    RecordCreate: {
+      /**
+       * Principal
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /** Title */
+      title: string;
+      /**
+       * Meta
+       * @default
+       */
+      meta: string;
+    };
+    /**
+     * RecordEdit
+     * @description A changed register entry or document name.
+     */
+    RecordEdit: {
+      /** Title */
+      title: string;
+      /** Meta */
+      meta: string;
+    };
+    /**
      * RecoveryCodes
      * @description New recovery codes, shown once. The old ones stop working at once.
      */
@@ -4823,6 +5601,35 @@ export interface components {
       rows: components["schemas"]["Row"][];
     };
     /**
+     * Rule
+     * @description A deterministic rule made from an Owner correction (spec 20.12).
+     */
+    Rule: {
+      /** Id */
+      id: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "routing" | "category";
+      /** When */
+      when: string;
+      /** Then */
+      then: string;
+      /** Source */
+      source: string;
+    };
+    /**
+     * RuleEdit
+     * @description A changed rule.
+     */
+    RuleEdit: {
+      /** When */
+      when: string;
+      /** Then */
+      then: string;
+    };
+    /**
      * ScheduleOverview
      * @description The Schedule page.
      */
@@ -4872,12 +5679,18 @@ export interface components {
       results: components["schemas"]["SearchResult"][];
     };
     /**
-     * SecretEntry
-     * @description A secret typed into Brain. It goes to the secrets broker and is never shown again.
+     * SecretField
+     * @description One secret a Setup step needs. Its value is never sent back, only whether it is saved.
      */
-    SecretEntry: {
-      /** Value */
-      value: string;
+    SecretField: {
+      /** Id */
+      id: string;
+      /** Label */
+      label: string;
+      /** Hint */
+      hint: string;
+      /** Saved */
+      saved: boolean;
     };
     /**
      * SecurityOverview
@@ -5160,6 +5973,27 @@ export interface components {
       proof: string | null;
       /** Checks */
       checks: components["schemas"]["SetupCheck"][];
+      /** Secrets */
+      secrets: components["schemas"]["SecretField"][];
+      interview: components["schemas"]["Interview"] | null;
+    };
+    /**
+     * SourceRow
+     * @description One row a figure is computed from: a transaction, a balance or a statement total.
+     */
+    SourceRow: {
+      /** Id */
+      id: string;
+      /** Day */
+      day: string;
+      /** Text */
+      text: string;
+      /** Account */
+      account: string;
+      /** Amount */
+      amount: number;
+      /** Category */
+      category: string | null;
     };
     /**
      * SourcedFigure
@@ -5225,11 +6059,23 @@ export interface components {
      * @description Import status for one account (spec 7.2, Finance).
      */
     StatementImport: {
+      /** Id */
+      id: string;
       /** Account */
       account: string;
       /** Meta */
       meta: string;
       status: components["schemas"]["StatusLabel"];
+    };
+    /**
+     * StatementUpload
+     * @description A statement export the Owner uploaded for one account (CSV, OFX or QFX).
+     */
+    StatementUpload: {
+      /** Filename */
+      filename: string;
+      /** Size Bytes */
+      size_bytes: number;
     };
     /**
      * StatusLabel
@@ -5290,6 +6136,19 @@ export interface components {
       name: string;
       /** Note */
       note: string;
+    };
+    /**
+     * SyncStatus
+     * @description When a connector last synced into the personal databases.
+     */
+    SyncStatus: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
+      status: components["schemas"]["StatusLabel"];
     };
     /**
      * SystemOverview
@@ -5656,6 +6515,18 @@ export interface components {
        */
       trust: "allowlisted" | "known" | "unknown" | "blocked";
     };
+    /**
+     * UnmappedAccount
+     * @description An account a connector or import found that belongs to no principal yet (spec 20.4).
+     */
+    UnmappedAccount: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
+    };
     /** ValidationError */
     ValidationError: {
       /** Location */
@@ -5806,6 +6677,16 @@ export interface components {
       waiting_on_owner: boolean;
     };
     /**
+     * WorkRequested
+     * @description The work item a request created, and the words the toast shows.
+     */
+    WorkRequested: {
+      /** Work Item Id */
+      work_item_id: string;
+      /** Message */
+      message: string;
+    };
+    /**
      * Workspace
      * @description A workspace the kill switch can stop on its own (spec 7.4, 11.10).
      */
@@ -5818,6 +6699,22 @@ export interface components {
       meta: string;
       /** Stopped */
       stopped: boolean;
+    };
+    /**
+     * SecretEntry
+     * @description A secret typed into Brain. It goes to the secrets broker and is never shown again.
+     */
+    control_center__contract__accounts__SecretEntry: {
+      /** Value */
+      value: string;
+    };
+    /**
+     * SecretEntry
+     * @description A secret typed into Brain's secret form (spec 24.5). Never into Discord or chat.
+     */
+    control_center__contract__records__SecretEntry: {
+      /** Value */
+      value: string;
     };
   };
   responses: never;
@@ -8063,6 +8960,823 @@ export interface operations {
       };
     };
   };
+  create_case_api_v1_cases_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CaseCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Case"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  reassign_case_api_v1_cases__case_id__reassign_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        case_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CaseReassign"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Case"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_case_note_api_v1_cases__case_id__notes_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        case_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CaseNoteCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Case"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  create_obligation_api_v1_obligations_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ObligationCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Obligation"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_checklist_api_v1_checklist__item_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ChecklistChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChecklistItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  domain_detail_api_v1_domains__domain_id__get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        domain_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DomainDetail"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_record_api_v1_domains__domain_id__records_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        domain_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RecordCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DomainRecord"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  upload_document_api_v1_domains__domain_id__documents_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        domain_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DocumentUpload"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DomainRecord"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  edit_record_api_v1_records__record_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        record_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RecordEdit"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DomainRecord"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  delete_record_api_v1_records__record_id__delete: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        record_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TrashItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  edit_rule_api_v1_rules__rule_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        rule_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RuleEdit"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Rule"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  delete_rule_api_v1_rules__rule_id__delete: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        rule_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TrashItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  figure_sources_api_v1_finance__principal__sources__figure_id__get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal: "owner" | "mom" | "dad";
+        figure_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["FigureSources"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  fix_category_api_v1_finance__principal__transactions__transaction_id__category_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal: "owner" | "mom" | "dad";
+        transaction_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CategoryFix"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CategoryFixed"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  upload_statement_api_v1_finance__principal__imports__import_id__upload_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal: "owner" | "mom" | "dad";
+        import_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["StatementUpload"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["StatementImport"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  map_account_api_v1_finance_accounts__account_id__map_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        account_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AccountMapping"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["StatementImport"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  finance_request_api_v1_finance__principal__requests_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal: "owner" | "mom" | "dad";
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FinanceRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WorkRequested"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  save_secret_api_v1_setup__step_id__secrets__field_id__post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        step_id: string;
+        field_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["control_center__contract__records__SecretEntry"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SetupStep"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  interview_answer_api_v1_setup__step_id__interview_answer_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        step_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["InterviewAnswer"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SetupStep"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  interview_confirm_api_v1_setup__step_id__interview_confirm_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        step_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SetupStep"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  interview_restart_api_v1_setup__step_id__interview_restart_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        step_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SetupStep"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   memory_api_v1_memory_get: {
     parameters: {
       query?: never;
@@ -9953,7 +11667,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["SecretEntry"];
+        "application/json": components["schemas"]["control_center__contract__accounts__SecretEntry"];
       };
     };
     responses: {

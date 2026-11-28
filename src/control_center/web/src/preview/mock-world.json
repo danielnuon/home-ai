@@ -1895,7 +1895,8 @@
      "status": "attention",
      "label": "Due today"
     },
-    "state": "open"
+    "state": "open",
+    "notes": []
    },
    "CS-0198": {
     "id": "CS-0198",
@@ -1908,7 +1909,8 @@
      "status": "in_progress",
      "label": "Open"
     },
-    "state": "open"
+    "state": "open",
+    "notes": []
    },
    "CS-0187": {
     "id": "CS-0187",
@@ -1921,7 +1923,8 @@
      "status": "in_progress",
      "label": "Open"
     },
-    "state": "open"
+    "state": "open",
+    "notes": []
    },
    "CS-0176": {
     "id": "CS-0176",
@@ -1934,7 +1937,8 @@
      "status": "in_progress",
      "label": "Open"
     },
-    "state": "open"
+    "state": "open",
+    "notes": []
    }
   },
   "changes": {
@@ -1962,7 +1966,9 @@
     "state": "done",
     "waiting_on": null,
     "proof": "Test assertion passed Oct 24 · iPhone and security key",
-    "checks": []
+    "checks": [],
+    "secrets": [],
+    "interview": null
    },
    "OI-15": {
     "id": "OI-15",
@@ -2012,7 +2018,9 @@
        "label": "Optional"
       }
      }
-    ]
+    ],
+    "secrets": [],
+    "interview": null
    },
    "OI-18": {
     "id": "OI-18",
@@ -2026,7 +2034,19 @@
     "state": "ready",
     "waiting_on": null,
     "proof": null,
-    "checks": []
+    "checks": [],
+    "secrets": [],
+    "interview": {
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      }
+     ],
+     "asked": 0,
+     "total": 4,
+     "facts": []
+    }
    },
    "OI-22": {
     "id": "OI-22",
@@ -2040,7 +2060,9 @@
     "state": "ready",
     "waiting_on": null,
     "proof": null,
-    "checks": []
+    "checks": [],
+    "secrets": [],
+    "interview": null
    },
    "OI-13": {
     "id": "OI-13",
@@ -2054,7 +2076,22 @@
     "state": "deferred",
     "waiting_on": null,
     "proof": null,
-    "checks": []
+    "checks": [],
+    "secrets": [
+     {
+      "id": "assistant-token",
+      "label": "Assistant bot token",
+      "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+      "saved": false
+     },
+     {
+      "id": "ops-token",
+      "label": "Ops bot token",
+      "hint": "The same, for the Ops app",
+      "saved": false
+     }
+    ],
+    "interview": null
    },
    "OI-16": {
     "id": "OI-16",
@@ -2068,7 +2105,16 @@
     "state": "waiting",
     "waiting_on": "After Mac permissions",
     "proof": null,
-    "checks": []
+    "checks": [],
+    "secrets": [
+     {
+      "id": "mail-app-password",
+      "label": "Mail app password",
+      "hint": "An app password from your mail provider, never your sign-in password",
+      "saved": false
+     }
+    ],
+    "interview": null
    },
    "OI-17": {
     "id": "OI-17",
@@ -2082,7 +2128,9 @@
     "state": "waiting",
     "waiting_on": "After accounts",
     "proof": null,
-    "checks": []
+    "checks": [],
+    "secrets": [],
+    "interview": null
    }
   },
   "jobs": {
@@ -2561,6 +2609,866 @@
     "home": "/personal",
     "deleted_at": "2026-09-24T16:00:00Z",
     "purge_at": "2026-10-24T16:00:00Z"
+   }
+  },
+  "obligations": {
+   "OB-1": {
+    "id": "OB-1",
+    "title": "Smoke detector batteries",
+    "domain": "Home and auto",
+    "principal": "owner",
+    "kind": "date",
+    "rule": "Every 6 months",
+    "lead_days": 14,
+    "next_due": "2026-11-06T16:00:00Z",
+    "days": 12
+   },
+   "OB-2": {
+    "id": "OB-2",
+    "title": "Mom's prescription refill",
+    "domain": "Health and benefits",
+    "principal": "mom",
+    "kind": "date",
+    "rule": "Every month",
+    "lead_days": 5,
+    "next_due": "2026-11-03T16:00:00Z",
+    "days": 9
+   },
+   "OB-3": {
+    "id": "OB-3",
+    "title": "Car insurance renewal",
+    "domain": "Home and auto",
+    "principal": "owner",
+    "kind": "date",
+    "rule": "Every 6 months",
+    "lead_days": 21,
+    "next_due": "2026-12-01T16:00:00Z",
+    "days": 37
+   },
+   "OB-4": {
+    "id": "OB-4",
+    "title": "Dad's Medicare enrollment",
+    "domain": "Health and benefits",
+    "principal": "dad",
+    "kind": "date",
+    "rule": "Every year",
+    "lead_days": 21,
+    "next_due": "2026-12-04T16:00:00Z",
+    "days": 40
+   },
+   "OB-5": {
+    "id": "OB-5",
+    "title": "Property tax, second installment",
+    "domain": "Rental",
+    "principal": "owner",
+    "kind": "date",
+    "rule": "Every year",
+    "lead_days": 30,
+    "next_due": "2027-01-01T16:00:00Z",
+    "days": 68
+   },
+   "OB-6": {
+    "id": "OB-6",
+    "title": "Passport renewal",
+    "domain": "Calendar and admin",
+    "principal": "owner",
+    "kind": "date",
+    "rule": "From the expiry date",
+    "lead_days": 120,
+    "next_due": "2027-01-08T16:00:00Z",
+    "days": 75
+   },
+   "OB-7": {
+    "id": "OB-7",
+    "title": "Oil change",
+    "domain": "Home and auto",
+    "principal": "owner",
+    "kind": "usage",
+    "rule": "Every 5,000 miles · 4,200 since the last one",
+    "lead_days": 0,
+    "next_due": null,
+    "days": null
+   }
+  },
+  "records": {
+   "RC-01": {
+    "id": "RC-01",
+    "domain_id": "home-auto",
+    "principal": "owner",
+    "kind": "record",
+    "title": "2019 Outback",
+    "meta": "VIN ··4471 · 61,200 miles"
+   },
+   "RC-02": {
+    "id": "RC-02",
+    "domain_id": "home-auto",
+    "principal": "owner",
+    "kind": "record",
+    "title": "Water heater",
+    "meta": "Installed 2018 · warranty 2028"
+   },
+   "RC-03": {
+    "id": "RC-03",
+    "domain_id": "home-auto",
+    "principal": "owner",
+    "kind": "document",
+    "title": "Auto policy.pdf",
+    "meta": "Filed Oct 2 · 412 KB"
+   },
+   "RC-04": {
+    "id": "RC-04",
+    "domain_id": "health",
+    "principal": "mom",
+    "kind": "record",
+    "title": "Dr. Patel, primary care",
+    "meta": "Seen every 6 months"
+   },
+   "RC-05": {
+    "id": "RC-05",
+    "domain_id": "health",
+    "principal": "mom",
+    "kind": "record",
+    "title": "Medication list",
+    "meta": "4 medicines · updated Oct 20"
+   },
+   "RC-06": {
+    "id": "RC-06",
+    "domain_id": "health",
+    "principal": "dad",
+    "kind": "document",
+    "title": "Medicare card.jpg",
+    "meta": "Filed Sep 14 · 1.1 MB"
+   },
+   "RC-07": {
+    "id": "RC-07",
+    "domain_id": "taxes",
+    "principal": "owner",
+    "kind": "document",
+    "title": "2025 Form 1040.pdf",
+    "meta": "Filed Apr 10 · 2.3 MB"
+   },
+   "RC-08": {
+    "id": "RC-08",
+    "domain_id": "taxes",
+    "principal": "owner",
+    "kind": "record",
+    "title": "Q4 estimated payment",
+    "meta": "$2,400 · due Jan 15"
+   },
+   "RC-09": {
+    "id": "RC-09",
+    "domain_id": "rental",
+    "principal": "owner",
+    "kind": "record",
+    "title": "Unit B lease",
+    "meta": "Ends Nov 30 · $2,350 a month"
+   },
+   "RC-10": {
+    "id": "RC-10",
+    "domain_id": "rental",
+    "principal": "owner",
+    "kind": "document",
+    "title": "Unit B lease 2025.pdf",
+    "meta": "Filed Dec 1 · 640 KB"
+   },
+   "RC-11": {
+    "id": "RC-11",
+    "domain_id": "finance",
+    "principal": "owner",
+    "kind": "record",
+    "title": "Checking ··1042",
+    "meta": "Statements monthly"
+   },
+   "RC-12": {
+    "id": "RC-12",
+    "domain_id": "calendar",
+    "principal": "owner",
+    "kind": "document",
+    "title": "Passport scan.pdf",
+    "meta": "Expires Feb 2027"
+   },
+   "RC-13": {
+    "id": "RC-13",
+    "domain_id": "career",
+    "principal": "owner",
+    "kind": "record",
+    "title": "Resume",
+    "meta": "Updated Sep 30"
+   }
+  },
+  "rules": {
+   "RU-1": {
+    "id": "RU-1",
+    "kind": "routing",
+    "when": "Mail from \"Kaiser Permanente\"",
+    "then": "Health and benefits · Mom",
+    "source": "Your correction · Oct 12"
+   },
+   "RU-2": {
+    "id": "RU-2",
+    "kind": "category",
+    "when": "Payee is \"Clipper card\"",
+    "then": "Transport",
+    "source": "Your correction · Oct 14"
+   },
+   "RU-3": {
+    "id": "RU-3",
+    "kind": "routing",
+    "when": "Files dropped in Inbox/dad",
+    "then": "Principal Dad",
+    "source": "Set up in Setup · Oct 24"
+   },
+   "RU-4": {
+    "id": "RU-4",
+    "kind": "category",
+    "when": "Payee contains \"PG&E\"",
+    "then": "Utilities",
+    "source": "Confirmed in the weekly review · Oct 20"
+   }
+  },
+  "checklist": {
+   "CK-1": {
+    "id": "CK-1",
+    "title": "List your vehicles",
+    "detail": "Home and auto · make, model and odometer",
+    "done": true
+   },
+   "CK-2": {
+    "id": "CK-2",
+    "title": "Add Mom's and Dad's doctors",
+    "detail": "Health and benefits · one line each",
+    "done": false
+   },
+   "CK-3": {
+    "id": "CK-3",
+    "title": "Drop last year's tax return in the inbox",
+    "detail": "Taxes · Inbox/taxes",
+    "done": false
+   },
+   "CK-4": {
+    "id": "CK-4",
+    "title": "List your insurance policies",
+    "detail": "Home and auto, Health · or drop the PDFs",
+    "done": false
+   },
+   "CK-5": {
+    "id": "CK-5",
+    "title": "Add the rental leases",
+    "detail": "Rental · Keystone reads the dates",
+    "done": true
+   }
+  },
+  "transactions": {
+   "owner": [
+    {
+     "id": "TX-owner-01",
+     "day": "Oct 1",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 3200,
+     "category": "Income"
+    },
+    {
+     "id": "TX-owner-02",
+     "day": "Oct 1",
+     "text": "Mortgage · Unit A",
+     "account": "Checking ··1042",
+     "amount": 2100,
+     "category": "Housing"
+    },
+    {
+     "id": "TX-owner-03",
+     "day": "Oct 2",
+     "text": "Safeway",
+     "account": "Credit card ··7731",
+     "amount": 182,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-owner-04",
+     "day": "Oct 3",
+     "text": "Shell",
+     "account": "Credit card ··7731",
+     "amount": 64,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-owner-05",
+     "day": "Oct 4",
+     "text": "Netflix",
+     "account": "Credit card ··7731",
+     "amount": 23,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-owner-06",
+     "day": "Oct 4",
+     "text": "Spotify",
+     "account": "Credit card ··7731",
+     "amount": 12,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-owner-07",
+     "day": "Oct 5",
+     "text": "PG&E",
+     "account": "Checking ··1042",
+     "amount": 112,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-owner-08",
+     "day": "Oct 6",
+     "text": "Trader Joe's",
+     "account": "Credit card ··7731",
+     "amount": 96,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-owner-09",
+     "day": "Oct 7",
+     "text": "iCloud",
+     "account": "Credit card ··7731",
+     "amount": 10,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-owner-10",
+     "day": "Oct 8",
+     "text": "City water",
+     "account": "Checking ··1042",
+     "amount": 46,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-owner-11",
+     "day": "Oct 9",
+     "text": "Costco",
+     "account": "Credit card ··7731",
+     "amount": 150,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-owner-12",
+     "day": "Oct 10",
+     "text": "Newspaper",
+     "account": "Credit card ··7731",
+     "amount": 25,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-owner-13",
+     "day": "Oct 11",
+     "text": "Chevron",
+     "account": "Credit card ··7731",
+     "amount": 58,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-owner-14",
+     "day": "Oct 12",
+     "text": "Amazon",
+     "account": "Credit card ··7731",
+     "amount": 64,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-owner-15",
+     "day": "Oct 13",
+     "text": "Gym",
+     "account": "Credit card ··7731",
+     "amount": 16,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-owner-16",
+     "day": "Oct 14",
+     "text": "Clipper card",
+     "account": "Checking ··1042",
+     "amount": 40,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-owner-17",
+     "day": "Oct 15",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 3200,
+     "category": "Income"
+    },
+    {
+     "id": "TX-owner-18",
+     "day": "Oct 15",
+     "text": "Internet",
+     "account": "Checking ··1042",
+     "amount": 32,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-owner-19",
+     "day": "Oct 17",
+     "text": "Car wash",
+     "account": "Credit card ··7731",
+     "amount": 18,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-owner-20",
+     "day": "Oct 19",
+     "text": "Farmers market",
+     "account": "Checking ··1042",
+     "amount": 48,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-owner-21",
+     "day": "Oct 22",
+     "text": "DMV registration",
+     "account": "Checking ··1042",
+     "amount": 130,
+     "category": "Transport"
+    }
+   ],
+   "mom": [
+    {
+     "id": "TX-mom-01",
+     "day": "Oct 1",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 1920,
+     "category": "Income"
+    },
+    {
+     "id": "TX-mom-02",
+     "day": "Oct 1",
+     "text": "Mortgage · Unit A",
+     "account": "Checking ··1042",
+     "amount": 1260,
+     "category": "Housing"
+    },
+    {
+     "id": "TX-mom-03",
+     "day": "Oct 2",
+     "text": "Safeway",
+     "account": "Credit card ··7731",
+     "amount": 109,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-mom-04",
+     "day": "Oct 3",
+     "text": "Shell",
+     "account": "Credit card ··7731",
+     "amount": 38,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-mom-05",
+     "day": "Oct 4",
+     "text": "Netflix",
+     "account": "Credit card ··7731",
+     "amount": 14,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-mom-06",
+     "day": "Oct 4",
+     "text": "Spotify",
+     "account": "Credit card ··7731",
+     "amount": 7,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-mom-07",
+     "day": "Oct 5",
+     "text": "PG&E",
+     "account": "Checking ··1042",
+     "amount": 67,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-mom-08",
+     "day": "Oct 6",
+     "text": "Trader Joe's",
+     "account": "Credit card ··7731",
+     "amount": 58,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-mom-09",
+     "day": "Oct 7",
+     "text": "iCloud",
+     "account": "Credit card ··7731",
+     "amount": 6,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-mom-10",
+     "day": "Oct 8",
+     "text": "City water",
+     "account": "Checking ··1042",
+     "amount": 28,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-mom-11",
+     "day": "Oct 9",
+     "text": "Costco",
+     "account": "Credit card ··7731",
+     "amount": 90,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-mom-12",
+     "day": "Oct 10",
+     "text": "Newspaper",
+     "account": "Credit card ··7731",
+     "amount": 15,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-mom-13",
+     "day": "Oct 11",
+     "text": "Chevron",
+     "account": "Credit card ··7731",
+     "amount": 35,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-mom-14",
+     "day": "Oct 12",
+     "text": "Amazon",
+     "account": "Credit card ··7731",
+     "amount": 38,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-mom-15",
+     "day": "Oct 13",
+     "text": "Gym",
+     "account": "Credit card ··7731",
+     "amount": 10,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-mom-16",
+     "day": "Oct 14",
+     "text": "Clipper card",
+     "account": "Checking ··1042",
+     "amount": 24,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-mom-17",
+     "day": "Oct 15",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 1920,
+     "category": "Income"
+    },
+    {
+     "id": "TX-mom-18",
+     "day": "Oct 15",
+     "text": "Internet",
+     "account": "Checking ··1042",
+     "amount": 19,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-mom-19",
+     "day": "Oct 17",
+     "text": "Car wash",
+     "account": "Credit card ··7731",
+     "amount": 11,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-mom-20",
+     "day": "Oct 19",
+     "text": "Farmers market",
+     "account": "Checking ··1042",
+     "amount": 29,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-mom-21",
+     "day": "Oct 22",
+     "text": "DMV registration",
+     "account": "Checking ··1042",
+     "amount": 78,
+     "category": "Transport"
+    }
+   ],
+   "dad": [
+    {
+     "id": "TX-dad-01",
+     "day": "Oct 1",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 1920,
+     "category": "Income"
+    },
+    {
+     "id": "TX-dad-02",
+     "day": "Oct 1",
+     "text": "Mortgage · Unit A",
+     "account": "Checking ··1042",
+     "amount": 1260,
+     "category": "Housing"
+    },
+    {
+     "id": "TX-dad-03",
+     "day": "Oct 2",
+     "text": "Safeway",
+     "account": "Credit card ··7731",
+     "amount": 109,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-dad-04",
+     "day": "Oct 3",
+     "text": "Shell",
+     "account": "Credit card ··7731",
+     "amount": 38,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-dad-05",
+     "day": "Oct 4",
+     "text": "Netflix",
+     "account": "Credit card ··7731",
+     "amount": 14,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-dad-06",
+     "day": "Oct 4",
+     "text": "Spotify",
+     "account": "Credit card ··7731",
+     "amount": 7,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-dad-07",
+     "day": "Oct 5",
+     "text": "PG&E",
+     "account": "Checking ··1042",
+     "amount": 67,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-dad-08",
+     "day": "Oct 6",
+     "text": "Trader Joe's",
+     "account": "Credit card ··7731",
+     "amount": 58,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-dad-09",
+     "day": "Oct 7",
+     "text": "iCloud",
+     "account": "Credit card ··7731",
+     "amount": 6,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-dad-10",
+     "day": "Oct 8",
+     "text": "City water",
+     "account": "Checking ··1042",
+     "amount": 28,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-dad-11",
+     "day": "Oct 9",
+     "text": "Costco",
+     "account": "Credit card ··7731",
+     "amount": 90,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-dad-12",
+     "day": "Oct 10",
+     "text": "Newspaper",
+     "account": "Credit card ··7731",
+     "amount": 15,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-dad-13",
+     "day": "Oct 11",
+     "text": "Chevron",
+     "account": "Credit card ··7731",
+     "amount": 35,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-dad-14",
+     "day": "Oct 12",
+     "text": "Amazon",
+     "account": "Credit card ··7731",
+     "amount": 38,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-dad-15",
+     "day": "Oct 13",
+     "text": "Gym",
+     "account": "Credit card ··7731",
+     "amount": 10,
+     "category": "Subscriptions"
+    },
+    {
+     "id": "TX-dad-16",
+     "day": "Oct 14",
+     "text": "Clipper card",
+     "account": "Checking ··1042",
+     "amount": 24,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-dad-17",
+     "day": "Oct 15",
+     "text": "Salary",
+     "account": "Checking ··1042",
+     "amount": 1920,
+     "category": "Income"
+    },
+    {
+     "id": "TX-dad-18",
+     "day": "Oct 15",
+     "text": "Internet",
+     "account": "Checking ··1042",
+     "amount": 19,
+     "category": "Utilities"
+    },
+    {
+     "id": "TX-dad-19",
+     "day": "Oct 17",
+     "text": "Car wash",
+     "account": "Credit card ··7731",
+     "amount": 11,
+     "category": "Transport"
+    },
+    {
+     "id": "TX-dad-20",
+     "day": "Oct 19",
+     "text": "Farmers market",
+     "account": "Checking ··1042",
+     "amount": 29,
+     "category": "Groceries"
+    },
+    {
+     "id": "TX-dad-21",
+     "day": "Oct 22",
+     "text": "DMV registration",
+     "account": "Checking ··1042",
+     "amount": 78,
+     "category": "Transport"
+    }
+   ]
+  },
+  "imports": {
+   "owner": {
+    "IM-checking": {
+     "id": "IM-checking",
+     "account": "Checking ··1042",
+     "meta": "Last statement Oct 1 · next Nov 1",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    },
+    "IM-card": {
+     "id": "IM-card",
+     "account": "Credit card ··7731",
+     "meta": "Last statement Sep 18 · expected Oct 18",
+     "status": {
+      "status": "attention",
+      "label": "Overdue"
+     }
+    },
+    "IM-brokerage": {
+     "id": "IM-brokerage",
+     "account": "Brokerage ··5520",
+     "meta": "Last export Oct 3",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    }
+   },
+   "mom": {
+    "IM-checking": {
+     "id": "IM-checking",
+     "account": "Checking ··1042",
+     "meta": "Last statement Oct 1 · next Nov 1",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    },
+    "IM-card": {
+     "id": "IM-card",
+     "account": "Credit card ··7731",
+     "meta": "Last statement Sep 18 · expected Oct 18",
+     "status": {
+      "status": "attention",
+      "label": "Overdue"
+     }
+    },
+    "IM-brokerage": {
+     "id": "IM-brokerage",
+     "account": "Brokerage ··5520",
+     "meta": "Last export Oct 3",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    }
+   },
+   "dad": {
+    "IM-checking": {
+     "id": "IM-checking",
+     "account": "Checking ··1042",
+     "meta": "Last statement Oct 1 · next Nov 1",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    },
+    "IM-card": {
+     "id": "IM-card",
+     "account": "Credit card ··7731",
+     "meta": "Last statement Sep 18 · expected Oct 18",
+     "status": {
+      "status": "attention",
+      "label": "Overdue"
+     }
+    },
+    "IM-brokerage": {
+     "id": "IM-brokerage",
+     "account": "Brokerage ··5520",
+     "meta": "Last export Oct 3",
+     "status": {
+      "status": "healthy",
+      "label": "Current"
+     }
+    }
+   }
+  },
+  "unmapped": {
+   "UA-1": {
+    "id": "UA-1",
+    "name": "Savings ··3318",
+    "meta": "In a dropped statement · Nov 2"
+   },
+   "UA-2": {
+    "id": "UA-2",
+    "name": "HSA ··0907",
+    "meta": "Found by the mail connector · Oct 30"
    }
   },
   "accounts": {
@@ -4950,281 +5858,701 @@
   ],
   "domains": [
    {
+    "id": "calendar",
     "name": "Calendar and admin",
     "open_cases": "4 open",
     "data_class": "internal"
    },
    {
+    "id": "home-auto",
     "name": "Home and auto",
     "open_cases": "3 open · 1 due",
     "data_class": "internal"
    },
    {
+    "id": "health",
     "name": "Health and benefits",
     "open_cases": "2 open",
     "data_class": "restricted"
    },
    {
+    "id": "finance",
     "name": "Finance",
     "open_cases": "1 open",
     "data_class": "restricted"
    },
    {
+    "id": "investing",
     "name": "Investing",
     "open_cases": "Nothing open",
     "data_class": "restricted"
    },
    {
+    "id": "taxes",
     "name": "Taxes",
     "open_cases": "2 open",
     "data_class": "restricted"
    },
    {
+    "id": "rental",
     "name": "Rental",
     "open_cases": "3 open",
     "data_class": "restricted"
    },
    {
+    "id": "career",
     "name": "Career and business",
     "open_cases": "1 open",
     "data_class": "internal"
    }
   ],
-  "finance": {
-   "owner": {
-    "principal": "owner",
-    "month": "October",
-    "days_elapsed": "25 of 31 days",
-    "budget": [
-     {
-      "name": "Housing",
-      "spent": 2100,
-      "budget": 2100
-     },
-     {
-      "name": "Groceries",
-      "spent": 540,
-      "budget": 650
-     },
-     {
-      "name": "Transport",
-      "spent": 310,
-      "budget": 280
-     },
-     {
-      "name": "Utilities",
-      "spent": 190,
-      "budget": 240
-     },
-     {
-      "name": "Subscriptions",
-      "spent": 86,
-      "budget": 90
-     }
-    ],
-    "net_worth": {
-     "name": "Net worth",
-     "value": "$412,800",
-     "status": null,
-     "spark": [
-      388.0,
-      391.0,
-      395.0,
-      393.0,
-      398.0,
-      401.0,
-      400.0,
-      404.0,
-      407.0,
-      405.0,
-      410.0,
-      412.8
-     ],
-     "sampled_at": null
-    },
-    "imports": [
-     {
-      "account": "Checking ··1042",
-      "meta": "Last statement Oct 1 · next Nov 1",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     },
-     {
-      "account": "Credit card ··7731",
-      "meta": "Last statement Sep 18 · expected Oct 18",
-      "status": {
-       "status": "attention",
-       "label": "Overdue"
-      }
-     },
-     {
-      "account": "Brokerage ··5520",
-      "meta": "Last export Oct 3",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     }
+  "briefs": [
+   {
+    "id": "BR-3",
+    "kind": "daily",
+    "title": "Daily brief · today 06:15",
+    "summary": "3 events, 1 case due today, 2 approvals waiting.",
+    "items": [
+     "09:30 Call with the property insurer; Keystone prepared notes",
+     "Car registration renewal is due today",
+     "2 approvals waiting, one for Mom",
+     "Mom's prescription refill in 9 days"
     ]
    },
-   "mom": {
-    "principal": "mom",
-    "month": "October",
-    "days_elapsed": "25 of 31 days",
-    "budget": [
-     {
-      "name": "Housing",
-      "spent": 1260,
-      "budget": 1260
-     },
-     {
-      "name": "Groceries",
-      "spent": 324,
-      "budget": 390
-     },
-     {
-      "name": "Transport",
-      "spent": 186,
-      "budget": 168
-     },
-     {
-      "name": "Utilities",
-      "spent": 114,
-      "budget": 144
-     },
-     {
-      "name": "Subscriptions",
-      "spent": 52,
-      "budget": 54
-     }
-    ],
-    "net_worth": {
-     "name": "Net worth",
-     "value": "$247,680",
-     "status": null,
-     "spark": [
-      388.0,
-      391.0,
-      395.0,
-      393.0,
-      398.0,
-      401.0,
-      400.0,
-      404.0,
-      407.0,
-      405.0,
-      410.0,
-      412.8
-     ],
-     "sampled_at": null
-    },
-    "imports": [
-     {
-      "account": "Checking ··1042",
-      "meta": "Last statement Oct 1 · next Nov 1",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     },
-     {
-      "account": "Credit card ··7731",
-      "meta": "Last statement Sep 18 · expected Oct 18",
-      "status": {
-       "status": "attention",
-       "label": "Overdue"
-      }
-     },
-     {
-      "account": "Brokerage ··5520",
-      "meta": "Last export Oct 3",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     }
+   {
+    "id": "BR-2",
+    "kind": "weekly",
+    "title": "Weekly review · Sunday 18:00",
+    "summary": "Budget on track, 1 renewal coming, 2 new rules to confirm.",
+    "items": [
+     "Transport is $30 over budget; groceries $110 under",
+     "Unit B lease renewal due Nov 30",
+     "Confirm 2 new rules: \"Clipper card\" → Transport, Kaiser mail → Mom",
+     "Nothing stale for more than 3 days"
     ]
    },
-   "dad": {
-    "principal": "dad",
-    "month": "October",
-    "days_elapsed": "25 of 31 days",
-    "budget": [
-     {
-      "name": "Housing",
-      "spent": 1260,
-      "budget": 1260
-     },
-     {
-      "name": "Groceries",
-      "spent": 324,
-      "budget": 390
-     },
-     {
-      "name": "Transport",
-      "spent": 186,
-      "budget": 168
-     },
-     {
-      "name": "Utilities",
-      "spent": 114,
-      "budget": 144
-     },
-     {
-      "name": "Subscriptions",
-      "spent": 52,
-      "budget": 54
-     }
-    ],
-    "net_worth": {
-     "name": "Net worth",
-     "value": "$247,680",
-     "status": null,
-     "spark": [
-      388.0,
-      391.0,
-      395.0,
-      393.0,
-      398.0,
-      401.0,
-      400.0,
-      404.0,
-      407.0,
-      405.0,
-      410.0,
-      412.8
-     ],
-     "sampled_at": null
-    },
-    "imports": [
-     {
-      "account": "Checking ··1042",
-      "meta": "Last statement Oct 1 · next Nov 1",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     },
-     {
-      "account": "Credit card ··7731",
-      "meta": "Last statement Sep 18 · expected Oct 18",
-      "status": {
-       "status": "attention",
-       "label": "Overdue"
-      }
-     },
-     {
-      "account": "Brokerage ··5520",
-      "meta": "Last export Oct 3",
-      "status": {
-       "status": "healthy",
-       "label": "Current"
-      }
-     }
+   {
+    "id": "BR-1",
+    "kind": "daily",
+    "title": "Daily brief · yesterday 06:15",
+    "summary": "2 events, nothing due, 1 approval waiting.",
+    "items": [
+     "13:00 Dentist cleaning; leave by 12:35",
+     "Credit card statement is overdue for import",
+     "1 approval waiting"
     ]
    }
+  ],
+  "sync": [
+   {
+    "id": "SY-1",
+    "name": "Calendar",
+    "meta": "3 calendars · 4 min ago",
+    "status": {
+     "status": "healthy",
+     "label": "Synced"
+    }
+   },
+   {
+    "id": "SY-2",
+    "name": "Mail",
+    "meta": "2 mailboxes · 2 min ago",
+    "status": {
+     "status": "healthy",
+     "label": "Synced"
+    }
+   },
+   {
+    "id": "SY-3",
+    "name": "Reminders",
+    "meta": "4 min ago",
+    "status": {
+     "status": "healthy",
+     "label": "Synced"
+    }
+   },
+   {
+    "id": "SY-4",
+    "name": "Statement inbox folder",
+    "meta": "Last file Oct 3",
+    "status": {
+     "status": "healthy",
+     "label": "Watching"
+    }
+   },
+   {
+    "id": "SY-5",
+    "name": "Contacts",
+    "meta": "Needs the Contacts permission in Setup",
+    "status": {
+     "status": "attention",
+     "label": "Waiting"
+    }
+   }
+  ],
+  "assignees": [
+   "You",
+   "Atlas",
+   "Hearth",
+   "Ledger",
+   "Pulse",
+   "Keystone",
+   "Taxonomy",
+   "Tally"
+  ],
+  "domain_ids": {
+   "Calendar and admin": "calendar",
+   "Home and auto": "home-auto",
+   "Health and benefits": "health",
+   "Finance": "finance",
+   "Investing": "investing",
+   "Taxes": "taxes",
+   "Rental": "rental",
+   "Career and business": "career"
+  },
+  "months": [
+   "Jan",
+   "Feb",
+   "Mar",
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct",
+   "Nov",
+   "Dec"
+  ],
+  "repeat_words": {
+   "once": "Once",
+   "monthly": "Every month",
+   "yearly": "Every year"
+  },
+  "categories": [
+   "Housing",
+   "Groceries",
+   "Transport",
+   "Utilities",
+   "Subscriptions",
+   "Household"
+  ],
+  "income": "Income",
+  "budgets": {
+   "owner": {
+    "Housing": 2100,
+    "Groceries": 650,
+    "Transport": 280,
+    "Utilities": 240,
+    "Subscriptions": 90,
+    "Household": 120
+   },
+   "mom": {
+    "Housing": 1260,
+    "Groceries": 390,
+    "Transport": 168,
+    "Utilities": 144,
+    "Subscriptions": 54,
+    "Household": 72
+   },
+   "dad": {
+    "Housing": 1260,
+    "Groceries": 390,
+    "Transport": 168,
+    "Utilities": 144,
+    "Subscriptions": 54,
+    "Household": 72
+   }
+  },
+  "balances": {
+   "owner": [
+    {
+     "id": "BAL-owner-1",
+     "day": "Oct 25",
+     "text": "Checking ··1042",
+     "account": "Checking ··1042",
+     "amount": 18400,
+     "category": null
+    },
+    {
+     "id": "BAL-owner-2",
+     "day": "Oct 25",
+     "text": "Brokerage ··5520",
+     "account": "Brokerage ··5520",
+     "amount": 284200,
+     "category": null
+    },
+    {
+     "id": "BAL-owner-3",
+     "day": "Oct 25",
+     "text": "Retirement ··2210",
+     "account": "Retirement ··2210",
+     "amount": 96000,
+     "category": null
+    },
+    {
+     "id": "BAL-owner-4",
+     "day": "Oct 25",
+     "text": "Credit card ··7731",
+     "account": "Credit card ··7731",
+     "amount": -2800,
+     "category": null
+    },
+    {
+     "id": "BAL-owner-5",
+     "day": "Oct 25",
+     "text": "Car, estimated",
+     "account": "Car, estimated",
+     "amount": 17000,
+     "category": null
+    }
+   ],
+   "mom": [
+    {
+     "id": "BAL-mom-1",
+     "day": "Oct 25",
+     "text": "Checking ··1042",
+     "account": "Checking ··1042",
+     "amount": 11040,
+     "category": null
+    },
+    {
+     "id": "BAL-mom-2",
+     "day": "Oct 25",
+     "text": "Brokerage ··5520",
+     "account": "Brokerage ··5520",
+     "amount": 170520,
+     "category": null
+    },
+    {
+     "id": "BAL-mom-3",
+     "day": "Oct 25",
+     "text": "Retirement ··2210",
+     "account": "Retirement ··2210",
+     "amount": 57600,
+     "category": null
+    },
+    {
+     "id": "BAL-mom-4",
+     "day": "Oct 25",
+     "text": "Credit card ··7731",
+     "account": "Credit card ··7731",
+     "amount": -1680,
+     "category": null
+    },
+    {
+     "id": "BAL-mom-5",
+     "day": "Oct 25",
+     "text": "Car, estimated",
+     "account": "Car, estimated",
+     "amount": 10200,
+     "category": null
+    }
+   ],
+   "dad": [
+    {
+     "id": "BAL-dad-1",
+     "day": "Oct 25",
+     "text": "Checking ··1042",
+     "account": "Checking ··1042",
+     "amount": 11040,
+     "category": null
+    },
+    {
+     "id": "BAL-dad-2",
+     "day": "Oct 25",
+     "text": "Brokerage ··5520",
+     "account": "Brokerage ··5520",
+     "amount": 170520,
+     "category": null
+    },
+    {
+     "id": "BAL-dad-3",
+     "day": "Oct 25",
+     "text": "Retirement ··2210",
+     "account": "Retirement ··2210",
+     "amount": 57600,
+     "category": null
+    },
+    {
+     "id": "BAL-dad-4",
+     "day": "Oct 25",
+     "text": "Credit card ··7731",
+     "account": "Credit card ··7731",
+     "amount": -1680,
+     "category": null
+    },
+    {
+     "id": "BAL-dad-5",
+     "day": "Oct 25",
+     "text": "Car, estimated",
+     "account": "Car, estimated",
+     "amount": 10200,
+     "category": null
+    }
+   ]
+  },
+  "cash_flow_history": {
+   "owner": [
+    {
+     "key": "aug",
+     "month": "Aug",
+     "money_in": 6400,
+     "money_out": 3150,
+     "rows": [
+      {
+       "id": "ST-owner-aug-in",
+       "day": "Aug",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 6400,
+       "category": null
+      },
+      {
+       "id": "ST-owner-aug-out",
+       "day": "Aug",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -3150,
+       "category": null
+      }
+     ]
+    },
+    {
+     "key": "sep",
+     "month": "Sep",
+     "money_in": 6400,
+     "money_out": 3390,
+     "rows": [
+      {
+       "id": "ST-owner-sep-in",
+       "day": "Sep",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 6400,
+       "category": null
+      },
+      {
+       "id": "ST-owner-sep-out",
+       "day": "Sep",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -3390,
+       "category": null
+      }
+     ]
+    }
+   ],
+   "mom": [
+    {
+     "key": "aug",
+     "month": "Aug",
+     "money_in": 3840,
+     "money_out": 1890,
+     "rows": [
+      {
+       "id": "ST-mom-aug-in",
+       "day": "Aug",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 3840,
+       "category": null
+      },
+      {
+       "id": "ST-mom-aug-out",
+       "day": "Aug",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -1890,
+       "category": null
+      }
+     ]
+    },
+    {
+     "key": "sep",
+     "month": "Sep",
+     "money_in": 3840,
+     "money_out": 2034,
+     "rows": [
+      {
+       "id": "ST-mom-sep-in",
+       "day": "Sep",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 3840,
+       "category": null
+      },
+      {
+       "id": "ST-mom-sep-out",
+       "day": "Sep",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -2034,
+       "category": null
+      }
+     ]
+    }
+   ],
+   "dad": [
+    {
+     "key": "aug",
+     "month": "Aug",
+     "money_in": 3840,
+     "money_out": 1890,
+     "rows": [
+      {
+       "id": "ST-dad-aug-in",
+       "day": "Aug",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 3840,
+       "category": null
+      },
+      {
+       "id": "ST-dad-aug-out",
+       "day": "Aug",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -1890,
+       "category": null
+      }
+     ]
+    },
+    {
+     "key": "sep",
+     "month": "Sep",
+     "money_in": 3840,
+     "money_out": 2034,
+     "rows": [
+      {
+       "id": "ST-dad-sep-in",
+       "day": "Sep",
+       "text": "Money in, from statements",
+       "account": "Checking ··1042",
+       "amount": 3840,
+       "category": null
+      },
+      {
+       "id": "ST-dad-sep-out",
+       "day": "Sep",
+       "text": "Money out, from statements",
+       "account": "Checking ··1042, Credit card ··7731",
+       "amount": -2034,
+       "category": null
+      }
+     ]
+    }
+   ]
+  },
+  "net_worth_spark": [
+   388,
+   391,
+   395,
+   393,
+   398,
+   401,
+   400,
+   404,
+   407,
+   405,
+   410,
+   412.8
+  ],
+  "bills": {
+   "owner": [
+    {
+     "id": "BL-owner-1",
+     "name": "PG&E",
+     "due": "Nov 12",
+     "amount": 118,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "healthy",
+      "label": "Autopay"
+     }
+    },
+    {
+     "id": "BL-owner-2",
+     "name": "Credit card ··7731",
+     "due": "Nov 18",
+     "amount": 1240,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "neutral",
+      "label": "Scheduled"
+     }
+    },
+    {
+     "id": "BL-owner-3",
+     "name": "Car insurance",
+     "due": "Dec 2",
+     "amount": 640,
+     "account": "Credit card ··7731",
+     "status": {
+      "status": "in_progress",
+      "label": "Reminder"
+     }
+    },
+    {
+     "id": "BL-owner-4",
+     "name": "Property tax",
+     "due": "Dec 10",
+     "amount": 3860,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "attention",
+      "label": "Due"
+     }
+    }
+   ],
+   "mom": [
+    {
+     "id": "BL-mom-1",
+     "name": "PG&E",
+     "due": "Nov 12",
+     "amount": 71,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "healthy",
+      "label": "Autopay"
+     }
+    },
+    {
+     "id": "BL-mom-2",
+     "name": "Credit card ··7731",
+     "due": "Nov 18",
+     "amount": 744,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "neutral",
+      "label": "Scheduled"
+     }
+    },
+    {
+     "id": "BL-mom-3",
+     "name": "Car insurance",
+     "due": "Dec 2",
+     "amount": 384,
+     "account": "Credit card ··7731",
+     "status": {
+      "status": "in_progress",
+      "label": "Reminder"
+     }
+    },
+    {
+     "id": "BL-mom-4",
+     "name": "Property tax",
+     "due": "Dec 10",
+     "amount": 2316,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "attention",
+      "label": "Due"
+     }
+    }
+   ],
+   "dad": [
+    {
+     "id": "BL-dad-1",
+     "name": "PG&E",
+     "due": "Nov 12",
+     "amount": 71,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "healthy",
+      "label": "Autopay"
+     }
+    },
+    {
+     "id": "BL-dad-2",
+     "name": "Credit card ··7731",
+     "due": "Nov 18",
+     "amount": 744,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "neutral",
+      "label": "Scheduled"
+     }
+    },
+    {
+     "id": "BL-dad-3",
+     "name": "Car insurance",
+     "due": "Dec 2",
+     "amount": 384,
+     "account": "Credit card ··7731",
+     "status": {
+      "status": "in_progress",
+      "label": "Reminder"
+     }
+    },
+    {
+     "id": "BL-dad-4",
+     "name": "Property tax",
+     "due": "Dec 10",
+     "amount": 2316,
+     "account": "Checking ··1042",
+     "status": {
+      "status": "attention",
+      "label": "Due"
+     }
+    }
+   ]
+  },
+  "inbox_folders": {
+   "owner": "Inbox/finance",
+   "mom": "Inbox/mom/finance",
+   "dad": "Inbox/dad/finance"
+  },
+  "principal_names": {
+   "owner": "You",
+   "mom": "Mom",
+   "dad": "Dad"
+  },
+  "request_words": {
+   "import_check": [
+    "Import check for {who}",
+    "Tally",
+    "Tally is checking every import"
+   ],
+   "monthly_close": [
+    "Monthly close for {who}",
+    "Ledger",
+    "Ledger is closing the month"
+   ]
+  },
+  "secret_proofs": {
+   "OI-13": "Both tokens saved to the Keychain · /whoami answered from the local Discord mock",
+   "OI-16": "App password saved to the Keychain · first sync ran against the test mail server"
+  },
+  "interview_questions": [
+   [
+    "Your day",
+    "When do you usually start your day, and when should I go quiet at night?"
+   ],
+   [
+    "Booking for Mom and Dad",
+    "Who should I check with before booking anything for Mom or Dad?"
+   ],
+   [
+    "Reminders",
+    "How far ahead do you like reminders: a day, a week, or both?"
+   ],
+   [
+    "Always ask first",
+    "Is there anything I should never do without asking, even if it's small?"
+   ]
+  ],
+  "interview_done": "Thanks. Here's what I'll save to your profile. Confirm it, or start over to change an answer.",
+  "fresh_interview": {
+   "turns": [
+    {
+     "speaker": "atlas",
+     "text": "When do you usually start your day, and when should I go quiet at night?"
+    }
+   ],
+   "asked": 0,
+   "total": 4,
+   "facts": []
   },
   "doc_groups": [
    {
@@ -8687,6 +10015,13 @@
    "ARK-2"
   ],
   "principal_undo_days": 7,
+  "statement_types": [
+   ".csv",
+   ".ofx",
+   ".qfx"
+  ],
+  "max_upload_bytes": 26214400,
+  "secret_min_length": 8,
   "outcome_after_seconds": 604800.0,
   "spend_month": "October"
  }

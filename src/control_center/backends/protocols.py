@@ -72,10 +72,30 @@ from control_center.contract.people import (
 from control_center.contract.personal import (
     Case,
     CaseAction,
+    DomainDetail,
     FinanceOverview,
     PersonalOverview,
     SetupAction,
     SetupStep,
+    StatementImport,
+)
+from control_center.contract.records import (
+    AccountMapping,
+    CaseCreate,
+    CategoryFixed,
+    ChecklistItem,
+    DocumentUpload,
+    DomainRecord,
+    FigureSources,
+    FinanceRequest,
+    Obligation,
+    ObligationCreate,
+    RecordCreate,
+    RecordEdit,
+    Rule,
+    RuleEdit,
+    StatementUpload,
+    WorkRequested,
 )
 from control_center.contract.shell import (
     ArkDriveStarted,
@@ -275,6 +295,12 @@ class ApprovalGate(Protocol):
         """Write an Ark drive to an external volume (spec 12.8). Always needs a step-up."""
         ...
 
+    def save_setup_secret(
+        self, step_id: str, field_id: str, value: str, step_up: str | None
+    ) -> SetupStep:
+        """Save a Setup step's secret to the Keychain (spec 24.5). Always needs a step-up."""
+        ...
+
     def create_step_up_challenge(self) -> str:
         """Start a passkey step-up and return the challenge the authenticator signs."""
         ...
@@ -413,6 +439,90 @@ class PipelineEngine(Protocol):
 
     def finance(self, principal: Principal) -> FinanceOverview:
         """Budget, net worth and statement imports for one principal."""
+        ...
+
+    def create_case(self, body: CaseCreate) -> Case:
+        """Add a case (spec 20.3)."""
+        ...
+
+    def reassign_case(self, case_id: str, employee_name: str) -> Case:
+        """Hand a case to the Owner or another employee."""
+        ...
+
+    def add_case_note(self, case_id: str, text: str) -> Case:
+        """Add a note to a case."""
+        ...
+
+    def create_obligation(self, body: ObligationCreate) -> Obligation:
+        """Add a date obligation."""
+        ...
+
+    def set_checklist(self, item_id: str, done: bool) -> ChecklistItem:
+        """Tick or untick an onboarding checklist step."""
+        ...
+
+    def domain_detail(self, domain_id: str) -> DomainDetail:
+        """One domain's records and documents."""
+        ...
+
+    def add_record(self, domain_id: str, body: RecordCreate) -> DomainRecord:
+        """Add a register entry to a domain."""
+        ...
+
+    def upload_document(self, domain_id: str, body: DocumentUpload) -> DomainRecord:
+        """File an uploaded document into a domain."""
+        ...
+
+    def edit_record(self, record_id: str, body: RecordEdit) -> DomainRecord:
+        """Rename a record or change its details."""
+        ...
+
+    def delete_record(self, record_id: str) -> TrashItem:
+        """Move a record or document to the 30-day trash."""
+        ...
+
+    def edit_rule(self, rule_id: str, body: RuleEdit) -> Rule:
+        """Change a routing or category rule."""
+        ...
+
+    def delete_rule(self, rule_id: str) -> TrashItem:
+        """Move a rule to the 30-day trash."""
+        ...
+
+    def figure_sources(self, principal: Principal, figure_id: str) -> FigureSources:
+        """The rows behind one Finance figure."""
+        ...
+
+    def fix_category(
+        self, principal: Principal, transaction_id: str, category: str
+    ) -> CategoryFixed:
+        """Move a transaction to another category, adding a rule."""
+        ...
+
+    def upload_statement(
+        self, principal: Principal, import_id: str, body: StatementUpload
+    ) -> StatementImport:
+        """Import a statement export for one account."""
+        ...
+
+    def map_account(self, account_id: str, body: AccountMapping) -> StatementImport:
+        """Give a found account to a principal."""
+        ...
+
+    def finance_request(self, principal: Principal, body: FinanceRequest) -> WorkRequested:
+        """Ask for an import check or the monthly close."""
+        ...
+
+    def interview_answer(self, step_id: str, text: str) -> SetupStep:
+        """Answer Atlas's current profile interview question."""
+        ...
+
+    def interview_confirm(self, step_id: str) -> SetupStep:
+        """Save the facts the profile interview proposed."""
+        ...
+
+    def interview_restart(self, step_id: str) -> SetupStep:
+        """Start the profile interview over."""
         ...
 
     def setup_steps(self) -> list[SetupStep]:

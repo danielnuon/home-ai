@@ -20,6 +20,7 @@ from control_center.backends.mock.fixtures import (
     ops,
     people,
     personal,
+    records,
     settings,
     shell,
     work,
@@ -30,7 +31,15 @@ from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
 from control_center.contract.memory import MemoryItem
 from control_center.contract.people import Contact, ContactEvent, HouseholdMember
-from control_center.contract.personal import AutomaticChange, Case, SetupStep
+from control_center.contract.personal import AutomaticChange, Case, SetupStep, StatementImport
+from control_center.contract.records import (
+    ChecklistItem,
+    DomainRecord,
+    Obligation,
+    Rule,
+    SourceRow,
+    UnmappedAccount,
+)
 from control_center.contract.shell import TrashItem
 from control_center.contract.status import Job, MaintenanceFix
 from control_center.contract.today import Alert, ChatMessage
@@ -83,6 +92,16 @@ class MockWorld:
     """The Owner's saved notes (15.9.2), by id."""
     alerts: dict[str, Alert]
     trash: dict[str, TrashItem]
+    obligations: dict[str, Obligation]
+    records: dict[str, DomainRecord]
+    """Every domain's register entries and filed documents, newest first."""
+    rules: dict[str, Rule]
+    checklist: dict[str, ChecklistItem]
+    transactions: dict[str, list[SourceRow]]
+    """This month's transactions by principal; every Finance figure is computed from them."""
+    imports: dict[str, dict[str, StatementImport]]
+    """Statement import rows by principal, then by id."""
+    unmapped: dict[str, UnmappedAccount]
     accounts: accounts.AccountsState
     """Connections, voice profiles, workspaces, devices and passkeys (`fixtures/accounts.py`)."""
     sampled_at: datetime
@@ -153,6 +172,13 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         memories=by_id(memory.items(now)),
         alerts=by_id(shell.alerts(now)),
         trash=by_id(shell.trash(now)),
+        obligations=by_id(records.obligations(now)),
+        records=by_id(records.domain_records()),
+        rules=by_id(records.rules()),
+        checklist=by_id(records.checklist()),
+        transactions={p: records.transactions(p) for p in records.PRINCIPALS},
+        imports={p: by_id(rows) for p, rows in records.imports().items()},
+        unmapped=by_id(records.unmapped_accounts()),
         accounts=accounts.accounts_state(now),
         sampled_at=now,
     )
