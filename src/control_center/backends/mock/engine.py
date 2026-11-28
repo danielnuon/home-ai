@@ -6,6 +6,7 @@ The half that tracks work (sessions, threads, the Work board, the Directory) is 
 from typing import Literal
 
 from control_center.backends.errors import ConflictError, NotFoundError
+from control_center.backends.mock.engine_accounts import ImpactDesk
 from control_center.backends.mock.engine_ops import OpsDesk, heavy_work_paused
 from control_center.backends.mock.engine_records import RecordsDesk
 from control_center.backends.mock.engine_shell import ShellDesk
@@ -35,7 +36,7 @@ CASE_STATE_AFTER: dict[str, Literal["open", "done", "snoozed"]] = {
 """The state a case is in after each Owner action."""
 
 
-class MockPipelineEngine(WorkDesk, ShellDesk, RecordsDesk, OpsDesk):
+class MockPipelineEngine(WorkDesk, ShellDesk, RecordsDesk, OpsDesk, ImpactDesk):
     """In-memory stand-in for the pipeline engine (spec C3). Implements `PipelineEngine`.
 
     Sessions, threads, the Work board and the Directory are in `WorkDesk`; personal records,

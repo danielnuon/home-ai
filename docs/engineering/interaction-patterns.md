@@ -39,9 +39,6 @@ import { ActionRow } from "../components/ActionRow";
 </div>
 ```
 
-- Use `onOpen` instead of `href` when pressing the row opens it in a sheet on the same page
-  (decision 181), such as a case on Personal; the row is then a button with the same chevron.
-  Keep the sheet's content while it slides away with `useLast` (`pages/personal/shared.tsx`).
 - `start` is the main action, `end` the secondary one. On a phone they are swipes; with a mouse
   they appear as labelled buttons while the pointer rests on the row; with a keyboard they
   appear when focus is inside it.
@@ -49,6 +46,11 @@ import { ActionRow } from "../components/ActionRow";
   action here, including the two swipes.**
 - Actions run through `useAction`, so a loosening one asks for the passkey and every result is a
   toast. Offer Undo on the toast for anything reversible.
+- To open the item in place instead, pass `onOpen` rather than `href`: pressing the row runs it
+  (usually opening the item's sheet) and the chevron still shows. The sheet lists every action as
+  a button (decision 181). See `pages/Connections.tsx`, `pages/Voice.tsx` and
+  `pages/personal/Cases.tsx`. Keep the sheet's content while it slides away with `useLast`
+  (`pages/personal/shared.tsx`).
 - Wrap rows in `<m.div layout="position" exit={LEAVE}>` inside `AnimatePresence` when rows can
   leave, so they glide out (decision 128). See `pages/Trash.tsx`.
 
@@ -121,6 +123,15 @@ On the page, a row's Delete for an item the server sends to the trash is one hoo
 `DELETE`, refetches, and shows the toast with Undo; pass it as `end` and, with
 `destructive: true`, in `more`.
 
+## Changing a setting: the impact sheet
+
+`SettingRow` asks `GET /settings/{key}/impact?value=` before a change. When the answer has lines
+(raising a cap, turning on something that costs money or load, changing a model token limit), an
+impact sheet shows them with Apply; otherwise the change applies at once, so tightening stays one
+tap (decision 182). A new setting with a predictable effect adds its lines in
+`backends/mock/engine_accounts.py` and `src/preview/accounts.ts`. A change that was predicted
+shows predicted versus actual in its History sheet once it has run for 7 days (decision 183).
+
 ## Asking Wayfinder about what is on screen
 
 A page that shows one object names it, so the Guide panel answers about it:
@@ -142,7 +153,8 @@ Give its route a `feature` (`routes.tsx`). It is in the navigation only while
 
 - Rows are `ActionRow`, cards that can be dismissed are `ActionCard`.
 - Every swipe is also in the "…" menu.
-- Deletes go to the trash; only purges use `HoldButton`.
+- Deletes go to the trash; only purges, and deletes the spec says must destroy their data (such
+  as a voice sample), use `HoldButton`.
 - Nothing appears or vanishes: entering and leaving rows fade and glide (decision 128).
 - Mock endpoint, preview port, a parity step in `scripts/record_mock_parity.py`, tests, and
   `make ci` before you push.

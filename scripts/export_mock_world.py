@@ -29,10 +29,8 @@ from control_center.backends.mock import (
 )
 from control_center.backends.mock.engine_ops import PAGE_AREAS
 from control_center.backends.mock.engine_work import INSTRUMENT_COUNT
-from control_center.backends.mock.fixtures import chat as chat_fixtures
-from control_center.backends.mock.fixtures import contacts as contact_fixtures
-from control_center.backends.mock.fixtures import memory as memory_fixtures
 from control_center.backends.mock.fixtures import (
+    accounts,
     operations,
     ops,
     people,
@@ -43,6 +41,9 @@ from control_center.backends.mock.fixtures import (
     shell,
     work,
 )
+from control_center.backends.mock.fixtures import chat as chat_fixtures
+from control_center.backends.mock.fixtures import contacts as contact_fixtures
+from control_center.backends.mock.fixtures import memory as memory_fixtures
 from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import BLOCKED_WORDS, STATE_ORDER, WAITING_WORDS
@@ -103,6 +104,7 @@ def world_state() -> dict[str, Any]:
         "transactions",
         "imports",
         "unmapped",
+        "accounts",
     ]
     state = {name: dump(getattr(world, name)) for name in fields}
     state["stopped"] = world.stopped
@@ -114,9 +116,6 @@ def world_state() -> dict[str, Any]:
 
 def fixtures() -> dict[str, Any]:
     """Every read-only fixture view, with each variant a setting can select."""
-    voice_choices = next(
-        s for s in settings_fixtures.settings(EXPORT_NOW) if s.key == "voice.profile"
-    )
     ceilings = {
         (s.ceiling or 0) for s in settings_fixtures.settings(EXPORT_NOW) if s.kind == "money"
     }
@@ -143,18 +142,17 @@ def fixtures() -> dict[str, Any]:
         "cloud_impact": {str(c): dump(platform.cloud_impact(c)) for c in sorted(ceilings)},
         "security_tiles": dump(ops.security_tiles()),
         "security_flags": dump(ops.security_flags()),
-        "sign_in_rows": dump(ops.sign_in_rows()),
         "audit_lines": dump(ops.AUDIT_LINES),
         "backup_targets": dump(ops.backup_targets()),
         "retention": dump(ops.retention()),
-        "connection_groups": dump(ops.connection_groups()),
-        "voice_profiles": {
-            f"{choice}|{str(celebrity).lower()}": dump(
-                ops.voice_profiles(choice, celebrity_clones=celebrity)
-            )
-            for choice in voice_choices.choices
-            for celebrity in (True, False)
-        },
+        "connection_groups_order": [[k, n, note] for k, (n, note) in accounts.GROUPS.items()],
+        "stock_voices": dump(accounts.STOCK_VOICES),
+        "call_lines": accounts.CALL_LINES,
+        "risk_notice": accounts.RISK_NOTICE,
+        "denied_calls": dump(accounts.denied_calls()),
+        "ledger": dump(accounts.ledger()),
+        "extra_impacts": dump(accounts.EXTRA_IMPACTS),
+        "outcomes": dump(accounts.OUTCOMES),
         "maintenance_stats": dump(ops.maintenance_stats()),
         "agenda": dump(personal.agenda()),
         "domains": dump(personal.domains()),
@@ -299,6 +297,8 @@ def constants() -> dict[str, Any]:
         "statement_types": list(records.STATEMENT_TYPES),
         "max_upload_bytes": records.MAX_UPLOAD_BYTES,
         "secret_min_length": records.SECRET_MIN_LENGTH,
+        "outcome_after_seconds": accounts.OUTCOME_AFTER.total_seconds(),
+        "spend_month": status.SPEND_MONTH,
     }
 
 

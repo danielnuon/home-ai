@@ -3,9 +3,11 @@
  * is audited, shown with its history, and revertible in one step").
  *
  * Reverting goes through the gate like any change, so reverting to a looser value still asks for
- * the passkey.
+ * the passkey. A change Brain predicted shows what it predicted beside what was measured once the
+ * change had run for 7 days (spec 7.18).
  */
 import { useState } from "react";
+import { useSettingOutcomes } from "../api/queries";
 import { displayValue, useChangeSetting } from "../api/settings";
 import type { Setting } from "../api/types";
 import { Sheet } from "./Sheet";
@@ -20,6 +22,34 @@ function when(at: string): string {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+/** Predicted versus actual for each change Brain made a prediction for. */
+function Outcomes({ setting }: { setting: Setting }) {
+  const outcomes = useSettingOutcomes(setting.key, true).data?.outcomes ?? [];
+  return (
+    <>
+      {outcomes.map((outcome) => (
+        <div key={outcome.at} className="card stack">
+          <p className="small">
+            <span className="row-title">{outcome.change}</span>{" "}
+            <span className="muted">· {outcome.note}</span>
+          </p>
+          <dl className="list facts">
+            {outcome.lines.map((line) => (
+              <div key={line.name} className="list-row small">
+                <dt className="grow">{line.name}</dt>
+                <dd className="muted">
+                  Predicted {line.predicted} ·{" "}
+                  {line.actual ? `actual ${line.actual}` : "not yet measured"}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+    </>
+  );
 }
 
 /** The sheet's contents: the default, every change newest first, and Revert. */
@@ -44,6 +74,7 @@ function HistoryBody({ setting, onDone }: { setting: Setting; onDone: () => void
           </li>
         ))}
       </ol>
+      <Outcomes setting={setting} />
       {latest && (
         <button type="button" className="btn" disabled={busy} onClick={() => void revertAndClose()}>
           Revert to {displayValue(setting, latest.old)}

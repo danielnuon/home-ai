@@ -34,7 +34,7 @@ interface ActionRowProps extends Actions {
   status?: StatusLabel | null;
   /** Where pressing the row goes; it then shows a chevron. */
   href?: string | null;
-  /** What pressing the row opens in place, such as its sheet; it then shows a chevron too. */
+  /** What pressing the row opens in place, such as its sheet (7.16, rule 13); shows a chevron. */
   onOpen?: () => void;
   /** Something before the title, such as an avatar or icon. */
   leading?: ReactNode;

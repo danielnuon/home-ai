@@ -51,6 +51,17 @@ export interface ThreadRecord {
   learning: boolean;
 }
 
+/** What the Owner changes on Connections, Voice and Security (`fixtures/accounts.py`). */
+interface AccountsState {
+  connections: Record<string, Schemas["Connection"]>;
+  voices: Record<string, Schemas["VoiceProfile"]>;
+  workspaces: Record<string, Schemas["Workspace"]>;
+  devices: Record<string, Schemas["Device"]>;
+  passkeys: Record<string, Schemas["Passkey"]>;
+  totp: string;
+  recovery: string;
+}
+
 /** Every piece of mutable mock state, as in `world.py`. */
 interface WorldState {
   approvals: Record<string, Approval>;
@@ -86,6 +97,8 @@ interface WorldState {
   /** Statement import rows by principal, then by id. */
   imports: Record<string, Record<string, Schemas["StatementImport"]>>;
   unmapped: Record<string, Schemas["UnmappedAccount"]>;
+  /** Connections, voice profiles, workspaces, devices and passkeys (`fixtures/accounts.py`). */
+  accounts: AccountsState;
   stopped: boolean;
   maintenance_running: boolean;
   /** The Owner's saved notes (15.9.2), by id. */
@@ -133,12 +146,17 @@ interface Fixtures {
   cloud_impact: Record<string, Schemas["PaidFeature"]["impact"]>;
   security_tiles: Schemas["Metric"][];
   security_flags: Schemas["SecurityOverview"]["flags"];
-  sign_in_rows: Schemas["SecurityOverview"]["sign_in"];
   audit_lines: Schemas["SecurityOverview"]["audit"];
   backup_targets: Schemas["BackupsOverview"]["targets"];
   retention: Schemas["BackupsOverview"]["retention"];
-  connection_groups: Schemas["RowGroup"][];
-  voice_profiles: Record<string, Schemas["VoiceOverview"]["profiles"]>;
+  connection_groups_order: [Schemas["Connection"]["kind"], string, string][];
+  stock_voices: Schemas["StockVoice"][];
+  call_lines: string[];
+  risk_notice: string;
+  denied_calls: Schemas["Row"][];
+  ledger: Schemas["LedgerEntry"][];
+  extra_impacts: Record<string, Schemas["ImpactLine"][]>;
+  outcomes: Record<string, Schemas["OutcomeLine"][]>;
   maintenance_stats: Schemas["MaintenanceOverview"]["stats"];
   agenda: Schemas["TodayOverview"]["agenda"];
   domains: Schemas["PersonalOverview"]["domains"];
@@ -271,6 +289,8 @@ interface Constants {
   statement_types: string[];
   max_upload_bytes: number;
   secret_min_length: number;
+  outcome_after_seconds: number;
+  spend_month: string;
 }
 
 interface Exported {

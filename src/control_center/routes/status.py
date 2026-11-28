@@ -2,20 +2,18 @@
 
 from fastapi import APIRouter
 
+from control_center.contract.accounts import ConnectionsOverview, SecurityOverview, VoiceOverview
 from control_center.contract.status import (
     BackupsOverview,
-    ConnectionsOverview,
     DocsOverview,
     JobToggle,
     MaintenanceOverview,
     MaintenanceToggle,
     ModelsOverview,
     ScheduleOverview,
-    SecurityOverview,
     ServicesOverview,
     SpendOverview,
     SystemOverview,
-    VoiceOverview,
 )
 from control_center.routes import BackendsDep
 

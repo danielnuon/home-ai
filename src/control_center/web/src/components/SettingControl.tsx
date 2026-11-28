@@ -7,14 +7,66 @@
  * policy.yaml, which the gate refuses to exceed.
  */
 import { useState, type ReactNode } from "react";
+import { getJson } from "../api/client";
 import { displayValue, useChangeSetting } from "../api/settings";
-import type { Setting } from "../api/types";
+import type { ImpactLine, Setting, SettingImpact } from "../api/types";
 import { Switch } from "./Controls";
+import { ImpactCard } from "./ImpactCard";
 import { SettingHistory } from "./SettingHistory";
+import { Sheet } from "./Sheet";
+
+/**
+ * Changes a setting, first showing its impact card when the change moves speed, memory, cost or
+ * assurance (spec 7.18). A change with nothing to show, or a tightening one, applies at once.
+ * If the preview can't be read, the change goes ahead and the gate's answer is the toast.
+ */
+function useProposedChange(setting: Setting) {
+  const { change, busy } = useChangeSetting(setting);
+  const [pending, setPending] = useState<{ value: string; lines: ImpactLine[] } | null>(null);
+  const propose = async (value: string) => {
+    let lines: ImpactLine[] = [];
+    try {
+      const path = `/settings/${setting.key}/impact?value=${encodeURIComponent(value)}`;
+      lines = (await getJson<SettingImpact>(path)).lines;
+    } catch {
+      lines = [];
+    }
+    if (lines.length > 0) setPending({ value, lines });
+    else await change(value);
+  };
+  const apply = async () => {
+    if (!pending) return;
+    if (await change(pending.value)) setPending(null);
+  };
+  const sheet = (
+    <Sheet open={pending !== null} title={setting.label} onClose={() => setPending(null)}>
+      <div className="stack">
+        <p>
+          {pending && (
+            <>
+              {displayValue(setting, setting.value)} → {displayValue(setting, pending.value)}. This
+              is what it will change.
+            </>
+          )}
+        </p>
+        <ImpactCard lines={pending?.lines ?? []} />
+        <button
+          type="button"
+          className="btn primary sheet-action"
+          disabled={busy}
+          onClick={() => void apply()}
+        >
+          Apply
+        </button>
+      </div>
+    </Sheet>
+  );
+  return { propose, busy, sheet };
+}
 
 /** A dollar cap with a Save button; the ceiling is shown because the gate enforces it. */
 function MoneyField({ setting }: { setting: Setting }) {
-  const { change, busy } = useChangeSetting(setting);
+  const { propose: change, busy, sheet } = useProposedChange(setting);
   const [draft, setDraft] = useState(setting.value);
   return (
     <form
@@ -36,13 +88,35 @@ function MoneyField({ setting }: { setting: Setting }) {
       <button type="submit" className="btn compact" disabled={busy || draft === setting.value}>
         Save
       </button>
+      {sheet}
     </form>
   );
 }
 
 /** The control that fits the setting's kind. */
 function SettingControl({ setting }: { setting: Setting }) {
-  const { change, busy } = useChangeSetting(setting);
+  if (setting.kind === "money") return <MoneyField key={setting.value} setting={setting} />;
+  return <ChoiceControl setting={setting} />;
+}
+
+/** A switch, or a select for a level or choice. */
+function ChoiceControl({ setting }: { setting: Setting }) {
+  const { propose: change, busy, sheet } = useProposedChange(setting);
+  return (
+    <>
+      <ChoiceInput setting={setting} busy={busy} change={change} />
+      {sheet}
+    </>
+  );
+}
+
+interface ChoiceInputProps {
+  setting: Setting;
+  busy: boolean;
+  change: (value: string) => Promise<void>;
+}
+
+function ChoiceInput({ setting, busy, change }: ChoiceInputProps) {
   // A free choice between off and on, such as Desk mode, is still a switch to look at.
   const onOff = setting.kind === "choice" && setting.choices.join() === "off,on";
   switch (onOff ? "switch" : setting.kind) {
@@ -55,8 +129,6 @@ function SettingControl({ setting }: { setting: Setting }) {
           onChange={(next) => void change(next ? "on" : "off")}
         />
       );
-    case "money":
-      return <MoneyField key={setting.value} setting={setting} />;
     default:
       return (
         <select

@@ -12,6 +12,7 @@ from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock import setting_rules
 from control_center.backends.mock.fixtures import operations
 from control_center.backends.mock.fixtures import settings as settings_fixtures
+from control_center.backends.mock.gate_accounts import AccountsControls
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
 from control_center.backends.mock.gate_ops import OpsControls
@@ -43,14 +44,20 @@ APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 
 
 class MockApprovalGate(
-    DecisionLedger, GateControls, PeopleDesk, ShellControls, SetupSecrets, OpsControls
+    DecisionLedger,
+    GateControls,
+    PeopleDesk,
+    ShellControls,
+    SetupSecrets,
+    OpsControls,
+    AccountsControls,
 ):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 
     Approvals, settings and the kill switch are here. Critical decisions are in `DecisionLedger`,
     contacts and principals in `PeopleDesk`, the controls over employees and machinery in
-    `GateControls`, alerts and the Ark drive in
-    `ShellControls`, and the step-up in `StepUpDesk`.
+    `GateControls`, alerts and the Ark drive in `ShellControls`, Connections, Voice, Security and
+    export in `AccountsControls`, and the step-up in `StepUpDesk`.
     """
 
     # Approvals -----------------------------------------------------------------------------

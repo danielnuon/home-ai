@@ -1,9 +1,9 @@
-"""Schedule, Security, Backups, Maintenance, Connections and Voice fixtures."""
+"""Schedule, Security, Backups and Maintenance fixtures."""
 
 import re
 
-from control_center.contract.common import Metric, Row, RowGroup, StatusLabel
-from control_center.contract.status import Finding, Job, MaintenanceFix, VoiceProfile
+from control_center.contract.common import Metric, Row, StatusLabel
+from control_center.contract.status import Finding, Job, MaintenanceFix
 
 
 def _ok(label: str) -> StatusLabel:
@@ -83,13 +83,13 @@ def jobs() -> list[Job]:
     ]
 
 
-def security_tiles() -> list[Metric]:
-    """Counters on the Security page."""
+def security_tiles(allowlisted: int = 3) -> list[Metric]:
+    """Counters on the Security page; the allowlist count follows Contacts."""
     return [
         Metric(name="Denied tool calls, 7 d", value="4", status=_neutral("All by policy")),
         Metric(name="Flagged requests, 7 d", value="1", status=_attention("Review")),
         Metric(name="Data to cloud", value="0 B", status=_ok("All local")),
-        Metric(name="Allowlist", value="3", status=_neutral("Contacts")),
+        Metric(name="Allowlist", value=str(allowlisted), status=_neutral("Contacts")),
     ]
 
 
@@ -102,16 +102,6 @@ def security_flags() -> list[Row]:
             meta="From an email · Sieve's reader · no agent acted on it",
             status=_attention("Flagged"),
         )
-    ]
-
-
-def sign_in_rows() -> list[Row]:
-    """Step-up methods and sessions."""
-    return [
-        Row(id="passkeys", title="Passkeys", meta="iPhone · security key"),
-        Row(id="totp", title="Discord authenticator", meta="Enrolled · last used today"),
-        Row(id="sessions", title="Active sessions", meta="iPhone, iPad, Mac"),
-        Row(id="recovery", title="Recovery codes", meta="Printed Oct 24"),
     ]
 
 
@@ -286,131 +276,4 @@ def findings() -> list[Finding]:
             ),
             evidence=["jscpd: 3 clones, 31 lines", "lease_reminders/{dates,import_csv,notices}.py"],
         ),
-    ]
-
-
-def connection_groups() -> list[RowGroup]:
-    """Connections by kind, from the design."""
-    return [
-        RowGroup(
-            name="This Mac's apps",
-            note="Spec 20.16",
-            rows=[
-                Row(
-                    id="calendar",
-                    title="Calendar",
-                    meta="All calendars · write own events",
-                    status=_ok("Allowed"),
-                ),
-                Row(
-                    id="reminders",
-                    title="Reminders",
-                    meta='Mirror list "Platform"',
-                    status=_ok("Allowed"),
-                ),
-                Row(
-                    id="mail",
-                    title="Mail",
-                    meta="3 accounts · drafts only · send off",
-                    status=_ok("Allowed"),
-                ),
-                Row(id="contacts", title="Contacts", meta="Read", status=_attention("Waiting")),
-                Row(
-                    id="messages",
-                    title="Messages",
-                    meta="Send off · read off",
-                    status=_neutral("Off"),
-                ),
-            ],
-        ),
-        RowGroup(
-            name="Accounts by person",
-            note="3 principals",
-            rows=[
-                Row(
-                    id="acct-owner",
-                    title="You",
-                    meta="iCloud mail, Google calendar",
-                    status=_ok("2 accounts"),
-                ),
-                Row(
-                    id="acct-mom",
-                    title="Mom",
-                    meta="IMAP mailbox · app password",
-                    status=_ok("1 account"),
-                ),
-                Row(
-                    id="acct-dad",
-                    title="Dad",
-                    meta='Calendar "Dad" on this Mac',
-                    status=_ok("1 mapping"),
-                ),
-            ],
-        ),
-        RowGroup(
-            name="Platform links",
-            note="Free",
-            rows=[
-                Row(
-                    id="tailscale",
-                    title="Tailscale",
-                    meta="Personal plan · 3 Owner devices",
-                    status=_ok("Connected"),
-                ),
-                Row(
-                    id="heartbeat",
-                    title="Heartbeat monitor",
-                    meta="Healthchecks.io",
-                    status=_ok("Reporting"),
-                ),
-                Row(
-                    id="discord",
-                    title="Discord bots",
-                    meta="Assistant and Gatekeeper",
-                    href="/setup",
-                    status=_neutral("Deferred"),
-                ),
-                Row(
-                    id="huggingface",
-                    title="Hugging Face",
-                    meta="Model downloads only",
-                    status=_ok("Ready"),
-                ),
-            ],
-        ),
-    ]
-
-
-def voice_profiles(selected: str, celebrity_clones: bool) -> list[VoiceProfile]:
-    """Voice profiles (spec 11.5.1). The celebrity profile is locked while its setting is off."""
-    rows = [
-        (
-            "twilio_default",
-            "Twilio default",
-            "default",
-            "Twilio's own voice · used whenever a clip is missing",
-        ),
-        ("heart", "Heart", "stock", "Kokoro-82M · free · 4 clips"),
-        ("michael", "Michael", "stock", "Kokoro-82M · free · 4 clips"),
-        ("my_voice", "My voice", "consented_clone", "Chatterbox · your voice · watermarked"),
-        ("mom", "Mom", "consented_clone", "Chatterbox · consent recorded Oct 27 · watermarked"),
-        (
-            "public_figure",
-            "[Public figure]",
-            "celebrity_clone",
-            "Private celebrity clone · calls to you only",
-        ),
-    ]
-    return [
-        VoiceProfile.model_validate(
-            {
-                "id": profile_id,
-                "name": name,
-                "kind": kind,
-                "meta": meta,
-                "selected": profile_id == selected,
-                "locked": kind == "celebrity_clone" and not celebrity_clones,
-            }
-        )
-        for profile_id, name, kind, meta in rows
     ]
