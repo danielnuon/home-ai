@@ -3,8 +3,9 @@
  * the reply controls (stop, edit, regenerate, switch, branch). A port of `backends/mock/chat.py`
  * and `chat_tree.py` (spec 15.8.9, 15.9.8).
  */
-import type { ChatLead, ChatMessage, ChatThread, Thread } from "../api/types";
+import type { ChatLead, ChatMessage, ChatThread, MemoryNote, Thread } from "../api/types";
 import { conflict, notFound } from "./errors";
+import { askedToRemember, learn, recall, remember } from "./memory";
 import { THREAD_PAGES, threads } from "./work";
 import type { MockWorld } from "./world";
 
@@ -155,6 +156,8 @@ function blank(world: MockWorld, leadId: string, threadId: string, parent: strin
     stopped: false,
     branch: 1,
     sibling_ids: [],
+    memory_used: [],
+    memory_notes: [],
   };
 }
 
@@ -191,17 +194,26 @@ function halt(world: MockWorld, threadId: string): boolean {
   return true;
 }
 
+/** What a turn did with memory: the items the reply used, and what it saved or learned. */
+interface TurnMemory {
+  used: ChatMessage["memory_used"];
+  notes: MemoryNote[];
+}
+
 function startReply(
   world: MockWorld,
   ids: { lead: string; thread: string },
   parent: string,
   template: string,
+  memory: TurnMemory = { used: [], notes: [] },
 ): void {
   const message: ChatMessage = {
     ...blank(world, ids.lead, ids.thread, parent),
     author: "lead",
     note: "Mock chat · nothing sent anywhere",
     streaming: true,
+    memory_used: memory.used,
+    memory_notes: memory.notes,
   };
   (world.chats[ids.thread] ??= []).push(message);
   world.chat_heads[ids.thread] = message.id;
@@ -240,7 +252,13 @@ export function chatSend(
   halt(world, threadId);
   const ids = { lead: id, thread: threadId };
   const owner = addOwnerMessage(world, ids, text, world.chat_heads[threadId] ?? null);
-  startReply(world, ids, owner, world.fixtures.mock_reply);
+  const record = world.threads[threadId];
+  if (!record) throw notFound("That thread doesn't exist.");
+  const asked = askedToRemember(text);
+  const notes = asked === null ? learn(world, text, record) : [remember(world, asked, record)];
+  const template = asked === null ? world.fixtures.mock_reply : said(notes[0]);
+  const used = recall(world, text, id, record);
+  startReply(world, ids, owner, template, { used, notes });
   return chatThread(world, id, threadId);
 }
 
@@ -338,6 +356,31 @@ export function chatLearning(
   }
   record.learning = learning;
   world.bus.changed(...THREAD_PAGES);
+  return chatThread(world, ids.lead, ids.thread);
+}
+
+/** The lead's one-line answer to "remember …" (15.9.3). */
+function said(note: MemoryNote | undefined): string {
+  if (!note) return "";
+  if (note.outcome === "updated") return `Updated: ${note.text}`;
+  if (note.outcome === "not_saved") return note.text;
+  return `Saved to memory: ${note.text}`;
+}
+
+/** Saves one of the Owner's messages to memory: the Remember action (15.9.3). */
+export function chatRemember(
+  world: MockWorld,
+  ids: { lead: string; thread: string },
+  messageId: string,
+): ChatThread {
+  const shown = shownMessage(world, ids.lead, ids.thread, messageId);
+  if (shown.author !== "owner") throw conflict("Only what you wrote can be saved to memory.");
+  const record = world.threads[ids.thread];
+  if (!record) throw notFound("That thread doesn't exist.");
+  const note = remember(world, shown.text, record);
+  if (note.outcome === "not_saved") throw conflict(note.text);
+  const stored = (world.chats[ids.thread] ?? []).find((m) => m.id === messageId);
+  if (stored) stored.memory_notes = [note];
   return chatThread(world, ids.lead, ids.thread);
 }
 

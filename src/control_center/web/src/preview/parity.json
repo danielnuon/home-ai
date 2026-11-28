@@ -9825,6 +9825,8 @@
       "branch": 1,
       "id": "M-1",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": null,
       "parent_id": null,
       "sibling_ids": [],
@@ -9840,6 +9842,8 @@
       "branch": 1,
       "id": "M-2",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": "Local model · nothing sent to the cloud",
       "parent_id": "M-1",
       "sibling_ids": [],
@@ -10085,6 +10089,8 @@
       "branch": 1,
       "id": "M-1",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": null,
       "parent_id": null,
       "sibling_ids": [],
@@ -10100,6 +10106,8 @@
       "branch": 1,
       "id": "M-2",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": "Local model · nothing sent to the cloud",
       "parent_id": "M-1",
       "sibling_ids": [],
@@ -10331,6 +10339,8 @@
       "branch": 1,
       "id": "M-id14",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": null,
       "parent_id": null,
       "sibling_ids": [],
@@ -10571,6 +10581,8 @@
       "branch": 1,
       "id": "M-1",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": null,
       "parent_id": null,
       "sibling_ids": [],
@@ -10586,6 +10598,8 @@
       "branch": 1,
       "id": "M-2",
       "lead_id": "atlas",
+      "memory_notes": [],
+      "memory_used": [],
       "note": "Local model · nothing sent to the cloud",
       "parent_id": "M-1",
       "sibling_ids": [],
@@ -10749,6 +10763,1932 @@
    "step_up": null
   },
   {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-1/remember",
+   "response": {
+    "error": "conflict",
+    "reason": "Not saved: restricted notes arrive with the restricted domains."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-2/remember",
+   "response": {
+    "error": "conflict",
+    "reason": "Only what you wrote can be saved to memory."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/memory",
+   "response": {
+    "forgotten": [],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The car is serviced at Midtown Auto.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-4",
+      "kind": "note",
+      "last_used": "2026-10-22T16:00:00Z",
+      "lead_id": "custodian",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-13T16:00:00Z",
+      "scope": "lead",
+      "scope_label": "Custodian only",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Keep the weekly maintenance report short.",
+      "use_count": 2
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "midtown auto services the car"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/memory/MEM-3",
+   "response": {
+    "forgotten": [],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-4",
+      "kind": "note",
+      "last_used": "2026-10-22T16:00:00Z",
+      "lead_id": "custodian",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-13T16:00:00Z",
+      "scope": "lead",
+      "scope_label": "Custodian only",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Keep the weekly maintenance report short.",
+      "use_count": 2
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Auto-pay the garage"
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/memory/MEM-3",
+   "response": {
+    "error": "conflict",
+    "reason": "Not saved: a note can't approve, send or pay for anything. Set an approval rule in Settings instead."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "pinned": true
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/memory/MEM-3",
+   "response": {
+    "forgotten": [],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-4",
+      "kind": "note",
+      "last_used": "2026-10-22T16:00:00Z",
+      "lead_id": "custodian",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-13T16:00:00Z",
+      "scope": "lead",
+      "scope_label": "Custodian only",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Keep the weekly maintenance report short.",
+      "use_count": 2
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "pinned": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/memory/MEM-8",
+   "response": {
+    "error": "conflict",
+    "reason": "Only a note in use can be changed. Confirm it first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "pinned": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/memory/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That note isn't in memory."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/memory/MEM-3/forget",
+   "response": {
+    "forgotten": [
+     {
+      "id": "MEM-3",
+      "text": "Midtown auto services the car.",
+      "undo_until": "2026-10-25T16:10:09Z"
+     }
+    ],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-4",
+      "kind": "note",
+      "last_used": "2026-10-22T16:00:00Z",
+      "lead_id": "custodian",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-13T16:00:00Z",
+      "scope": "lead",
+      "scope_label": "Custodian only",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Keep the weekly maintenance report short.",
+      "use_count": 2
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/memory/MEM-3/restore",
+   "response": {
+    "forgotten": [],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-4",
+      "kind": "note",
+      "last_used": "2026-10-22T16:00:00Z",
+      "lead_id": "custodian",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-13T16:00:00Z",
+      "scope": "lead",
+      "scope_label": "Custodian only",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Keep the weekly maintenance report short.",
+      "use_count": 2
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/memory/MEM-3/restore",
+   "response": {
+    "error": "conflict",
+    "reason": "That note can't be brought back any more."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/memory/MEM-4/forget",
+   "response": {
+    "forgotten": [
+     {
+      "id": "MEM-4",
+      "text": "Keep the weekly maintenance report short.",
+      "undo_until": "2026-10-25T16:10:09Z"
+     }
+    ],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "proposed",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/memory/MEM-7/confirm",
+   "response": {
+    "forgotten": [
+     {
+      "id": "MEM-4",
+      "text": "Keep the weekly maintenance report short.",
+      "undo_until": "2026-10-25T16:10:09Z"
+     }
+    ],
+    "items": [
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "confirmed",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/memory/MEM-7/dismiss",
+   "response": {
+    "error": "conflict",
+    "reason": "That note isn't waiting for you."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "the neighbour's dog"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory"
+      ]
+     }
+    },
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/memory",
+   "response": {
+    "forgotten": [
+     {
+      "id": "MEM-4",
+      "text": "Keep the weekly maintenance report short.",
+      "undo_until": "2026-10-25T16:10:09Z"
+     }
+    ],
+    "items": [
+     {
+      "how": "said",
+      "id": "MEM-id15",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T16:00:09Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "The neighbour's dog.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "confirmed",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": false,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "kind": "note",
+    "text": "My PIN is 1234"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/memory",
+   "response": {
+    "error": "conflict",
+    "reason": "Not saved: codes, passwords and account numbers are never kept in memory."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": true
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "memory",
+       "chat"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/memory/paused",
+   "response": {
+    "forgotten": [
+     {
+      "id": "MEM-4",
+      "text": "Keep the weekly maintenance report short.",
+      "undo_until": "2026-10-25T16:10:09Z"
+     }
+    ],
+    "items": [
+     {
+      "how": "said",
+      "id": "MEM-id15",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T16:00:09Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "The neighbour's dog.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "confirmed",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": true,
+    "pinned_max": 10
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
    "body": {
     "page": "/",
     "question": " "
@@ -10773,7 +12713,7 @@
    "path": "/guide/ask",
    "response": {
     "answer": "Today shows whether everything is all right and what needs you. Tiles are colored by status, and anything waiting on you is under Needs you.",
-    "id": "GA-id15",
+    "id": "GA-id16",
     "page": "/",
     "question": "What is this?",
     "sources": [
@@ -10797,7 +12737,7 @@
    "path": "/guide/ask",
    "response": {
     "answer": "About INFRASTRUCTURE.md: Docs are the platform's own documentation. Open one to read it, ask me about it, or request a change, which becomes a work item.",
-    "id": "GA-id16",
+    "id": "GA-id17",
     "page": "/docs/infra",
     "question": "Why?",
     "sources": [
@@ -10820,7 +12760,7 @@
    "path": "/guide/ask",
    "response": {
     "answer": "Your home policy renews Dec 14. Dad's Medicare plan review is a case due Dec 7. The insurer call is today at 09:30.",
-    "id": "GA-id17",
+    "id": "GA-id18",
     "page": "/x",
     "question": "When is insurance?",
     "sources": []
@@ -10860,8 +12800,8 @@
    "method": "POST",
    "path": "/docs/infra/change-requests",
    "response": {
-    "message": "Requested. WI-id18 is on Work.",
-    "work_item_id": "WI-id18"
+    "message": "Requested. WI-id19 is on Work.",
+    "work_item_id": "WI-id19"
    },
    "status": 200,
    "step_up": null
@@ -11530,22 +13470,22 @@
    "method": "POST",
    "path": "/step-up/challenge",
    "response": {
-    "challenge": "id19"
+    "challenge": "id20"
    },
    "status": 200,
    "step_up": null
   },
   {
    "body": {
-    "assertion": "virtual:id19",
-    "challenge": "id19"
+    "assertion": "virtual:id20",
+    "challenge": "id20"
    },
    "events": [],
    "method": "POST",
    "path": "/step-up/verify",
    "response": {
     "expires_at": "2026-10-25T16:02:09Z",
-    "proof": "id20"
+    "proof": "id21"
    },
    "status": 200,
    "step_up": null
@@ -11592,7 +13532,7 @@
     "value": "on"
    },
    "status": 200,
-   "step_up": "id20"
+   "step_up": "id21"
   },
   {
    "body": null,
@@ -11600,22 +13540,22 @@
    "method": "POST",
    "path": "/step-up/challenge",
    "response": {
-    "challenge": "id21"
+    "challenge": "id22"
    },
    "status": 200,
    "step_up": null
   },
   {
    "body": {
-    "assertion": "virtual:id21",
-    "challenge": "id21"
+    "assertion": "virtual:id22",
+    "challenge": "id22"
    },
    "events": [],
    "method": "POST",
    "path": "/step-up/verify",
    "response": {
     "expires_at": "2026-10-25T16:02:09Z",
-    "proof": "id22"
+    "proof": "id23"
    },
    "status": 200,
    "step_up": null
@@ -11662,7 +13602,7 @@
     "value": "on"
    },
    "status": 200,
-   "step_up": "id22"
+   "step_up": "id23"
   },
   {
    "body": null,
@@ -12069,22 +14009,22 @@
    "method": "POST",
    "path": "/step-up/challenge",
    "response": {
-    "challenge": "id23"
+    "challenge": "id24"
    },
    "status": 200,
    "step_up": null
   },
   {
    "body": {
-    "assertion": "virtual:id23",
-    "challenge": "id23"
+    "assertion": "virtual:id24",
+    "challenge": "id24"
    },
    "events": [],
    "method": "POST",
    "path": "/step-up/verify",
    "response": {
     "expires_at": "2026-10-25T16:02:09Z",
-    "proof": "id24"
+    "proof": "id25"
    },
    "status": 200,
    "step_up": null
@@ -12100,7 +14040,7 @@
     "message": "Writing Survive to ARK-1. You'll get a notice when it's done."
    },
    "status": 200,
-   "step_up": "id24"
+   "step_up": "id25"
   },
   {
    "body": {
@@ -12190,13 +14130,13 @@
    "method": "POST",
    "path": "/ideas",
    "response": {
-    "id": "ID-id25",
+    "id": "ID-id26",
     "lead": "Spark",
     "paused": false,
     "priority": "normal",
     "state": "Captured",
     "summary": "x",
-    "thread_id": "TH-id25",
+    "thread_id": "TH-id26",
     "title": "Pantry tracker",
     "withdrawn": false
    },
@@ -12339,13 +14279,13 @@
       "withdrawn": false
      },
      {
-      "id": "ID-id25",
+      "id": "ID-id26",
       "lead": "Spark",
       "paused": false,
       "priority": "normal",
       "state": "Captured",
       "summary": "x",
-      "thread_id": "TH-id25",
+      "thread_id": "TH-id26",
       "title": "Pantry tracker",
       "withdrawn": false
      },
@@ -12517,7 +14457,7 @@
       "employee_name": "Wayfinder",
       "employee_state": "thinking",
       "eta": "Routed within a few minutes",
-      "id": "WI-id18",
+      "id": "WI-id19",
       "kind": "build",
       "now": "Wayfinder is routing your request: Add a step.",
       "paused": false,
@@ -12888,7 +14828,7 @@
        "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since today",
-       "id": "TH-id25",
+       "id": "TH-id26",
        "kind": "idea",
        "lead_department": "ideation",
        "lead_id": "spark",
@@ -12900,7 +14840,7 @@
        "state": "idle",
        "temporary_until": null,
        "title": "Pantry tracker",
-       "unit_id": "ID-id25"
+       "unit_id": "ID-id26"
       }
      ],
      "recently_resolved": [
@@ -13065,13 +15005,13 @@
       "withdrawn": false
      },
      {
-      "id": "ID-id25",
+      "id": "ID-id26",
       "lead": "Spark",
       "paused": false,
       "priority": "normal",
       "state": "Captured",
       "summary": "x",
-      "thread_id": "TH-id25",
+      "thread_id": "TH-id26",
       "title": "Pantry tracker",
       "withdrawn": false
      },
@@ -13243,7 +15183,7 @@
       "employee_name": "Wayfinder",
       "employee_state": "thinking",
       "eta": "Routed within a few minutes",
-      "id": "WI-id18",
+      "id": "WI-id19",
       "kind": "build",
       "now": "Wayfinder is routing your request: Add a step.",
       "paused": false,
@@ -13595,7 +15535,7 @@
        "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since today",
-       "id": "TH-id25",
+       "id": "TH-id26",
        "kind": "idea",
        "lead_department": "ideation",
        "lead_id": "spark",
@@ -13607,7 +15547,7 @@
        "state": "idle",
        "temporary_until": null,
        "title": "Pantry tracker",
-       "unit_id": "ID-id25"
+       "unit_id": "ID-id26"
       }
      ],
      "recently_resolved": [
@@ -13936,13 +15876,13 @@
       "withdrawn": false
      },
      {
-      "id": "ID-id25",
+      "id": "ID-id26",
       "lead": "Spark",
       "paused": false,
       "priority": "normal",
       "state": "Captured",
       "summary": "x",
-      "thread_id": "TH-id25",
+      "thread_id": "TH-id26",
       "title": "Pantry tracker",
       "withdrawn": false
      },
@@ -14045,7 +15985,7 @@
       "employee_name": "Wayfinder",
       "employee_state": "thinking",
       "eta": "Routed within a few minutes",
-      "id": "WI-id18",
+      "id": "WI-id19",
       "kind": "build",
       "now": "Wayfinder is routing your request: Add a step.",
       "paused": false,
@@ -14485,7 +16425,7 @@
        "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since today",
-       "id": "TH-id25",
+       "id": "TH-id26",
        "kind": "idea",
        "lead_department": "ideation",
        "lead_id": "spark",
@@ -14497,7 +16437,7 @@
        "state": "idle",
        "temporary_until": null,
        "title": "Pantry tracker",
-       "unit_id": "ID-id25"
+       "unit_id": "ID-id26"
       }
      ],
      "recently_resolved": [
@@ -14856,7 +16796,7 @@
     "employee_name": "Foreman",
     "employee_state": "waiting",
     "eta": "Waits for your approval",
-    "id": "WI-id26",
+    "id": "WI-id27",
     "kind": "retirement",
     "now": "Foreman needs your yes to retire it",
     "paused": false,
@@ -14915,7 +16855,7 @@
      "label": "Requirements · Needs you at G1",
      "status": "attention"
     },
-    "thread_id": "TH-id26",
+    "thread_id": "TH-id27",
     "title": "Retire Rent ledger",
     "waiting_on_owner": true
    },
@@ -14965,13 +16905,13 @@
       "withdrawn": false
      },
      {
-      "id": "ID-id25",
+      "id": "ID-id26",
       "lead": "Spark",
       "paused": false,
       "priority": "normal",
       "state": "Captured",
       "summary": "x",
-      "thread_id": "TH-id25",
+      "thread_id": "TH-id26",
       "title": "Pantry tracker",
       "withdrawn": false
      },
@@ -15074,7 +17014,7 @@
       "employee_name": "Wayfinder",
       "employee_state": "thinking",
       "eta": "Routed within a few minutes",
-      "id": "WI-id18",
+      "id": "WI-id19",
       "kind": "build",
       "now": "Wayfinder is routing your request: Add a step.",
       "paused": false,
@@ -15143,7 +17083,7 @@
       "employee_name": "Foreman",
       "employee_state": "waiting",
       "eta": "Waits for your approval",
-      "id": "WI-id26",
+      "id": "WI-id27",
       "kind": "retirement",
       "now": "Foreman needs your yes to retire it",
       "paused": false,
@@ -15202,7 +17142,7 @@
        "label": "Requirements · Needs you at G1",
        "status": "attention"
       },
-      "thread_id": "TH-id26",
+      "thread_id": "TH-id27",
       "title": "Retire Rent ledger",
       "waiting_on_owner": true
      },
@@ -15446,11 +17386,11 @@
        "unit_id": null
       },
       {
-       "approval_id": "AP-id26",
+       "approval_id": "AP-id27",
        "branched_from": null,
        "closing_summary": null,
        "detail": "An approval is waiting for you.",
-       "id": "TH-id26",
+       "id": "TH-id27",
        "kind": "work_item",
        "lead_department": "governance",
        "lead_id": "foreman",
@@ -15462,7 +17402,7 @@
        "state": "needs_owner",
        "temporary_until": null,
        "title": "Retire Rent ledger",
-       "unit_id": "WI-id26"
+       "unit_id": "WI-id27"
       },
       {
        "approval_id": null,
@@ -15602,7 +17542,7 @@
        "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since today",
-       "id": "TH-id25",
+       "id": "TH-id26",
        "kind": "idea",
        "lead_department": "ideation",
        "lead_id": "spark",
@@ -15614,7 +17554,7 @@
        "state": "idle",
        "temporary_until": null,
        "title": "Pantry tracker",
-       "unit_id": "ID-id25"
+       "unit_id": "ID-id26"
       }
      ],
      "recently_resolved": [
@@ -15751,7 +17691,7 @@
      "draft": null,
      "employee_name": "Foreman",
      "expires_at": null,
-     "id": "AP-id26",
+     "id": "AP-id27",
      "needs_step_up": false,
      "principal": "Owner",
      "recipient": null,
@@ -15962,7 +17902,7 @@
    "method": "POST",
    "path": "/directory/role-suggestions",
    "response": {
-    "id": "LP-id27",
+    "id": "LP-id28",
     "source": "Your suggestion · Cadence reviews it at the next monthly review",
     "state": "open",
     "text": "New role: Gardener. Someone should own the yard."
@@ -16229,7 +18169,7 @@
       "text": "Disable Logistix: 2 tasks in 30 days, low impact. Spark would cover operations questions."
      },
      {
-      "id": "LP-id27",
+      "id": "LP-id28",
       "source": "Your suggestion · Cadence reviews it at the next monthly review",
       "state": "open",
       "text": "New role: Gardener. Someone should own the yard."
@@ -16768,7 +18708,7 @@
      "draft": null,
      "employee_name": "Foreman",
      "expires_at": null,
-     "id": "AP-id26",
+     "id": "AP-id27",
      "needs_step_up": false,
      "principal": "Owner",
      "recipient": null,
@@ -16823,6 +18763,201 @@
      "undo_until": "2026-10-25T16:00:08Z"
     }
    ],
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/memory",
+   "response": {
+    "forgotten": [],
+    "items": [
+     {
+      "how": "said",
+      "id": "MEM-id15",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T16:00:09Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "The neighbour's dog.",
+      "use_count": 0
+     },
+     {
+      "how": "learned",
+      "id": "MEM-2",
+      "kind": "note",
+      "last_used": "2026-10-25T11:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer morning appointments.",
+      "use_count": 1
+     },
+     {
+      "how": "learned",
+      "id": "MEM-3",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-10-25T11:00:00Z",
+      "scope": "domain",
+      "scope_label": "Home and auto",
+      "source": null,
+      "source_lead_id": "atlas",
+      "source_thread_id": "TH-0207",
+      "source_thread_title": "Book the oil change",
+      "status": "active",
+      "superseded_by": null,
+      "text": "Midtown auto services the car.",
+      "use_count": 0
+     },
+     {
+      "how": "confirmed",
+      "id": "MEM-7",
+      "kind": "note",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-23T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": "from an email from the airline",
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer an aisle seat on flights.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-9",
+      "kind": "note",
+      "last_used": "2026-10-24T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-19T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "I prefer calls before noon.",
+      "use_count": 3
+     },
+     {
+      "how": "said",
+      "id": "MEM-5",
+      "kind": "note",
+      "last_used": "2026-10-23T16:00:00Z",
+      "lead_id": "foreman",
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-16T16:00:00Z",
+      "scope": "product",
+      "scope_label": "Lease Reminders",
+      "source": null,
+      "source_lead_id": "foreman",
+      "source_thread_id": "TH-0127",
+      "source_thread_title": "Lease Reminders 1.1",
+      "status": "active",
+      "superseded_by": null,
+      "text": "The lease reminders tool must work offline.",
+      "use_count": 4
+     },
+     {
+      "how": "said",
+      "id": "MEM-6",
+      "kind": "avoid",
+      "last_used": null,
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-10-05T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Don't bring up the old gym membership.",
+      "use_count": 0
+     },
+     {
+      "how": "said",
+      "id": "MEM-8",
+      "kind": "note",
+      "last_used": "2026-10-19T16:00:00Z",
+      "lead_id": null,
+      "pinned": false,
+      "principal": "owner",
+      "saved_at": "2026-09-25T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "superseded",
+      "superseded_by": "MEM-9",
+      "text": "I prefer evening calls.",
+      "use_count": 7
+     },
+     {
+      "how": "said",
+      "id": "MEM-1",
+      "kind": "note",
+      "last_used": "2026-10-25T15:00:00Z",
+      "lead_id": null,
+      "pinned": true,
+      "principal": "owner",
+      "saved_at": "2026-09-15T16:00:00Z",
+      "scope": "owner",
+      "scope_label": "Everyone",
+      "source": null,
+      "source_lead_id": null,
+      "source_thread_id": null,
+      "source_thread_title": null,
+      "status": "active",
+      "superseded_by": null,
+      "text": "Call me Danny.",
+      "use_count": 58
+     }
+    ],
+    "paused": true,
+    "pinned_max": 10
+   },
    "status": 200,
    "step_up": null
   },
@@ -17231,7 +19366,7 @@
       "draft": null,
       "employee_name": "Foreman",
       "expires_at": null,
-      "id": "AP-id26",
+      "id": "AP-id27",
       "needs_step_up": false,
       "principal": "Owner",
       "recipient": null,

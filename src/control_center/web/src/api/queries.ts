@@ -78,6 +78,8 @@ export const useConnections = () =>
 export const useVoice = () => useResource<T.VoiceOverview>(["voice"], "/voice");
 /** Docs page. */
 export const useDocs = () => useResource<T.DocsOverview>(["docs"], "/docs");
+/** The Memory view: every saved note (spec 15.9.7). */
+export const useMemory = () => useResource<T.MemoryOverview>(["memory"], "/memory");
 /** Chat with a lead: its threads, and one thread's messages (`null` for a new chat). */
 export const useChat = (leadId: string, threadId: string | null) =>
   useResource<T.ChatThread>(

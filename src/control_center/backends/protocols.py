@@ -33,6 +33,7 @@ from control_center.contract.gate import (
     SettingsIndex,
     StepUpProof,
 )
+from control_center.contract.memory import MemoryKind, MemoryOverview
 from control_center.contract.personal import (
     Case,
     CaseAction,
@@ -474,6 +475,46 @@ class LeadChat(Protocol):
         """End the reply being written at once."""
         ...
 
+    def remember(self, lead_id: str, thread_id: str, message_id: str) -> ChatThread:
+        """Save one of the Owner's messages to memory: the Remember action (spec 15.9.3)."""
+        ...
+
+
+class ChatMemory(Protocol):
+    """The Owner's saved notes and the Memory view (spec 15.9.7)."""
+
+    def overview(self) -> MemoryOverview:
+        """Every item, whether memory is paused, and the forgets that can still be undone."""
+        ...
+
+    def add(self, text: str, kind: MemoryKind = "avoid") -> MemoryOverview:
+        """Add a note in the view, most often "don't bring this up"."""
+        ...
+
+    def edit(self, item_id: str, text: str | None, pinned: bool | None) -> MemoryOverview:
+        """Change an item's text, or pin or unpin it."""
+        ...
+
+    def forget(self, item_id: str) -> MemoryOverview:
+        """Forget an item; it can be brought back for ten minutes."""
+        ...
+
+    def restore(self, item_id: str) -> MemoryOverview:
+        """Undo a forget while it can still be undone."""
+        ...
+
+    def confirm(self, item_id: str) -> MemoryOverview:
+        """Confirm a proposed item."""
+        ...
+
+    def dismiss(self, item_id: str) -> MemoryOverview:
+        """Turn down a proposed item."""
+        ...
+
+    def set_paused(self, paused: bool) -> MemoryOverview:
+        """Pause or resume memory."""
+        ...
+
 
 @dataclass(frozen=True)
 class Backends:
@@ -483,4 +524,5 @@ class Backends:
     engine: PipelineEngine
     status: StatusAggregator
     chat: LeadChat
+    memory: ChatMemory
     bus: EventBus

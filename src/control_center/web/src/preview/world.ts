@@ -14,6 +14,7 @@ import type {
   ChatLead,
   ChatMessage,
   Contact,
+  MemoryItem,
   CriticalDecision,
   Employee,
   Job,
@@ -80,6 +81,9 @@ interface WorldState {
   trash: Record<string, Schemas["TrashItem"]>;
   stopped: boolean;
   maintenance_running: boolean;
+  /** The Owner's saved notes (15.9.2), by id. */
+  memories: Record<string, MemoryItem>;
+  memory_paused: boolean;
 }
 
 /** A paid feature row: id, name, kind, switch setting, cap setting (`platform.PAID_FEATURES`). */
@@ -154,6 +158,11 @@ interface Constants {
   word_delay_seconds: number;
   title_words: number;
   temporary_retain_hours: number;
+  pinned_max: number;
+  forget_undo_seconds: number;
+  items_per_turn: number;
+  item_max_chars: number;
+  max_learned_per_turn: number;
   instrument_count: number;
   needs_you_shown: number;
   team_shown: number;
@@ -208,6 +217,8 @@ export interface MockWorld extends WorldState {
   samples: number;
   stepUpChallenges: Set<string>;
   stepUpProofs: Map<string, Date>;
+  /** Items forgotten in the last ten minutes, with when their undo runs out (15.9.7). */
+  memoryForgotten: Map<string, { item: MemoryItem; until: Date }>;
   /** What each trash item held when it was deleted, for its restorer (`shell.sendToTrash`). */
   trashed: Map<string, unknown>;
 }
@@ -240,6 +251,7 @@ export function buildWorld(bus: Bus, clock: () => Date, ids: IdSource = randomId
     samples: 0,
     stepUpChallenges: new Set(),
     stepUpProofs: new Map(),
+    memoryForgotten: new Map(),
     trashed: new Map(),
   };
 }
