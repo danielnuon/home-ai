@@ -18,6 +18,7 @@ from control_center.contract.gate import Approval
 from control_center.contract.work import (
     Idea,
     IdeaDraft,
+    LeadRef,
     LifecycleProposal,
     Priority,
     Product,
@@ -87,6 +88,10 @@ class BoardDesk(WorkDesk):
                 in_progress=sum(_current_stage(i) in work.WIP_STAGES for i in items),
                 limit=work.WIP_GLOBAL,
             ),
+            leads=[
+                LeadRef(id=lead_id, name=name, department=department, pipeline=pipeline)
+                for lead_id, (name, department, pipeline) in LEADS.items()
+            ],
         )
 
     def _shown_product(self, product: Product) -> Product:

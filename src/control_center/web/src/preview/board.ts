@@ -53,10 +53,17 @@ export function workBoard(world: MockWorld): WorkBoard {
     reviews: world.fixtures.reviews,
     products: Object.values(world.products).map((p) => shownProduct(world, p)),
     wip: {
-      in_progress: items.filter((i) => world.constants.wip_stages.includes(currentStage(i)))
-        .length,
+      in_progress: items.filter((i) => world.constants.wip_stages.includes(currentStage(i))).length,
       limit: world.constants.wip_global,
     },
+    leads: Object.entries(world.fixtures.thread_leads).map(
+      ([id, [name, department, pipeline]]) => ({
+        id,
+        name,
+        department,
+        pipeline,
+      }),
+    ),
   };
 }
 
@@ -80,15 +87,19 @@ function leadOf(world: MockWorld, leadId: string) {
   return { name, department, pipeline };
 }
 
+interface NewRecord {
+  id: string;
+  title: string;
+  leadId: string;
+  kind: Thread["kind"];
+  unitId: string;
+  approvalId?: string | null;
+}
+
 /** A new thread record with nothing recorded about it yet. */
 function newRecord(
   world: MockWorld,
-  id: string,
-  title: string,
-  leadId: string,
-  kind: Thread["kind"],
-  unitId: string,
-  approvalId: string | null = null,
+  { id, title, leadId, kind, unitId, approvalId = null }: NewRecord,
 ) {
   const lead = leadOf(world, leadId);
   world.threads[id] = {
@@ -132,7 +143,7 @@ export function submitIdea(world: MockWorld, title: string, summary: string): Id
     withdrawn: false,
     thread_id: `TH-${token}`,
   };
-  newRecord(world, `TH-${token}`, trimmed, leadId, "idea", idea.id);
+  newRecord(world, { id: `TH-${token}`, title: trimmed, leadId, kind: "idea", unitId: idea.id });
   world.ideas = { [idea.id]: idea, ...world.ideas };
   world.bus.changed(...THREAD_PAGES);
   return idea;
@@ -258,6 +269,31 @@ export function itemDetail(world: MockWorld, id: string): Schemas["WorkItemDetai
 
 // Products --------------------------------------------------------------------------------------
 
+/** The retirement's approval card (class P): nothing stops until the Owner approves it. */
+function retirementCard(world: MockWorld, id: string, title: string): Schemas["Approval"] {
+  return {
+    id,
+    title,
+    employee_name: "Foreman",
+    department: "governance",
+    domain: "Development",
+    data_class: "internal",
+    approval_class: "P",
+    tier: null,
+    principal: "Owner",
+    recipient: null,
+    recipient_trust: null,
+    summary: world.constants.retirement_summary,
+    draft: null,
+    release: null,
+    expires_at: null,
+    needs_step_up: false,
+    state: "pending",
+    decided_note: null,
+    undo_until: null,
+  };
+}
+
 /** Asks Foreman to retire a released product: its retirement work item and approval card. */
 export function retireProduct(world: MockWorld, id: string): WorkItem {
   const product = world.products[id];
@@ -286,28 +322,15 @@ export function retireProduct(world: MockWorld, id: string): WorkItem {
     thread_id: threadId,
     kind: "retirement",
   };
-  world.approvals[approvalId] = {
-    id: approvalId,
+  world.approvals[approvalId] = retirementCard(world, approvalId, title);
+  newRecord(world, {
+    id: threadId,
     title,
-    employee_name: "Foreman",
-    department: "governance",
-    domain: "Development",
-    data_class: "internal",
-    approval_class: "P",
-    tier: null,
-    principal: "Owner",
-    recipient: null,
-    recipient_trust: null,
-    summary: world.constants.retirement_summary,
-    draft: null,
-    release: null,
-    expires_at: null,
-    needs_step_up: false,
-    state: "pending",
-    decided_note: null,
-    undo_until: null,
-  };
-  newRecord(world, threadId, title, "foreman", "work_item", item.id, approvalId);
+    leadId: "foreman",
+    kind: "work_item",
+    unitId: item.id,
+    approvalId,
+  });
   world.work_items.push(item);
   product.state = "retiring";
   world.bus.changed(...THREAD_PAGES, "approvals");

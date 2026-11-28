@@ -150,6 +150,7 @@ function derive(
   );
 }
 
+/** The record with its state derived from its own sessions and its approval card. */
 export function shownThread(world: MockWorld, record: ThreadRecord, sessions: LiveTask[]): Thread {
   const card = world.approvals[record.approval_id ?? ""];
   const pending = card !== undefined && card.state === "pending";
@@ -212,6 +213,7 @@ export function threads(world: MockWorld, includeTemporary = false): ThreadsOver
   };
 }
 
+/** The thread's record; a 404 when there is none. */
 export function threadRecord(world: MockWorld, id: string): ThreadRecord {
   const record = world.threads[id];
   if (!record) throw notFound("That thread doesn't exist.");

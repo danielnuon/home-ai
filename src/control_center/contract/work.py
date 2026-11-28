@@ -358,8 +358,20 @@ class ThreadsOverview(ContractModel):
     archived: list[Thread]
 
 
+class LeadRef(ContractModel):
+    """A lead a thread can be moved to, by its id in Chat (spec 15.8.5)."""
+
+    id: str
+    name: str
+    department: Department
+    pipeline: str
+
+
 class WorkBoard(ContractModel):
-    """The Work page: threads first, then items being built, ideas, reviews and products."""
+    """The Work page: threads first, then items being built, ideas, reviews and products.
+
+    `leads` lists every lead, for Move and the lead filter.
+    """
 
     threads: ThreadsOverview
     items: list[WorkItem]
@@ -367,6 +379,7 @@ class WorkBoard(ContractModel):
     reviews: list[ReviewRequest]
     products: list[Product]
     wip: WipCount
+    leads: list[LeadRef]
 
 
 EmployeeStatus = Literal[

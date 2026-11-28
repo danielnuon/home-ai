@@ -348,3 +348,77 @@ kbd {
   padding: var(--space-4);
   align-items: flex-start;
 }
+
+/* Filters: a pill that names its value and opens the shared menu (FilterMenu.tsx). */
+.filter-bar {
+  --gap: var(--space-2);
+}
+
+.filter-button {
+  border-radius: 999px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.filter-button[aria-pressed="true"] {
+  color: var(--accent-text);
+  border-color: var(--accent-fill);
+  background: color-mix(in srgb, var(--accent-fill) 12%, transparent);
+}
+
+/* A card title that opens the card's own page. */
+.card-link {
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-row);
+}
+
+.card-link:hover h3 {
+  color: var(--accent-text);
+}
+
+/* The review diff viewer on a work item's page. */
+.diff-file > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.diff {
+  margin: var(--space-3) 0 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  border-radius: var(--radius-row);
+  background: var(--raised);
+  padding: var(--space-2) 0;
+}
+
+.diff-line {
+  display: block;
+  padding: 0 var(--space-3);
+  white-space: pre;
+}
+
+.diff-add {
+  background: color-mix(in srgb, var(--healthy-fill) 16%, transparent);
+}
+
+.diff-remove {
+  background: color-mix(in srgb, var(--clay-fill) 14%, transparent);
+}
+
+/* An employee card: the card opens the profile; its "…" sits beside, never inside, the button. */
+.employee-open {
+  gap: var(--space-3);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-row);
+}

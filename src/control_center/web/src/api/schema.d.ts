@@ -2588,6 +2588,23 @@ export interface components {
       paused: boolean;
     };
     /**
+     * LeadRef
+     * @description A lead a thread can be moved to, by its id in Chat (spec 15.8.5).
+     */
+    LeadRef: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /**
+       * Department
+       * @enum {string}
+       */
+      department: "personal" | "engineering" | "quality" | "ideation" | "governance";
+      /** Pipeline */
+      pipeline: string;
+    };
+    /**
      * LibraryAnswer
      * @description The librarian's answer, or the quick card a red-flag question opens at once (spec 12.8).
      *
@@ -3912,6 +3929,8 @@ export interface components {
     /**
      * WorkBoard
      * @description The Work page: threads first, then items being built, ideas, reviews and products.
+     *
+     *     `leads` lists every lead, for Move and the lead filter.
      */
     WorkBoard: {
       threads: components["schemas"]["ThreadsOverview"];
@@ -3924,6 +3943,8 @@ export interface components {
       /** Products */
       products: components["schemas"]["Product"][];
       wip: components["schemas"]["WipCount"];
+      /** Leads */
+      leads: components["schemas"]["LeadRef"][];
     };
     /**
      * WorkItem

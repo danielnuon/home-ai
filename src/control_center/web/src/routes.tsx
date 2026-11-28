@@ -94,6 +94,9 @@ export const ROUTES: PageRoute[] = [
   route("/voice", "Voice", Mic, () => import("./pages/Voice"), { inNav: false }),
   route("/search", "Search", Search, () => import("./pages/Search"), { inNav: false }),
   route("/docs/:id", "Docs", BookOpen, () => import("./pages/DocReader"), { inNav: false }),
+  route("/work/items/:id", "Work item", Briefcase, () => import("./pages/WorkItem"), {
+    inNav: false,
+  }),
   route("/trash", "Recently deleted", Trash2, () => import("./pages/Trash"), { inNav: false }),
   route("/offline", "Offline pack", Smartphone, () => import("./pages/OfflinePack"), {
     inNav: false,

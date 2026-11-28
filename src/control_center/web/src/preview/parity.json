@@ -1400,6 +1400,38 @@
       "waiting_on_owner": false
      }
     ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
+     }
+    ],
     "products": [
      {
       "github_url": "https://github.com/home-platform/lease-reminders",
@@ -7658,6 +7690,38 @@
       "waiting_on_owner": false
      }
     ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
+     }
+    ],
     "products": [
      {
       "github_url": "https://github.com/home-platform/lease-reminders",
@@ -12517,6 +12581,38 @@
       "waiting_on_owner": false
      }
     ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
+     }
+    ],
     "products": [
      {
       "github_url": "https://github.com/home-platform/lease-reminders",
@@ -13209,6 +13305,38 @@
       "thread_id": null,
       "title": "Update INFRASTRUCTURE.md",
       "waiting_on_owner": false
+     }
+    ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
      }
     ],
     "products": [
@@ -14048,6 +14176,38 @@
       "thread_id": "TH-0129",
       "title": "Receipt scanner: better totals",
       "waiting_on_owner": true
+     }
+    ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
      }
     ],
     "products": [
@@ -15114,6 +15274,38 @@
       "thread_id": "TH-0129",
       "title": "Receipt scanner: better totals",
       "waiting_on_owner": true
+     }
+    ],
+    "leads": [
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "pipeline": "Development"
+     },
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "pipeline": "Personal"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "pipeline": "Ideation"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "pipeline": "Maintenance"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "pipeline": "Guide"
      }
     ],
     "products": [
