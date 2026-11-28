@@ -113,6 +113,12 @@ export function requestDocChange(
     eta: "Routed within a few minutes",
     cost_usd: 0,
     waiting_on_owner: false,
+    priority: "normal",
+    paused: false,
+    rework_count: 0,
+    product_id: null,
+    thread_id: null,
+    kind: "build",
   };
   world.work_items.push(item);
   world.bus.changed("work", "today");

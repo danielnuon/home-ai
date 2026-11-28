@@ -49,6 +49,10 @@ export interface ThreadRecord {
   /** When a temporary chat is deleted (15.9.6); null for every other thread. */
   temporary_until: string | null;
   learning: boolean;
+  /** The Owner's pause on the thread's idea or work item (spec 7.10). */
+  paused: boolean;
+  /** A resolved thread past its archive delay, shown only under the Archived filter. */
+  archived: boolean;
 }
 
 /** What the Owner changes on Connections, Voice and Security (`fixtures/accounts.py`). */
@@ -75,6 +79,8 @@ interface WorldState {
   transcripts: Record<string, TranscriptEntry[]>;
   threads: Record<string, ThreadRecord>;
   work_items: WorkItem[];
+  ideas: Record<string, Schemas["Idea"]>;
+  products: Record<string, Schemas["Product"]>;
   employees: Record<string, Employee>;
   proposals: Record<string, Schemas["LifecycleProposal"]>;
   cases: Record<string, Case>;
@@ -192,8 +198,13 @@ interface Fixtures {
   doc_groups: Schemas["DocsOverview"]["groups"];
   search_index: Schemas["SearchSection"][];
   wayfinder_answers: Record<string, string>;
-  ideas: Schemas["WorkBoard"]["ideas"];
   reviews: Schemas["WorkBoard"]["reviews"];
+  item_history: Record<string, Schemas["StageEvent"][]>;
+  item_gates: Record<string, Schemas["GateCheck"][]>;
+  item_diffs: Record<string, Schemas["DiffFile"][]>;
+  new_item_history: Schemas["StageEvent"][];
+  new_item_gates: Schemas["GateCheck"][];
+  retirement_label: string;
   task_stages: Record<string, string>;
   stage_rails: Record<string, Schemas["Stage"][]>;
   not_yet_hired: string[];
@@ -285,6 +296,12 @@ interface Constants {
   snooze_seconds: number;
   app_features: string[];
   ark_volumes: string[];
+  priority_order: Schemas["Idea"]["priority"][];
+  idea_lead: string;
+  retirement_summary: string;
+  role_source: string;
+  wip_stages: string[];
+  wip_global: number;
   principal_undo_days: number;
   statement_types: string[];
   max_upload_bytes: number;

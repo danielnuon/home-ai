@@ -4,6 +4,7 @@
  * requests to backend calls, as on the server; every rule lives in the backend modules.
  */
 import * as accounts from "./accounts";
+import * as board from "./board";
 import * as engine from "./engine";
 import { MockError } from "./errors";
 import * as gate from "./gate";
@@ -59,7 +60,8 @@ const GET: Record<string, Handler> = {
   "/contacts/:id": (w, c) => people.contactDetail(w, p(c, "id")),
   "/live": (w) => work.liveTasks(w),
   "/live/:id": (w, c) => work.taskDetail(w, p(c, "id")),
-  "/work": (w) => work.workBoard(w),
+  "/work": (w) => board.workBoard(w),
+  "/work-items/:id": (w, c) => board.itemDetail(w, p(c, "id")),
   "/directory": (w) => work.directory(w),
   "/today": (w) => buildToday(w),
   "/personal": (w) => records.personal(w),
@@ -133,6 +135,13 @@ const POST: Record<string, Handler> = {
     }),
   "/threads/:id/resolve": (w, c) => work.resolveThread(w, p(c, "id")),
   "/threads/:id/reopen": (w, c) => work.reopenThread(w, p(c, "id")),
+  "/threads/:id/move": (w, c) => board.moveThread(w, p(c, "id"), str(c.body.lead_id)),
+  "/ideas": (w, c) => board.submitIdea(w, str(c.body.title), str(c.body.summary)),
+  "/ideas/:id/withdraw": (w, c) => board.withdrawIdea(w, p(c, "id")),
+  "/ideas/:id/reopen": (w, c) => board.reopenIdea(w, p(c, "id")),
+  "/products/:id/retire": (w, c) => board.retireProduct(w, p(c, "id")),
+  "/directory/role-suggestions": (w, c) =>
+    board.suggestRole(w, str(c.body.title), str(c.body.reason)),
   "/proposals/:id/decision": (w, c) => {
     gate.decideProposal(w, p(c, "id"), str(c.body.decision));
     return NO_CONTENT;
@@ -240,7 +249,14 @@ const POST: Record<string, Handler> = {
   "/exports": (w, c) => accounts.exportData(w, str(c.body.scope), c.stepUp),
 };
 
+const priority = (call: Call) => str(call.body.priority) as "normal";
+
 const PUT: Record<string, Handler> = {
+  "/ideas/:id": (w, c) => board.editIdea(w, p(c, "id"), str(c.body.title), str(c.body.summary)),
+  "/ideas/:id/paused": (w, c) => board.setIdeaPaused(w, p(c, "id"), c.body.paused === true),
+  "/ideas/:id/priority": (w, c) => board.setIdeaPriority(w, p(c, "id"), priority(c)),
+  "/work-items/:id/paused": (w, c) => board.setItemPaused(w, p(c, "id"), c.body.paused === true),
+  "/work-items/:id/priority": (w, c) => board.setItemPriority(w, p(c, "id"), priority(c)),
   "/settings/:key": (w, c) => gate.changeSetting(w, p(c, "key"), str(c.body.value), c.stepUp),
   "/contacts/:id": (w, c) => people.editContact(w, p(c, "id"), c.body, c.stepUp),
   "/contacts/:id/trust": (w, c) =>

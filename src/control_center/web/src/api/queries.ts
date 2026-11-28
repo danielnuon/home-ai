@@ -38,6 +38,9 @@ export const useTaskDetail = (taskId: string | null) =>
   useResource<T.TaskDetail>(["live", taskId], `/live/${taskId ?? ""}`, taskId !== null);
 /** The Work board. */
 export const useWorkBoard = () => useResource<T.WorkBoard>(["work"], "/work");
+/** One work item's page. */
+export const useWorkItem = (itemId: string) =>
+  useResource<T.WorkItemDetail>(["work", "item", itemId], `/work-items/${itemId}`);
 /** The Directory. */
 export const useDirectory = () => useResource<T.Directory>(["directory"], "/directory");
 /** Personal cases and domains. */

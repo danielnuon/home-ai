@@ -45,8 +45,10 @@ from control_center.contract.status import Job, MaintenanceFix
 from control_center.contract.today import Alert, ChatMessage
 from control_center.contract.work import (
     Employee,
+    Idea,
     LifecycleProposal,
     LiveTask,
+    Product,
     TranscriptEntry,
     WorkItem,
 )
@@ -77,6 +79,8 @@ class MockWorld:
     transcripts: dict[str, list[TranscriptEntry]]
     threads: dict[str, ThreadRecord]
     work_items: list[WorkItem]
+    ideas: dict[str, Idea]
+    products: dict[str, Product]
     employees: dict[str, Employee]
     proposals: dict[str, LifecycleProposal]
     cases: dict[str, Case]
@@ -160,6 +164,8 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         transcripts=work.transcripts(),
         threads=by_id(thread_fixtures.threads()),
         work_items=work.work_items(),
+        ideas=by_id(work.ideas()),
+        products=by_id(work.products()),
         employees=by_id(people.employees()),
         proposals=by_id(people.proposals()),
         cases=by_id(personal.cases()),

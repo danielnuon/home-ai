@@ -97,6 +97,13 @@ export type Trust = Contact["trust"];
 export type VoiceOverview = Schemas["VoiceOverview"];
 export type WorkBoard = Schemas["WorkBoard"];
 export type WorkItem = Schemas["WorkItem"];
+export type WorkItemDetail = Schemas["WorkItemDetail"];
+export type Idea = Schemas["Idea"];
+export type Product = Schemas["Product"];
+export type LeadRef = Schemas["LeadRef"];
+export type LifecycleProposal = Schemas["LifecycleProposal"];
+export type Priority = Schemas["Idea"]["priority"];
+export type DiffFile = Schemas["DiffFile"];
 
 // The operations controls on System, Models, Services, Schedule, Backups and Maintenance.
 export type Candidate = Schemas["Candidate"];

@@ -76,6 +76,19 @@ const { triggerProps, button, menu } = useMoreMenu(actions, "Bolt");
 `useMoreMenu(actions, label, { icon, name })` gives a menu button with its own icon, as the
 help menu does.
 
+## A filter: `FilterMenu`
+
+```tsx
+import { ALL, FilterMenu } from "../components/FilterMenu";
+
+<FilterMenu label="Pipeline" value={pipeline} options={[["Personal", "Personal"]]} onChange={set} />
+```
+
+A pill that reads "Pipeline: All" and opens the shared menu with All and each choice; the chosen
+one carries a check. Keep the value in the URL, and leave a parameter out at `ALL`. A yes-or-no
+filter, such as Archived on Work, is a `btn compact filter-button` with `aria-pressed`. See
+`pages/Work.tsx` and `pages/Directory.tsx` (decisions 152 and 158).
+
 ## Something that can't be undone: `HoldButton`
 
 ```tsx

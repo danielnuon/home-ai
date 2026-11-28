@@ -20,7 +20,6 @@ from control_center.contract.work import (
     Thread,
     ThreadsOverview,
     TranscriptEntry,
-    WorkBoard,
 )
 
 INSTRUMENT_COUNT = 7
@@ -112,16 +111,7 @@ class WorkDesk:
             "transcript.append", {"task_id": task_id, "entry": entry.model_dump()}
         )
 
-    # Work and directory --------------------------------------------------------------------
-
-    def work_board(self) -> WorkBoard:
-        """Threads, work items, ideas and reviews."""
-        return WorkBoard(
-            threads=self.threads(),
-            items=self._world.work_items,
-            ideas=work.ideas(),
-            reviews=work.reviews(),
-        )
+    # Directory --------------------------------------------------------------------------
 
     def directory(self) -> Directory:
         """Employees with their status rolled up from sessions, proposals and instruments."""
@@ -148,7 +138,7 @@ class WorkDesk:
             include_temporary: Whether to list temporary chats that have not expired.
 
         Returns:
-            The open threads, then the recently resolved ones.
+            The open threads, then the recently resolved ones, then the archived ones.
         """
         self._purge_expired()
         sessions = self.live_tasks()
@@ -157,10 +147,16 @@ class WorkDesk:
             for record in self._world.threads.values()
             if include_temporary or record.temporary_until is None
         ]
+        archived = {record.id for record in self._world.threads.values() if record.archived}
         open_threads = [thread for thread in every if thread.state != "resolved"]
         return ThreadsOverview(
             open=sorted(open_threads, key=lambda thread: STATE_ORDER.index(thread.state)),
-            recently_resolved=[thread for thread in every if thread.state == "resolved"],
+            recently_resolved=[
+                thread
+                for thread in every
+                if thread.state == "resolved" and thread.id not in archived
+            ],
+            archived=[thread for thread in every if thread.id in archived],
         )
 
     def _purge_expired(self) -> None:

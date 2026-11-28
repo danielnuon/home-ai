@@ -5,11 +5,17 @@ from datetime import datetime, timedelta
 from control_center.contract.common import Department, EmployeeState, StatusLabel
 from control_center.contract.work import (
     BlockedCode,
+    DiffFile,
+    DiffLine,
+    GateCheck,
     Idea,
     Lane,
     LiveTask,
+    Product,
+    PullRequest,
     ReviewRequest,
     Stage,
+    StageEvent,
     TranscriptEntry,
     WaitingOn,
     WorkItem,
@@ -228,6 +234,9 @@ def work_items() -> list[WorkItem]:
             eta="About 2–4 h left",
             cost_usd=0.0,
             waiting_on_owner=False,
+            rework_count=1,
+            product_id="PR-lease",
+            thread_id="TH-0131",
         ),
         WorkItem(
             id="WI-0029",
@@ -243,6 +252,9 @@ def work_items() -> list[WorkItem]:
             eta="Paused until you decide",
             cost_usd=0.0,
             waiting_on_owner=True,
+            priority="high",
+            product_id="PR-receipts",
+            thread_id="TH-0129",
         ),
     ]
 
@@ -250,9 +262,30 @@ def work_items() -> list[WorkItem]:
 def ideas() -> list[Idea]:
     """Ideas on the board, in Pipeline A states (spec 16.2)."""
     return [
-        Idea(id="ID-0014", title="Garden watering planner", state="Exploring", lead="Spark"),
-        Idea(id="ID-0013", title="Shared family calendar digest", state="Validating", lead="Spark"),
-        Idea(id="ID-0011", title="Utility bill anomaly alerts", state="Ready", lead="Spark"),
+        Idea(
+            id="ID-0014",
+            title="Garden watering planner",
+            state="Exploring",
+            lead="Spark",
+            summary="Water the beds from the forecast instead of a fixed timer.",
+            thread_id="TH-0118",
+        ),
+        Idea(
+            id="ID-0013",
+            title="Shared family calendar digest",
+            state="Validating",
+            lead="Spark",
+            summary="One weekly email to Mom and Dad with everyone's plans.",
+            thread_id="TH-0120",
+        ),
+        Idea(
+            id="ID-0011",
+            title="Utility bill anomaly alerts",
+            state="Ready",
+            lead="Spark",
+            summary="Tell me when a utility bill is far off its usual amount.",
+            priority="low",
+        ),
     ]
 
 
@@ -266,5 +299,165 @@ def reviews() -> list[ReviewRequest]:
             removed_lines=40,
             reviewer="Redline on the coding model · same-family review controls on",
             readability="Checks passed · cold read correct · 1 note for Bolt",
+            item_id="WI-0031",
         )
+    ]
+
+
+WIP_STAGES = {"D4", "D5", "D6", "D7"}
+"""The stages a work item counts toward its product's WIP limit in (spec 17.10)."""
+
+WIP_PER_PRODUCT = 2
+"""`pipelines.development.wip_per_product` (spec 17.10, 22.2)."""
+
+WIP_GLOBAL = 3
+"""`pipelines.development.wip_global`: across every product (22.2)."""
+
+GITHUB_ORG = "https://github.com/home-platform"
+"""The platform's private GitHub organization in the mocks (spec 17.19)."""
+
+
+def _product(product_id: str, name: str, slug: str, *prs: PullRequest) -> Product:
+    """A released product with its repository on the working drive and its mirror."""
+    return Product(
+        id=product_id,
+        name=name,
+        state="released",
+        repo_path=f"/Volumes/Data/work/{slug}/",
+        github_url=f"{GITHUB_ORG}/{slug}",
+        pull_requests=list(prs),
+        wip=0,
+        wip_limit=WIP_PER_PRODUCT,
+    )
+
+
+def products() -> list[Product]:
+    """Three released products: two with work open, and one the Owner might retire (17.21)."""
+    return [
+        _product(
+            "PR-lease",
+            "Lease Reminders",
+            "lease-reminders",
+            PullRequest(
+                number=12,
+                title="WI-0031 Lease Reminders 1.2",
+                url=f"{GITHUB_ORG}/lease-reminders/pull/12",
+                item_id="WI-0031",
+            ),
+        ),
+        _product(
+            "PR-receipts",
+            "Receipt scanner",
+            "receipt-scanner",
+            PullRequest(
+                number=7,
+                title="WI-0029 Receipt scanner: better totals",
+                url=f"{GITHUB_ORG}/receipt-scanner/pull/7",
+                item_id="WI-0029",
+            ),
+        ),
+        _product("PR-ledger", "Rent ledger", "rent-ledger"),
+    ]
+
+
+GATE_NAMES = {
+    "G1": "Requirements",
+    "G2": "Plan",
+    "G3": "Design",
+    "G4": "Tests first",
+    "G5": "Code review",
+    "G6": "Validation",
+    "G7": "Release readiness",
+    "G8": "7-day review",
+}
+"""The gates on a development work item's path (spec 17.3)."""
+
+
+def gates(passed: int, waiting: str | None = None) -> list[GateCheck]:
+    """Every gate, with the first `passed` passed and `waiting` (if any) waiting on its approver."""
+    return [
+        GateCheck(
+            code=code,
+            name=name,
+            state="passed" if index < passed else "waiting" if code == waiting else "todo",
+            note="Passed on evidence"
+            if index < passed
+            else "Waiting on you"
+            if code == waiting
+            else "",
+        )
+        for index, (code, name) in enumerate(GATE_NAMES.items())
+    ]
+
+
+def stage_history(item_id: str) -> list[StageEvent]:
+    """What happened on each item so far, newest last. A new item has only its intake."""
+    histories = {
+        "WI-0031": [
+            StageEvent(code="D0", text="Foreman took the request", when="Oct 27"),
+            StageEvent(code="D1", text="Plan approved at G2", when="Oct 27"),
+            StageEvent(code="D2", text="Design approved by you at G3", when="Oct 28"),
+            StageEvent(code="D3", text="Probe wrote 14 failing tests; G4 passed", when="Oct 29"),
+            StageEvent(code="D4", text="Redline sent one slice back for rework", when="Oct 30"),
+            StageEvent(code="D4", text="Bolt is implementing the reminder schedule", when="today"),
+        ],
+        "WI-0029": [
+            StageEvent(code="D0", text="Foreman took the request", when="Oct 25"),
+            StageEvent(code="D1", text="Plan approved at G2", when="Oct 26"),
+            StageEvent(code="D2", text="Design is waiting for your yes at G3", when="yesterday"),
+        ],
+    }
+    return histories.get(
+        item_id, [StageEvent(code="D0", text="Foreman opened the work item", when="today")]
+    )
+
+
+def item_gates(item_id: str) -> list[GateCheck]:
+    """Where each item stands at its gates."""
+    return {"WI-0031": gates(4), "WI-0029": gates(2, waiting="G3")}.get(
+        item_id, gates(0, waiting="G1")
+    )
+
+
+def _lines(*rows: str) -> list[DiffLine]:
+    """Diff lines from "+ added", "- removed" and "  context" rows."""
+    kinds = {"+": "add", "-": "remove", " ": "context"}
+    return [DiffLine(kind=kinds[row[0]], text=row[2:]) for row in rows]  # type: ignore[arg-type]
+
+
+def diffs(item_id: str) -> list[DiffFile]:
+    """The changes in an item's open review request; an item not yet in review has none."""
+    if item_id != "WI-0031":
+        return []
+    return [
+        DiffFile(
+            path="src/reminders/schedule.py",
+            added=8,
+            removed=2,
+            lines=_lines(
+                "  from datetime import date, timedelta",
+                "  ",
+                "- REMINDER_DAYS = 30",
+                "+ REMINDER_DAYS = (30, 14, 3)",
+                '+ """Days before a lease ends that each reminder goes out."""',
+                "  ",
+                "- def reminder_date(lease_end: date) -> date:",
+                "-     return lease_end - timedelta(days=REMINDER_DAYS)",
+                "+ def reminder_dates(lease_end: date) -> list[date]:",
+                '+     """Every reminder date, counted back from the end of the lease."""',
+                "+     return [lease_end - timedelta(days=days) for days in REMINDER_DAYS]",
+            ),
+        ),
+        DiffFile(
+            path="tests/test_schedule.py",
+            added=4,
+            removed=0,
+            lines=_lines(
+                "  def test_reminders_follow_the_lease_end():",
+                "+     dates = reminder_dates(date(2027, 3, 31))",
+                "+     assert dates == [date(2027, 3, 1), date(2027, 3, 17), date(2027, 3, 28)]",
+                "+ ",
+                "+ # A renewal moves the end date, so every reminder moves with it.",
+            ),
+        ),
     ]

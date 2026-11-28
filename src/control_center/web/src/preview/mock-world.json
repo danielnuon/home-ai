@@ -1344,7 +1344,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0129": {
     "id": "TH-0129",
@@ -1364,7 +1366,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0209": {
     "id": "TH-0209",
@@ -1384,7 +1388,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0216": {
     "id": "TH-0216",
@@ -1404,7 +1410,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0131": {
     "id": "TH-0131",
@@ -1424,7 +1432,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0207": {
     "id": "TH-0207",
@@ -1444,7 +1454,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0214": {
     "id": "TH-0214",
@@ -1464,7 +1476,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0118": {
     "id": "TH-0118",
@@ -1484,7 +1498,9 @@
     "outcome": null,
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0201": {
     "id": "TH-0201",
@@ -1504,7 +1520,9 @@
     "outcome": "Renewed online. The sticker arrives by mail.",
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
    },
    "TH-0127": {
     "id": "TH-0127",
@@ -1524,7 +1542,53 @@
     "outcome": "Released, and its 7-day review is done.",
     "branched_from": null,
     "temporary_until": null,
-    "learning": true
+    "learning": true,
+    "paused": false,
+    "archived": false
+   },
+   "TH-0096": {
+    "id": "TH-0096",
+    "title": "Water heater warranty claim",
+    "kind": "case",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "Sep 30",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": "The claim was approved and the part was replaced.",
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true,
+    "paused": false,
+    "archived": true
+   },
+   "TH-0088": {
+    "id": "TH-0088",
+    "title": "Rent ledger 1.0",
+    "kind": "work_item",
+    "unit_id": "WI-0019",
+    "lead_id": "foreman",
+    "lead_name": "Foreman",
+    "lead_department": "governance",
+    "pipeline": "Development",
+    "principal": "owner",
+    "since": "Sep 12",
+    "owner_decision": null,
+    "approval_id": null,
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": "Released, and its 7-day review is done.",
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true,
+    "paused": false,
+    "archived": true
    }
   },
   "work_items": [
@@ -1589,7 +1653,13 @@
     "now": "Bolt is writing the reminder schedule",
     "eta": "About 2–4 h left",
     "cost_usd": 0.0,
-    "waiting_on_owner": false
+    "waiting_on_owner": false,
+    "priority": "normal",
+    "paused": false,
+    "rework_count": 1,
+    "product_id": "PR-lease",
+    "thread_id": "TH-0131",
+    "kind": "build"
    },
    {
     "id": "WI-0029",
@@ -1652,9 +1722,96 @@
     "now": "Foreman needs a yes on the design",
     "eta": "Paused until you decide",
     "cost_usd": 0.0,
-    "waiting_on_owner": true
+    "waiting_on_owner": true,
+    "priority": "high",
+    "paused": false,
+    "rework_count": 0,
+    "product_id": "PR-receipts",
+    "thread_id": "TH-0129",
+    "kind": "build"
    }
   ],
+  "ideas": {
+   "ID-0014": {
+    "id": "ID-0014",
+    "title": "Garden watering planner",
+    "state": "Exploring",
+    "lead": "Spark",
+    "summary": "Water the beds from the forecast instead of a fixed timer.",
+    "priority": "normal",
+    "paused": false,
+    "withdrawn": false,
+    "thread_id": "TH-0118"
+   },
+   "ID-0013": {
+    "id": "ID-0013",
+    "title": "Shared family calendar digest",
+    "state": "Validating",
+    "lead": "Spark",
+    "summary": "One weekly email to Mom and Dad with everyone's plans.",
+    "priority": "normal",
+    "paused": false,
+    "withdrawn": false,
+    "thread_id": "TH-0120"
+   },
+   "ID-0011": {
+    "id": "ID-0011",
+    "title": "Utility bill anomaly alerts",
+    "state": "Ready",
+    "lead": "Spark",
+    "summary": "Tell me when a utility bill is far off its usual amount.",
+    "priority": "low",
+    "paused": false,
+    "withdrawn": false,
+    "thread_id": null
+   }
+  },
+  "products": {
+   "PR-lease": {
+    "id": "PR-lease",
+    "name": "Lease Reminders",
+    "state": "released",
+    "repo_path": "/Volumes/Data/work/lease-reminders/",
+    "github_url": "https://github.com/home-platform/lease-reminders",
+    "pull_requests": [
+     {
+      "number": 12,
+      "title": "WI-0031 Lease Reminders 1.2",
+      "url": "https://github.com/home-platform/lease-reminders/pull/12",
+      "item_id": "WI-0031"
+     }
+    ],
+    "wip": 0,
+    "wip_limit": 2
+   },
+   "PR-receipts": {
+    "id": "PR-receipts",
+    "name": "Receipt scanner",
+    "state": "released",
+    "repo_path": "/Volumes/Data/work/receipt-scanner/",
+    "github_url": "https://github.com/home-platform/receipt-scanner",
+    "pull_requests": [
+     {
+      "number": 7,
+      "title": "WI-0029 Receipt scanner: better totals",
+      "url": "https://github.com/home-platform/receipt-scanner/pull/7",
+      "item_id": "WI-0029"
+     }
+    ],
+    "wip": 0,
+    "wip_limit": 2
+   },
+   "PR-ledger": {
+    "id": "PR-ledger",
+    "name": "Rent ledger",
+    "state": "released",
+    "repo_path": "/Volumes/Data/work/rent-ledger/",
+    "github_url": "https://github.com/home-platform/rent-ledger",
+    "pull_requests": [],
+    "wip": 0,
+    "wip_limit": 2
+   }
+  },
   "employees": {
    "PO-1": {
     "id": "PO-1",
@@ -1675,7 +1832,9 @@
     "hired": "Phase 9",
     "tasks_done": 214,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Personal",
+    "reports_to": null
    },
    "GOV-1": {
     "id": "GOV-1",
@@ -1695,7 +1854,9 @@
     "hired": "Phase 11",
     "tasks_done": 61,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Development",
+    "reports_to": null
    },
    "IDEA-1": {
     "id": "IDEA-1",
@@ -1712,7 +1873,9 @@
     "hired": "Phase 12",
     "tasks_done": 18,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Ideation",
+    "reports_to": null
    },
    "MNT-1": {
     "id": "MNT-1",
@@ -1729,7 +1892,9 @@
     "hired": "Phase 14",
     "tasks_done": 40,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Maintenance",
+    "reports_to": null
    },
    "PO-2": {
     "id": "PO-2",
@@ -1749,7 +1914,9 @@
     "hired": "Phase 9",
     "tasks_done": 96,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Personal",
+    "reports_to": "PO-1"
    },
    "PO-9": {
     "id": "PO-9",
@@ -1766,7 +1933,9 @@
     "hired": "Phase 10",
     "tasks_done": 37,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Personal",
+    "reports_to": "PO-1"
    },
    "PO-8": {
     "id": "PO-8",
@@ -1783,7 +1952,9 @@
     "hired": "Phase 10",
     "tasks_done": 22,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Personal",
+    "reports_to": "PO-1"
    },
    "PO-10": {
     "id": "PO-10",
@@ -1800,7 +1971,9 @@
     "hired": "Phase 10",
     "tasks_done": 19,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Personal",
+    "reports_to": "PO-1"
    },
    "ENG-1": {
     "id": "ENG-1",
@@ -1821,7 +1994,9 @@
     "hired": "Phase 11",
     "tasks_done": 128,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Development",
+    "reports_to": "GOV-1"
    },
    "QA-1": {
     "id": "QA-1",
@@ -1838,7 +2013,9 @@
     "hired": "Phase 11",
     "tasks_done": 74,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Development",
+    "reports_to": "GOV-1"
    },
    "QA-3": {
     "id": "QA-3",
@@ -1855,7 +2032,9 @@
     "hired": "Phase 11",
     "tasks_done": 59,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Development",
+    "reports_to": "GOV-1"
    },
    "QA-5": {
     "id": "QA-5",
@@ -1872,7 +2051,9 @@
     "hired": "Phase 13",
     "tasks_done": 0,
     "enabled": true,
-    "status": "idle"
+    "status": "idle",
+    "pipeline": "Development",
+    "reports_to": "GOV-1"
    }
   },
   "proposals": {
@@ -6750,26 +6931,6 @@
   "wayfinder_answers": {
    "insur": "Your home policy renews Dec 14. Dad's Medicare plan review is a case due Dec 7. The insurer call is today at 09:30."
   },
-  "ideas": [
-   {
-    "id": "ID-0014",
-    "title": "Garden watering planner",
-    "state": "Exploring",
-    "lead": "Spark"
-   },
-   {
-    "id": "ID-0013",
-    "title": "Shared family calendar digest",
-    "state": "Validating",
-    "lead": "Spark"
-   },
-   {
-    "id": "ID-0011",
-    "title": "Utility bill anomaly alerts",
-    "state": "Ready",
-    "lead": "Spark"
-   }
-  ],
   "reviews": [
    {
     "id": "RR-0044",
@@ -6777,9 +6938,304 @@
     "added_lines": 212,
     "removed_lines": 40,
     "reviewer": "Redline on the coding model · same-family review controls on",
-    "readability": "Checks passed · cold read correct · 1 note for Bolt"
+    "readability": "Checks passed · cold read correct · 1 note for Bolt",
+    "item_id": "WI-0031"
    }
   ],
+  "item_history": {
+   "WI-0031": [
+    {
+     "code": "D0",
+     "text": "Foreman took the request",
+     "when": "Oct 27"
+    },
+    {
+     "code": "D1",
+     "text": "Plan approved at G2",
+     "when": "Oct 27"
+    },
+    {
+     "code": "D2",
+     "text": "Design approved by you at G3",
+     "when": "Oct 28"
+    },
+    {
+     "code": "D3",
+     "text": "Probe wrote 14 failing tests; G4 passed",
+     "when": "Oct 29"
+    },
+    {
+     "code": "D4",
+     "text": "Redline sent one slice back for rework",
+     "when": "Oct 30"
+    },
+    {
+     "code": "D4",
+     "text": "Bolt is implementing the reminder schedule",
+     "when": "today"
+    }
+   ],
+   "WI-0029": [
+    {
+     "code": "D0",
+     "text": "Foreman took the request",
+     "when": "Oct 25"
+    },
+    {
+     "code": "D1",
+     "text": "Plan approved at G2",
+     "when": "Oct 26"
+    },
+    {
+     "code": "D2",
+     "text": "Design is waiting for your yes at G3",
+     "when": "yesterday"
+    }
+   ]
+  },
+  "item_gates": {
+   "WI-0031": [
+    {
+     "code": "G1",
+     "name": "Requirements",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G2",
+     "name": "Plan",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G3",
+     "name": "Design",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G4",
+     "name": "Tests first",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G5",
+     "name": "Code review",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G6",
+     "name": "Validation",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G7",
+     "name": "Release readiness",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G8",
+     "name": "7-day review",
+     "state": "todo",
+     "note": ""
+    }
+   ],
+   "WI-0029": [
+    {
+     "code": "G1",
+     "name": "Requirements",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G2",
+     "name": "Plan",
+     "state": "passed",
+     "note": "Passed on evidence"
+    },
+    {
+     "code": "G3",
+     "name": "Design",
+     "state": "waiting",
+     "note": "Waiting on you"
+    },
+    {
+     "code": "G4",
+     "name": "Tests first",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G5",
+     "name": "Code review",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G6",
+     "name": "Validation",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G7",
+     "name": "Release readiness",
+     "state": "todo",
+     "note": ""
+    },
+    {
+     "code": "G8",
+     "name": "7-day review",
+     "state": "todo",
+     "note": ""
+    }
+   ]
+  },
+  "item_diffs": {
+   "WI-0031": [
+    {
+     "path": "src/reminders/schedule.py",
+     "added": 8,
+     "removed": 2,
+     "lines": [
+      {
+       "kind": "context",
+       "text": "from datetime import date, timedelta"
+      },
+      {
+       "kind": "context",
+       "text": ""
+      },
+      {
+       "kind": "remove",
+       "text": "REMINDER_DAYS = 30"
+      },
+      {
+       "kind": "add",
+       "text": "REMINDER_DAYS = (30, 14, 3)"
+      },
+      {
+       "kind": "add",
+       "text": "\"\"\"Days before a lease ends that each reminder goes out.\"\"\""
+      },
+      {
+       "kind": "context",
+       "text": ""
+      },
+      {
+       "kind": "remove",
+       "text": "def reminder_date(lease_end: date) -> date:"
+      },
+      {
+       "kind": "remove",
+       "text": "    return lease_end - timedelta(days=REMINDER_DAYS)"
+      },
+      {
+       "kind": "add",
+       "text": "def reminder_dates(lease_end: date) -> list[date]:"
+      },
+      {
+       "kind": "add",
+       "text": "    \"\"\"Every reminder date, counted back from the end of the lease.\"\"\""
+      },
+      {
+       "kind": "add",
+       "text": "    return [lease_end - timedelta(days=days) for days in REMINDER_DAYS]"
+      }
+     ]
+    },
+    {
+     "path": "tests/test_schedule.py",
+     "added": 4,
+     "removed": 0,
+     "lines": [
+      {
+       "kind": "context",
+       "text": "def test_reminders_follow_the_lease_end():"
+      },
+      {
+       "kind": "add",
+       "text": "    dates = reminder_dates(date(2027, 3, 31))"
+      },
+      {
+       "kind": "add",
+       "text": "    assert dates == [date(2027, 3, 1), date(2027, 3, 17), date(2027, 3, 28)]"
+      },
+      {
+       "kind": "add",
+       "text": ""
+      },
+      {
+       "kind": "add",
+       "text": "# A renewal moves the end date, so every reminder moves with it."
+      }
+     ]
+    }
+   ],
+   "WI-0029": []
+  },
+  "new_item_history": [
+   {
+    "code": "D0",
+    "text": "Foreman opened the work item",
+    "when": "today"
+   }
+  ],
+  "new_item_gates": [
+   {
+    "code": "G1",
+    "name": "Requirements",
+    "state": "waiting",
+    "note": "Waiting on you"
+   },
+   {
+    "code": "G2",
+    "name": "Plan",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G3",
+    "name": "Design",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G4",
+    "name": "Tests first",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G5",
+    "name": "Code review",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G6",
+    "name": "Validation",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G7",
+    "name": "Release readiness",
+    "state": "todo",
+    "note": ""
+   },
+   {
+    "code": "G8",
+    "name": "7-day review",
+    "state": "todo",
+    "note": ""
+   }
+  ],
+  "retirement_label": "Requirements · Needs you at G1",
   "task_stages": {
    "T-5521": 4
   },
@@ -10014,6 +10470,21 @@
    "ARK-1",
    "ARK-2"
   ],
+  "priority_order": [
+   "high",
+   "normal",
+   "low"
+  ],
+  "idea_lead": "spark",
+  "retirement_summary": "Stops the service, frees its container slot and archives its repository and GitHub mirror. A final snapshot and restore-to-service steps keep it reversible.",
+  "role_source": "Your suggestion · Cadence reviews it at the next monthly review",
+  "wip_stages": [
+   "D4",
+   "D5",
+   "D6",
+   "D7"
+  ],
+  "wip_global": 3,
   "principal_undo_days": 7,
   "statement_types": [
    ".csv",

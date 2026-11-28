@@ -6,6 +6,17 @@ from control_center.contract.work import Employee, LifecycleProposal
 NOT_YET_HIRED = {"QA-5"}
 """Employees whose build phase has not arrived; the Directory shows them as not yet hired."""
 
+LEAD_PIPELINES = {
+    "PO-1": "Personal",
+    "GOV-1": "Development",
+    "IDEA-1": "Ideation",
+    "MNT-1": "Maintenance",
+}
+"""Each lead and the pipeline it runs (spec 14.1). Every other employee reports to one of them."""
+
+GROUP_LEADS = {"Personal": "PO-1", "Engineering and quality": "GOV-1"}
+"""The lead each Directory group reports to, for the org view (spec 7.11)."""
+
 
 def _employee(  # noqa: PLR0913 -- a row of fixture data; keyword arguments read as a table
     employee_id: str,
@@ -21,6 +32,7 @@ def _employee(  # noqa: PLR0913 -- a row of fixture data; keyword arguments read
     hired: str = "Phase 9",
     tasks_done: int = 0,
 ) -> Employee:
+    lead = GROUP_LEADS.get(group)
     return Employee(
         id=employee_id,
         name=name,
@@ -36,6 +48,8 @@ def _employee(  # noqa: PLR0913 -- a row of fixture data; keyword arguments read
         hired=hired,
         tasks_done=tasks_done,
         enabled=True,
+        pipeline=LEAD_PIPELINES.get(employee_id) or LEAD_PIPELINES[lead or "PO-1"],
+        reports_to=None if employee_id in LEAD_PIPELINES else lead,
     )
 
 

@@ -169,6 +169,8 @@ export interface MoreMenuParts {
 interface ButtonLook {
   icon: LucideIcon;
   name: string;
+  /** Words on the button beside the icon, for a menu that picks a value, such as a filter. */
+  text?: string;
 }
 
 /**
@@ -185,6 +187,7 @@ export function useMoreMenu(
   look?: ButtonLook,
 ): MoreMenuParts {
   const Icon = look?.icon ?? MoreHorizontal;
+  const text = look?.text;
   const [place, setPlace] = useState<Place | null>(null);
   const opener = useRef<HTMLElement | null>(null);
   const open = (at: Place) => {
@@ -199,7 +202,7 @@ export function useMoreMenu(
   const button = (
     <button
       type="button"
-      className="btn ghost icon more-button"
+      className={text ? "btn compact filter-button" : "btn ghost icon more-button"}
       aria-label={look?.name ?? `More actions for ${label}`}
       aria-haspopup="menu"
       aria-expanded={place !== null}
@@ -210,7 +213,8 @@ export function useMoreMenu(
         open({ x: box.right, y: box.bottom + 4 });
       }}
     >
-      <Icon size={20} aria-hidden="true" />
+      {text && <span>{text}</span>}
+      <Icon size={text ? 16 : 20} aria-hidden="true" />
     </button>
   );
   return {

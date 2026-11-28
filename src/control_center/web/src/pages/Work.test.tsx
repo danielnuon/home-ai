@@ -9,11 +9,36 @@ import { makeThread } from "../test/factories";
 import { fakeServer, renderPage } from "../test/render";
 import Work from "./Work";
 
-const board = (open: ReturnType<typeof makeThread>[], resolved = [] as typeof open) => ({
-  threads: { open, recently_resolved: resolved },
+const board = (
+  open: ReturnType<typeof makeThread>[],
+  resolved = [] as typeof open,
+  archived = [] as typeof open,
+  extra: Record<string, unknown> = {},
+) => ({
+  threads: { open, recently_resolved: resolved, archived },
   items: [],
   ideas: [],
   reviews: [],
+  products: [],
+  wip: { in_progress: 0, limit: 3 },
+  leads: [
+    { id: "foreman", name: "Foreman", department: "governance", pipeline: "Development" },
+    { id: "atlas", name: "Atlas", department: "personal", pipeline: "Personal" },
+  ],
+  ...extra,
+});
+
+const idea = (overrides: Record<string, unknown> = {}) => ({
+  id: "ID-1",
+  title: "Garden planner",
+  state: "Exploring",
+  lead: "Spark",
+  summary: "Water from the forecast.",
+  priority: "normal",
+  paused: false,
+  withdrawn: false,
+  thread_id: "TH-9",
+  ...overrides,
 });
 
 test("threads are the default view, grouped under their state", async () => {
@@ -93,4 +118,92 @@ test("the lead filter shows each lead's face in its live state, and All shows th
   expect(within(all).getAllByRole("img")).toHaveLength(2);
   expect(await within(filter).findAllByRole("img", { name: "Atlas, writing" })).toHaveLength(2);
   expect(within(all).getByRole("img", { name: "Foreman, idle" })).toBeInTheDocument();
+});
+
+test("pipeline and state filters narrow the threads, and Archived shows archived ones", async () => {
+  fakeServer({
+    "GET /api/v1/work": () =>
+      board(
+        [
+          makeThread({ id: "TH-1", title: "Lease Reminders 1.2", state: "working" }),
+          makeThread({
+            id: "TH-2",
+            title: "Book the oil change",
+            state: "idle",
+            pipeline: "Personal",
+            lead_name: "Atlas",
+          }),
+        ],
+        [],
+        [makeThread({ id: "TH-3", title: "Water heater claim", state: "resolved" })],
+      ),
+  });
+  renderPage(<Work />);
+
+  await userEvent.click(await screen.findByRole("button", { name: "Pipeline: All" }));
+  await userEvent.click(screen.getByRole("menuitem", { name: "Personal" }));
+  expect(await screen.findByRole("button", { name: "Pipeline: Personal" })).toBeInTheDocument();
+  expect(screen.queryByText("Lease Reminders 1.2")).not.toBeInTheDocument();
+  expect(screen.getByText("Book the oil change")).toBeInTheDocument();
+  expect(screen.queryByText("Water heater claim")).not.toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole("button", { name: "Pipeline: Personal" }));
+  await userEvent.click(screen.getByRole("menuitem", { name: "All" }));
+  await userEvent.click(screen.getByRole("button", { name: "Archived" }));
+  const archived = await screen.findByRole("region", { name: "Archived" });
+  expect(within(archived).getByText("Water heater claim")).toBeInTheDocument();
+});
+
+test("a thread's menu moves it to another lead, with Undo", async () => {
+  const thread = makeThread({ state: "working" });
+  const sent = fakeServer({
+    "GET /api/v1/work": () => board([thread]),
+    "POST /api/v1/threads/TH-1/move": () => ({ ...thread, lead_id: "atlas", lead_name: "Atlas" }),
+  });
+  renderPage(<Work />);
+
+  await userEvent.click(
+    await screen.findByRole("button", { name: `More actions for ${thread.title}` }),
+  );
+  await userEvent.click(screen.getByRole("menuitem", { name: "Move to Atlas" }));
+
+  expect(sent.find((r) => r.path === "/api/v1/threads/TH-1/move")?.body).toEqual({
+    lead_id: "atlas",
+  });
+  expect(await screen.findByText(`Moved to Atlas: ${thread.title}`)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
+});
+
+test("Submit an idea sends the title and description", async () => {
+  const sent = fakeServer({
+    "GET /api/v1/work": () => board([]),
+    "POST /api/v1/ideas": () => idea({ title: "Pantry tracker", state: "Captured" }),
+  });
+  renderPage(<Work />, "/work?view=boards");
+
+  await userEvent.click(await screen.findByRole("button", { name: "Submit an idea" }));
+  await userEvent.type(screen.getByRole("textbox", { name: "Title" }), "Pantry tracker");
+  await userEvent.click(screen.getByRole("button", { name: "Submit the idea" }));
+
+  expect(sent.find((r) => r.path === "/api/v1/ideas")?.body).toEqual({
+    title: "Pantry tracker",
+    summary: "",
+  });
+  expect(await screen.findByText("Spark has your idea: Pantry tracker")).toBeInTheDocument();
+});
+
+test("an idea's menu withdraws it, with Undo", async () => {
+  const sent = fakeServer({
+    "GET /api/v1/work": () => board([], [], [], { ideas: [idea()] }),
+    "POST /api/v1/ideas/ID-1/withdraw": () => idea({ withdrawn: true }),
+  });
+  renderPage(<Work />, "/work?view=boards");
+
+  await userEvent.click(
+    await screen.findByRole("button", { name: "More actions for Garden planner" }),
+  );
+  await userEvent.click(screen.getByRole("menuitem", { name: "Withdraw" }));
+
+  expect(sent.some((r) => r.path === "/api/v1/ideas/ID-1/withdraw")).toBe(true);
+  expect(await screen.findByText("Withdrawn: Garden planner")).toBeInTheDocument();
 });

@@ -755,6 +755,226 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/threads/{thread_id}/move": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Move Thread
+     * @description Move a misrouted thread to another lead: an Owner command, undone by moving it back.
+     */
+    post: operations["move_thread_api_v1_threads__thread_id__move_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Submit Idea
+     * @description Capture a new idea for the Ideation Lead.
+     */
+    post: operations["submit_idea_api_v1_ideas_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas/{idea_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Edit Idea
+     * @description Change an idea's title or description.
+     */
+    put: operations["edit_idea_api_v1_ideas__idea_id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas/{idea_id}/withdraw": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Withdraw Idea
+     * @description Withdraw an idea, undone by reopening it.
+     */
+    post: operations["withdraw_idea_api_v1_ideas__idea_id__withdraw_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas/{idea_id}/reopen": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Reopen Idea
+     * @description Reopen a withdrawn idea.
+     */
+    post: operations["reopen_idea_api_v1_ideas__idea_id__reopen_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas/{idea_id}/paused": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Idea Paused
+     * @description Pause or resume an idea: an Owner command.
+     */
+    put: operations["set_idea_paused_api_v1_ideas__idea_id__paused_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/ideas/{idea_id}/priority": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Idea Priority
+     * @description Change an idea's priority.
+     */
+    put: operations["set_idea_priority_api_v1_ideas__idea_id__priority_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/work-items/{item_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Item Detail
+     * @description One work item's page.
+     */
+    get: operations["item_detail_api_v1_work_items__item_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/work-items/{item_id}/paused": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Item Paused
+     * @description Pause or resume a work item: an Owner command.
+     */
+    put: operations["set_item_paused_api_v1_work_items__item_id__paused_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/work-items/{item_id}/priority": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Item Priority
+     * @description Change a work item's priority.
+     */
+    put: operations["set_item_priority_api_v1_work_items__item_id__priority_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/products/{product_id}/retire": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Retire Product
+     * @description Ask Foreman to retire a product: opens its retirement work item and approval card.
+     */
+    post: operations["retire_product_api_v1_products__product_id__retire_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/directory": {
     parameters: {
       query?: never;
@@ -789,6 +1009,26 @@ export interface paths {
      */
     put: operations["set_employee_enabled_api_v1_directory__employee_id__enabled_put"];
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/directory/role-suggestions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Suggest Role
+     * @description Suggest a new role; it becomes a lifecycle proposal.
+     */
+    post: operations["suggest_role_api_v1_directory_role_suggestions_post"];
     delete?: never;
     options?: never;
     head?: never;
@@ -3876,6 +4116,33 @@ export interface components {
       current: boolean;
     };
     /**
+     * DiffFile
+     * @description One changed file in a review request's diff (spec 7.2, the review diff viewer).
+     */
+    DiffFile: {
+      /** Path */
+      path: string;
+      /** Added */
+      added: number;
+      /** Removed */
+      removed: number;
+      /** Lines */
+      lines: components["schemas"]["DiffLine"][];
+    };
+    /**
+     * DiffLine
+     * @description One line of a diff: added, removed, or unchanged context.
+     */
+    DiffLine: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "add" | "remove" | "context";
+      /** Text */
+      text: string;
+    };
+    /**
      * Directory
      * @description Everything on the Directory page.
      */
@@ -4045,6 +4312,8 @@ export interface components {
      * @description An employee card and profile in the Directory (spec 7.11, 14.7).
      *
      *     `state` drives the avatar; `status` is the roll-up of the employee's sessions shown in words.
+     *     `pipeline` is the pipeline the employee works in, for the Directory's filter and team view;
+     *     `reports_to` is its lead's id, for the org view, and is None for a lead (spec 7.11).
      */
     Employee: {
       /** Id */
@@ -4094,6 +4363,13 @@ export interface components {
         | "idle"
         | "not_yet_hired"
         | "disabled";
+      /**
+       * Pipeline
+       * @default
+       */
+      pipeline: string;
+      /** Reports To */
+      reports_to: string | null;
     };
     /**
      * EmployeeToggle
@@ -4255,6 +4531,23 @@ export interface components {
       undo_until: string;
     };
     /**
+     * GateCheck
+     * @description One gate on a work item's path, G1 to G8 (spec 17.3), and where it stands.
+     */
+    GateCheck: {
+      /** Code */
+      code: string;
+      /** Name */
+      name: string;
+      /**
+       * State
+       * @enum {string}
+       */
+      state: "passed" | "waiting" | "todo";
+      /** Note */
+      note: string;
+    };
+    /**
      * GuideAnswer
      * @description Wayfinder's answer. It is read-only: it explains, and never changes anything itself.
      */
@@ -4350,6 +4643,10 @@ export interface components {
     /**
      * Idea
      * @description An idea on the ideas board (spec 16.2).
+     *
+     *     `state` is its Pipeline A state in words. `summary` is the Owner's own description, which
+     *     the Owner can edit until the idea is withdrawn. A withdrawn idea stays on the board, marked,
+     *     so it can be reopened (Undo). `thread_id` is the idea's thread with the Ideation Lead.
      */
     Idea: {
       /** Id */
@@ -4360,6 +4657,42 @@ export interface components {
       state: string;
       /** Lead */
       lead: string;
+      /**
+       * Summary
+       * @default
+       */
+      summary: string;
+      /**
+       * Priority
+       * @default normal
+       * @enum {string}
+       */
+      priority: "high" | "normal" | "low";
+      /**
+       * Paused
+       * @default false
+       */
+      paused: boolean;
+      /**
+       * Withdrawn
+       * @default false
+       */
+      withdrawn: boolean;
+      /** Thread Id */
+      thread_id: string | null;
+    };
+    /**
+     * IdeaDraft
+     * @description A new idea, or an edit to one: its title and the Owner's description (spec 16.1).
+     */
+    IdeaDraft: {
+      /** Title */
+      title: string;
+      /**
+       * Summary
+       * @default
+       */
+      summary: string;
     };
     /**
      * ImpactLine
@@ -4478,6 +4811,23 @@ export interface components {
       reserved_gb: number;
       /** Meta */
       meta: string;
+    };
+    /**
+     * LeadRef
+     * @description A lead a thread can be moved to, by its id in Chat (spec 15.8.5).
+     */
+    LeadRef: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /**
+       * Department
+       * @enum {string}
+       */
+      department: "personal" | "engineering" | "quality" | "ideation" | "governance";
+      /** Pipeline */
+      pipeline: string;
     };
     /**
      * LedgerEntry
@@ -5192,6 +5542,14 @@ export interface components {
       meta: string;
     };
     /**
+     * PausedChange
+     * @description Pause or resume an idea or a work item: an Owner command (spec 7.10, 15.8.10).
+     */
+    PausedChange: {
+      /** Paused */
+      paused: boolean;
+    };
+    /**
      * PersonalOverview
      * @description The Personal page (spec 7.2).
      *
@@ -5364,6 +5722,45 @@ export interface components {
       keep: "archive" | "delete";
     };
     /**
+     * PriorityChange
+     * @description Move an idea or work item up or down its pipeline's queue.
+     */
+    PriorityChange: {
+      /**
+       * Priority
+       * @enum {string}
+       */
+      priority: "high" | "normal" | "low";
+    };
+    /**
+     * Product
+     * @description A product the development pipeline built: its repository and its mirror (spec 17.19).
+     *
+     *     `wip` counts its work items in D4 to D7 against `wip_limit` (17.10). Only a `released`
+     *     product can be retired; asking opens its retirement work item (17.21).
+     */
+    Product: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /**
+       * State
+       * @enum {string}
+       */
+      state: "building" | "released" | "retiring";
+      /** Repo Path */
+      repo_path: string;
+      /** Github Url */
+      github_url: string | null;
+      /** Pull Requests */
+      pull_requests: components["schemas"]["PullRequest"][];
+      /** Wip */
+      wip: number;
+      /** Wip Limit */
+      wip_limit: number;
+    };
+    /**
      * ProposalDecision
      * @description The Owner's answer to a lifecycle proposal.
      */
@@ -5408,6 +5805,20 @@ export interface components {
     PruneRequest: {
       /** Plan Id */
       plan_id: string;
+    };
+    /**
+     * PullRequest
+     * @description An open pull request on a product's GitHub mirror, one per work item (spec 17.19).
+     */
+    PullRequest: {
+      /** Number */
+      number: number;
+      /** Title */
+      title: string;
+      /** Url */
+      url: string;
+      /** Item Id */
+      item_id: string | null;
     };
     /**
      * QuickCard
@@ -5540,6 +5951,21 @@ export interface components {
       reviewer: string;
       /** Readability */
       readability: string;
+      /** Item Id */
+      item_id: string | null;
+    };
+    /**
+     * RoleSuggestion
+     * @description The Owner's suggestion for a new role. It becomes a lifecycle proposal (spec 7.2).
+     */
+    RoleSuggestion: {
+      /** Title */
+      title: string;
+      /**
+       * Reason
+       * @default
+       */
+      reason: string;
     };
     /**
      * RoutingPanel
@@ -6055,6 +6481,18 @@ export interface components {
       state: "done" | "current" | "todo";
     };
     /**
+     * StageEvent
+     * @description One entry in a work item's stage history: a stage entered, a gate passed or a rework.
+     */
+    StageEvent: {
+      /** Code */
+      code: string;
+      /** Text */
+      text: string;
+      /** When */
+      when: string;
+    };
+    /**
      * StatementImport
      * @description Import status for one account (spec 7.2, Finance).
      */
@@ -6311,14 +6749,27 @@ export interface components {
       learning: boolean;
     };
     /**
+     * ThreadMove
+     * @description Move a misrouted thread to another lead: an Owner command, one tap with Undo (15.8.5).
+     */
+    ThreadMove: {
+      /** Lead Id */
+      lead_id: string;
+    };
+    /**
      * ThreadsOverview
      * @description The Threads view: open threads in state order, then the recently resolved.
+     *
+     *     `archived` holds resolved threads past their archive delay. The view hides them unless the
+     *     Owner turns on the Archived filter (spec 15.8.9).
      */
     ThreadsOverview: {
       /** Open */
       open: components["schemas"]["Thread"][];
       /** Recently Resolved */
       recently_resolved: components["schemas"]["Thread"][];
+      /** Archived */
+      archived: components["schemas"]["Thread"][];
     };
     /**
      * Tile
@@ -6426,6 +6877,25 @@ export interface components {
        * @default true
        */
       done: boolean;
+    };
+    /**
+     * TranscriptLog
+     * @description One session's transcript on a work item, with who ran it.
+     */
+    TranscriptLog: {
+      /** Task Id */
+      task_id: string;
+      /** Employee Name */
+      employee_name: string;
+      /**
+       * Department
+       * @enum {string}
+       */
+      department: "personal" | "engineering" | "quality" | "ideation" | "governance";
+      /** Doing */
+      doing: string;
+      /** Entries */
+      entries: components["schemas"]["TranscriptEntry"][];
     };
     /**
      * TrashItem
@@ -6616,6 +7086,16 @@ export interface components {
       locked: boolean;
     };
     /**
+     * WipCount
+     * @description Work items in D4 to D7 across every product, against the global limit (spec 17.10).
+     */
+    WipCount: {
+      /** In Progress */
+      in_progress: number;
+      /** Limit */
+      limit: number;
+    };
+    /**
      * WontFix
      * @description Close a finding as won't-fix, with the reason that stays on it.
      */
@@ -6625,7 +7105,9 @@ export interface components {
     };
     /**
      * WorkBoard
-     * @description The Work page: threads first, then items being built, ideas, and reviews waiting.
+     * @description The Work page: threads first, then items being built, ideas, reviews and products.
+     *
+     *     `leads` lists every lead, for Move and the lead filter.
      */
     WorkBoard: {
       threads: components["schemas"]["ThreadsOverview"];
@@ -6635,10 +7117,20 @@ export interface components {
       ideas: components["schemas"]["Idea"][];
       /** Reviews */
       reviews: components["schemas"]["ReviewRequest"][];
+      /** Products */
+      products: components["schemas"]["Product"][];
+      wip: components["schemas"]["WipCount"];
+      /** Leads */
+      leads: components["schemas"]["LeadRef"][];
     };
     /**
      * WorkItem
      * @description A work item's status card, rendered the same way everywhere (spec 7.10, "Status cards").
+     *
+     *     `paused` is the Owner's pause (7.10): its sessions hold at their next step boundary and its
+     *     status reads Paused. `rework_count` counts rework cycles so far (17.10). `product_id` names
+     *     the product whose repository the item changes (17.19), and `thread_id` the thread it runs in.
+     *     A `retirement` item is the one that ends a product's life (17.21).
      */
     WorkItem: {
       /** Id */
@@ -6675,6 +7167,49 @@ export interface components {
       cost_usd: number;
       /** Waiting On Owner */
       waiting_on_owner: boolean;
+      /**
+       * Priority
+       * @default normal
+       * @enum {string}
+       */
+      priority: "high" | "normal" | "low";
+      /**
+       * Paused
+       * @default false
+       */
+      paused: boolean;
+      /**
+       * Rework Count
+       * @default 0
+       */
+      rework_count: number;
+      /** Product Id */
+      product_id: string | null;
+      /** Thread Id */
+      thread_id: string | null;
+      /**
+       * Kind
+       * @default build
+       * @enum {string}
+       */
+      kind: "build" | "retirement";
+    };
+    /**
+     * WorkItemDetail
+     * @description A work item's detail page: stage history, gates, diffs and transcripts (spec 7.2).
+     */
+    WorkItemDetail: {
+      item: components["schemas"]["WorkItem"];
+      product: components["schemas"]["Product"] | null;
+      /** History */
+      history: components["schemas"]["StageEvent"][];
+      /** Gates */
+      gates: components["schemas"]["GateCheck"][];
+      review: components["schemas"]["ReviewRequest"] | null;
+      /** Diff */
+      diff: components["schemas"]["DiffFile"][];
+      /** Transcripts */
+      transcripts: components["schemas"]["TranscriptLog"][];
     };
     /**
      * WorkRequested
@@ -8172,6 +8707,428 @@ export interface operations {
       };
     };
   };
+  move_thread_api_v1_threads__thread_id__move_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ThreadMove"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Thread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  submit_idea_api_v1_ideas_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["IdeaDraft"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  edit_idea_api_v1_ideas__idea_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        idea_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["IdeaDraft"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  withdraw_idea_api_v1_ideas__idea_id__withdraw_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        idea_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  reopen_idea_api_v1_ideas__idea_id__reopen_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        idea_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_idea_paused_api_v1_ideas__idea_id__paused_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        idea_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PausedChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_idea_priority_api_v1_ideas__idea_id__priority_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        idea_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PriorityChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Idea"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  item_detail_api_v1_work_items__item_id__get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WorkItemDetail"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_item_paused_api_v1_work_items__item_id__paused_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PausedChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WorkItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_item_priority_api_v1_work_items__item_id__priority_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PriorityChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WorkItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  retire_product_api_v1_products__product_id__retire_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        product_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["WorkItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   directory_api_v1_directory_get: {
     parameters: {
       query?: never;
@@ -8233,6 +9190,44 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  suggest_role_api_v1_directory_role_suggestions_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RoleSuggestion"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["LifecycleProposal"];
+        };
       };
       /** @description Validation Error */
       422: {
