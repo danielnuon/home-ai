@@ -422,3 +422,53 @@ kbd {
   cursor: pointer;
   border-radius: var(--radius-row);
 }
+
+/* Forms in sheets, filter chips, and ticks (area A: Contacts and Approvals) ------------------- */
+
+.form-group {
+  --gap: var(--space-1);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.form-group > legend {
+  padding: 0;
+  margin-bottom: var(--space-1);
+}
+
+.check-row {
+  --gap: var(--space-3);
+  min-height: var(--touch);
+  align-items: center;
+  cursor: pointer;
+}
+
+.check-row input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+.filter-row {
+  --gap: var(--space-2);
+  align-items: center;
+}
+
+.filter-label {
+  min-width: 64px;
+}
+
+.batch {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+}
+
+.draft-field {
+  min-height: 96px;
+}

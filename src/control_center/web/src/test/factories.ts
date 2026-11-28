@@ -24,9 +24,12 @@ export function makeApproval(overrides: Partial<Approval> = {}): Approval {
     principal: "owner",
     recipient: "Dr. Patel's office",
     recipient_trust: "allowlisted",
+    contact_id: "C-1",
+    pipeline: "Personal ops",
     summary: "Confirm Tuesday 10:30.",
     draft: "Tuesday at 10:30 works. Thank you!",
     release: null,
+    batch: null,
     expires_at: null,
     needs_step_up: false,
     state: "pending",
@@ -41,8 +44,30 @@ export function makeContacts(
   trust: ContactsOverview["contacts"][number]["trust"] = "known",
 ): ContactsOverview {
   return {
-    household: [{ id: "owner", name: "You", meta: "Owner" }],
-    contacts: [{ id: "C-1", name: "A-1 Plumbing", meta: "Home · vendor", trust }],
+    household: [
+      {
+        id: "owner",
+        name: "You",
+        meta: "Owner · 1 account · 0 calendars",
+        role: "owner",
+        accounts: ["A-01"],
+        calendars: [],
+        removal: null,
+      },
+    ],
+    contacts: [
+      {
+        id: "C-1",
+        name: "A-1 Plumbing",
+        meta: "Home · phone",
+        trust,
+        area: "Home",
+        principal: "owner",
+        channels: [{ kind: "phone", value: "(555) 010-7781" }],
+        linked_accounts: [],
+      },
+    ],
+    accounts: [{ id: "A-01", label: "Personal Gmail", kind: "account" }],
   };
 }
 

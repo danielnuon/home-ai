@@ -50,6 +50,14 @@ export const useFinance = (principal: T.Principal) =>
   useResource<T.FinanceOverview>(["finance", principal], `/finance/${principal}`, true, true);
 /** Contacts and household. */
 export const useContacts = () => useResource<T.ContactsOverview>(["contacts"], "/contacts");
+/** One contact's sheet: channels, history and what mentions it; off until one is chosen. */
+export const useContactDetail = (contactId: string | null) =>
+  useResource<T.ContactDetail>(
+    ["contacts", contactId],
+    `/contacts/${contactId ?? ""}`,
+    contactId !== null,
+    true,
+  );
 /** Setup steps. */
 export const useSetup = () => useResource<T.SetupStep[]>(["setup"], "/setup");
 /** Every setting and the hard limits. */

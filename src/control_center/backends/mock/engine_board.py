@@ -410,6 +410,7 @@ class BoardDesk(WorkDesk):
             data_class="internal",
             approval_class="P",
             principal="Owner",
+            pipeline="Development",
             summary=RETIREMENT_SUMMARY,
             needs_step_up=False,
             state="pending",

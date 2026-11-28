@@ -1,14 +1,14 @@
-"""Approvals, critical decisions and contacts for the mock gate. Settings are in `settings`."""
+"""Approvals and critical decisions for the mock gate. Settings and people have their own."""
 
 from datetime import UTC, datetime, timedelta
 
 from control_center.contract.gate import (
     Approval,
+    BatchMessage,
     CriticalDecision,
     RejectedOption,
     ReleaseSummary,
 )
-from control_center.contract.personal import Contact, HouseholdMember
 
 
 def approvals(now: datetime) -> list[Approval]:
@@ -26,6 +26,8 @@ def approvals(now: datetime) -> list[Approval]:
             principal="Owner",
             recipient="front.desk@[clinic domain]",
             recipient_trust="allowlisted",
+            contact_id="C-01",
+            pipeline="Personal ops",
             summary="Confirm Tuesday at 10:30 · from your Gmail",
             draft="Hi, confirming Tuesday at 10:30. Thank you!",
             expires_at=now + timedelta(hours=6),
@@ -44,6 +46,8 @@ def approvals(now: datetime) -> list[Approval]:
             principal="Owner",
             recipient="Unit B tenant",
             recipient_trust="known",
+            contact_id="C-02",
+            pipeline="Personal ops",
             summary="New recipient · attachment: receipt-2026-10.pdf",
             draft="Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
             expires_at=now + timedelta(hours=20),
@@ -59,6 +63,7 @@ def approvals(now: datetime) -> list[Approval]:
             data_class="internal",
             approval_class="R",
             principal="Owner",
+            pipeline="Development",
             summary="R2 · gate G7",
             release=ReleaseSummary(
                 added_lines=412,
@@ -84,6 +89,8 @@ def approvals(now: datetime) -> list[Approval]:
             principal="Dad",
             recipient="Insurer member services",
             recipient_trust="known",
+            contact_id="C-05",
+            pipeline="Personal ops",
             summary="New recipient · asks to confirm in-network status for one pharmacy",
             draft=(
                 "Hello, could you confirm whether the pharmacy on Elm Street is in network "
@@ -91,6 +98,29 @@ def approvals(now: datetime) -> list[Approval]:
             ),
             expires_at=now + timedelta(hours=24),
             needs_step_up=True,
+            state="pending",
+        ),
+        Approval(
+            id="AP-0111",
+            title="Send December rent reminders",
+            employee_name="Keystone",
+            department="personal",
+            domain="Rental",
+            data_class="internal",
+            approval_class="P",
+            tier="T3",
+            principal="Owner",
+            pipeline="Personal ops",
+            summary="3 messages · rent is due Dec 1",
+            batch=[
+                BatchMessage(id="B-1", recipient="Unit A tenant", summary="Rent reminder"),
+                BatchMessage(id="B-2", recipient="Unit B tenant", summary="Rent reminder"),
+                BatchMessage(
+                    id="B-3", recipient="Unit C tenant", summary="Rent reminder · lease ends Jan"
+                ),
+            ],
+            expires_at=now + timedelta(days=2),
+            needs_step_up=False,
             state="pending",
         ),
     ]
@@ -162,29 +192,6 @@ def _earlier_decisions() -> list[CriticalDecision]:
         past("CDR-0010", "Restricted domains show summaries in Discord", "Oct 26"),
         past("CDR-0009", "Nightly maintenance moved to 02:30", "Oct 24", vetoed=True),
         past("CDR-0001", "AI reviews the security-critical code", "Oct 24"),
-    ]
-
-
-def household() -> list[HouseholdMember]:
-    """The three principals from the design."""
-    return [
-        HouseholdMember(id="owner", name="You", meta="Owner · 3 accounts"),
-        HouseholdMember(id="mom", name="Mom", meta="Principal · 2 accounts"),
-        HouseholdMember(id="dad", name="Dad", meta="Principal · 2 accounts"),
-    ]
-
-
-def contacts() -> list[Contact]:
-    """Outside contacts from the design, one of each trust level."""
-    return [
-        Contact(id="C-01", name="Dr. Patel's office", meta="Health · email", trust="allowlisted"),
-        Contact(id="C-02", name="Unit B tenant", meta="Rental · email, text", trust="known"),
-        Contact(id="C-03", name="A-1 Plumbing", meta="Home · vendor", trust="allowlisted"),
-        Contact(id="C-04", name="Tax preparer", meta="Taxes · email", trust="allowlisted"),
-        Contact(
-            id="C-05", name="Insurer member services", meta="Health · Dad · new", trust="known"
-        ),
-        Contact(id="C-06", name="Promo sender", meta="14 messages filed", trust="blocked"),
     ]
 
 

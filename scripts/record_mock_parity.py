@@ -53,6 +53,7 @@ def reads() -> list[Step]:
         "/schedule", "/security", "/backups", "/maintenance", "/connections", "/voice", "/docs",
         "/docs/infra", "/docs/nope", "/trash", "/offline-pack", "/library",
         "/work-items/WI-0031", "/work-items/WI-0029", "/work-items/nope",
+        "/contacts/C-02", "/contacts/nope",
     ]  # fmt: skip
     return [{"method": "GET", "path": path} for path in paths]
 
@@ -299,6 +300,129 @@ def board_steps() -> list[Step]:
     ]
 
 
+def people_steps() -> list[Step]:
+    """Contacts, principals and the Approvals edits, with each refusal."""
+    new = {
+        "name": "Northside Vet",
+        "area": "Pets",
+        "principal": "owner",
+        "channels": [{"kind": "phone", "value": "(555) 010-3300"}],
+        "trust": "known",
+    }
+    contacts = "/contacts"
+    return [
+        {"method": "POST", "path": contacts, "body": {**new, "name": " "}},
+        {
+            "method": "POST",
+            "path": contacts,
+            "body": {**new, "channels": [{"kind": "email", "value": " "}]},
+        },
+        {"method": "POST", "path": contacts, "body": {**new, "principal": "nobody"}},
+        {"method": "POST", "path": contacts, "body": new},
+        {"method": "POST", "path": contacts, "body": {**new, "trust": "allowlisted"}},
+        *step_up(),
+        {
+            "method": "POST",
+            "path": contacts,
+            "body": {**new, "trust": "allowlisted"},
+            "step_up": PROOF,
+        },
+        {
+            "method": "PUT",
+            "path": "/contacts/C-03",
+            "body": {**new, "name": "A-1 Plumbing", "trust": "blocked"},
+        },
+        {
+            "method": "PUT",
+            "path": "/contacts/C-03",
+            "body": {**new, "name": "A-1 Plumbing", "trust": "allowlisted"},
+        },
+        {"method": "PUT", "path": "/contacts/nope", "body": new},
+        {"method": "POST", "path": "/contacts/C-01/merge", "body": {"into": "C-01"}},
+        {"method": "POST", "path": "/contacts/C-01/merge", "body": {"into": "C-05"}},
+        {"method": "GET", "path": "/contacts/C-05"},
+        {"method": "POST", "path": "/contacts/C-04/remove"},
+        {"method": "POST", "path": "/contacts/C-04/remove"},
+        {"method": "GET", "path": "/trash"},
+        {"method": "GET", "path": contacts},
+        {"method": "POST", "path": "/principals", "body": {"name": "Grandma"}},
+        {"method": "POST", "path": "/principals", "body": {"name": " "}},
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/principals",
+            "body": {"name": "Grandma"},
+            "step_up": PROOF,
+        },
+        {
+            "method": "PUT",
+            "path": "/principals/mom/accounts",
+            "body": {"accounts": ["A-04"], "calendars": ["K-03"]},
+        },
+        {
+            "method": "PUT",
+            "path": "/principals/mom/accounts",
+            "body": {"accounts": ["A-04", "A-07"], "calendars": []},
+        },
+        {
+            "method": "PUT",
+            "path": "/principals/mom/accounts",
+            "body": {"accounts": ["K-01"], "calendars": []},
+        },
+        *step_up(),
+        {
+            "method": "PUT",
+            "path": "/principals/mom/accounts",
+            "body": {"accounts": ["A-04", "A-07"], "calendars": []},
+            "step_up": PROOF,
+        },
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/principals/owner/remove",
+            "body": {"keep": "archive"},
+            "step_up": PROOF,
+        },
+        {"method": "POST", "path": "/principals/dad/remove", "body": {"keep": "delete"}},
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/principals/dad/remove",
+            "body": {"keep": "delete"},
+            "step_up": PROOF,
+        },
+        {"method": "POST", "path": "/principals/dad/undo-remove"},
+        {"method": "POST", "path": "/principals/dad/undo-remove"},
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/principals/mom/remove",
+            "body": {"keep": "archive"},
+            "step_up": PROOF,
+        },
+        {
+            "method": "PUT",
+            "path": "/approvals/AP-0107/draft",
+            "body": {"draft": "Hi, Tuesday at 10:30 works."},
+        },
+        {"method": "PUT", "path": "/approvals/AP-0107/draft", "body": {"draft": " "}},
+        {"method": "PUT", "path": "/approvals/AP-0109/draft", "body": {"draft": "x"}},
+        {"method": "PUT", "path": "/approvals/AP-0111/batch/B-3", "body": {"included": False}},
+        {"method": "PUT", "path": "/approvals/AP-0111/batch/B-2", "body": {"included": False}},
+        {"method": "PUT", "path": "/approvals/AP-0111/batch/B-1", "body": {"included": False}},
+        {"method": "PUT", "path": "/approvals/AP-0111/batch/B-9", "body": {"included": False}},
+        {"method": "POST", "path": "/approvals/AP-0111/decision", "body": {"decision": "approve"}},
+        {"method": "PUT", "path": "/approvals/AP-0111/batch/B-2", "body": {"included": True}},
+        {"method": "POST", "path": "/approvals/AP-0109/allow-recipient"},
+        {"method": "POST", "path": "/approvals/AP-0107/allow-recipient"},
+        {"method": "POST", "path": "/approvals/AP-0108/allow-recipient"},
+        *step_up(),
+        {"method": "POST", "path": "/approvals/AP-0108/allow-recipient", "step_up": PROOF},
+        {"method": "POST", "path": "/approvals/AP-0108/allow-recipient"},
+        {"method": "GET", "path": "/approvals"},
+    ]
+
+
 def later_steps() -> list[Step]:
     """Time passing: cards expire, decisions take effect, a snooze ends."""
     return [
@@ -311,6 +435,8 @@ def later_steps() -> list[Step]:
         {"method": "GET", "path": "/decisions"},
         {"method": "GET", "path": "/platform"},
         {"method": "GET", "path": "/today"},
+        {"advance": 7 * 24 * 3600},
+        {"method": "GET", "path": "/contacts"},
     ]
 
 
@@ -395,7 +521,15 @@ def run(steps: list[Step]) -> list[Step]:
 
 def main() -> None:
     """Record the scripted session to the path given."""
-    steps = [*reads(), *gate_steps(), *work_steps(), *shell_steps(), *board_steps(), *later_steps()]
+    steps = [
+        *reads(),
+        *gate_steps(),
+        *work_steps(),
+        *shell_steps(),
+        *people_steps(),
+        *board_steps(),
+        *later_steps(),
+    ]
     payload = {"exported_at": EXPORT_NOW.isoformat(), "steps": run(steps)}
     text = json.dumps(payload, indent=1, ensure_ascii=False, sort_keys=True) + "\n"
     Path(sys.argv[1]).write_text(text, encoding="utf-8")

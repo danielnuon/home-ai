@@ -14,9 +14,12 @@
     "principal": "Owner",
     "recipient": "front.desk@[clinic domain]",
     "recipient_trust": "allowlisted",
+    "contact_id": "C-01",
+    "pipeline": "Personal ops",
     "summary": "Confirm Tuesday at 10:30 · from your Gmail",
     "draft": "Hi, confirming Tuesday at 10:30. Thank you!",
     "release": null,
+    "batch": null,
     "expires_at": "2026-10-25T22:00:00Z",
     "needs_step_up": false,
     "state": "pending",
@@ -35,9 +38,12 @@
     "principal": "Owner",
     "recipient": "Unit B tenant",
     "recipient_trust": "known",
+    "contact_id": "C-02",
+    "pipeline": "Personal ops",
     "summary": "New recipient · attachment: receipt-2026-10.pdf",
     "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
     "release": null,
+    "batch": null,
     "expires_at": "2026-10-26T12:00:00Z",
     "needs_step_up": true,
     "state": "pending",
@@ -56,6 +62,8 @@
     "principal": "Owner",
     "recipient": null,
     "recipient_trust": null,
+    "contact_id": null,
+    "pipeline": "Development",
     "summary": "R2 · gate G7",
     "draft": null,
     "release": {
@@ -66,6 +74,7 @@
      "checks_total": 14,
      "rollback": "One step to 1.1.4"
     },
+    "batch": null,
     "expires_at": "2026-10-31T16:00:00Z",
     "needs_step_up": false,
     "state": "pending",
@@ -84,11 +93,57 @@
     "principal": "Dad",
     "recipient": "Insurer member services",
     "recipient_trust": "known",
+    "contact_id": "C-05",
+    "pipeline": "Personal ops",
     "summary": "New recipient · asks to confirm in-network status for one pharmacy",
     "draft": "Hello, could you confirm whether the pharmacy on Elm Street is in network for my plan? Thank you.",
     "release": null,
+    "batch": null,
     "expires_at": "2026-10-26T16:00:00Z",
     "needs_step_up": true,
+    "state": "pending",
+    "decided_note": null,
+    "undo_until": null
+   },
+   "AP-0111": {
+    "id": "AP-0111",
+    "title": "Send December rent reminders",
+    "employee_name": "Keystone",
+    "department": "personal",
+    "domain": "Rental",
+    "data_class": "internal",
+    "approval_class": "P",
+    "tier": "T3",
+    "principal": "Owner",
+    "recipient": null,
+    "recipient_trust": null,
+    "contact_id": null,
+    "pipeline": "Personal ops",
+    "summary": "3 messages · rent is due Dec 1",
+    "draft": null,
+    "release": null,
+    "batch": [
+     {
+      "id": "B-1",
+      "recipient": "Unit A tenant",
+      "summary": "Rent reminder",
+      "included": true
+     },
+     {
+      "id": "B-2",
+      "recipient": "Unit B tenant",
+      "summary": "Rent reminder",
+      "included": true
+     },
+     {
+      "id": "B-3",
+      "recipient": "Unit C tenant",
+      "summary": "Rent reminder · lease ends Jan",
+      "included": true
+     }
+    ],
+    "expires_at": "2026-10-27T16:00:00Z",
+    "needs_step_up": false,
     "state": "pending",
     "decided_note": null,
     "undo_until": null
@@ -795,39 +850,229 @@
    "C-01": {
     "id": "C-01",
     "name": "Dr. Patel's office",
-    "meta": "Health · email",
-    "trust": "allowlisted"
+    "meta": "Health · email, phone",
+    "trust": "allowlisted",
+    "area": "Health",
+    "principal": "owner",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "front.desk@[clinic domain]"
+     },
+     {
+      "kind": "phone",
+      "value": "(555) 010-2231"
+     }
+    ],
+    "linked_accounts": [
+     "Personal Gmail"
+    ]
    },
    "C-02": {
     "id": "C-02",
     "name": "Unit B tenant",
     "meta": "Rental · email, text",
-    "trust": "known"
+    "trust": "known",
+    "area": "Rental",
+    "principal": "owner",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "unit.b@[tenant domain]"
+     },
+     {
+      "kind": "text",
+      "value": "(555) 010-4410"
+     }
+    ],
+    "linked_accounts": [
+     "Personal Gmail"
+    ]
    },
    "C-03": {
     "id": "C-03",
     "name": "A-1 Plumbing",
-    "meta": "Home · vendor",
-    "trust": "allowlisted"
+    "meta": "Home · phone, email",
+    "trust": "allowlisted",
+    "area": "Home",
+    "principal": "owner",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-7781"
+     },
+     {
+      "kind": "email",
+      "value": "office@[plumber domain]"
+     }
+    ],
+    "linked_accounts": [
+     "Personal Gmail",
+     "Chase checking"
+    ]
    },
    "C-04": {
     "id": "C-04",
     "name": "Tax preparer",
     "meta": "Taxes · email",
-    "trust": "allowlisted"
+    "trust": "allowlisted",
+    "area": "Taxes",
+    "principal": "owner",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "returns@[tax firm domain]"
+     }
+    ],
+    "linked_accounts": [
+     "Personal Gmail"
+    ]
    },
    "C-05": {
     "id": "C-05",
     "name": "Insurer member services",
-    "meta": "Health · Dad · new",
-    "trust": "known"
+    "meta": "Health · Dad · email, phone",
+    "trust": "known",
+    "area": "Health",
+    "principal": "dad",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "members@[insurer domain]"
+     },
+     {
+      "kind": "phone",
+      "value": "(555) 010-9000"
+     }
+    ],
+    "linked_accounts": [
+     "Dad's Gmail",
+     "Dad's insurer portal"
+    ]
    },
    "C-06": {
     "id": "C-06",
     "name": "Promo sender",
-    "meta": "14 messages filed",
-    "trust": "blocked"
+    "meta": "Mail · email",
+    "trust": "blocked",
+    "area": "Mail",
+    "principal": "owner",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "deals@[promo domain]"
+     }
+    ],
+    "linked_accounts": []
    }
+  },
+  "household": {
+   "owner": {
+    "id": "owner",
+    "name": "You",
+    "meta": "Owner · 3 accounts · 2 calendars",
+    "role": "owner",
+    "accounts": [
+     "A-01",
+     "A-02",
+     "A-03"
+    ],
+    "calendars": [
+     "K-01",
+     "K-02"
+    ],
+    "removal": null
+   },
+   "mom": {
+    "id": "mom",
+    "name": "Mom",
+    "meta": "Principal · 2 accounts · 1 calendar",
+    "role": "principal",
+    "accounts": [
+     "A-04",
+     "A-05"
+    ],
+    "calendars": [
+     "K-03"
+    ],
+    "removal": null
+   },
+   "dad": {
+    "id": "dad",
+    "name": "Dad",
+    "meta": "Principal · 2 accounts · 1 calendar",
+    "role": "principal",
+    "accounts": [
+     "A-06",
+     "A-07"
+    ],
+    "calendars": [
+     "K-04"
+    ],
+    "removal": null
+   }
+  },
+  "contact_history": {
+   "C-01": [
+    {
+     "at": "2026-10-25T11:12:00Z",
+     "kind": "message",
+     "title": "Appointment reminder",
+     "detail": "Tuesday at 10:30 · filed under Health"
+    },
+    {
+     "at": "2026-10-13T16:00:00Z",
+     "kind": "approval",
+     "title": "Sent: insurance card photo",
+     "detail": "Approved by you · Chrono"
+    }
+   ],
+   "C-02": [
+    {
+     "at": "2026-10-24T16:00:00Z",
+     "kind": "message",
+     "title": "Kitchen faucet drips",
+     "detail": "Keystone opened a maintenance case"
+    },
+    {
+     "at": "2026-09-28T16:00:00Z",
+     "kind": "approval",
+     "title": "Sent: September rent receipt",
+     "detail": "Approved by you · Keystone"
+    }
+   ],
+   "C-03": [
+    {
+     "at": "2026-10-16T16:00:00Z",
+     "kind": "message",
+     "title": "Invoice #2291",
+     "detail": "Filed under Home · paid Nov 19"
+    }
+   ],
+   "C-04": [
+    {
+     "at": "2026-09-25T16:00:00Z",
+     "kind": "message",
+     "title": "Engagement letter for 2026",
+     "detail": "Filed under Taxes"
+    }
+   ],
+   "C-05": [
+    {
+     "at": "2026-10-22T16:00:00Z",
+     "kind": "message",
+     "title": "Explanation of benefits",
+     "detail": "Filed under Health for Dad"
+    }
+   ],
+   "C-06": [
+    {
+     "at": "2026-10-25T04:00:00Z",
+     "kind": "message",
+     "title": "14 messages filed",
+     "detail": "Blocked: filed without triage"
+    }
+   ]
   },
   "tasks": {
    "T-5521": {
@@ -2445,22 +2690,85 @@
     "value": "Full"
    }
   ],
-  "household": [
+  "linkable_accounts": [
    {
-    "id": "owner",
-    "name": "You",
-    "meta": "Owner · 3 accounts"
+    "id": "A-01",
+    "label": "Personal Gmail",
+    "kind": "account"
    },
    {
-    "id": "mom",
-    "name": "Mom",
-    "meta": "Principal · 2 accounts"
+    "id": "A-02",
+    "label": "Work Outlook",
+    "kind": "account"
    },
    {
-    "id": "dad",
-    "name": "Dad",
-    "meta": "Principal · 2 accounts"
+    "id": "A-03",
+    "label": "Chase checking",
+    "kind": "account"
+   },
+   {
+    "id": "A-04",
+    "label": "Mom's Gmail",
+    "kind": "account"
+   },
+   {
+    "id": "A-05",
+    "label": "Mom's Medicare portal",
+    "kind": "account"
+   },
+   {
+    "id": "A-06",
+    "label": "Dad's Gmail",
+    "kind": "account"
+   },
+   {
+    "id": "A-07",
+    "label": "Dad's insurer portal",
+    "kind": "account"
+   },
+   {
+    "id": "K-01",
+    "label": "Your calendar",
+    "kind": "calendar"
+   },
+   {
+    "id": "K-02",
+    "label": "Family calendar",
+    "kind": "calendar"
+   },
+   {
+    "id": "K-03",
+    "label": "Mom's calendar",
+    "kind": "calendar"
+   },
+   {
+    "id": "K-04",
+    "label": "Dad's calendar",
+    "kind": "calendar"
    }
+  ],
+  "contact_rules": [
+   [
+    "RL-03",
+    "File A-1 Plumbing invoices under Home",
+    [
+     "C-03"
+    ]
+   ],
+   [
+    "RL-07",
+    "Send tenant maintenance requests to Keystone",
+    [
+     "C-02"
+    ]
+   ],
+   [
+    "RL-09",
+    "Put Dr. Patel's messages in the morning brief",
+    [
+     "C-01"
+    ]
+   ]
   ],
   "service_groups": [
    {
@@ -5968,6 +6276,7 @@
    "D6",
    "D7"
   ],
-  "wip_global": 3
+  "wip_global": 3,
+  "principal_undo_days": 7
  }
 }

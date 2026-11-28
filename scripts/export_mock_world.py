@@ -30,7 +30,7 @@ from control_center.backends.mock import (
 )
 from control_center.backends.mock.engine_work import INSTRUMENT_COUNT
 from control_center.backends.mock.fixtures import chat as chat_fixtures
-from control_center.backends.mock.fixtures import gate as gate_fixtures
+from control_center.backends.mock.fixtures import contacts as contact_fixtures
 from control_center.backends.mock.fixtures import memory as memory_fixtures
 from control_center.backends.mock.fixtures import (
     ops,
@@ -76,6 +76,8 @@ def world_state() -> dict[str, Any]:
         "decisions",
         "settings",
         "contacts",
+        "household",
+        "contact_history",
         "tasks",
         "transcripts",
         "threads",
@@ -112,7 +114,8 @@ def fixtures() -> dict[str, Any]:
     }
     return {
         "hard_limits": dump(settings_fixtures.hard_limits()),
-        "household": dump(gate_fixtures.household()),
+        "linkable_accounts": dump(contact_fixtures.ACCOUNTS),
+        "contact_rules": [list(rule) for rule in contact_fixtures.RULES],
         "service_groups": dump(platform.service_groups()),
         "memory_zones": dump(platform.MEMORY_ZONES),
         "health_metrics": dump(platform.health_metrics()),
@@ -223,6 +226,7 @@ def constants() -> dict[str, Any]:
         "role_source": engine_board.ROLE_SOURCE,
         "wip_stages": sorted(work.WIP_STAGES),
         "wip_global": work.WIP_GLOBAL,
+        "principal_undo_days": contact_fixtures.PRINCIPAL_UNDO_DAYS,
     }
 
 
