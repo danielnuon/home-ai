@@ -1395,6 +1395,246 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/guide/ask": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Guide Ask
+     * @description Ask Wayfinder about the page on screen.
+     */
+    post: operations["guide_ask_api_v1_guide_ask_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/docs/{doc_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Doc Page
+     * @description One document, rendered.
+     */
+    get: operations["doc_page_api_v1_docs__doc_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/docs/{doc_id}/change-requests": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Request Doc Change
+     * @description Request a change to a document; it becomes a work item.
+     */
+    post: operations["request_doc_change_api_v1_docs__doc_id__change_requests_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/alerts/{alert_id}/action": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Alert Action
+     * @description Acknowledge, snooze or reopen an alert.
+     */
+    post: operations["alert_action_api_v1_alerts__alert_id__action_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/trash": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Trash
+     * @description Everything deleted in the last 30 days.
+     */
+    get: operations["trash_api_v1_trash_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/trash/{item_id}/restore": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Restore
+     * @description Put a deleted item back.
+     */
+    post: operations["restore_api_v1_trash__item_id__restore_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/trash/{item_id}/purge": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Purge
+     * @description Delete an item for good.
+     */
+    post: operations["purge_api_v1_trash__item_id__purge_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/offline-pack": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Offline Pack
+     * @description The offline pack, while it is on.
+     */
+    get: operations["offline_pack_api_v1_offline_pack_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/library": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Library
+     * @description The offline library's page.
+     */
+    get: operations["library_api_v1_library_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/library/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Library Search
+     * @description Search the library.
+     */
+    get: operations["library_search_api_v1_library_search_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/library/ask": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Library Ask
+     * @description Ask the librarian.
+     */
+    post: operations["library_ask_api_v1_library_ask_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/library/ark-drive": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Ark Drive
+     * @description Write an Ark drive to an external volume. Needs a step-up.
+     */
+    post: operations["ark_drive_api_v1_library_ark_drive_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1412,6 +1652,44 @@ export interface components {
       title: string;
       /** Meta */
       meta: string;
+    };
+    /**
+     * Alert
+     * @description An open alert on Today (spec 7.2): swipe right to acknowledge, left to snooze (7.14).
+     */
+    Alert: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /** Detail */
+      detail: string;
+      status: components["schemas"]["StatusLabel"];
+      /** Href */
+      href: string;
+      /**
+       * Raised At
+       * Format: date-time
+       */
+      raised_at: string;
+      /**
+       * State
+       * @enum {string}
+       */
+      state: "open" | "acknowledged" | "snoozed";
+      /** Snoozed Until */
+      snoozed_until: string | null;
+    };
+    /**
+     * AlertAction
+     * @description Acknowledge or snooze an alert, or reopen it (the undo of either).
+     */
+    AlertAction: {
+      /**
+       * Action
+       * @enum {string}
+       */
+      action: "acknowledge" | "snooze" | "reopen";
     };
     /**
      * Approval
@@ -1484,6 +1762,22 @@ export interface components {
       decision: "approve" | "deny";
       /** Reason */
       reason?: string | null;
+    };
+    /**
+     * ArkDriveRequest
+     * @description Write an Ark drive to the external volume the Owner chose (spec 12.8). Needs a step-up.
+     */
+    ArkDriveRequest: {
+      /** Volume */
+      volume: string;
+    };
+    /**
+     * ArkDriveStarted
+     * @description What the toast says once the writer has started.
+     */
+    ArkDriveStarted: {
+      /** Message */
+      message: string;
     };
     /**
      * AutomaticChange
@@ -1807,6 +2101,52 @@ export interface components {
       instruments: number;
     };
     /**
+     * DocBlock
+     * @description One block of a rendered document: a heading, a paragraph, a list item or a code line.
+     */
+    DocBlock: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "heading" | "paragraph" | "item" | "code";
+      /** Text */
+      text: string;
+    };
+    /**
+     * DocChangeRequest
+     * @description What the Owner wants changed in a document. It becomes a work item.
+     */
+    DocChangeRequest: {
+      /** Text */
+      text: string;
+    };
+    /**
+     * DocChangeRequested
+     * @description The work item a change request created, and the words the toast shows.
+     */
+    DocChangeRequested: {
+      /** Work Item Id */
+      work_item_id: string;
+      /** Message */
+      message: string;
+    };
+    /**
+     * DocPage
+     * @description One document as the Docs reader shows it (spec 7.2, Docs).
+     */
+    DocPage: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /** Meta */
+      meta: string;
+      status: components["schemas"]["StatusLabel"] | null;
+      /** Blocks */
+      blocks: components["schemas"]["DocBlock"][];
+    };
+    /**
      * DocsOverview
      * @description The Docs page: documentation grouped by area, with review status as the row status.
      */
@@ -1957,6 +2297,47 @@ export interface components {
        */
       undo_until: string;
     };
+    /**
+     * GuideAnswer
+     * @description Wayfinder's answer. It is read-only: it explains, and never changes anything itself.
+     */
+    GuideAnswer: {
+      /** Id */
+      id: string;
+      /** Question */
+      question: string;
+      /** Page */
+      page: string;
+      /** Answer */
+      answer: string;
+      /** Sources */
+      sources: components["schemas"]["GuideSource"][];
+    };
+    /**
+     * GuideQuestion
+     * @description A question for Wayfinder from the Guide panel, with the page it was asked on (spec 14.8).
+     *
+     *     `page` is the path on screen; `context` names the object in view, such as a document's title,
+     *     so Wayfinder answers about what the Owner is looking at.
+     */
+    GuideQuestion: {
+      /** Question */
+      question: string;
+      /** Page */
+      page: string;
+      /** Context */
+      context?: string | null;
+    };
+    /**
+     * GuideSource
+     * @description Where an answer came from, as a page the Owner can open.
+     */
+    GuideSource: {
+      /** Title */
+      title: string;
+      /** Href */
+      href: string;
+    };
     /** HTTPValidationError */
     HTTPValidationError: {
       /** Detail */
@@ -2056,6 +2437,86 @@ export interface components {
     JobToggle: {
       /** Paused */
       paused: boolean;
+    };
+    /**
+     * LibraryAnswer
+     * @description The librarian's answer, or the quick card a red-flag question opens at once (spec 12.8).
+     *
+     *     No passage means no answer: `answer` is then None and `note` says so.
+     */
+    LibraryAnswer: {
+      /** Question */
+      question: string;
+      /** Answer */
+      answer: string | null;
+      quick_card: components["schemas"]["QuickCard"] | null;
+      /** Citations */
+      citations: components["schemas"]["LibraryCitation"][];
+      /** Note */
+      note: string | null;
+    };
+    /**
+     * LibraryCitation
+     * @description A numbered source under a librarian answer. Open-edit sources are flagged unreviewed.
+     */
+    LibraryCitation: {
+      /** Number */
+      number: number;
+      /** Title */
+      title: string;
+      /** Publisher */
+      publisher: string;
+      /** Reviewed */
+      reviewed: boolean;
+    };
+    /**
+     * LibraryOverview
+     * @description The Library page (spec 7.2, 12.8): quick cards, tiers, the safety test and off-grid state.
+     */
+    LibraryOverview: {
+      /** Categories */
+      categories: ("Emergency" | "Medical" | "Water" | "Food" | "Shelter and warmth" | "Repair")[];
+      /** Quick Cards */
+      quick_cards: components["schemas"]["QuickCard"][];
+      /** Tiers */
+      tiers: components["schemas"]["LibraryTier"][];
+      safety_test: components["schemas"]["StatusLabel"];
+      /** Offgrid */
+      offgrid: boolean;
+      /** Battery */
+      battery: string | null;
+      /** Volumes */
+      volumes: string[];
+    };
+    /**
+     * LibraryQuestion
+     * @description A question for the librarian, or words to search the library for.
+     */
+    LibraryQuestion: {
+      /** Question */
+      question: string;
+    };
+    /**
+     * LibrarySearchResults
+     * @description Library pages and quick cards matching the words.
+     */
+    LibrarySearchResults: {
+      /** Query */
+      query: string;
+      /** Results */
+      results: components["schemas"]["SearchResult"][];
+    };
+    /**
+     * LibraryTier
+     * @description One of Ark's three content tiers and whether it is installed.
+     */
+    LibraryTier: {
+      /** Name */
+      name: string;
+      /** Size */
+      size: string;
+      /** Installed */
+      installed: boolean;
     };
     /**
      * LifecycleProposal
@@ -2399,6 +2860,21 @@ export interface components {
       tokens: components["schemas"]["TokensPanel"];
     };
     /**
+     * OfflinePack
+     * @description The offline pack (spec 7.7): what the phone keeps for when the Mac can't be reached.
+     *
+     *     Emergency sheets, the next 30 days of agenda, key contacts and bills due, as row groups.
+     */
+    OfflinePack: {
+      /**
+       * Generated At
+       * Format: date-time
+       */
+      generated_at: string;
+      /** Groups */
+      groups: components["schemas"]["RowGroup"][];
+    };
+    /**
      * PaidFeature
      * @description An optional paid feature (spec 3.6). Every one is off with a $0 cap by default.
      *
@@ -2442,6 +2918,8 @@ export interface components {
      * @description Global states shown on every page (spec 7.16, rule 6) plus the navigation badges.
      *
      *     `badges` maps a page route (for example "approvals") to a short count or symbol.
+     *     `features_on` lists the optional features that are on and add a page or a cache to the app,
+     *     such as `offline_library`, which puts Library in the navigation (spec 7.2).
      */
     PlatformState: {
       /** Stopped */
@@ -2457,6 +2935,8 @@ export interface components {
       badges: {
         [key: string]: components["schemas"]["StatusLabel"];
       };
+      /** Features On */
+      features_on: string[];
     };
     /**
      * ProposalDecision
@@ -2468,6 +2948,25 @@ export interface components {
        * @enum {string}
        */
       decision: "approve" | "decline";
+    };
+    /**
+     * QuickCard
+     * @description A reviewed quick card (spec 12.8): short steps, quoted from its source, never computed.
+     */
+    QuickCard: {
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /**
+       * Category
+       * @enum {string}
+       */
+      category: "Emergency" | "Medical" | "Water" | "Food" | "Shelter and warmth" | "Repair";
+      /** Steps */
+      steps: string[];
+      /** Source */
+      source: string;
     };
     /**
      * RejectedOption
@@ -3135,6 +3634,8 @@ export interface components {
       setup: components["schemas"]["SetupProgress"] | null;
       /** Spend Label */
       spend_label: string;
+      /** Alerts */
+      alerts: components["schemas"]["Alert"][];
     };
     /**
      * TokensPanel
@@ -3172,6 +3673,47 @@ export interface components {
        * @default true
        */
       done: boolean;
+    };
+    /**
+     * TrashItem
+     * @description Something deleted, kept for 30 days so it can be restored (spec 7.16, rule 11).
+     *
+     *     `home` is the page it returns to when restored.
+     */
+    TrashItem: {
+      /** Id */
+      id: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "record" | "document" | "contact" | "rule";
+      /** Title */
+      title: string;
+      /** Meta */
+      meta: string;
+      /** Home */
+      home: string;
+      /**
+       * Deleted At
+       * Format: date-time
+       */
+      deleted_at: string;
+      /**
+       * Purge At
+       * Format: date-time
+       */
+      purge_at: string;
+    };
+    /**
+     * TrashOverview
+     * @description Recently deleted items, newest first, and how long each is kept.
+     */
+    TrashOverview: {
+      /** Items */
+      items: components["schemas"]["TrashItem"][];
+      /** Retention Days */
+      retention_days: number;
     };
     /**
      * TrustChange
@@ -5875,6 +6417,445 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["DocsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  guide_ask_api_v1_guide_ask_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["GuideQuestion"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["GuideAnswer"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  doc_page_api_v1_docs__doc_id__get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        doc_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DocPage"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  request_doc_change_api_v1_docs__doc_id__change_requests_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        doc_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DocChangeRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DocChangeRequested"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  alert_action_api_v1_alerts__alert_id__action_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        alert_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AlertAction"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Alert"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  trash_api_v1_trash_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TrashOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  restore_api_v1_trash__item_id__restore_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TrashItem"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  purge_api_v1_trash__item_id__purge_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  offline_pack_api_v1_offline_pack_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OfflinePack"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  library_api_v1_library_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["LibraryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  library_search_api_v1_library_search_get: {
+    parameters: {
+      query?: {
+        q?: string;
+      };
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["LibrarySearchResults"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  library_ask_api_v1_library_ask_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LibraryQuestion"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["LibraryAnswer"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  ark_drive_api_v1_library_ark_drive_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ArkDriveRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ArkDriveStarted"];
         };
       };
       /** @description Validation Error */

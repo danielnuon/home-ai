@@ -16,7 +16,7 @@ const AXE_SOURCE = readFileSync(createRequire(import.meta.url).resolve("axe-core
 const WCAG_AA = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 /** Pages reachable from search or a link rather than the sidebar. */
-const UNLISTED = ["/voice", "/search?q=patel"];
+const UNLISTED = ["/voice", "/search?q=patel", "/docs/infra", "/trash", "/offline", "/library"];
 
 const THEMES = /** @type {const} */ (["light", "dark"]);
 const VIEWPORTS = {

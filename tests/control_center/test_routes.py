@@ -37,6 +37,8 @@ PAGES = [
     "/api/v1/connections",
     "/api/v1/voice",
     "/api/v1/docs",
+    "/api/v1/docs/infra",
+    "/api/v1/trash",
 ]
 
 

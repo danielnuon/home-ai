@@ -8,7 +8,7 @@ def doc_groups() -> list[RowGroup]:
     """Documentation by area with review state."""
     approved = StatusLabel(status="healthy", label="Approved")
     review = StatusLabel(status="attention", label="In review")
-    return [
+    groups = [
         RowGroup(
             name="The platform",
             rows=[
@@ -74,6 +74,11 @@ def doc_groups() -> list[RowGroup]:
             ],
         ),
     ]
+    # Every document opens in the Docs reader, except a release packet, which is an approval.
+    for group in groups:
+        for row in group.rows:
+            row.href = row.href or f"/docs/{row.id}"
+    return groups
 
 
 def search_index() -> list[SearchSection]:

@@ -20,6 +20,9 @@ export {
   MotionConfig,
   domMax as motionFeatures,
   m,
+  useMotionValue,
+  useTransform,
+  type PanInfo,
 } from "motion/react";
 
 /** A spring that settles without bounce (spec 7.14), for sheets and anything that moves. */

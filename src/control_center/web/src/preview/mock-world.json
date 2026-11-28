@@ -745,6 +745,36 @@
     "cost_note": "Hard ceiling $20 a month",
     "history": []
    },
+   "offline_pack": {
+    "key": "offline_pack",
+    "label": "Offline pack",
+    "note": "Emergency sheets, 30 days of agenda, key contacts and bills on your phone",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "offline",
+    "cost_note": "",
+    "history": []
+   },
+   "offline_library": {
+    "key": "offline_library",
+    "label": "Offline library",
+    "note": "Survival and medical library with a librarian; about 4 GB to download",
+    "category": "Operations",
+    "kind": "switch",
+    "value": "off",
+    "default": "off",
+    "choices": [],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "library",
+    "cost_note": "",
+    "history": []
+   },
    "outbound.mail_send": {
     "key": "outbound.mail_send",
     "label": "Sending email",
@@ -2131,6 +2161,72 @@
     "last_used": "2026-10-24T16:00:00Z",
     "use_count": 3,
     "superseded_by": null
+   }
+  },
+  "alerts": {
+   "AL-0042": {
+    "id": "AL-0042",
+    "title": "Backups are in one place",
+    "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+    "status": {
+     "status": "attention",
+     "label": "Needs attention"
+    },
+    "href": "/backups",
+    "raised_at": "2026-10-25T13:00:00Z",
+    "state": "open",
+    "snoozed_until": null
+   },
+   "AL-0043": {
+    "id": "AL-0043",
+    "title": "Receipt Scanner README is out of date",
+    "detail": "The Saturday audit found drift. Custodian can fix it.",
+    "status": {
+     "status": "attention",
+     "label": "Stale"
+    },
+    "href": "/docs/rs-readme",
+    "raised_at": "2026-10-24T20:00:00Z",
+    "state": "open",
+    "snoozed_until": null
+   }
+  },
+  "trash": {
+   "TR-0007": {
+    "id": "TR-0007",
+    "kind": "rule",
+    "title": "File Costco receipts under Groceries",
+    "meta": "Finance rule · Tally",
+    "home": "/finance",
+    "deleted_at": "2026-10-23T16:00:00Z",
+    "purge_at": "2026-11-22T16:00:00Z"
+   },
+   "TR-0006": {
+    "id": "TR-0006",
+    "kind": "document",
+    "title": "Unit A lease 2024.pdf",
+    "meta": "Rental · superseded by the 2026 lease",
+    "home": "/personal",
+    "deleted_at": "2026-10-20T16:00:00Z",
+    "purge_at": "2026-11-19T16:00:00Z"
+   },
+   "TR-0005": {
+    "id": "TR-0005",
+    "kind": "contact",
+    "title": "Quick Fix Plumbing",
+    "meta": "Known contact · Rental",
+    "home": "/contacts",
+    "deleted_at": "2026-10-13T16:00:00Z",
+    "purge_at": "2026-11-12T16:00:00Z"
+   },
+   "TR-0001": {
+    "id": "TR-0001",
+    "kind": "record",
+    "title": "Old car insurance card",
+    "meta": "Home and auto",
+    "home": "/personal",
+    "deleted_at": "2026-09-24T16:00:00Z",
+    "purge_at": "2026-10-24T16:00:00Z"
    }
   },
   "stopped": false,
@@ -4542,7 +4638,7 @@
        "status": "healthy",
        "label": "Approved"
       },
-      "href": null
+      "href": "/docs/infra"
      },
      {
       "id": "run-0004",
@@ -4552,7 +4648,7 @@
        "status": "healthy",
        "label": "Approved"
       },
-      "href": null
+      "href": "/docs/run-0004"
      },
      {
       "id": "adr-0007",
@@ -4562,7 +4658,7 @@
        "status": "healthy",
        "label": "Accepted"
       },
-      "href": null
+      "href": "/docs/adr-0007"
      }
     ]
    },
@@ -4578,7 +4674,7 @@
        "status": "healthy",
        "label": "Approved"
       },
-      "href": null
+      "href": "/docs/prd-0003"
      },
      {
       "id": "des-0009",
@@ -4588,7 +4684,7 @@
        "status": "healthy",
        "label": "Approved"
       },
-      "href": null
+      "href": "/docs/des-0009"
      },
      {
       "id": "rel-12",
@@ -4614,7 +4710,7 @@
        "status": "problem",
        "label": "Stale"
       },
-      "href": null
+      "href": "/docs/rs-readme"
      },
      {
       "id": "run-restore",
@@ -4624,7 +4720,7 @@
        "status": "attention",
        "label": "In review"
       },
-      "href": null
+      "href": "/docs/run-restore"
      }
     ]
    }
@@ -4879,7 +4975,462 @@
     "governance",
     "Guide"
    ]
-  }
+  },
+  "doc_bodies": {
+   "infra": [
+    {
+     "kind": "paragraph",
+     "text": "How this Mac is set up, how to check it, and how to get it back when something breaks."
+    },
+    {
+     "kind": "heading",
+     "text": "Checks"
+    },
+    {
+     "kind": "item",
+     "text": "The watchdog reads every service's health every 30 seconds and shows it on System."
+    },
+    {
+     "kind": "item",
+     "text": "The heartbeat pings Healthchecks.io every 5 minutes; a missed ping emails you."
+    },
+    {
+     "kind": "item",
+     "text": "The restore drill runs on the first Sunday of each month and must pass."
+    },
+    {
+     "kind": "heading",
+     "text": "Recovery"
+    },
+    {
+     "kind": "paragraph",
+     "text": "After a power cut the Mac waits at the FileVault unlock screen. Unlock it, then wait for the working drive to mount before Brain shows all clear."
+    },
+    {
+     "kind": "code",
+     "text": "sudo launchctl kickstart -k system/ai.platform.watchdog"
+    },
+    {
+     "kind": "heading",
+     "text": "Remote login"
+    },
+    {
+     "kind": "paragraph",
+     "text": "Brain is reachable only over Tailscale. The Mac's own key never expires; your phone's key is renewed while the internet is up."
+    }
+   ],
+   "run-0004": [
+    {
+     "kind": "paragraph",
+     "text": "What to do when the working drive does not mount after a restart."
+    },
+    {
+     "kind": "heading",
+     "text": "Steps"
+    },
+    {
+     "kind": "item",
+     "text": "Check the cable and that the drive's light is on."
+    },
+    {
+     "kind": "item",
+     "text": "Open Disk Utility and unlock the drive with the key from the keychain."
+    },
+    {
+     "kind": "item",
+     "text": "If it still won't mount, Brain keeps running on the internal SSD and says so."
+    }
+   ],
+   "adr-0007": [
+    {
+     "kind": "paragraph",
+     "text": "We run local models through MLX because it is the fastest free runtime on Apple silicon."
+    },
+    {
+     "kind": "heading",
+     "text": "Consequences"
+    },
+    {
+     "kind": "item",
+     "text": "Models are converted once and checksummed in quarantine."
+    },
+    {
+     "kind": "item",
+     "text": "A model that has no MLX build waits until one exists."
+    }
+   ],
+   "prd-0003": [
+    {
+     "kind": "paragraph",
+     "text": "Lease Reminders tells each tenant, by text, a set number of days before rent and lease dates, with the wording you approved."
+    },
+    {
+     "kind": "heading",
+     "text": "Version 1.2"
+    },
+    {
+     "kind": "item",
+     "text": "Reminders follow quiet hours."
+    },
+    {
+     "kind": "item",
+     "text": "A reminder to a new tenant waits for your approval the first time."
+    }
+   ],
+   "des-0009": [
+    {
+     "kind": "paragraph",
+     "text": "Reminders are scheduled by the pipeline engine, not by cron, so pausing work pauses them."
+    },
+    {
+     "kind": "heading",
+     "text": "Conformance"
+    },
+    {
+     "kind": "paragraph",
+     "text": "The conformance record shows each requirement of PRD-0003 with the test that covers it."
+    }
+   ],
+   "rs-readme": [
+    {
+     "kind": "paragraph",
+     "text": "Receipt Scanner reads photos of receipts and files the totals under Finance."
+    },
+    {
+     "kind": "heading",
+     "text": "Out of date"
+    },
+    {
+     "kind": "paragraph",
+     "text": "The Saturday audit found that this README still names the old inbox folder."
+    }
+   ],
+   "run-restore": [
+    {
+     "kind": "paragraph",
+     "text": "How to bring back one record from the backups without touching the rest."
+    },
+    {
+     "kind": "heading",
+     "text": "Steps"
+    },
+    {
+     "kind": "item",
+     "text": "Open Backups and choose Restore."
+    },
+    {
+     "kind": "item",
+     "text": "Pick the record and the point in time."
+    },
+    {
+     "kind": "item",
+     "text": "The record appears in a side folder; nothing is overwritten."
+    }
+   ]
+  },
+  "intake_stage": {
+   "stages": [
+    {
+     "code": "D0",
+     "state": "current"
+    },
+    {
+     "code": "D1",
+     "state": "todo"
+    },
+    {
+     "code": "D2",
+     "state": "todo"
+    },
+    {
+     "code": "D3",
+     "state": "todo"
+    },
+    {
+     "code": "D4",
+     "state": "todo"
+    },
+    {
+     "code": "D5",
+     "state": "todo"
+    },
+    {
+     "code": "D6",
+     "state": "todo"
+    },
+    {
+     "code": "D7",
+     "state": "todo"
+    },
+    {
+     "code": "D8",
+     "state": "todo"
+    },
+    {
+     "code": "D9",
+     "state": "todo"
+    },
+    {
+     "code": "D10",
+     "state": "todo"
+    }
+   ],
+   "label": "Requirements · D0 intake"
+  },
+  "guide_pages": {
+   "/": [
+    "Today shows whether everything is all right and what needs you. Tiles are colored by status, and anything waiting on you is under Needs you.",
+    [
+     {
+      "title": "Brain architecture",
+      "href": "/docs/infra"
+     }
+    ]
+   ],
+   "/spend": [
+    "Everything is free by default. A paid feature only costs money once you turn it on, and spending stops at its monthly cap.",
+    [
+     {
+      "title": "Spend",
+      "href": "/spend"
+     }
+    ]
+   ],
+   "/backups": [
+    "You are on the starter backup: the two drives back each other up. It does not survive theft or fire until a backup drive is connected.",
+    [
+     {
+      "title": "Runbook: restore a record",
+      "href": "/docs/run-restore"
+     }
+    ]
+   ],
+   "/approvals": [
+    "An approval waits for you and never approves on timeout. If it lapses, nothing is sent.",
+    [
+     {
+      "title": "Approvals",
+      "href": "/approvals"
+     }
+    ]
+   ],
+   "/docs": [
+    "Docs are the platform's own documentation. Open one to read it, ask me about it, or request a change, which becomes a work item.",
+    [
+     {
+      "title": "INFRASTRUCTURE.md",
+      "href": "/docs/infra"
+     }
+    ]
+   ]
+  },
+  "guide_fallback": "I can explain anything on this page. In the running platform I answer from the local index of the specification, INFRASTRUCTURE.md, the Directory and live status.",
+  "offline_pack": [
+   {
+    "name": "Emergency sheets",
+    "note": "",
+    "rows": [
+     {
+      "id": "ES-mom",
+      "title": "Mom",
+      "meta": "Allergic to penicillin · metformin 500 mg · Dr. Patel",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "ES-dad",
+      "title": "Dad",
+      "meta": "Warfarin 5 mg · pacemaker · Medicare Advantage",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "ES-owner",
+      "title": "You",
+      "meta": "No known allergies · Kaiser · O negative",
+      "status": null,
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Next 30 days",
+    "note": "",
+    "rows": [
+     {
+      "id": "AG-1",
+      "title": "Unit B lease renewal",
+      "meta": "Rental · Nov 30",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "AG-2",
+      "title": "Medicare plan review",
+      "meta": "Health · Dad · Dec 7",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "AG-3",
+      "title": "Home insurance renews",
+      "meta": "Household · Dec 14",
+      "status": null,
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Key contacts",
+    "note": "",
+    "rows": [
+     {
+      "id": "KC-1",
+      "title": "Dr. Patel's office",
+      "meta": "(555) 010-2231",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "KC-2",
+      "title": "Insurer member services",
+      "meta": "(555) 010-8890",
+      "status": null,
+      "href": null
+     }
+    ]
+   },
+   {
+    "name": "Bills due",
+    "note": "",
+    "rows": [
+     {
+      "id": "BD-1",
+      "title": "Electricity",
+      "meta": "$142 · Dec 3 · autopay",
+      "status": null,
+      "href": null
+     },
+     {
+      "id": "BD-2",
+      "title": "Unit B mortgage",
+      "meta": "$1,860 · Dec 1",
+      "status": null,
+      "href": null
+     }
+    ]
+   }
+  ],
+  "library_categories": [
+   "Emergency",
+   "Medical",
+   "Water",
+   "Food",
+   "Shelter and warmth",
+   "Repair"
+  ],
+  "quick_cards": [
+   {
+    "id": "QC-urgent",
+    "title": "Get help now",
+    "category": "Emergency",
+    "steps": [
+     "Call emergency services. If there is no signal, send someone for help.",
+     "Stay with the person and keep them still and warm.",
+     "Note the time and what happened, for the responders."
+    ],
+    "source": "American Red Cross First Aid manual"
+   },
+   {
+    "id": "QC-bleeding",
+    "title": "Severe bleeding",
+    "category": "Emergency",
+    "steps": [
+     "Call emergency services if you can.",
+     "Press firmly on the wound with a clean cloth and keep pressing.",
+     "If blood soaks through, add more cloth on top. Do not lift the first one."
+    ],
+    "source": "American Red Cross First Aid manual"
+   },
+   {
+    "id": "QC-water",
+    "title": "Make water safe to drink",
+    "category": "Water",
+    "steps": [
+     "Bring clear water to a rolling boil for 1 minute.",
+     "Above 6,500 feet, boil for 3 minutes.",
+     "Let it cool. Store it in clean, covered containers."
+    ],
+    "source": "CDC, Making Water Safe in an Emergency"
+   },
+   {
+    "id": "QC-warmth",
+    "title": "Keep warm without power",
+    "category": "Shelter and warmth",
+    "steps": [
+     "Close off unused rooms and gather in one.",
+     "Never run a generator, grill or camp stove indoors.",
+     "Wear layers and a hat; keep blankets off the floor."
+    ],
+    "source": "Ready.gov, Winter Weather"
+   },
+   {
+    "id": "QC-food",
+    "title": "Is food in the fridge still safe?",
+    "category": "Food",
+    "steps": [
+     "A closed fridge keeps food cold for about 4 hours.",
+     "Throw out meat, dairy and leftovers kept above 40 °F for over 2 hours."
+    ],
+    "source": "USDA, Keeping Food Safe During an Emergency"
+   }
+  ],
+  "library_tiers": [
+   {
+    "name": "Survive",
+    "size": "About 4 GB",
+    "installed": true
+   },
+   {
+    "name": "Sustain",
+    "size": "About 60 GB",
+    "installed": false
+   },
+   {
+    "name": "Rebuild",
+    "size": "About 90 GB",
+    "installed": false
+   }
+  ],
+  "red_flags": {
+   "bleed": "QC-bleeding",
+   "chest pain": "QC-urgent",
+   "breathing": "QC-urgent",
+   "unresponsive": "QC-urgent",
+   "poison": "QC-urgent",
+   "burn": "QC-urgent"
+  },
+  "library_answers": {
+   "water": [
+    "Boil clear water at a rolling boil for 1 minute, or 3 minutes above 6,500 feet [1]. Cloudy water should settle and be filtered first [2].",
+    [
+     {
+      "number": 1,
+      "title": "Making Water Safe in an Emergency",
+      "publisher": "CDC",
+      "reviewed": true
+     },
+     {
+      "number": 2,
+      "title": "Water purification",
+      "publisher": "Wikipedia",
+      "reviewed": false
+     }
+    ]
+   ]
+  },
+  "library_caveat": "Medical and safety answers are general information. Call for help when you can.",
+  "no_passage": "No passage in the library covers this, so there is no answer. Try other words."
  },
  "constants": {
   "undo_window_seconds": 8.0,
@@ -4936,6 +5487,16 @@
    12.0,
    60.0
   ],
-  "streamed_code": "def reminder_dates(lease_end: date) -> list[date]: return [lease_end - timedelta(days=offset) for offset in REMINDER_OFFSETS_DAYS]"
+  "streamed_code": "def reminder_dates(lease_end: date) -> list[date]: return [lease_end - timedelta(days=offset) for offset in REMINDER_OFFSETS_DAYS]",
+  "trash_days": 30,
+  "snooze_seconds": 14400.0,
+  "app_features": [
+   "offline_pack",
+   "offline_library"
+  ],
+  "ark_volumes": [
+   "ARK-1",
+   "ARK-2"
+  ]
  }
 }

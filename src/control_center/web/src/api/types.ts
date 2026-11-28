@@ -9,6 +9,18 @@ import type { components } from "./schema";
 type Schemas = components["schemas"];
 
 export type Approval = Schemas["Approval"];
+export type Alert = Schemas["Alert"];
+export type ArkDriveStarted = Schemas["ArkDriveStarted"];
+export type DocChangeRequested = Schemas["DocChangeRequested"];
+export type DocPage = Schemas["DocPage"];
+export type GuideAnswer = Schemas["GuideAnswer"];
+export type LibraryAnswer = Schemas["LibraryAnswer"];
+export type LibraryOverview = Schemas["LibraryOverview"];
+export type LibrarySearchResults = Schemas["LibrarySearchResults"];
+export type OfflinePack = Schemas["OfflinePack"];
+export type QuickCard = Schemas["QuickCard"];
+export type TrashItem = Schemas["TrashItem"];
+export type TrashOverview = Schemas["TrashOverview"];
 export type BackupsOverview = Schemas["BackupsOverview"];
 export type Case = Schemas["Case"];
 export type ChatMessage = Schemas["ChatMessage"];

@@ -51,7 +51,7 @@ export function verifyStepUp(world: MockWorld, challenge: string, assertion: str
 }
 
 /** Consumes a valid proof, or refuses with `why`. */
-function requireStepUp(world: MockWorld, stepUp: string | null, why: string): void {
+export function requireStepUp(world: MockWorld, stepUp: string | null, why: string): void {
   const expiresAt = stepUp ? world.stepUpProofs.get(stepUp) : undefined;
   if (stepUp) world.stepUpProofs.delete(stepUp);
   if (!expiresAt || expiresAt < world.clock()) throw stepUpRequired(why);
@@ -315,6 +315,7 @@ export function platformState(world: MockWorld, running: number): PlatformState 
     badges: Object.fromEntries(
       Object.entries(badges).filter(([, badge]) => badge.label !== "" && badge.label !== "0"),
     ),
+    features_on: world.constants.app_features.filter((key) => isOn(world, key)),
   };
 }
 

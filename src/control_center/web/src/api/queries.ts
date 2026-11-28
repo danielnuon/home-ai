@@ -85,6 +85,22 @@ export const useChat = (leadId: string, threadId: string | null) =>
     true,
     true,
   );
+/** One document in the Docs reader. */
+export const useDocPage = (docId: string) =>
+  useResource<T.DocPage>(["docs", docId], `/docs/${docId}`);
+/** Recently deleted items. */
+export const useTrash = () => useResource<T.TrashOverview>(["trash"], "/trash");
+/** The offline library's page; off until the feature is on. */
+export const useLibrary = (enabled: boolean) =>
+  useResource<T.LibraryOverview>(["library"], "/library", enabled);
+/** Library search; disabled for empty words. */
+export const useLibrarySearch = (query: string) =>
+  useResource<T.LibrarySearchResults>(
+    ["library", "search", query],
+    `/library/search?q=${encodeURIComponent(query)}`,
+    query.trim() !== "",
+    true,
+  );
 /** Search results; disabled for an empty query. */
 export const useSearch = (query: string) =>
   useResource<T.SearchResults>(

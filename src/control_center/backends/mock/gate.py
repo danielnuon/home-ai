@@ -13,6 +13,7 @@ from control_center.backends.mock import setting_rules
 from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
+from control_center.backends.mock.gate_shell import ShellControls
 from control_center.backends.mock.world import MockWorld
 from control_center.config import OWNER_TIME_ZONE
 from control_center.contract.common import StatusLabel
@@ -28,15 +29,19 @@ from control_center.contract.gate import (
 UNDO_WINDOW = timedelta(seconds=8)
 """How long the gate holds an approved action so the Owner can undo it (spec 7.15, "Undo 8 s")."""
 
+APP_FEATURES = ("offline_pack", "offline_library")
+"""Optional features that change the app itself: a page in the navigation, or a phone cache."""
+
 APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 """The resources that show approval cards, or a thread waiting on one."""
 
 
-class MockApprovalGate(DecisionLedger, GateControls):
+class MockApprovalGate(DecisionLedger, GateControls, ShellControls):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 
     Approvals, settings and the kill switch are here. Critical decisions are in `DecisionLedger`,
-    the controls over people and machinery in `GateControls`, and the step-up in `StepUpDesk`.
+    the controls over people and machinery in `GateControls`, alerts and the Ark drive in
+    `ShellControls`, and the step-up in `StepUpDesk`.
     """
 
     # Approvals -----------------------------------------------------------------------------
@@ -204,6 +209,7 @@ class MockApprovalGate(DecisionLedger, GateControls):
             degraded=[],
             overall=overall,
             badges={page: badge for page, badge in badges.items() if badge.label not in ("", "0")},
+            features_on=[key for key in APP_FEATURES if world.is_on(key)],
         )
 
     def stop_all(self) -> PlatformState:

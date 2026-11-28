@@ -45,6 +45,19 @@ from control_center.contract.personal import (
     SetupStep,
     TrustChange,
 )
+from control_center.contract.shell import (
+    ArkDriveStarted,
+    DocChangeRequested,
+    DocPage,
+    GuideAnswer,
+    GuideQuestion,
+    LibraryAnswer,
+    LibraryOverview,
+    LibrarySearchResults,
+    OfflinePack,
+    TrashItem,
+    TrashOverview,
+)
 from control_center.contract.status import (
     BackupsOverview,
     ConnectionsOverview,
@@ -58,7 +71,14 @@ from control_center.contract.status import (
     SystemOverview,
     VoiceOverview,
 )
-from control_center.contract.today import AgendaItem, ChatThread, SearchResults, Tile
+from control_center.contract.today import (
+    AgendaItem,
+    Alert,
+    AlertAction,
+    ChatThread,
+    SearchResults,
+    Tile,
+)
 from control_center.contract.work import (
     Directory,
     Intervention,
@@ -149,6 +169,18 @@ class ApprovalGate(Protocol):
 
     def request_restore(self, what: str, point: str, step_up: str | None) -> str:
         """Restore a file, folder or record into a side folder. Returns where it will appear."""
+        ...
+
+    def alerts(self) -> list[Alert]:
+        """Open alerts for Today; a snoozed one returns when its snooze ends."""
+        ...
+
+    def alert_action(self, alert_id: str, action: AlertAction) -> Alert:
+        """Acknowledge or snooze an alert, or reopen it (the undo of either)."""
+        ...
+
+    def write_ark_drive(self, volume: str, step_up: str | None) -> ArkDriveStarted:
+        """Write an Ark drive to an external volume (spec 12.8). Always needs a step-up."""
         ...
 
     def create_step_up_challenge(self) -> str:
@@ -253,6 +285,46 @@ class PipelineEngine(Protocol):
 
     def search(self, query: str) -> SearchResults:
         """Search cases, documents, contacts, employees and audit events."""
+        ...
+
+    def guide_ask(self, question: GuideQuestion) -> GuideAnswer:
+        """Wayfinder's read-only answer about the page on screen (spec 14.8)."""
+        ...
+
+    def doc_page(self, doc_id: str) -> DocPage:
+        """One document, rendered for the Docs reader."""
+        ...
+
+    def request_doc_change(self, doc_id: str, text: str) -> DocChangeRequested:
+        """Turn a change request on a document into a work item."""
+        ...
+
+    def trash(self) -> TrashOverview:
+        """Everything deleted in the last 30 days (spec 7.16, rule 11)."""
+        ...
+
+    def restore_from_trash(self, item_id: str) -> TrashItem:
+        """Put a deleted item back on its home page."""
+        ...
+
+    def purge_from_trash(self, item_id: str) -> None:
+        """Delete an item for good. It can't be undone."""
+        ...
+
+    def offline_pack(self) -> OfflinePack:
+        """The offline pack for the phone, while it is on (spec 7.7)."""
+        ...
+
+    def library(self) -> LibraryOverview:
+        """The offline library's page, while it is on (spec 12.8)."""
+        ...
+
+    def library_search(self, query: str) -> LibrarySearchResults:
+        """Search the library's quick cards and pages."""
+        ...
+
+    def library_ask(self, question: str) -> LibraryAnswer:
+        """Ask the librarian, under Ark's safety rules."""
         ...
 
 

@@ -51,6 +51,7 @@ def reads() -> list[Step]:
         "/work", "/directory", "/today", "/personal", "/finance/owner", "/finance/mom",
         "/setup", "/chat/atlas", "/chat/spark", "/system", "/services", "/models", "/spend",
         "/schedule", "/security", "/backups", "/maintenance", "/connections", "/voice", "/docs",
+        "/docs/infra", "/docs/nope", "/trash", "/offline-pack", "/library",
     ]  # fmt: skip
     return [{"method": "GET", "path": path} for path in paths]
 
@@ -189,10 +190,73 @@ def work_steps() -> list[Step]:
     ]
 
 
+def shell_steps() -> list[Step]:
+    """The Guide panel, Docs, alerts, the trash, the offline pack and the library."""
+    ask = "/guide/ask"
+    return [
+        {"method": "POST", "path": ask, "body": {"question": " ", "page": "/"}},
+        {"method": "POST", "path": ask, "body": {"question": "What is this?", "page": "/"}},
+        {
+            "method": "POST",
+            "path": ask,
+            "body": {"question": "Why?", "page": "/docs/infra", "context": "INFRASTRUCTURE.md"},
+        },
+        {"method": "POST", "path": ask, "body": {"question": "When is insurance?", "page": "/x"}},
+        {"method": "POST", "path": "/docs/infra/change-requests", "body": {"text": " "}},
+        {"method": "POST", "path": "/docs/infra/change-requests", "body": {"text": "Add a step."}},
+        {"method": "POST", "path": "/docs/nope/change-requests", "body": {"text": "Hi."}},
+        {"method": "POST", "path": "/alerts/AL-0042/action", "body": {"action": "acknowledge"}},
+        {"method": "POST", "path": "/alerts/AL-0042/action", "body": {"action": "reopen"}},
+        {"method": "POST", "path": "/alerts/AL-0043/action", "body": {"action": "snooze"}},
+        {"method": "POST", "path": "/alerts/nope/action", "body": {"action": "snooze"}},
+        {"method": "GET", "path": "/today"},
+        {"method": "POST", "path": "/trash/TR-0007/restore"},
+        {"method": "POST", "path": "/trash/TR-0006/purge"},
+        {"method": "POST", "path": "/trash/TR-0006/restore"},
+        {"method": "POST", "path": "/trash/TR-0001/restore"},
+        {"method": "GET", "path": "/trash"},
+        {"method": "POST", "path": "/library/ark-drive", "body": {"volume": "ARK-1"}},
+        *step_up(),
+        {
+            "method": "PUT",
+            "path": "/settings/offline_library",
+            "body": {"value": "on"},
+            "step_up": PROOF,
+        },
+        *step_up(),
+        {
+            "method": "PUT",
+            "path": "/settings/offline_pack",
+            "body": {"value": "on"},
+            "step_up": PROOF,
+        },
+        {"method": "GET", "path": "/platform"},
+        {"method": "GET", "path": "/offline-pack"},
+        {"method": "GET", "path": "/library"},
+        {"method": "GET", "path": "/library/search?q=boil"},
+        {"method": "GET", "path": "/library/search?q="},
+        {"method": "POST", "path": "/library/ask", "body": {"question": ""}},
+        {"method": "POST", "path": "/library/ask", "body": {"question": "Chest pain, what now?"}},
+        {"method": "POST", "path": "/library/ask", "body": {"question": "Is this water safe?"}},
+        {"method": "POST", "path": "/library/ask", "body": {"question": "Tan leather?"}},
+        {"method": "POST", "path": "/library/ark-drive", "body": {"volume": "ARK-9"}},
+        {"method": "POST", "path": "/library/ark-drive", "body": {"volume": "ARK-1"}},
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/library/ark-drive",
+            "body": {"volume": "ARK-1"},
+            "step_up": PROOF,
+        },
+        {"method": "PUT", "path": "/settings/offline_library", "body": {"value": "off"}},
+    ]
+
+
 def later_steps() -> list[Step]:
-    """Time passing: cards expire and decisions take effect."""
+    """Time passing: cards expire, decisions take effect, a snooze ends."""
     return [
         {"advance": 7 * 3600},
+        {"method": "GET", "path": "/today"},
         {"method": "GET", "path": "/approvals"},
         {"method": "GET", "path": "/memory"},
         {"method": "POST", "path": "/approvals/AP-0108/decision", "body": {"decision": "deny"}},
@@ -284,7 +348,7 @@ def run(steps: list[Step]) -> list[Step]:
 
 def main() -> None:
     """Record the scripted session to the path given."""
-    steps = [*reads(), *gate_steps(), *work_steps(), *later_steps()]
+    steps = [*reads(), *gate_steps(), *work_steps(), *shell_steps(), *later_steps()]
     payload = {"exported_at": EXPORT_NOW.isoformat(), "steps": run(steps)}
     text = json.dumps(payload, indent=1, ensure_ascii=False, sort_keys=True) + "\n"
     Path(sys.argv[1]).write_text(text, encoding="utf-8")

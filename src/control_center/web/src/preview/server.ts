@@ -8,6 +8,7 @@ import { MockError, notFound } from "./errors";
 import * as gate from "./gate";
 import * as chat from "./chat";
 import * as memory from "./memory";
+import * as shell from "./shell";
 import * as status from "./status";
 import { buildToday } from "./today";
 import * as work from "./work";
@@ -68,6 +69,11 @@ const GET: Record<string, Handler> = {
   "/connections": (w) => status.connections(w),
   "/voice": (w) => status.voice(w),
   "/docs": (w) => ({ groups: w.fixtures.doc_groups }),
+  "/docs/:id": (w, c) => shell.docPage(w, p(c, "id")),
+  "/trash": (w) => shell.trash(w),
+  "/offline-pack": (w) => shell.offlinePack(w),
+  "/library": (w) => shell.library(w),
+  "/library/search": (w, c) => shell.librarySearch(w, c.query.get("q") ?? ""),
 };
 
 const POST: Record<string, Handler> = {
@@ -137,6 +143,22 @@ const POST: Record<string, Handler> = {
     chat.chatBranch(w, convo(c), p(c, "message")),
   "/schedule/:id/run": (w, c) => engine.runJob(w, p(c, "id")),
   "/maintenance/fixes/:id/revert": (w, c) => engine.toggleFixReverted(w, p(c, "id")),
+  "/guide/ask": (w, c) =>
+    shell.guideAsk(
+      w,
+      str(c.body.question),
+      str(c.body.page),
+      typeof c.body.context === "string" ? c.body.context : null,
+    ),
+  "/docs/:id/change-requests": (w, c) => shell.requestDocChange(w, p(c, "id"), str(c.body.text)),
+  "/alerts/:id/action": (w, c) => shell.alertAction(w, p(c, "id"), str(c.body.action)),
+  "/trash/:id/restore": (w, c) => shell.restoreFromTrash(w, p(c, "id")),
+  "/trash/:id/purge": (w, c) => {
+    shell.purgeFromTrash(w, p(c, "id"));
+    return NO_CONTENT;
+  },
+  "/library/ask": (w, c) => shell.libraryAsk(w, str(c.body.question)),
+  "/library/ark-drive": (w, c) => shell.writeArkDrive(w, str(c.body.volume), c.stepUp),
 };
 
 const PUT: Record<string, Handler> = {

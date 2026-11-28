@@ -71,6 +71,8 @@ interface WorldState {
   chats: Record<string, ChatMessage[]>;
   /** The newest message of the branch on show in each conversation (`chat_tree.py`). */
   chat_heads: Record<string, string>;
+  alerts: Record<string, Schemas["Alert"]>;
+  trash: Record<string, Schemas["TrashItem"]>;
   stopped: boolean;
   maintenance_running: boolean;
   /** The Owner's saved notes (15.9.2), by id. */
@@ -123,6 +125,18 @@ interface Fixtures {
   mock_reply: string;
   mock_retry: string;
   thread_leads: Record<string, [string, Schemas["Thread"]["lead_department"], string]>;
+  doc_bodies: Record<string, Schemas["DocBlock"][]>;
+  intake_stage: { stages: Schemas["Stage"][]; label: string };
+  guide_pages: Record<string, [string, Schemas["GuideSource"][]]>;
+  guide_fallback: string;
+  offline_pack: Schemas["RowGroup"][];
+  library_categories: Schemas["LibraryOverview"]["categories"];
+  quick_cards: Schemas["QuickCard"][];
+  library_tiers: Schemas["LibraryTier"][];
+  red_flags: Record<string, string>;
+  library_answers: Record<string, [string, Schemas["LibraryCitation"][]]>;
+  library_caveat: string;
+  no_passage: string;
 }
 
 /** The rules' numbers and words, read from the Python modules instead of repeated here. */
@@ -152,6 +166,10 @@ interface Constants {
   sample_every_ticks: number;
   rate_bounds: [number, number];
   streamed_code: string;
+  trash_days: number;
+  snooze_seconds: number;
+  app_features: string[];
+  ark_volumes: string[];
 }
 
 interface Exported {
@@ -184,6 +202,8 @@ export interface MockWorld extends WorldState {
   stepUpProofs: Map<string, Date>;
   /** Items forgotten in the last ten minutes, with when their undo runs out (15.9.7). */
   memoryForgotten: Map<string, { item: MemoryItem; until: Date }>;
+  /** What each trash item held when it was deleted, for its restorer (`shell.sendToTrash`). */
+  trashed: Map<string, unknown>;
 }
 
 const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
@@ -215,6 +235,7 @@ export function buildWorld(bus: Bus, clock: () => Date, ids: IdSource = randomId
     stepUpChallenges: new Set(),
     stepUpProofs: new Map(),
     memoryForgotten: new Map(),
+    trashed: new Map(),
   };
 }
 

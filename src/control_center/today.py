@@ -44,6 +44,7 @@ def build_today(backends: Backends, now: datetime) -> TodayOverview:
         if required_done == len(required)
         else SetupProgress(required_done=required_done, required_total=len(required)),
         spend_label=f"${spend.total_usd:.2f} this month",
+        alerts=backends.gate.alerts(),
     )
 
 
