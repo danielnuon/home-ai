@@ -23,6 +23,26 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
 
+from control_center.contract.accounts import (
+    AuditExport,
+    AuditRange,
+    ConnectionResult,
+    ConnectionsOverview,
+    ExportScope,
+    ExportStarted,
+    NewVoiceProfile,
+    Passkey,
+    RecoveryCodes,
+    SecurityOverview,
+    SecurityResult,
+    SettingImpact,
+    SettingOutcomes,
+    TotpReset,
+    VoiceOverview,
+    VoicePreview,
+    VoiceProfile,
+    Workspace,
+)
 from control_center.contract.common import Metric, Principal
 from control_center.contract.gate import (
     Approval,
@@ -72,7 +92,6 @@ from control_center.contract.shell import (
 )
 from control_center.contract.status import (
     BackupsOverview,
-    ConnectionsOverview,
     DocsOverview,
     Finding,
     MaintenanceOverview,
@@ -81,12 +100,10 @@ from control_center.contract.status import (
     PoolMode,
     PruneDone,
     ScheduleOverview,
-    SecurityOverview,
     ServiceLog,
     ServicesOverview,
     SpendOverview,
     SystemOverview,
-    VoiceOverview,
 )
 from control_center.contract.today import (
     AgendaItem,
@@ -271,6 +288,82 @@ class ApprovalGate(Protocol):
 
     def verify_step_up(self, challenge: str, assertion: str) -> StepUpProof:
         """Check a passkey assertion and return a short-lived proof for gated actions."""
+        ...
+
+    def connect(self, connection_id: str, step_up: str | None) -> ConnectionResult:
+        """Connect an account or platform link (step-up)."""
+        ...
+
+    def disconnect(self, connection_id: str) -> ConnectionResult:
+        """Disconnect at once."""
+        ...
+
+    def set_secret(self, connection_id: str, value: str, step_up: str | None) -> ConnectionResult:
+        """Enter or rotate a provider secret (step-up). It is never shown again."""
+        ...
+
+    def remove_secret(self, connection_id: str) -> ConnectionResult:
+        """Remove a stored secret at once."""
+        ...
+
+    def ask_permission(self, connection_id: str) -> ConnectionResult:
+        """Show a macOS permission prompt again."""
+        ...
+
+    def test_connection(self, connection_id: str) -> ConnectionResult:
+        """Check that a connection answers."""
+        ...
+
+    def add_voice_profile(self, new: NewVoiceProfile, step_up: str | None) -> VoiceProfile:
+        """Add a stock voice, or a clone (step-up)."""
+        ...
+
+    def render_voice_profile(self, profile_id: str) -> VoiceProfile:
+        """Render a profile's clips again."""
+        ...
+
+    def preview_voice_profile(self, profile_id: str) -> VoicePreview:
+        """Play a profile's clips in Brain."""
+        ...
+
+    def delete_voice_profile(self, profile_id: str) -> None:
+        """Delete a profile with its sample, clips and Twilio assets."""
+        ...
+
+    def stop_workspace(self, workspace_id: str) -> Workspace:
+        """Stop one workspace at once."""
+        ...
+
+    def resume_workspace(self, workspace_id: str, step_up: str | None) -> Workspace:
+        """Resume a stopped workspace (step-up)."""
+        ...
+
+    def sign_out_device(self, device_id: str) -> SecurityResult:
+        """End a device's session at once."""
+        ...
+
+    def add_passkey(self, name: str, step_up: str | None) -> Passkey:
+        """Register a passkey (step-up)."""
+        ...
+
+    def remove_passkey(self, passkey_id: str, step_up: str | None) -> SecurityResult:
+        """Remove a passkey (step-up); the last one only at the desk."""
+        ...
+
+    def reset_totp(self, step_up: str | None) -> TotpReset:
+        """Replace the Discord authenticator secret (step-up)."""
+        ...
+
+    def regenerate_recovery_codes(self, step_up: str | None) -> RecoveryCodes:
+        """Issue new recovery codes (step-up)."""
+        ...
+
+    def export_audit(self, audit_range: AuditRange, words: str) -> AuditExport:
+        """A filtered range of the masked audit log."""
+        ...
+
+    def export_data(self, scope: ExportScope, step_up: str | None) -> ExportStarted:
+        """Export all data or one principal's (step-up)."""
         ...
 
 
@@ -511,6 +604,14 @@ class PipelineEngine(Protocol):
 
     def library_ask(self, question: str) -> LibraryAnswer:
         """Ask the librarian, under Ark's safety rules."""
+        ...
+
+    def setting_impact(self, key: str, value: str) -> SettingImpact:
+        """The impact card for a proposed setting change (spec 7.18)."""
+        ...
+
+    def setting_outcomes(self, key: str) -> SettingOutcomes:
+        """Predicted versus actual for a setting's latest change (spec 7.18)."""
         ...
 
 

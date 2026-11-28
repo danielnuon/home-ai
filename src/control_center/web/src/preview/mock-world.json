@@ -2744,6 +2744,531 @@
     "purge_at": "2026-10-24T16:00:00Z"
    }
   },
+  "accounts": {
+   "connections": {
+    "calendar": {
+     "id": "calendar",
+     "kind": "mac_app",
+     "title": "Calendar",
+     "meta": "All calendars · write own events",
+     "status": {
+      "status": "healthy",
+      "label": "Allowed"
+     },
+     "connected": true,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": "allowed",
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "reminders": {
+     "id": "reminders",
+     "kind": "mac_app",
+     "title": "Reminders",
+     "meta": "Mirror list \"Platform\"",
+     "status": {
+      "status": "healthy",
+      "label": "Allowed"
+     },
+     "connected": true,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": "allowed",
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "mail": {
+     "id": "mail",
+     "kind": "mac_app",
+     "title": "Mail",
+     "meta": "3 accounts · drafts only · send off",
+     "status": {
+      "status": "healthy",
+      "label": "Allowed"
+     },
+     "connected": true,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": "allowed",
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "contacts": {
+     "id": "contacts",
+     "kind": "mac_app",
+     "title": "Contacts",
+     "meta": "Read",
+     "status": {
+      "status": "attention",
+      "label": "Waiting"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": "waiting",
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "messages": {
+     "id": "messages",
+     "kind": "mac_app",
+     "title": "Messages",
+     "meta": "Send off · read off",
+     "status": {
+      "status": "neutral",
+      "label": "Off"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": "off",
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "acct-owner": {
+     "id": "acct-owner",
+     "kind": "account",
+     "title": "You",
+     "meta": "iCloud mail, Google calendar",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [
+      "mail: read, draft",
+      "calendar: read, write own events"
+     ],
+     "last_sync": "2 min ago",
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "acct-mom": {
+     "id": "acct-mom",
+     "kind": "account",
+     "title": "Mom",
+     "meta": "IMAP mailbox · app password",
+     "status": {
+      "status": "problem",
+      "label": "Error"
+     },
+     "connected": true,
+     "scopes": [
+      "mail: read, draft"
+     ],
+     "last_sync": "06:00",
+     "last_error": "The mail server refused the app password at 06:00",
+     "secret": "stored",
+     "secret_note": "Stored Oct 24 · never shown again",
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "acct-dad": {
+     "id": "acct-dad",
+     "kind": "account",
+     "title": "Dad",
+     "meta": "Calendar \"Dad\" on this Mac",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [
+      "calendar: read"
+     ],
+     "last_sync": "2 min ago",
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "tailscale": {
+     "id": "tailscale",
+     "kind": "platform",
+     "title": "Tailscale",
+     "meta": "Personal plan · 3 Owner devices",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [
+      "Brain on the tailnet only"
+     ],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": "Key expiry off for this Mac",
+     "last_push": null,
+     "href": null
+    },
+    "heartbeat": {
+     "id": "heartbeat",
+     "kind": "platform",
+     "title": "Heartbeat monitor",
+     "meta": "Healthchecks.io",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [],
+     "last_sync": "1 min ago",
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "github": {
+     "id": "github",
+     "kind": "platform",
+     "title": "GitHub",
+     "meta": "Private mirrors · one repository per project",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [
+      "contents: write",
+      "pull requests: write",
+      "metadata: read"
+     ],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "stored",
+     "secret_note": "Fine-grained token · stored Oct 24",
+     "permission": null,
+     "expires": "Jan 22, 2027 · renew before then",
+     "last_push": "receipt-scanner · Oct 25 15:12",
+     "href": null
+    },
+    "discord": {
+     "id": "discord",
+     "kind": "platform",
+     "title": "Discord bots",
+     "meta": "Assistant and Gatekeeper · set up in Setup",
+     "status": {
+      "status": "neutral",
+      "label": "Not connected"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/setup"
+    },
+    "huggingface": {
+     "id": "huggingface",
+     "kind": "platform",
+     "title": "Hugging Face",
+     "meta": "Model downloads only",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "connected": true,
+     "scopes": [
+      "read"
+     ],
+     "last_sync": null,
+     "last_error": null,
+     "secret": null,
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": null
+    },
+    "provider-anthropic": {
+     "id": "provider-anthropic",
+     "kind": "provider",
+     "title": "Claude (Anthropic)",
+     "meta": "Cloud model · turned on in Spend",
+     "status": {
+      "status": "neutral",
+      "label": "No key"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "none",
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/spend"
+    },
+    "provider-openai": {
+     "id": "provider-openai",
+     "kind": "provider",
+     "title": "GPT-6 Sol (OpenAI)",
+     "meta": "Cloud model · turned on in Spend",
+     "status": {
+      "status": "neutral",
+      "label": "No key"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "none",
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/spend"
+    },
+    "provider-video": {
+     "id": "provider-video",
+     "kind": "provider",
+     "title": "Cloud video",
+     "meta": "Per second of video · turned on in Spend",
+     "status": {
+      "status": "neutral",
+      "label": "No key"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "none",
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/spend"
+    },
+    "provider-voice": {
+     "id": "provider-voice",
+     "kind": "provider",
+     "title": "Phone-call approvals",
+     "meta": "Twilio · turned on in Spend",
+     "status": {
+      "status": "neutral",
+      "label": "No key"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "none",
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/spend"
+    },
+    "provider-offsite": {
+     "id": "provider-offsite",
+     "kind": "provider",
+     "title": "Paid offsite backup",
+     "meta": "S3-compatible · turned on in Spend",
+     "status": {
+      "status": "neutral",
+      "label": "No key"
+     },
+     "connected": false,
+     "scopes": [],
+     "last_sync": null,
+     "last_error": null,
+     "secret": "none",
+     "secret_note": null,
+     "permission": null,
+     "expires": null,
+     "last_push": null,
+     "href": "/spend"
+    }
+   },
+   "voices": {
+    "twilio_default": {
+     "id": "twilio_default",
+     "name": "Twilio default",
+     "kind": "default",
+     "meta": "Twilio's own voice · used whenever a clip is missing",
+     "engine": "Twilio <Say>",
+     "record": null,
+     "sample": null,
+     "clips": 0,
+     "rendered_at": null,
+     "selected": false,
+     "locked": false
+    },
+    "heart": {
+     "id": "heart",
+     "name": "Heart",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · runs on the Mac",
+     "engine": "Kokoro-82M",
+     "record": null,
+     "sample": null,
+     "clips": 4,
+     "rendered_at": "2026-10-22T16:00:00Z",
+     "selected": false,
+     "locked": false
+    },
+    "michael": {
+     "id": "michael",
+     "name": "Michael",
+     "kind": "stock",
+     "meta": "Kokoro-82M · free · runs on the Mac",
+     "engine": "Kokoro-82M",
+     "record": null,
+     "sample": null,
+     "clips": 4,
+     "rendered_at": "2026-10-20T16:00:00Z",
+     "selected": false,
+     "locked": false
+    },
+    "my_voice": {
+     "id": "my_voice",
+     "name": "My voice",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded · watermarked",
+     "engine": "Chatterbox",
+     "record": "Your own voice · recorded in Brain Oct 24",
+     "sample": "Recorded in Brain · 20 s",
+     "clips": 4,
+     "rendered_at": "2026-10-24T16:00:00Z",
+     "selected": false,
+     "locked": false
+    },
+    "mom": {
+     "id": "mom",
+     "name": "Mom",
+     "kind": "consented_clone",
+     "meta": "Chatterbox · consent recorded · watermarked",
+     "engine": "Chatterbox",
+     "record": "Consent recorded Oct 24 · she agreed on a call",
+     "sample": "Uploaded voice memo · 32 s",
+     "clips": 4,
+     "rendered_at": "2026-10-24T16:00:00Z",
+     "selected": false,
+     "locked": false
+    },
+    "public_figure": {
+     "id": "public_figure",
+     "name": "[Public figure]",
+     "kind": "celebrity_clone",
+     "meta": "Chatterbox · private · calls to you only · watermarked",
+     "engine": "Chatterbox",
+     "record": "Risk notice acknowledged Oct 24",
+     "sample": "Public interview recording · 45 s",
+     "clips": 4,
+     "rendered_at": "2026-10-24T16:00:00Z",
+     "selected": false,
+     "locked": false
+    }
+   },
+   "workspaces": {
+    "ws-brain": {
+     "id": "ws-brain",
+     "name": "Brain",
+     "meta": "Development · 2 sessions",
+     "stopped": false
+    },
+    "ws-receipt-scanner": {
+     "id": "ws-receipt-scanner",
+     "name": "receipt-scanner",
+     "meta": "Idea in build · 1 session",
+     "stopped": false
+    },
+    "ws-rental": {
+     "id": "ws-rental",
+     "name": "Rental property",
+     "meta": "Restricted · 1 session",
+     "stopped": false
+    },
+    "ws-parents": {
+     "id": "ws-parents",
+     "name": "Parents' affairs",
+     "meta": "Restricted · idle",
+     "stopped": false
+    },
+    "ws-finance": {
+     "id": "ws-finance",
+     "name": "Finances",
+     "meta": "Restricted · idle",
+     "stopped": false
+    }
+   },
+   "devices": {
+    "dev-mac": {
+     "id": "dev-mac",
+     "name": "Mac",
+     "meta": "Safari · this device",
+     "current": true
+    },
+    "dev-iphone": {
+     "id": "dev-iphone",
+     "name": "iPhone",
+     "meta": "Brain app · active 2 min ago",
+     "current": false
+    },
+    "dev-ipad": {
+     "id": "dev-ipad",
+     "name": "iPad",
+     "meta": "Safari · active yesterday",
+     "current": false
+    }
+   },
+   "passkeys": {
+    "pk-iphone": {
+     "id": "pk-iphone",
+     "name": "iPhone",
+     "meta": "Added Oct 24 · last used today"
+    },
+    "pk-key": {
+     "id": "pk-key",
+     "name": "Security key",
+     "meta": "Added Oct 24 · kept at the desk"
+    }
+   },
+   "totp": "Enrolled Oct 24 · last used today",
+   "recovery": "8 codes printed Oct 24 · 8 unused"
+  },
   "stopped": false,
   "maintenance_running": true,
   "memory_paused": false,
@@ -4181,36 +4706,6 @@
     "href": null
    }
   ],
-  "sign_in_rows": [
-   {
-    "id": "passkeys",
-    "title": "Passkeys",
-    "meta": "iPhone · security key",
-    "status": null,
-    "href": null
-   },
-   {
-    "id": "totp",
-    "title": "Discord authenticator",
-    "meta": "Enrolled · last used today",
-    "status": null,
-    "href": null
-   },
-   {
-    "id": "sessions",
-    "title": "Active sessions",
-    "meta": "iPhone, iPad, Mac",
-    "status": null,
-    "href": null
-   },
-   {
-    "id": "recovery",
-    "title": "Recovery codes",
-    "meta": "Printed Oct 24",
-    "status": null,
-    "href": null
-   }
-  ],
   "audit_lines": [
    "07:42:10 approve  T2 mail.draft  Owner (button)",
    "07:40:55 deny     fs.write ../policy  Bolt",
@@ -4312,645 +4807,273 @@
     "href": null
    }
   ],
-  "connection_groups": [
+  "connection_groups_order": [
+   [
+    "mac_app",
+    "This Mac's apps",
+    "macOS permissions · spec 20.16"
+   ],
+   [
+    "account",
+    "Accounts by person",
+    "3 principals"
+   ],
+   [
+    "platform",
+    "Platform links",
+    "Free"
+   ],
+   [
+    "provider",
+    "Optional paid providers",
+    "$0 until on"
+   ]
+  ],
+  "stock_voices": [
    {
-    "name": "This Mac's apps",
-    "note": "Spec 20.16",
-    "rows": [
-     {
-      "id": "calendar",
-      "title": "Calendar",
-      "meta": "All calendars · write own events",
-      "status": {
-       "status": "healthy",
-       "label": "Allowed"
-      },
-      "href": null
-     },
-     {
-      "id": "reminders",
-      "title": "Reminders",
-      "meta": "Mirror list \"Platform\"",
-      "status": {
-       "status": "healthy",
-       "label": "Allowed"
-      },
-      "href": null
-     },
-     {
-      "id": "mail",
-      "title": "Mail",
-      "meta": "3 accounts · drafts only · send off",
-      "status": {
-       "status": "healthy",
-       "label": "Allowed"
-      },
-      "href": null
-     },
-     {
-      "id": "contacts",
-      "title": "Contacts",
-      "meta": "Read",
-      "status": {
-       "status": "attention",
-       "label": "Waiting"
-      },
-      "href": null
-     },
-     {
-      "id": "messages",
-      "title": "Messages",
-      "meta": "Send off · read off",
-      "status": {
-       "status": "neutral",
-       "label": "Off"
-      },
-      "href": null
-     }
-    ]
+    "id": "heart",
+    "name": "Heart",
+    "note": "Warm · American English"
    },
    {
-    "name": "Accounts by person",
-    "note": "3 principals",
-    "rows": [
-     {
-      "id": "acct-owner",
-      "title": "You",
-      "meta": "iCloud mail, Google calendar",
-      "status": {
-       "status": "healthy",
-       "label": "2 accounts"
-      },
-      "href": null
-     },
-     {
-      "id": "acct-mom",
-      "title": "Mom",
-      "meta": "IMAP mailbox · app password",
-      "status": {
-       "status": "healthy",
-       "label": "1 account"
-      },
-      "href": null
-     },
-     {
-      "id": "acct-dad",
-      "title": "Dad",
-      "meta": "Calendar \"Dad\" on this Mac",
-      "status": {
-       "status": "healthy",
-       "label": "1 mapping"
-      },
-      "href": null
-     }
-    ]
+    "id": "michael",
+    "name": "Michael",
+    "note": "Calm · American English"
    },
    {
-    "name": "Platform links",
-    "note": "Free",
-    "rows": [
-     {
-      "id": "tailscale",
-      "title": "Tailscale",
-      "meta": "Personal plan · 3 Owner devices",
-      "status": {
-       "status": "healthy",
-       "label": "Connected"
-      },
-      "href": null
-     },
-     {
-      "id": "heartbeat",
-      "title": "Heartbeat monitor",
-      "meta": "Healthchecks.io",
-      "status": {
-       "status": "healthy",
-       "label": "Reporting"
-      },
-      "href": null
-     },
-     {
-      "id": "discord",
-      "title": "Discord bots",
-      "meta": "Assistant and Gatekeeper",
-      "status": {
-       "status": "neutral",
-       "label": "Deferred"
-      },
-      "href": "/setup"
-     },
-     {
-      "id": "huggingface",
-      "title": "Hugging Face",
-      "meta": "Model downloads only",
-      "status": {
-       "status": "healthy",
-       "label": "Ready"
-      },
-      "href": null
-     }
-    ]
+    "id": "bella",
+    "name": "Bella",
+    "note": "Bright · American English"
+   },
+   {
+    "id": "emma",
+    "name": "Emma",
+    "note": "Clear · British English"
+   },
+   {
+    "id": "george",
+    "name": "George",
+    "note": "Low · British English"
    }
   ],
-  "voice_profiles": {
-   "twilio_default|true": [
+  "call_lines": [
+   "Approval requested: class C.",
+   "Code on your screen.",
+   "Enter the code, then press pound.",
+   "That code didn't match. Try once more."
+  ],
+  "risk_notice": "A clone of a public figure's voice can break publicity and likeness laws where you live. It plays only on approval calls to you, stays on the Mac except as protected Twilio clips, and the legal risk is yours (decision 84).",
+  "denied_calls": [
+   {
+    "id": "DN-0031",
+    "title": "fs.write ../policy by Bolt",
+    "meta": "Outside its workspace · today 07:40",
+    "status": {
+     "status": "neutral",
+     "label": "Denied"
+    },
+    "href": null
+   },
+   {
+    "id": "DN-0030",
+    "title": "web.research by Scout",
+    "meta": "A URL the agent composed itself · yesterday",
+    "status": {
+     "status": "neutral",
+     "label": "Denied"
+    },
+    "href": null
+   },
+   {
+    "id": "DN-0029",
+    "title": "mail.send by Pulse",
+    "meta": "Sending is off · Oct 23",
+    "status": {
+     "status": "neutral",
+     "label": "Denied"
+    },
+    "href": null
+   },
+   {
+    "id": "DN-0028",
+    "title": "git.push by Forge",
+    "meta": "Not the registered mirror · Oct 22",
+    "status": {
+     "status": "neutral",
+     "label": "Denied"
+    },
+    "href": null
+   }
+  ],
+  "ledger": [
+   {
+    "id": "LG-0009",
+    "month": "October",
+    "day": "Oct 25",
+    "service": "Local models",
+    "pipeline": "B · Development",
+    "idea": "receipt-scanner",
+    "work_item": "WI-0412",
+    "what": "Build and review",
+    "quantity": "1.4 M tokens",
+    "amount_usd": 0.0
+   },
+   {
+    "id": "LG-0008",
+    "month": "October",
+    "day": "Oct 25",
+    "service": "Local models",
+    "pipeline": "E · Personal",
+    "idea": null,
+    "work_item": null,
+    "what": "Chief of Staff and personal leads",
+    "quantity": "0.6 M tokens",
+    "amount_usd": 0.0
+   },
+   {
+    "id": "LG-0007",
+    "month": "October",
+    "day": "Oct 24",
+    "service": "Local models",
+    "pipeline": "A · Ideation",
+    "idea": "receipt-scanner",
+    "work_item": null,
+    "what": "Idea research",
+    "quantity": "0.3 M tokens",
+    "amount_usd": 0.0
+   },
+   {
+    "id": "LG-0006",
+    "month": "October",
+    "day": "Oct 24",
+    "service": "Healthchecks.io",
+    "pipeline": "Platform",
+    "idea": null,
+    "work_item": null,
+    "what": "Heartbeat",
+    "quantity": "1,440 pings",
+    "amount_usd": 0.0
+   },
+   {
+    "id": "LG-0005",
+    "month": "October",
+    "day": "Oct 24",
+    "service": "Tailscale",
+    "pipeline": "Platform",
+    "idea": null,
+    "work_item": null,
+    "what": "Remote access",
+    "quantity": "3 devices",
+    "amount_usd": 0.0
+   },
+   {
+    "id": "LG-0004",
+    "month": "September",
+    "day": "Sep 30",
+    "service": "Local models",
+    "pipeline": "C · Maintenance",
+    "idea": null,
+    "work_item": null,
+    "what": "Nightly scans",
+    "quantity": "0.9 M tokens",
+    "amount_usd": 0.0
+   }
+  ],
+  "extra_impacts": {
+   "image.enabled": [
     {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": true,
-     "locked": false
+     "name": "Model pool while an image renders",
+     "change": "+6 GB",
+     "source": "estimate",
+     "status": null
     },
     {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": false
+     "name": "Chat on fallback model",
+     "change": "+2 min/day",
+     "source": "estimate",
+     "status": {
+      "status": "attention",
+      "label": "Worse"
+     }
     }
    ],
-   "twilio_default|false": [
+   "offline_library": [
     {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": true,
-     "locked": false
+     "name": "Working drive",
+     "change": "+38 GB for the installed tiers",
+     "source": "measured",
+     "status": null
     },
     {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": true
+     "name": "Nightly index rebuild",
+     "change": "0 → 4 min",
+     "source": "simulated",
+     "status": null
     }
    ],
-   "heart|true": [
+   "resources.desk_mode": [
     {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
+     "name": "Memory free for your apps",
+     "change": "+4 GB",
+     "source": "measured",
+     "status": null
     },
     {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": false
+     "name": "Agent work per hour",
+     "change": "−25%",
+     "source": "estimate",
+     "status": {
+      "status": "attention",
+      "label": "Slower"
+     }
     }
    ],
-   "heart|false": [
+   "maintenance.*=fix": [
     {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
+     "name": "Custodian's fixes",
+     "change": "reported → merged once tests pass",
+     "source": "simulated",
+     "status": null
     },
     {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": true
+     "name": "Merged fixes a week",
+     "change": "0 → about 2",
+     "source": "estimate",
+     "status": null
     }
-   ],
-   "michael|true": [
+   ]
+  },
+  "outcomes": {
+   "quiet_hours": [
     {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
+     "name": "Heavy jobs started inside quiet hours",
+     "predicted": "0 → 0",
+     "actual": "0",
+     "source": "measured",
+     "status": {
+      "status": "healthy",
+      "label": "As predicted"
+     }
     },
     {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
+     "name": "Alerts that woke you",
+     "predicted": "3 → 1 a week",
+     "actual": "1 a week",
+     "source": "measured",
+     "status": {
+      "status": "healthy",
+      "label": "As predicted"
+     }
     },
     {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": false
-    }
-   ],
-   "michael|false": [
-    {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": true
-    }
-   ],
-   "my_voice|true": [
-    {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": false
-    }
-   ],
-   "my_voice|false": [
-    {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": true
-    }
-   ],
-   "mom|true": [
-    {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": false
-    }
-   ],
-   "mom|false": [
-    {
-     "id": "twilio_default",
-     "name": "Twilio default",
-     "kind": "default",
-     "meta": "Twilio's own voice · used whenever a clip is missing",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "heart",
-     "name": "Heart",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "michael",
-     "name": "Michael",
-     "kind": "stock",
-     "meta": "Kokoro-82M · free · 4 clips",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "my_voice",
-     "name": "My voice",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · your voice · watermarked",
-     "selected": false,
-     "locked": false
-    },
-    {
-     "id": "mom",
-     "name": "Mom",
-     "kind": "consented_clone",
-     "meta": "Chatterbox · consent recorded Oct 27 · watermarked",
-     "selected": true,
-     "locked": false
-    },
-    {
-     "id": "public_figure",
-     "name": "[Public figure]",
-     "kind": "celebrity_clone",
-     "meta": "Private celebrity clone · calls to you only",
-     "selected": false,
-     "locked": true
+     "name": "Maintenance scan finished by 06:00",
+     "predicted": "100% → 100%",
+     "actual": "86%",
+     "source": "measured",
+     "status": {
+      "status": "attention",
+      "label": "Missed by 14%"
+     }
     }
    ]
   },
@@ -9034,6 +9157,8 @@
    "D7"
   ],
   "wip_global": 3,
-  "principal_undo_days": 7
+  "principal_undo_days": 7,
+  "outcome_after_seconds": 604800.0,
+  "spend_month": "October"
  }
 }
