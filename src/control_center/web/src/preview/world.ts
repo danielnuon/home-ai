@@ -44,6 +44,7 @@ export interface ThreadRecord {
   proposed_resolution: string | null;
   waiting_for: string | null;
   outcome: string | null;
+  branched_from: string | null;
 }
 
 /** Every piece of mutable mock state, as in `world.py`. */
@@ -64,6 +65,8 @@ interface WorldState {
   jobs: Record<string, Job>;
   fixes: Record<string, Schemas["MaintenanceFix"]>;
   chats: Record<string, ChatMessage[]>;
+  /** The newest message of the branch on show in each conversation (`chat_tree.py`). */
+  chat_heads: Record<string, string>;
   stopped: boolean;
   maintenance_running: boolean;
 }
@@ -111,6 +114,7 @@ interface Fixtures {
   not_yet_hired: string[];
   chat_leads: ChatLead[];
   mock_reply: string;
+  mock_retry: string;
   thread_leads: Record<string, [string, Schemas["Thread"]["lead_department"], string]>;
 }
 

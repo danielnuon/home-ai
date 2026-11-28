@@ -791,6 +791,106 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/chat/{lead_id}/{thread_id}/stop": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Stop
+     * @description Stop the reply being written (spec 15.9.8).
+     */
+    post: operations["chat_stop_api_v1_chat__lead_id___thread_id__stop_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/edit": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Edit
+     * @description Re-run the turn from an edited message, as a new branch.
+     */
+    post: operations["chat_edit_api_v1_chat__lead_id___thread_id__messages__message_id__edit_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/regenerate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Regenerate
+     * @description Write a reply again, as a new branch.
+     */
+    post: operations["chat_regenerate_api_v1_chat__lead_id___thread_id__messages__message_id__regenerate_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/switch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Switch
+     * @description Show the branch that runs through a message.
+     */
+    post: operations["chat_switch_api_v1_chat__lead_id___thread_id__messages__message_id__switch_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/branch": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Branch
+     * @description Start a new conversation thread from the branch on show, up to a message.
+     */
+    post: operations["chat_branch_api_v1_chat__lead_id___thread_id__messages__message_id__branch_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/system": {
     parameters: {
       query?: never;
@@ -1260,6 +1360,14 @@ export interface components {
       action: "done" | "snooze" | "reopen";
     };
     /**
+     * ChatEdit
+     * @description A sent message, edited. The turn re-runs from it as a new branch (spec 15.9.8).
+     */
+    ChatEdit: {
+      /** Text */
+      text: string;
+    };
+    /**
      * ChatLead
      * @description A lead the Owner can chat with (spec 7.8): Atlas, Spark, Foreman, Custodian, Wayfinder.
      *
@@ -1294,7 +1402,11 @@ export interface components {
      * ChatMessage
      * @description One message in web chat. `approval_id` puts an inline approval card under the message.
      *
-     *     `thread_id` is the conversation thread the message belongs to (spec 15.8.1).
+     *     `thread_id` is the conversation thread the message belongs to (spec 15.8.1). Messages form a
+     *     tree (15.9.8): `parent_id` is the message this one follows, and an edit or a regenerated
+     *     reply is a sibling that starts a new branch. `sibling_ids` lists every branch at this point,
+     *     oldest first, when there is more than one, and `branch` is this one's place among them, from
+     *     1. `stopped` marks a reply the Owner stopped before it finished.
      */
     ChatMessage: {
       /** Id */
@@ -1303,6 +1415,8 @@ export interface components {
       lead_id: string;
       /** Thread Id */
       thread_id: string | null;
+      /** Parent Id */
+      parent_id: string | null;
       /**
        * Author
        * @enum {string}
@@ -1324,6 +1438,18 @@ export interface components {
        * @default false
        */
       streaming: boolean;
+      /**
+       * Stopped
+       * @default false
+       */
+      stopped: boolean;
+      /**
+       * Branch
+       * @default 1
+       */
+      branch: number;
+      /** Sibling Ids */
+      sibling_ids: string[];
     };
     /**
      * ChatSend
@@ -2480,7 +2606,8 @@ export interface components {
      *     unit; nothing sets it directly. `detail` is the line the state is shown with: who is doing
      *     what, what it waits on, or why it is blocked and who can unblock it. `approval_id` is set when
      *     the Owner decision it waits for is an approval card, which Brain then shows instead of a
-     *     second row for the same decision. `lead_id` is the lead's id in Chat.
+     *     second row for the same decision. `lead_id` is the lead's id in Chat. `branched_from` names
+     *     the conversation a thread was branched from in Chat (spec 15.9.8).
      */
     Thread: {
       /** Id */
@@ -2538,6 +2665,8 @@ export interface components {
       closing_summary: string | null;
       /** Approval Id */
       approval_id: string | null;
+      /** Branched From */
+      branched_from: string | null;
     };
     /**
      * ThreadsOverview
@@ -4211,6 +4340,199 @@ export interface operations {
         "application/json": components["schemas"]["ChatSend"];
       };
     };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_stop_api_v1_chat__lead_id___thread_id__stop_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_edit_api_v1_chat__lead_id___thread_id__messages__message_id__edit_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ChatEdit"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_regenerate_api_v1_chat__lead_id___thread_id__messages__message_id__regenerate_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_switch_api_v1_chat__lead_id___thread_id__messages__message_id__switch_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_branch_api_v1_chat__lead_id___thread_id__messages__message_id__branch_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
     responses: {
       /** @description Successful Response */
       200: {

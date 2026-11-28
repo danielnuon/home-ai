@@ -3,7 +3,7 @@
  * chat reply and the event stream the app reads.
  */
 import { Bus, busEventSource, type BusEvent } from "./bus";
-import { chatSend } from "./live";
+import { chatEdit, chatRegenerate, chatSend, chatStop, chatSwitch } from "./chat";
 import { healthMetrics } from "./status";
 import { buildWorld } from "./world";
 
@@ -22,12 +22,39 @@ describe("the preview's chat", () => {
     const thread = chatSend(world, "atlas", "Hello");
     vi.runAllTimers();
 
-    expect(thread.messages.at(-1)).toMatchObject({ author: "owner", text: "Hello" });
+    expect(thread.messages.at(-2)).toMatchObject({ author: "owner", text: "Hello" });
+    expect(thread.messages.at(-1)).toMatchObject({ author: "lead", text: "", streaming: true });
     const streamed = events.filter((e) => e.kind === "chat.message").map((e) => e.payload);
     const reply = world.fixtures.mock_reply.replaceAll("{name}", "Atlas");
     expect(streamed).toHaveLength(reply.split(" ").length + 1);
     expect(streamed.at(-2)).toMatchObject({ text: reply, streaming: true });
     expect(streamed.at(-1)).toMatchObject({ text: reply, streaming: false });
+  });
+
+  it("stops a reply where it is, keeping what it wrote", () => {
+    const world = buildWorld(new Bus(), () => NOW);
+    chatSend(world, "atlas", "Hello", "TH-0216");
+    vi.advanceTimersByTime(world.constants.word_delay_seconds * 1000 * 3);
+
+    const stopped = chatStop(world, { lead: "atlas", thread: "TH-0216" });
+
+    expect(stopped.messages.at(-1)).toMatchObject({ stopped: true, streaming: false });
+    expect(stopped.messages.at(-1)?.text.split(" ")).toHaveLength(3);
+  });
+
+  it("keeps an edit and a regenerated reply as branches to switch between", () => {
+    const world = buildWorld(new Bus(), () => NOW);
+    const ids = { lead: "atlas", thread: "TH-0216" };
+
+    const edited = chatEdit(world, ids, "M-1", "Just the passport");
+    expect(edited.messages[0]).toMatchObject({ text: "Just the passport", branch: 2 });
+    expect(edited.messages[0]?.sibling_ids[0]).toBe("M-1");
+
+    const back = chatSwitch(world, ids, "M-1");
+    expect(back.messages.map((m) => m.id)).toEqual(["M-1", "M-2"]);
+
+    const again = chatRegenerate(world, ids, "M-2");
+    expect(again.messages.at(-1)).toMatchObject({ parent_id: "M-1", branch: 2 });
   });
 
   it("starts a conversation thread for a new chat, titled from the first words", () => {

@@ -45,18 +45,23 @@ const PASSPORT: Thread = {
   since: "today",
   closing_summary: null,
   approval_id: "AP-0110",
+  branched_from: null,
 };
 
 const message = (id: string, text: string, threadId: string): ChatMessage => ({
   id,
   lead_id: "atlas",
   thread_id: threadId,
+  parent_id: null,
   author: "owner",
   text,
   at: "2026-10-25T16:00:00Z",
   note: null,
   approval_id: null,
   streaming: false,
+  stopped: false,
+  branch: 1,
+  sibling_ids: [],
 });
 
 /** Answers like the server: the lead's threads, and the picked thread's messages. */
@@ -138,4 +143,42 @@ test("New chat starts a thread with the first message and stays on it", async ()
     "Book the dentist",
   );
   expect(screen.getAllByText("Book the dentist").length).toBeGreaterThan(0);
+});
+
+test("a reply can be regenerated, its branches switched, and a reply being written stopped", async () => {
+  const reply = { ...message("M-2", "First answer", "TH-0216"), author: "lead" as const };
+  const second = { ...reply, id: "M-3", text: "Second answer", branch: 2 };
+  const branches = { sibling_ids: ["M-2", "M-3"] };
+  const writing = { ...reply, id: "M-4", text: "Still writ", streaming: true };
+  const owner = message("M-1", "Renew my passport", "TH-0216");
+  // The server keeps the conversation; each control changes it, and a refetch reads it back.
+  let current: ChatMessage[] = [owner, reply];
+  const answer = (messages?: ChatMessage[]) => () => {
+    current = messages ?? current;
+    return { lead: ATLAS, leads: LEADS, threads: [PASSPORT], thread: PASSPORT, messages: current };
+  };
+  const sent = fakeServer({
+    "GET /api/v1/chat/atlas": answer(),
+    "POST /api/v1/chat/atlas/TH-0216/messages/M-2/regenerate": answer([
+      owner,
+      { ...second, ...branches },
+    ]),
+    "POST /api/v1/chat/atlas/TH-0216/messages/M-2/switch": answer([owner, writing]),
+    "POST /api/v1/chat/atlas/TH-0216/stop": answer([owner, { ...writing, streaming: false }]),
+  });
+  renderPage(<Chat />, "/chat?lead=atlas&thread=TH-0216");
+
+  await userEvent.click(await screen.findByRole("button", { name: "Regenerate" }));
+  expect(await screen.findByText("Second answer")).toBeInTheDocument();
+  expect(screen.getByText("2 / 2")).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole("button", { name: "Previous branch" }));
+  await userEvent.click(await screen.findByRole("button", { name: "Stop" }));
+
+  const posted = sent.filter((r) => r.method === "POST").map((r) => r.path);
+  expect(posted).toEqual([
+    "/api/v1/chat/atlas/TH-0216/messages/M-2/regenerate",
+    "/api/v1/chat/atlas/TH-0216/messages/M-2/switch",
+    "/api/v1/chat/atlas/TH-0216/stop",
+  ]);
 });

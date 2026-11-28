@@ -1012,7 +1012,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0129": {
     "id": "TH-0129",
@@ -1029,7 +1030,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0209": {
     "id": "TH-0209",
@@ -1046,7 +1048,8 @@
     "approval_id": "AP-0107",
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0216": {
     "id": "TH-0216",
@@ -1063,7 +1066,8 @@
     "approval_id": "AP-0110",
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0131": {
     "id": "TH-0131",
@@ -1080,7 +1084,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0207": {
     "id": "TH-0207",
@@ -1097,7 +1102,8 @@
     "approval_id": null,
     "proposed_resolution": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0214": {
     "id": "TH-0214",
@@ -1114,7 +1120,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": "the tenant's reply, expected by Thursday",
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0118": {
     "id": "TH-0118",
@@ -1131,7 +1138,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": null
+    "outcome": null,
+    "branched_from": null
    },
    "TH-0201": {
     "id": "TH-0201",
@@ -1148,7 +1156,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": "Renewed online. The sticker arrives by mail."
+    "outcome": "Renewed online. The sticker arrives by mail.",
+    "branched_from": null
    },
    "TH-0127": {
     "id": "TH-0127",
@@ -1165,7 +1174,8 @@
     "approval_id": null,
     "proposed_resolution": null,
     "waiting_for": null,
-    "outcome": "Released, and its 7-day review is done."
+    "outcome": "Released, and its 7-day review is done.",
+    "branched_from": null
    }
   },
   "work_items": [
@@ -1886,25 +1896,36 @@
      "id": "M-1",
      "lead_id": "atlas",
      "thread_id": "TH-0216",
+     "parent_id": null,
      "author": "owner",
      "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
      "at": "2026-10-25T15:00:00Z",
      "note": null,
      "approval_id": null,
-     "streaming": false
+     "streaming": false,
+     "stopped": false,
+     "branch": 1,
+     "sibling_ids": []
     },
     {
      "id": "M-2",
      "lead_id": "atlas",
      "thread_id": "TH-0216",
+     "parent_id": "M-1",
      "author": "lead",
      "text": "Two things, done and drafted:\n1. Passport renewal is now a case, due March 1, with reminders 60 and 14 days before. I mirrored it to your Reminders.\n2. Health is a restricted domain, so Pulse checked it locally. The plan needs the pharmacy to be in network. I drafted an email to the insurer asking them to confirm.",
      "at": "2026-10-25T15:01:00Z",
      "note": "Local model · nothing sent to the cloud",
      "approval_id": "AP-0110",
-     "streaming": false
+     "streaming": false,
+     "stopped": false,
+     "branch": 1,
+     "sibling_ids": []
     }
    ]
+  },
+  "chat_heads": {
+   "TH-0216": "M-2"
   },
   "stopped": false,
   "maintenance_running": true
@@ -4624,6 +4645,7 @@
    }
   ],
   "mock_reply": "I'm the mock chat, standing in for {name} until the platform runs on the Mac. In the real platform this answer comes from {name}'s lead session in the pipeline engine.",
+  "mock_retry": "Here's another go, still from the mock chat standing in for {name}. A regenerated reply in the real platform comes from {name}'s lead session again, as a new branch you can switch to.",
   "thread_leads": {
    "foreman": [
     "Foreman",

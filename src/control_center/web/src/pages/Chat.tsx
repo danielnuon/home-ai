@@ -14,59 +14,30 @@
  * messages rise in; nothing pops (spec 7.14).
  */
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowUp, ChevronLeft, SquarePen } from "lucide-react";
+import { ArrowUp, ChevronLeft, Square, SquarePen } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
 import { useChat } from "../api/queries";
-import type { ChatLead, ChatMessage, ChatThread, Thread } from "../api/types";
-import { ApprovalPeek } from "../components/ApprovalPeek";
+import type { ChatLead, ChatThread, Thread } from "../api/types";
 import { Avatar, STATE_WORDS } from "../components/Avatar";
 import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { chatPath, THREAD_STATE } from "../components/ThreadCard";
-import { AnimatePresence, ARRIVE, m } from "../design/motion";
+import { AnimatePresence } from "../design/motion";
 import { StatusText } from "../design/status";
-import { clockTime } from "../design/time";
 import { useLayout } from "../design/useLayout";
 import { scroller } from "../shell/scroll";
+import { Message, useChatControl } from "./chat/Message";
+
+type Control = ReturnType<typeof useChatControl>;
 
 const DEFAULT_LEAD = "atlas";
 
 /** The `thread` value for a chat that has no thread yet; it gets one with its first message. */
 const NEW_CHAT = "new";
-
-/** One message bubble. */
-function Message({ message, thread }: { message: ChatMessage; thread: ChatThread }) {
-  const mine = message.author === "owner";
-  return (
-    <m.li className={`message ${mine ? "mine" : "theirs"}`} {...ARRIVE}>
-      {!mine && (
-        <Avatar
-          department={thread.lead.department}
-          state={message.streaming ? "generating" : "idle"}
-          name={thread.lead.name}
-          size={28}
-        />
-      )}
-      <div className="bubble stack" style={{ ["--gap" as string]: "var(--space-1)" }}>
-        <p>
-          {message.text}
-          {message.streaming && (
-            <span className="cursor" aria-hidden="true">
-              ▍
-            </span>
-          )}
-        </p>
-        {message.note && <p className="muted small">{message.note}</p>}
-        {message.approval_id && <ApprovalPeek approvalId={message.approval_id} />}
-        <span className="muted tiny">{clockTime(message.at)}</span>
-      </div>
-    </m.li>
-  );
-}
 
 interface ComposerProps {
   leadId: string;
@@ -75,10 +46,12 @@ interface ComposerProps {
   threadId: string | null;
   /** Called with the new thread's id after the first message of a new chat. */
   onStarted: (threadId: string) => void;
+  /** While a reply is being written, the send button stops it instead (spec 15.9.8). */
+  onStop: (() => void) | null;
 }
 
 /** The message box. */
-function Composer({ leadId, leadName, threadId, onStarted }: ComposerProps) {
+function Composer({ leadId, leadName, threadId, onStarted, onStop }: ComposerProps) {
   const [text, setText] = useState("");
   const client = useQueryClient();
   const post = useAction<ChatThread>({ refresh: ["chat"] });
@@ -103,14 +76,20 @@ function Composer({ leadId, leadName, threadId, onStarted }: ComposerProps) {
         value={text}
         onChange={(event) => setText(event.target.value)}
       />
-      <button
-        type="submit"
-        className="btn primary send"
-        aria-label="Send"
-        disabled={post.busy || !text.trim()}
-      >
-        <ArrowUp size={18} aria-hidden="true" />
-      </button>
+      {onStop && !text.trim() ? (
+        <button type="button" className="btn primary send" aria-label="Stop" onClick={onStop}>
+          <Square size={14} fill="currentColor" aria-hidden="true" />
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="btn primary send"
+          aria-label="Send"
+          disabled={post.busy || !text.trim()}
+        >
+          <ArrowUp size={18} aria-hidden="true" />
+        </button>
+      )}
     </form>
   );
 }
@@ -147,7 +126,8 @@ function useFollowNewest(openKey: string, change: unknown, ownerLast: string | u
 }
 
 /** The conversation's messages, kept scrolled to the newest. */
-function Messages({ thread }: { thread: ChatThread }) {
+function Messages({ thread, control }: { thread: ChatThread; control: Control }) {
+  const latest = thread.messages.findLast((message) => message.author === "lead")?.id;
   const last = thread.messages.at(-1);
   const { list, end } = useFollowNewest(
     thread.thread?.id ?? `${thread.lead.id}:${NEW_CHAT}`,
@@ -163,7 +143,13 @@ function Messages({ thread }: { thread: ChatThread }) {
       )}
       <AnimatePresence initial={false}>
         {thread.messages.map((message) => (
-          <Message key={message.id} message={message} thread={thread} />
+          <Message
+            key={message.id}
+            message={message}
+            chat={thread}
+            control={control}
+            latest={message.id === latest}
+          />
         ))}
       </AnimatePresence>
       <li ref={end} className="messages-end" aria-hidden="true" />
@@ -255,32 +241,55 @@ function ThreadList({ chat, current }: { chat: ChatThread; current: string | nul
   );
 }
 
+/** Where a branched conversation came from, with the way back to it (spec 15.9.8). */
+function BranchedFrom({ chat }: { chat: ChatThread }) {
+  const from = chat.threads.find((thread) => thread.id === chat.thread?.branched_from);
+  if (!from) return null;
+  return (
+    <Link to={chatPath(from)} className="branched-from small muted row">
+      <ChevronLeft size={14} aria-hidden="true" />
+      Branched from {from.title}
+    </Link>
+  );
+}
+
+/** The conversation's title, its lead and state, and on a phone the way back to the list. */
+function ChatHead({ chat, phone }: { chat: ChatThread; phone: boolean }) {
+  const { lead } = chat;
+  return (
+    <header className="row chat-head">
+      {phone && (
+        <Link
+          to={`/chat?lead=${lead.id}`}
+          className="btn icon chat-back"
+          aria-label={`All chats with ${lead.name}`}
+        >
+          <ChevronLeft size={22} aria-hidden="true" />
+        </Link>
+      )}
+      <Avatar department={lead.department} state={lead.state} name={lead.name} size={36} />
+      <span className="grow stack chat-title" style={{ ["--gap" as string]: "2px" }}>
+        <span className="row-title">{chat.thread?.title ?? "New chat"}</span>
+        <span className="muted small">
+          {lead.name} · {lead.now || STATE_WORDS[lead.state]}
+        </span>
+      </span>
+      {chat.thread && <StatusText value={THREAD_STATE[chat.thread.state]} className="small" />}
+    </header>
+  );
+}
+
 /** The conversation: its title and lead, the messages, and the message box. */
 function Conversation({ chat, phone }: { chat: ChatThread; phone: boolean }) {
   const navigate = useNavigate();
+  const control = useChatControl(chat);
   const { lead } = chat;
+  const writing = chat.thread !== null && chat.messages.some((message) => message.streaming);
   return (
     <section className="card chat stack" aria-label={`Chat with ${lead.name}`}>
-      <header className="row chat-head">
-        {phone && (
-          <Link
-            to={`/chat?lead=${lead.id}`}
-            className="btn icon chat-back"
-            aria-label={`All chats with ${lead.name}`}
-          >
-            <ChevronLeft size={22} aria-hidden="true" />
-          </Link>
-        )}
-        <Avatar department={lead.department} state={lead.state} name={lead.name} size={36} />
-        <span className="grow stack chat-title" style={{ ["--gap" as string]: "2px" }}>
-          <span className="row-title">{chat.thread?.title ?? "New chat"}</span>
-          <span className="muted small">
-            {lead.name} · {lead.now || STATE_WORDS[lead.state]}
-          </span>
-        </span>
-        {chat.thread && <StatusText value={THREAD_STATE[chat.thread.state]} className="small" />}
-      </header>
-      <Messages thread={chat} />
+      <ChatHead chat={chat} phone={phone} />
+      {chat.thread?.branched_from && <BranchedFrom chat={chat} />}
+      <Messages thread={chat} control={control} />
       <OnTheBar>
         <Composer
           key={chat.thread?.id ?? NEW_CHAT}
@@ -288,6 +297,7 @@ function Conversation({ chat, phone }: { chat: ChatThread; phone: boolean }) {
           leadName={lead.name}
           threadId={chat.thread?.id ?? null}
           onStarted={(id) => navigate(`/chat?lead=${lead.id}&thread=${id}`, { replace: true })}
+          onStop={writing ? () => void control.run("/stop") : null}
         />
       </OnTheBar>
     </section>

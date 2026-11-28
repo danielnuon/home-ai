@@ -78,6 +78,51 @@ def test_chat_lists_only_the_leads_own_threads(client: TestClient) -> None:
     assert client.get("/api/v1/chat/wayfinder", params={"thread": "TH-0216"}).status_code == 404
 
 
+def test_editing_a_message_starts_a_branch_beside_it(client: TestClient) -> None:
+    """Spec 15.9.8: an edit re-runs the turn as a new branch; the original stays to switch back."""
+    chat = client.post(
+        "/api/v1/chat/atlas/TH-0216/messages/M-1/edit", json={"text": "Just the passport, please"}
+    ).json()
+
+    first = chat["messages"][0]
+    assert first["text"] == "Just the passport, please"
+    assert first["branch"] == 2 and first["sibling_ids"][0] == "M-1"
+    assert chat["messages"][-1]["author"] == "lead"
+
+    back = client.post("/api/v1/chat/atlas/TH-0216/messages/M-1/switch").json()
+    assert [m["id"] for m in back["messages"]] == ["M-1", "M-2"]
+
+
+def test_regenerating_a_reply_keeps_the_old_one_as_a_branch(client: TestClient) -> None:
+    """Spec 15.9.8: regenerate writes the reply again as a sibling of the one it replaces."""
+    chat = client.post("/api/v1/chat/atlas/TH-0216/messages/M-2/regenerate").json()
+
+    reply = chat["messages"][-1]
+    assert reply["parent_id"] == "M-1"
+    assert reply["sibling_ids"] == ["M-2", reply["id"]]
+    refused = client.post("/api/v1/chat/atlas/TH-0216/messages/M-1/regenerate")
+    assert refused.status_code == 409
+
+
+def test_stop_ends_the_reply_being_written(client: TestClient) -> None:
+    """Spec 15.9.8: Stop ends the reply at once and keeps what it wrote."""
+    client.post("/api/v1/chat/atlas", json={"text": "Hello", "thread_id": "TH-0216"})
+    stopped = client.post("/api/v1/chat/atlas/TH-0216/stop").json()
+
+    assert stopped["messages"][-1]["stopped"] is True
+    assert stopped["messages"][-1]["streaming"] is False
+    assert client.post("/api/v1/chat/atlas/TH-0216/stop").status_code == 409
+
+
+def test_branching_starts_a_new_thread_that_links_back(client: TestClient) -> None:
+    """Spec 15.9.8: branch into a new thread from a message; it keeps the way back."""
+    branched = client.post("/api/v1/chat/atlas/TH-0216/messages/M-1/branch").json()
+
+    assert branched["thread"]["branched_from"] == "TH-0216"
+    assert branched["thread"]["kind"] == "conversation"
+    assert [m["author"] for m in branched["messages"]] == ["owner"]
+
+
 def test_chat_leads_carry_their_live_state(client: TestClient) -> None:
     """Spec 7.2, Chat: each contact circle shows the lead's current state from the Directory."""
     leads = {lead["id"]: lead for lead in client.get("/api/v1/chat/atlas").json()["leads"]}

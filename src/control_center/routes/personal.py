@@ -14,7 +14,13 @@ from control_center.contract.personal import (
     SetupAction,
     SetupStep,
 )
-from control_center.contract.today import ChatSend, ChatThread, SearchResults, TodayOverview
+from control_center.contract.today import (
+    ChatEdit,
+    ChatSend,
+    ChatThread,
+    SearchResults,
+    TodayOverview,
+)
 from control_center.routes import BackendsDep
 from control_center.today import build_today
 
@@ -79,3 +85,37 @@ def chat_thread(lead_id: str, backends: BackendsDep, thread: str | None = None) 
 async def chat_send(lead_id: str, body: ChatSend, backends: BackendsDep) -> ChatThread:
     """Send a message. Async because the mock chat streams its reply on the event loop."""
     return backends.chat.send(lead_id, body.text, body.thread_id)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/stop")
+async def chat_stop(lead_id: str, thread_id: str, backends: BackendsDep) -> ChatThread:
+    """Stop the reply being written (spec 15.9.8)."""
+    return backends.chat.stop(lead_id, thread_id)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/edit")
+async def chat_edit(
+    lead_id: str, thread_id: str, message_id: str, body: ChatEdit, backends: BackendsDep
+) -> ChatThread:
+    """Re-run the turn from an edited message, as a new branch."""
+    return backends.chat.edit(lead_id, thread_id, message_id, body.text)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/regenerate")
+async def chat_regenerate(
+    lead_id: str, thread_id: str, message_id: str, backends: BackendsDep
+) -> ChatThread:
+    """Write a reply again, as a new branch."""
+    return backends.chat.regenerate(lead_id, thread_id, message_id)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/switch")
+def chat_switch(lead_id: str, thread_id: str, message_id: str, backends: BackendsDep) -> ChatThread:
+    """Show the branch that runs through a message."""
+    return backends.chat.switch(lead_id, thread_id, message_id)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/branch")
+def chat_branch(lead_id: str, thread_id: str, message_id: str, backends: BackendsDep) -> ChatThread:
+    """Start a new conversation thread from the branch on show, up to a message."""
+    return backends.chat.branch(lead_id, thread_id, message_id)

@@ -94,18 +94,26 @@ class ChatLead(ContractModel):
 class ChatMessage(ContractModel):
     """One message in web chat. `approval_id` puts an inline approval card under the message.
 
-    `thread_id` is the conversation thread the message belongs to (spec 15.8.1).
+    `thread_id` is the conversation thread the message belongs to (spec 15.8.1). Messages form a
+    tree (15.9.8): `parent_id` is the message this one follows, and an edit or a regenerated
+    reply is a sibling that starts a new branch. `sibling_ids` lists every branch at this point,
+    oldest first, when there is more than one, and `branch` is this one's place among them, from
+    1. `stopped` marks a reply the Owner stopped before it finished.
     """
 
     id: str
     lead_id: str
     thread_id: str | None = None
+    parent_id: str | None = None
     author: Literal["owner", "lead"]
     text: str
     at: datetime
     note: str | None = None
     approval_id: str | None = None
     streaming: bool = False
+    stopped: bool = False
+    branch: int = 1
+    sibling_ids: list[str] = Field(default_factory=list)
 
 
 class ChatThread(ContractModel):
@@ -128,6 +136,12 @@ class ChatSend(ContractModel):
 
     text: str
     thread_id: str | None = None
+
+
+class ChatEdit(ContractModel):
+    """A sent message, edited. The turn re-runs from it as a new branch (spec 15.9.8)."""
+
+    text: str
 
 
 class SearchResult(ContractModel):
