@@ -1,15 +1,13 @@
-"""Agenda, cases, domains, finance and Setup steps for the mock engine."""
+"""Agenda, cases, domains and Setup steps for the mock engine. Finance rows are in `records`."""
 
-from control_center.contract.common import Metric, Principal, StatusLabel
+from control_center.backends.mock.fixtures import records
+from control_center.contract.common import StatusLabel
 from control_center.contract.personal import (
     AutomaticChange,
-    BudgetLine,
     Case,
     Domain,
-    FinanceOverview,
     SetupCheck,
     SetupStep,
-    StatementImport,
 )
 from control_center.contract.today import AgendaItem
 
@@ -88,14 +86,54 @@ def cases() -> list[Case]:
 def domains() -> list[Domain]:
     """Personal domains (spec 20.1) with their data classes."""
     return [
-        Domain(name="Calendar and admin", open_cases="4 open", data_class="internal"),
-        Domain(name="Home and auto", open_cases="3 open · 1 due", data_class="internal"),
-        Domain(name="Health and benefits", open_cases="2 open", data_class="restricted"),
-        Domain(name="Finance", open_cases="1 open", data_class="restricted"),
-        Domain(name="Investing", open_cases="Nothing open", data_class="restricted"),
-        Domain(name="Taxes", open_cases="2 open", data_class="restricted"),
-        Domain(name="Rental", open_cases="3 open", data_class="restricted"),
-        Domain(name="Career and business", open_cases="1 open", data_class="internal"),
+        Domain(
+            id=records.DOMAIN_IDS["Calendar and admin"],
+            name="Calendar and admin",
+            open_cases="4 open",
+            data_class="internal",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Home and auto"],
+            name="Home and auto",
+            open_cases="3 open · 1 due",
+            data_class="internal",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Health and benefits"],
+            name="Health and benefits",
+            open_cases="2 open",
+            data_class="restricted",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Finance"],
+            name="Finance",
+            open_cases="1 open",
+            data_class="restricted",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Investing"],
+            name="Investing",
+            open_cases="Nothing open",
+            data_class="restricted",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Taxes"],
+            name="Taxes",
+            open_cases="2 open",
+            data_class="restricted",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Rental"],
+            name="Rental",
+            open_cases="3 open",
+            data_class="restricted",
+        ),
+        Domain(
+            id=records.DOMAIN_IDS["Career and business"],
+            name="Career and business",
+            open_cases="1 open",
+            data_class="internal",
+        ),
     ]
 
 
@@ -105,49 +143,6 @@ def recent_changes() -> list[AutomaticChange]:
         AutomaticChange(id="AC-1", text="Filed 3 utility bills into Finance", undone=False),
         AutomaticChange(id="AC-2", text='Added "oil change" at 5,000 miles', undone=False),
     ]
-
-
-def finance(principal: Principal) -> FinanceOverview:
-    """Sample figures for one principal. The design shows the Owner's; the parents' are smaller."""
-    scale = 1.0 if principal == "owner" else 0.6
-    lines = [
-        ("Housing", 2100, 2100),
-        ("Groceries", 540, 650),
-        ("Transport", 310, 280),
-        ("Utilities", 190, 240),
-        ("Subscriptions", 86, 90),
-    ]
-    return FinanceOverview(
-        principal=principal,
-        month="October",
-        days_elapsed="25 of 31 days",
-        budget=[
-            BudgetLine(name=name, spent=round(spent * scale), budget=round(budget * scale))
-            for name, spent, budget in lines
-        ],
-        net_worth=Metric(
-            name="Net worth",
-            value=f"${round(412_800 * scale):,}",
-            spark=[388, 391, 395, 393, 398, 401, 400, 404, 407, 405, 410, 412.8],
-        ),
-        imports=[
-            StatementImport(
-                account="Checking ··1042",
-                meta="Last statement Oct 1 · next Nov 1",
-                status=StatusLabel(status="healthy", label="Current"),
-            ),
-            StatementImport(
-                account="Credit card ··7731",
-                meta="Last statement Sep 18 · expected Oct 18",
-                status=StatusLabel(status="attention", label="Overdue"),
-            ),
-            StatementImport(
-                account="Brokerage ··5520",
-                meta="Last export Oct 3",
-                status=StatusLabel(status="healthy", label="Current"),
-            ),
-        ],
-    )
 
 
 def setup_steps() -> list[SetupStep]:
@@ -198,6 +193,7 @@ def setup_steps() -> list[SetupStep]:
             stub="Sample profile",
             cta="Start with Atlas",
             state="ready",
+            interview=records.interview(),
         ),
         SetupStep(
             id="OI-22",
@@ -220,6 +216,7 @@ def setup_steps() -> list[SetupStep]:
             stub="Local Discord mock",
             cta="Start guide",
             state="deferred",
+            secrets=records.SECRETS["OI-13"],
         ),
         SetupStep(
             id="OI-16",
@@ -232,6 +229,7 @@ def setup_steps() -> list[SetupStep]:
             cta="Connect",
             state="waiting",
             waiting_on="After Mac permissions",
+            secrets=records.SECRETS["OI-16"],
         ),
         SetupStep(
             id="OI-17",

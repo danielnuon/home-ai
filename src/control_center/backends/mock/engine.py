@@ -9,13 +9,13 @@ from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock.engine_accounts import ImpactDesk
 from control_center.backends.mock.engine_board import BoardDesk
 from control_center.backends.mock.engine_ops import OpsDesk, heavy_work_paused
+from control_center.backends.mock.engine_records import RecordsDesk
 from control_center.backends.mock.engine_shell import ShellDesk
-from control_center.backends.mock.fixtures import operations, ops, personal, reference
-from control_center.contract.common import Principal, StatusLabel
+from control_center.backends.mock.fixtures import operations, ops, personal, records, reference
+from control_center.contract.common import StatusLabel
 from control_center.contract.personal import (
     Case,
     CaseAction,
-    FinanceOverview,
     PersonalOverview,
     SetupAction,
     SetupStep,
@@ -36,15 +36,16 @@ CASE_STATE_AFTER: dict[str, Literal["open", "done", "snoozed"]] = {
 """The state a case is in after each Owner action."""
 
 
-class MockPipelineEngine(BoardDesk, ShellDesk, OpsDesk, ImpactDesk):
+class MockPipelineEngine(BoardDesk, ShellDesk, RecordsDesk, OpsDesk, ImpactDesk):
     """In-memory stand-in for the pipeline engine (spec C3). Implements `PipelineEngine`.
 
     Sessions, threads and the Directory are in `WorkDesk`; the Work boards, ideas, work items,
     products, moves and suggested roles in `BoardDesk`; personal records, Setup, the schedule,
     maintenance, docs and search are here. The Guide panel, the Docs reader, the trash, the
-    offline pack and the library are in `ShellDesk`; pool mode, pins, logs, job times, drills,
-    prune plans, findings and the metric catalog are in `OpsDesk`; impact previews and outcomes
-    are in `ImpactDesk`.
+    offline pack and the library are in `ShellDesk`; obligations, records, rules, finance and
+    the Setup interview are in `RecordsDesk`; pool mode, pins, logs, job times, drills, prune
+    plans, findings and the metric catalog are in `OpsDesk`; impact previews and outcomes are
+    in `ImpactDesk`.
     """
 
     # Personal ------------------------------------------------------------------------------
@@ -52,14 +53,6 @@ class MockPipelineEngine(BoardDesk, ShellDesk, OpsDesk, ImpactDesk):
     def agenda(self) -> list[AgendaItem]:
         """Today's agenda."""
         return personal.agenda()
-
-    def personal(self) -> PersonalOverview:
-        """Open and snoozed cases, domains and recent automatic changes."""
-        return PersonalOverview(
-            cases=[case for case in self._world.cases.values() if case.state != "done"],
-            domains=personal.domains(),
-            recent_changes=list(self._world.changes.values()),
-        )
 
     def case_action(self, case_id: str, action: CaseAction) -> Case:
         """Mark a case done, snooze it, or reopen it (the undo of either).
@@ -100,10 +93,6 @@ class MockPipelineEngine(BoardDesk, ShellDesk, OpsDesk, ImpactDesk):
         self._world.bus.changed("personal")
         return self.personal()
 
-    def finance(self, principal: Principal) -> FinanceOverview:
-        """Sample figures for one principal."""
-        return personal.finance(principal)
-
     # Setup ---------------------------------------------------------------------------------
 
     def setup_steps(self) -> list[SetupStep]:
@@ -137,6 +126,11 @@ class MockPipelineEngine(BoardDesk, ShellDesk, OpsDesk, ImpactDesk):
         elif action.action in ("resume", "redo"):
             step.state = "ready"
             step.proof = None
+        if action.action == "redo":
+            for field in step.secrets:
+                field.saved = False
+            if step.interview is not None:
+                step.interview = records.interview()
         self._world.bus.changed("setup", "today", "platform")
         return step
 

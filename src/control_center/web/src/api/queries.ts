@@ -48,6 +48,16 @@ export const usePersonal = () => useResource<T.PersonalOverview>(["personal"], "
 /** Finance for one principal. */
 export const useFinance = (principal: T.Principal) =>
   useResource<T.FinanceOverview>(["finance", principal], `/finance/${principal}`, true, true);
+/** One domain's records and documents; under "personal", so the page's events refetch it. */
+export const useDomain = (domainId: string) =>
+  useResource<T.DomainDetail>(["personal", "domain", domainId], `/domains/${domainId}`);
+/** The rows behind one Finance figure; disabled until a figure is chosen. */
+export const useFigureSources = (principal: T.Principal, figureId: string | null) =>
+  useResource<T.FigureSources>(
+    ["finance", principal, "sources", figureId],
+    `/finance/${principal}/sources/${figureId ?? ""}`,
+    figureId !== null,
+  );
 /** Contacts and household. */
 export const useContacts = () => useResource<T.ContactsOverview>(["contacts"], "/contacts");
 /** One contact's sheet: channels, history and what mentions it; off until one is chosen. */

@@ -48,7 +48,9 @@ import { ActionRow } from "../components/ActionRow";
   toast. Offer Undo on the toast for anything reversible.
 - To open the item in place instead, pass `onOpen` rather than `href`: pressing the row runs it
   (usually opening the item's sheet) and the chevron still shows. The sheet lists every action as
-  a button (decision 181). See `pages/Connections.tsx` and `pages/Voice.tsx`.
+  a button (decision 181). See `pages/Connections.tsx`, `pages/Voice.tsx` and
+  `pages/personal/Cases.tsx`. Keep the sheet's content while it slides away with `useLast`
+  (`pages/personal/shared.tsx`).
 - Wrap rows in `<m.div layout="position" exit={LEAVE}>` inside `AnimatePresence` when rows can
   leave, so they glide out (decision 128). See `pages/Trash.tsx`.
 
@@ -128,6 +130,11 @@ sendToTrash(world, { kind: "contact", title, meta, home: "/contacts" }, removed)
 Recently deleted (`/trash`) then lists it with its days left, Restore puts it back through the
 restorer and refetches its home page, and Delete for good is a hold to confirm. If a new home
 page needs refetching on restore, add it to `HOME_RESOURCES` on both sides.
+
+On the page, a row's Delete for an item the server sends to the trash is one hook:
+`const del = useDeleteToTrash(`/rules/${rule.id}`)` (`pages/personal/shared.tsx`). It sends
+`DELETE`, refetches, and shows the toast with Undo; pass it as `end` and, with
+`destructive: true`, in `more`.
 
 ## Changing a setting: the impact sheet
 
