@@ -53,7 +53,8 @@ export function simulateActivity(world: MockWorld): () => void {
     }
     if (world.stopped) return;
     driftTokenRates(world);
-    if (tick % c.transcript_every_ticks === 0) {
+    // Under memory pressure Brain stops streaming transcripts (spec 7.17, "Degradation").
+    if (tick % c.transcript_every_ticks === 0 && world.ops.pressure === "normal") {
       growTranscript(world, Math.floor(tick / c.transcript_every_ticks));
     }
   }, c.tick_seconds * 1000);

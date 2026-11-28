@@ -844,6 +844,60 @@
     "owner_page": "settings",
     "cost_note": "",
     "history": []
+   },
+   "resources.desk_mode": {
+    "key": "resources.desk_mode",
+    "label": "Desk mode",
+    "note": "Frees up to 4 GB of the model pool for your apps; agents keep working, more slowly",
+    "category": "Operations",
+    "kind": "choice",
+    "value": "off",
+    "default": "off",
+    "choices": [
+     "off",
+     "on"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "system",
+    "cost_note": "",
+    "history": []
+   },
+   "maintenance.lease-reminders": {
+    "key": "maintenance.lease-reminders",
+    "label": "Maintenance level: lease-reminders",
+    "note": "scan finds and reports; fix also merges Custodian's fixes",
+    "category": "Maintenance",
+    "kind": "level",
+    "value": "fix",
+    "default": "scan",
+    "choices": [
+     "scan",
+     "fix"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "maintenance",
+    "cost_note": "",
+    "history": []
+   },
+   "maintenance.receipt-scanner": {
+    "key": "maintenance.receipt-scanner",
+    "label": "Maintenance level: receipt-scanner",
+    "note": "scan finds and reports; fix also merges Custodian's fixes",
+    "category": "Maintenance",
+    "kind": "level",
+    "value": "scan",
+    "default": "scan",
+    "choices": [
+     "scan",
+     "fix"
+    ],
+    "on_is_loosening": true,
+    "ceiling": null,
+    "owner_page": "maintenance",
+    "cost_note": "",
+    "history": []
    }
   },
   "contacts": {
@@ -2090,7 +2144,8 @@
      "label": "ok · 2 min"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "23:30"
    },
    "backup-check": {
     "id": "backup-check",
@@ -2102,7 +2157,8 @@
      "label": "ok · 14 min"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "00:00"
    },
    "maintenance-scan": {
     "id": "maintenance-scan",
@@ -2114,7 +2170,8 @@
      "label": "skipped: away mode"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "01:00"
    },
    "model-selector": {
     "id": "model-selector",
@@ -2126,7 +2183,8 @@
      "label": "ok · 2 pairs"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "02:15"
    },
    "full-maintenance": {
     "id": "full-maintenance",
@@ -2138,7 +2196,8 @@
      "label": "ok · 3 fixes"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "01:00"
    },
    "pruning": {
     "id": "pruning",
@@ -2150,7 +2209,8 @@
      "label": "ok"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "04:00"
    },
    "restore-drill": {
     "id": "restore-drill",
@@ -2162,7 +2222,8 @@
      "label": "passed Oct 4"
     },
     "heavy": true,
-    "paused": false
+    "paused": false,
+    "time": "06:30"
    },
    "account-sync": {
     "id": "account-sync",
@@ -2174,7 +2235,8 @@
      "label": "ok"
     },
     "heavy": false,
-    "paused": false
+    "paused": false,
+    "time": null
    },
    "daily-brief": {
     "id": "daily-brief",
@@ -2186,7 +2248,8 @@
      "label": "sent"
     },
     "heavy": false,
-    "paused": false
+    "paused": false,
+    "time": "06:15"
    },
    "weekly-review": {
     "id": "weekly-review",
@@ -2198,7 +2261,8 @@
      "label": "sent"
     },
     "heavy": false,
-    "paused": false
+    "paused": false,
+    "time": "18:00"
    },
    "monthly-close": {
     "id": "monthly-close",
@@ -2210,7 +2274,8 @@
      "label": "ok"
     },
     "heavy": false,
-    "paused": false
+    "paused": false,
+    "time": "08:00"
    }
   },
   "fixes": {
@@ -2218,19 +2283,43 @@
     "id": "F-031",
     "title": "Off-by-one in lease end reminder",
     "meta": "lease-reminders · +18 −3 · regression test added",
-    "reverted": false
+    "reverted": false,
+    "diff": [
+     "--- a/lease_reminders/dates.py",
+     "+++ b/lease_reminders/dates.py",
+     "@@ -14,7 +14,7 @@ def reminder_dates(lease_end: date) -> list[date]:",
+     "-    return [lease_end - timedelta(days=d - 1) for d in OFFSETS]",
+     "+    return [lease_end - timedelta(days=d) for d in OFFSETS]",
+     "--- a/tests/test_dates.py",
+     "+++ b/tests/test_dates.py",
+     "+def test_reminder_lands_on_the_offset_day() -> None:",
+     "+    assert reminder_dates(date(2026, 12, 31))[0] == date(2026, 12, 1)"
+    ]
    },
    "F-034": {
     "id": "F-034",
     "title": "Patch update: httpx 0.28.1",
     "meta": "lease-reminders · lockfile only · advisories none",
-    "reverted": false
+    "reverted": false,
+    "diff": [
+     "--- a/uv.lock",
+     "+++ b/uv.lock",
+     "-version = \"0.28.0\"",
+     "+version = \"0.28.1\""
+    ]
    },
    "F-029": {
     "id": "F-029",
     "title": "Remove unused CSV exporter",
     "meta": "receipt-scanner · −142 · provably unreferenced",
-    "reverted": false
+    "reverted": false,
+    "diff": [
+     "--- a/receipt_scanner/export_csv.py",
+     "+++ /dev/null",
+     "@@ -1,142 +0,0 @@",
+     "-\"\"\"Write receipts as CSV. Unused since the ledger export (F-012).\"\"\"",
+     "-…139 more removed lines"
+    ]
    }
   },
   "chats": {
@@ -3384,7 +3473,102 @@
   },
   "stopped": false,
   "maintenance_running": true,
-  "memory_paused": false
+  "memory_paused": false,
+  "ops": {
+   "pool_mode": "L",
+   "pressure": "normal",
+   "pins": [],
+   "selection_queued": false,
+   "health_check": null,
+   "drill": {
+    "status": {
+     "status": "healthy",
+     "label": "Passed"
+    },
+    "detail": "Oct 4 · one repository, tasks.db and the audit log restored to a scratch folder · hash chain verified · 4 min"
+   },
+   "drills": [
+    {
+     "id": "drill-oct",
+     "title": "Oct 4",
+     "meta": "Repository, tasks.db and the audit log · hash chain verified · 4 min",
+     "status": {
+      "status": "healthy",
+      "label": "Passed"
+     },
+     "href": null
+    },
+    {
+     "id": "drill-sep",
+     "title": "Sep 6",
+     "meta": "Repository, tasks.db and the audit log · hash chain verified · 5 min",
+     "status": {
+      "status": "healthy",
+      "label": "Passed"
+     },
+     "href": null
+    }
+   ],
+   "prune_plan": null,
+   "last_prune": "Last prune Sun 04:00 · freed 1.1 GB",
+   "findings": {
+    "F-040": {
+     "id": "F-040",
+     "severity": "high",
+     "title": "Token compared with == in webhook check",
+     "meta": "receipt-scanner · security · fix branch tonight",
+     "product": "receipt-scanner",
+     "detail": "The webhook handler compares the shared token with ==, which leaks timing. Custodian proposes hmac.compare_digest and a test that the check rejects a wrong token.",
+     "evidence": [
+      "semgrep: python.lang.security.audit.timing-attack",
+      "receipt_scanner/webhooks.py:41"
+     ],
+     "state": "open",
+     "reason": null
+    },
+    "F-041": {
+     "id": "F-041",
+     "severity": "medium",
+     "title": "N+1 query on the tenants list",
+     "meta": "lease-reminders · performance · benchmark first",
+     "product": "lease-reminders",
+     "detail": "Listing tenants runs one query per lease. The benchmark against the release baseline shows 38 ms at 20 tenants; it grows with every tenant.",
+     "evidence": [
+      "benchmark: tenants_list p95 38 ms (baseline 12 ms)",
+      "lease_reminders/tenants.py:77"
+     ],
+     "state": "open",
+     "reason": null
+    },
+    "F-042": {
+     "id": "F-042",
+     "severity": "medium",
+     "title": "README setup steps out of date",
+     "meta": "receipt-scanner · docs drift",
+     "product": "receipt-scanner",
+     "detail": "The README still says to run make setup, which was renamed make install in 0.4.",
+     "evidence": [
+      "docs check: README.md:18 names a target that no longer exists"
+     ],
+     "state": "open",
+     "reason": null
+    },
+    "F-043": {
+     "id": "F-043",
+     "severity": "low",
+     "title": "Duplicated date parsing in 3 files",
+     "meta": "lease-reminders · refactor · proposal",
+     "product": "lease-reminders",
+     "detail": "Three modules parse dates the same way. A shared helper would remove 31 lines; behaviour stays the same.",
+     "evidence": [
+      "jscpd: 3 clones, 31 lines",
+      "lease_reminders/{dates,import_csv,notices}.py"
+     ],
+     "state": "open",
+     "reason": null
+    }
+   }
+  }
  },
  "fixtures": {
   "hard_limits": [
@@ -4213,7 +4397,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "REASON",
@@ -4222,7 +4407,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "EXTRACT",
@@ -4231,7 +4417,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "CODE",
@@ -4240,7 +4427,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "REVIEW",
@@ -4249,7 +4437,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "VISION",
@@ -4258,7 +4447,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     }
    ],
    "shared": [
@@ -4269,7 +4459,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "REASON",
@@ -4278,7 +4469,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "EXTRACT",
@@ -4287,7 +4479,8 @@
      "residency": {
       "status": "healthy",
       "label": "Resident"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "CODE",
@@ -4296,7 +4489,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "REVIEW",
@@ -4305,7 +4499,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     },
     {
      "family": "VISION",
@@ -4314,7 +4509,8 @@
      "residency": {
       "status": "in_progress",
       "label": "Batch"
-     }
+     },
+     "pinned": false
     }
    ]
   },
@@ -5515,32 +5711,6 @@
     },
     "spark": [],
     "sampled_at": null
-   }
-  ],
-  "findings": [
-   {
-    "id": "F-040",
-    "severity": "high",
-    "title": "Token compared with == in webhook check",
-    "meta": "receipt-scanner · security · fix branch tonight"
-   },
-   {
-    "id": "F-041",
-    "severity": "medium",
-    "title": "N+1 query on the tenants list",
-    "meta": "lease-reminders · performance · benchmark first"
-   },
-   {
-    "id": "F-042",
-    "severity": "medium",
-    "title": "README setup steps out of date",
-    "meta": "receipt-scanner · docs drift"
-   },
-   {
-    "id": "F-043",
-    "severity": "low",
-    "title": "Duplicated date parsing in 3 files",
-    "meta": "lease-reminders · refactor · proposal"
    }
   ],
   "agenda": [
@@ -7066,7 +7236,2593 @@
    ]
   },
   "library_caveat": "Medical and safety answers are general information. Call for help when you can.",
-  "no_passage": "No passage in the library covers this, so there is no answer. Try other words."
+  "no_passage": "No passage in the library covers this, so there is no answer. Try other words.",
+  "operations": {
+   "pool_modes": {
+    "L": [
+     "Mode L · resident",
+     "Normal operation: the conversation model and embeddings stay loaded",
+     [
+      "Qwen3.6-35B-A3B (CONVERSE, REASON, EXTRACT)",
+      "EMBED",
+      "KV cache"
+     ]
+    ],
+    "S": [
+     "Mode S · specialist",
+     "A batch window for CODE or REVIEW; Owner chat runs on the loaded model or fallback",
+     [
+      "GLM-4.7-Flash (CODE)",
+      "EMBED",
+      "Qwen3.6-35B-A3B (fits beside it)"
+     ]
+    ],
+    "I": [
+     "Mode I · image",
+     "While image jobs run; chat moves to the fallback model",
+     [
+      "Image engine",
+      "Fallback model",
+      "EMBED"
+     ]
+    ],
+    "B": [
+     "Mode B · benchmark",
+     "One candidate model, exclusive, during a selection run",
+     [
+      "Candidate under test"
+     ]
+    ],
+    "F": [
+     "Mode F · fallback only",
+     "When the working drive is missing, or for recovery",
+     [
+      "Fallback model",
+      "EMBED"
+     ]
+    ]
+   },
+   "owner_modes": [
+    "L",
+    "S",
+    "I",
+    "F"
+   ],
+   "mode_impact": {
+    "L": [
+     {
+      "name": "Owner chat, first token",
+      "change": "≈ 1.2 s → ≈ 1.2 s",
+      "source": "measured",
+      "status": null
+     },
+     {
+      "name": "Model swaps today",
+      "change": "3 → 4 · plan ≤ 6",
+      "source": "measured",
+      "status": null
+     }
+    ],
+    "S": [
+     {
+      "name": "Owner chat, first token",
+      "change": "1.2 s → 1.4–2.0 s",
+      "source": "simulated",
+      "status": null
+     },
+     {
+      "name": "Model swaps today",
+      "change": "3 → 4 · plan ≤ 6",
+      "source": "measured",
+      "status": null
+     },
+     {
+      "name": "CODE batch throughput",
+      "change": "idle → 2 streams",
+      "source": "simulated",
+      "status": null
+     }
+    ],
+    "I": [
+     {
+      "name": "Owner chat, first token",
+      "change": "1.2 s → 2–3 s on fallback",
+      "source": "estimate",
+      "status": {
+       "status": "attention",
+       "label": "Slower replies"
+      }
+     },
+     {
+      "name": "Model swaps today",
+      "change": "3 → 5 · plan ≤ 6",
+      "source": "measured",
+      "status": null
+     }
+    ],
+    "F": [
+     {
+      "name": "Answer quality",
+      "change": "CONVERSE 0.81 → fallback 0.62",
+      "source": "measured",
+      "status": {
+       "status": "attention",
+       "label": "Lower"
+      }
+     },
+     {
+      "name": "Pool memory",
+      "change": "22 GB → 9 GB",
+      "source": "measured",
+      "status": null
+     }
+    ],
+    "B": []
+   },
+   "lanes": [
+    {
+     "name": "development",
+     "used_gb": 3.9,
+     "reserved_gb": 6.0,
+     "meta": "Pipelines A–D, staging, your containers · weight 300 of 400"
+    },
+    {
+     "name": "operations",
+     "used_gb": 0.6,
+     "reserved_gb": 1.5,
+     "meta": "OCR, speech-to-text, voice rendering · weight 100 · at most 2 vCPUs"
+    }
+   ],
+   "cpu_classes": [
+    {
+     "name": "Interactive",
+     "members": "MLX worker, model router, pipeline engine, gate, Brain, Assistant bot",
+     "share": "34%",
+     "setting": "ProcessType: Interactive"
+    },
+    {
+     "name": "Standard",
+     "members": "Colima VM, tool server, connector service, watchdog",
+     "share": "21%",
+     "setting": "default"
+    },
+    {
+     "name": "Background",
+     "members": "Backups, audit-chain check, pruning, model downloads, Ark builds",
+     "share": "3%",
+     "setting": "ProcessType: Background · LowPriorityIO"
+    }
+   ],
+   "thermal": {
+    "state": {
+     "status": "healthy",
+     "label": "Nominal"
+    },
+    "step": "No step taken",
+    "serious_minutes": 0,
+    "note": "At serious, background work pauses first; development and your chat keep running"
+   },
+   "drives": [
+    {
+     "id": "internal",
+     "name": "Internal SSD",
+     "used_pct": 59.0,
+     "free_gb": 212.0,
+     "size_gb": 512.0,
+     "floor_gb": null,
+     "thresholds": [
+      75,
+      85,
+      90,
+      95
+     ],
+     "next_action": "At 75%: pruning runs at once",
+     "status": {
+      "status": "healthy",
+      "label": "SMART ok"
+     }
+    },
+    {
+     "id": "working",
+     "name": "Working drive",
+     "used_pct": 22.0,
+     "free_gb": 3100.0,
+     "size_gb": 4000.0,
+     "floor_gb": 200.0,
+     "thresholds": [
+      75,
+      85,
+      90,
+      95
+     ],
+     "next_action": "At 75%: pruning runs at once · 200 GB always kept for development",
+     "status": {
+      "status": "healthy",
+      "label": "SMART ok"
+     }
+    }
+   ],
+   "model_time": {
+    "share_pct": 58,
+    "floor_pct": 50,
+    "status": {
+     "status": "healthy",
+     "label": "Above the floor"
+    },
+    "note": "Pool generation time for Pipelines B and C over the last 24 hours"
+   },
+   "health_checks": [
+    {
+     "id": "services",
+     "title": "Services",
+     "meta": "19 of 19 answered",
+     "status": {
+      "status": "healthy",
+      "label": "Healthy"
+     },
+     "href": null
+    },
+    {
+     "id": "audit",
+     "title": "Audit chain",
+     "meta": "Verified to the last entry",
+     "status": {
+      "status": "healthy",
+      "label": "0 breaks"
+     },
+     "href": null
+    },
+    {
+     "id": "drives",
+     "title": "Drives",
+     "meta": "SMART ok on both",
+     "status": {
+      "status": "healthy",
+      "label": "Healthy"
+     },
+     "href": null
+    },
+    {
+     "id": "tailscale",
+     "title": "Tailscale",
+     "meta": "2 devices reachable",
+     "status": {
+      "status": "healthy",
+      "label": "Connected"
+     },
+     "href": null
+    },
+    {
+     "id": "backups",
+     "title": "Backups",
+     "meta": "Last copy 20:00 · one location",
+     "status": {
+      "status": "attention",
+      "label": "Starter mode"
+     },
+     "href": null
+    }
+   ],
+   "pressure_words": {
+    "normal": [
+     {
+      "status": "healthy",
+      "label": "Normal"
+     },
+     null
+    ],
+    "warning": [
+     {
+      "status": "attention",
+      "label": "Warning"
+     },
+     "Memory pressure is high. Transcripts show the latest step and the Live deck holds still."
+    ],
+    "critical": [
+     {
+      "status": "problem",
+      "label": "Critical"
+     },
+     "Memory pressure is critical. Background work is paused; only your requests and approvals run."
+    ]
+   },
+   "pressure_drill": {
+    "normal": "warning",
+    "warning": "critical",
+    "critical": "normal"
+   },
+   "log_retained": "Kept for 30 days · masked, no content or secrets",
+   "service_logs": {
+    "tailscaled": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "secrets-broker": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "audit-logger": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "watchdog": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "20:00:02",
+      "level": "info",
+      "text": "backup window opened · lock taken"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "config-applier": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "approval-gate": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "tool-server": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "pipeline-engine": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "model-router": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "21:12:40",
+      "level": "warn",
+      "text": "restart after 3 failed health checks · 0 lost calls"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "egress-proxy": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "connector-service": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "assistant-bot": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "brain": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "19:45:10",
+      "level": "info",
+      "text": "SSE clients 3 · coalesced 4/s"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "mlx-worker": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "colima": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "docker-proxy": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "mac-bridge": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "image-worker": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ],
+    "messages-reader": [
+     {
+      "at": "00:41:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:40:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:39:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:30",
+      "level": "info",
+      "text": "config reload · models.lock v14"
+     },
+     {
+      "at": "00:38:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:37:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:36:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:35:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:34:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:33:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:32:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:31:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "00:30:07",
+      "level": "info",
+      "text": "health ok · 3 ms"
+     },
+     {
+      "at": "23:58:12",
+      "level": "info",
+      "text": "reload after SIGHUP · models.lock v14"
+     }
+    ]
+   },
+   "queue_depth": [
+    {
+     "name": "Owner chat",
+     "value": "0",
+     "source": "measured"
+    },
+    {
+     "name": "Gate reviews",
+     "value": "1",
+     "source": "measured"
+    },
+    {
+     "name": "Scheduled work",
+     "value": "3",
+     "source": "measured"
+    },
+    {
+     "name": "Batch",
+     "value": "7",
+     "source": "measured"
+    }
+   ],
+   "local_cloud_split": [
+    {
+     "name": "Local calls",
+     "value": "100% · 18,402",
+     "source": "measured"
+    },
+    {
+     "name": "Cloud calls",
+     "value": "0 · no provider on",
+     "source": "measured"
+    }
+   ],
+   "routing_panel": {
+    "rows": [
+     {
+      "family": "CONVERSE",
+      "tiers": [
+       88,
+       11,
+       1,
+       0
+      ],
+      "gate_rate": "—",
+      "control": "—"
+     },
+     {
+      "family": "REASON",
+      "tiers": [
+       61,
+       30,
+       9,
+       0
+      ],
+      "gate_rate": "84%",
+      "control": "79%"
+     },
+     {
+      "family": "CODE",
+      "tiers": [
+       52,
+       33,
+       15,
+       0
+      ],
+      "gate_rate": "71%",
+      "control": "64%"
+     },
+     {
+      "family": "REVIEW",
+      "tiers": [
+       70,
+       24,
+       6,
+       0
+      ],
+      "gate_rate": "90%",
+      "control": "88%"
+     }
+    ],
+    "cloud_spend": "$0.00 from difficulty this month",
+    "refusals": [
+     {
+      "name": "T3 refused: no provider on",
+      "value": "12",
+      "source": "measured"
+     },
+     {
+      "name": "T3 refused: restricted data (9.3 rule 1)",
+      "value": "3",
+      "source": "measured"
+     }
+    ]
+   },
+   "candidates": [
+    {
+     "id": "cand-glm-48",
+     "family": "CODE",
+     "model": "GLM-4.8-Flash · 4-bit",
+     "figures": [
+      {
+       "name": "Held-out tests",
+       "value": "0.70 (now 0.64)",
+       "source": "measured"
+      },
+      {
+       "name": "Decode",
+       "value": "58 tok/s",
+       "source": "measured"
+      },
+      {
+       "name": "Memory",
+       "value": "17 GB",
+       "source": "measured"
+      }
+     ],
+     "gates": [
+      {
+       "name": "Fits the pool",
+       "passed": true
+      },
+      {
+       "name": "Decode speed",
+       "passed": true
+      },
+      {
+       "name": "Tool calls",
+       "passed": true
+      },
+      {
+       "name": "Long context",
+       "passed": true
+      },
+      {
+       "name": "License",
+       "passed": true
+      }
+     ],
+     "verdict": {
+      "status": "healthy",
+      "label": "Proposed · CDR-0012"
+     }
+    },
+    {
+     "id": "cand-qwen-coder",
+     "family": "CODE",
+     "model": "Qwen3-Coder-30B-A3B · 8-bit",
+     "figures": [
+      {
+       "name": "Held-out tests",
+       "value": "0.71",
+       "source": "measured"
+      },
+      {
+       "name": "Decode",
+       "value": "44 tok/s",
+       "source": "measured"
+      },
+      {
+       "name": "Memory",
+       "value": "32 GB",
+       "source": "measured"
+      }
+     ],
+     "gates": [
+      {
+       "name": "Fits the pool",
+       "passed": false
+      },
+      {
+       "name": "Decode speed",
+       "passed": true
+      },
+      {
+       "name": "Tool calls",
+       "passed": true
+      },
+      {
+       "name": "Long context",
+       "passed": true
+      },
+      {
+       "name": "License",
+       "passed": true
+      }
+     ],
+     "verdict": {
+      "status": "neutral",
+      "label": "Rejected · too large beside EMBED"
+     }
+    },
+    {
+     "id": "cand-gemma-review",
+     "family": "REVIEW",
+     "model": "Gemma 4 26B-A4B · 4-bit",
+     "figures": [
+      {
+       "name": "Seeded-defect catch",
+       "value": "0.83",
+       "source": "measured"
+      },
+      {
+       "name": "Decode",
+       "value": "61 tok/s",
+       "source": "measured"
+      },
+      {
+       "name": "Memory",
+       "value": "14 GB",
+       "source": "measured"
+      }
+     ],
+     "gates": [
+      {
+       "name": "Fits the pool",
+       "passed": true
+      },
+      {
+       "name": "Decode speed",
+       "passed": true
+      },
+      {
+       "name": "Tool calls",
+       "passed": true
+      },
+      {
+       "name": "Long context",
+       "passed": true
+      },
+      {
+       "name": "License",
+       "passed": true
+      }
+     ],
+     "verdict": {
+      "status": "neutral",
+      "label": "Ready if the independent reviewer is on"
+     }
+    }
+   ],
+   "plan_decisions": [
+    "CDR-0012"
+   ],
+   "pin_impact": [
+    {
+     "name": "Re-selection for this family",
+     "change": "monthly → paused while pinned",
+     "source": "measured",
+     "status": null
+    },
+    {
+     "name": "Gap to the best candidate",
+     "change": "0 → grows as new models arrive",
+     "source": "estimate",
+     "status": {
+      "status": "attention",
+      "label": "Measured at the next selector run"
+     }
+    }
+   ],
+   "selection_next": "Queued for the next selector window, Mon 02:15",
+   "selection_idle": "Last run Oct 27 · 2 pairs evaluated · next monthly run Nov 24",
+   "drill_detail": "one repository, tasks.db and the audit log restored to a scratch folder · hash chain verified · 4 min",
+   "prune_removes": [
+    {
+     "id": "snap-daily",
+     "title": "9 daily snapshots older than 30 days",
+     "meta": "Working drive → internal SSD",
+     "status": {
+      "status": "neutral",
+      "label": "2.4 GB"
+     },
+     "href": null
+    },
+    {
+     "id": "snap-hourly",
+     "title": "31 four-hourly snapshots older than 7 days",
+     "meta": "Working drive → internal SSD",
+     "status": {
+      "status": "neutral",
+      "label": "0.8 GB"
+     },
+     "href": null
+    }
+   ],
+   "prune_frees": "3.2 GB",
+   "prune_keeps": "Everything inside 7 days + 30 daily, and the audit log in full",
+   "products": [
+    [
+     "lease-reminders",
+     "Lease reminders",
+     "Released Sep 12 · 3 open findings"
+    ],
+    [
+     "receipt-scanner",
+     "Receipt scanner",
+     "Released Oct 3 · 2 open findings"
+    ]
+   ],
+   "maintenance_trends": [
+    {
+     "name": "Findings opened",
+     "value": "6 this week",
+     "week": [
+      1.0,
+      0.0,
+      2.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+     ],
+     "month": [
+      3.0,
+      4.0,
+      6.0,
+      5.0,
+      4.0,
+      6.0
+     ],
+     "week_change": "−2 vs last week",
+     "month_change": "+3 vs last month",
+     "source": "measured",
+     "status": null
+    },
+    {
+     "name": "Fixes merged",
+     "value": "3 this week",
+     "week": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      3.0,
+      0.0
+     ],
+     "month": [
+      2.0,
+      3.0,
+      3.0,
+      3.0
+     ],
+     "week_change": "same as last week",
+     "month_change": "11 in 30 days",
+     "source": "measured",
+     "status": null
+    },
+    {
+     "name": "Reverts",
+     "value": "0",
+     "week": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "month": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "week_change": "none",
+     "month_change": "none in 30 days",
+     "source": "measured",
+     "status": {
+      "status": "healthy",
+      "label": "0 regressions"
+     }
+    }
+   ],
+   "metric_catalog": [
+    {
+     "area": "Responsiveness",
+     "source": "Router and arbiter events",
+     "trends": [
+      {
+       "name": "Chat first token, p95",
+       "value": "1.6 s",
+       "week": [
+        1.4,
+        1.7,
+        1.5,
+        1.6,
+        1.9,
+        1.5,
+        1.6
+       ],
+       "month": [
+        1.44,
+        1.5,
+        1.57,
+        1.63,
+        1.7,
+        1.6
+       ],
+       "week_change": "−0.1 s",
+       "month_change": "−0.3 s",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Answered by fallback",
+       "value": "2%",
+       "week": [
+        1.0,
+        3.0,
+        2.0,
+        2.0,
+        4.0,
+        2.0,
+        2.0
+       ],
+       "month": [
+        2.06,
+        2.15,
+        2.24,
+        2.33,
+        2.42,
+        2.0
+       ],
+       "week_change": "same",
+       "month_change": "−1 pt",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Throughput",
+     "source": "Task log",
+     "trends": [
+      {
+       "name": "Review wait",
+       "value": "18 min",
+       "week": [
+        22.0,
+        19.0,
+        25.0,
+        17.0,
+        16.0,
+        20.0,
+        18.0
+       ],
+       "month": [
+        17.61,
+        18.4,
+        19.18,
+        19.96,
+        20.75,
+        18.0
+       ],
+       "week_change": "−3 min",
+       "month_change": "−9 min",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Scheduled-work queue wait",
+       "value": "4 min",
+       "week": [
+        5.0,
+        4.0,
+        6.0,
+        3.0,
+        4.0,
+        5.0,
+        4.0
+       ],
+       "month": [
+        3.99,
+        4.16,
+        4.34,
+        4.52,
+        4.69,
+        4.0
+       ],
+       "week_change": "same",
+       "month_change": "−1 min",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Models",
+     "source": "Arbiter events",
+     "trends": [
+      {
+       "name": "Model swaps per day",
+       "value": "3 · plan ≤ 6",
+       "week": [
+        4.0,
+        3.0,
+        5.0,
+        3.0,
+        2.0,
+        4.0,
+        3.0
+       ],
+       "month": [
+        3.09,
+        3.22,
+        3.36,
+        3.5,
+        3.63,
+        3.0
+       ],
+       "week_change": "−1",
+       "month_change": "same",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Load time per swap",
+       "value": "19 s",
+       "week": [
+        21.0,
+        20.0,
+        19.0,
+        19.0,
+        18.0,
+        20.0,
+        19.0
+       ],
+       "month": [
+        17.49,
+        18.26,
+        19.04,
+        19.82,
+        20.59,
+        19.0
+       ],
+       "week_change": "−1 s",
+       "month_change": "−2 s",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Memory",
+     "source": "Watchdog",
+     "trends": [
+      {
+       "name": "Pool peak",
+       "value": "31 GB",
+       "week": [
+        29.0,
+        33.0,
+        30.0,
+        31.0,
+        34.0,
+        30.0,
+        31.0
+       ],
+       "month": [
+        28.03,
+        29.27,
+        30.52,
+        31.77,
+        33.01,
+        31.0
+       ],
+       "week_change": "same",
+       "month_change": "+2 GB",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Pressure minutes at warning",
+       "value": "0",
+       "week": [
+        0.0,
+        2.0,
+        0.0,
+        0.0,
+        5.0,
+        0.0,
+        0.0
+       ],
+       "month": [
+        0.9,
+        0.94,
+        0.98,
+        1.02,
+        1.06,
+        0.0
+       ],
+       "week_change": "−7",
+       "month_change": "−12",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Swap",
+       "value": "0.3 GB",
+       "week": [
+        0.2,
+        0.4,
+        0.3,
+        0.3,
+        0.6,
+        0.3,
+        0.3
+       ],
+       "month": [
+        0.31,
+        0.32,
+        0.34,
+        0.35,
+        0.36,
+        0.3
+       ],
+       "week_change": "same",
+       "month_change": "−0.1 GB",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Stability",
+     "source": "Watchdog, unified log",
+     "trends": [
+      {
+       "name": "Unexpected reboots",
+       "value": "0",
+       "week": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "month": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "week_change": "none",
+       "month_change": "none",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "MLX errors per 1,000",
+       "value": "0.2",
+       "week": [
+        0.3,
+        0.2,
+        0.2,
+        0.1,
+        0.3,
+        0.2,
+        0.2
+       ],
+       "month": [
+        0.19,
+        0.2,
+        0.21,
+        0.22,
+        0.23,
+        0.2
+       ],
+       "week_change": "same",
+       "month_change": "−0.1",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Assurance",
+     "source": "Gauge evaluations",
+     "trends": [
+      {
+       "name": "Seeded-defect catch rate",
+       "value": "0.81",
+       "week": [
+        0.8,
+        0.8,
+        0.82,
+        0.81,
+        0.8,
+        0.81,
+        0.81
+       ],
+       "month": [
+        0.73,
+        0.76,
+        0.79,
+        0.82,
+        0.86,
+        0.81
+       ],
+       "week_change": "same",
+       "month_change": "+0.02",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "First-pass gate rate, CODE",
+       "value": "71%",
+       "week": [
+        66.0,
+        68.0,
+        70.0,
+        69.0,
+        72.0,
+        70.0,
+        71.0
+       ],
+       "month": [
+        62.49,
+        65.26,
+        68.04,
+        70.82,
+        73.59,
+        71.0
+       ],
+       "week_change": "+2 pts",
+       "month_change": "+7 pts",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Tokens",
+     "source": "Router calls ledger",
+     "trends": [
+      {
+       "name": "Aggregate tokens per second",
+       "value": "74",
+       "week": [
+        70.0,
+        72.0,
+        75.0,
+        73.0,
+        76.0,
+        74.0,
+        74.0
+       ],
+       "month": [
+        66.09,
+        69.02,
+        71.96,
+        74.9,
+        77.83,
+        74.0
+       ],
+       "week_change": "+2",
+       "month_change": "+6",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Cache hit rate",
+       "value": "63%",
+       "week": [
+        58.0,
+        60.0,
+        61.0,
+        62.0,
+        63.0,
+        62.0,
+        63.0
+       ],
+       "month": [
+        55.16,
+        57.61,
+        60.06,
+        62.51,
+        64.96,
+        63.0
+       ],
+       "week_change": "+1 pt",
+       "month_change": "+8 pts",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Hardware",
+     "source": "powermetrics",
+     "trends": [
+      {
+       "name": "GPU busy",
+       "value": "31%",
+       "week": [
+        28.0,
+        35.0,
+        30.0,
+        29.0,
+        33.0,
+        32.0,
+        31.0
+       ],
+       "month": [
+        28.03,
+        29.27,
+        30.52,
+        31.77,
+        33.01,
+        31.0
+       ],
+       "week_change": "same",
+       "month_change": "+4 pts",
+       "source": "measured",
+       "status": null
+      },
+      {
+       "name": "Thermal serious minutes",
+       "value": "0",
+       "week": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "month": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+       ],
+       "week_change": "none",
+       "month_change": "none",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    },
+    {
+     "area": "Energy",
+     "source": "powermetrics",
+     "trends": [
+      {
+       "name": "Average power",
+       "value": "38 W",
+       "week": [
+        36.0,
+        39.0,
+        38.0,
+        37.0,
+        40.0,
+        38.0,
+        38.0
+       ],
+       "month": [
+        34.2,
+        35.72,
+        37.24,
+        38.76,
+        40.28,
+        38.0
+       ],
+       "week_change": "same",
+       "month_change": "+1 W",
+       "source": "measured",
+       "status": null
+      }
+     ]
+    }
+   ],
+   "page_areas": {
+    "system": [
+     "Memory",
+     "Stability",
+     "Hardware",
+     "Energy",
+     "Responsiveness"
+    ],
+    "models": [
+     "Models",
+     "Tokens",
+     "Assurance",
+     "Throughput"
+    ]
+   },
+   "families": [
+    "CONVERSE",
+    "REASON",
+    "EXTRACT",
+    "CODE",
+    "REVIEW",
+    "VISION"
+   ]
+  }
  },
  "constants": {
   "undo_window_seconds": 8.0,
@@ -7111,7 +9867,8 @@
    "time": "its scheduled time"
   },
   "call_script": "\"Approval requested: class C. Code on your screen. Enter the code, then press pound.\" Four fixed lines per voice. No names, amounts or codes are ever spoken.",
-  "pool_mode": "Mode L",
+  "desk_mode_gb": 4,
+  "offsite_feature": "offsite",
   "backup_mode": {
    "status": "attention",
    "label": "Starter backup · one location"

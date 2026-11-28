@@ -24,6 +24,7 @@ from control_center.contract.version import API_PREFIX
 from control_center.routes import (
     gate,
     memory,
+    ops,
     people,
     personal,
     records,
@@ -98,7 +99,7 @@ def create_app(config: Config) -> FastAPI:
     app.add_exception_handler(SessionExpiredError, _session_expired)
 
     api = APIRouter(prefix=API_PREFIX, dependencies=[OwnerOnly, CsrfChecked])
-    for module in (session, gate, people, work, personal, records, memory, status, shell):
+    for module in (session, gate, people, work, personal, records, memory, status, shell, ops):
         api.include_router(module.router)
     app.include_router(api)
 

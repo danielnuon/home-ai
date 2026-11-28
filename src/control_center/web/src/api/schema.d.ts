@@ -2231,6 +2231,306 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/system/pool-mode": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Pool Mode
+     * @description Put the model pool in another mode.
+     */
+    put: operations["set_pool_mode_api_v1_system_pool_mode_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/system/pool-mode/end": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * End Pool Mode
+     * @description End image or video mode.
+     */
+    post: operations["end_pool_mode_api_v1_system_pool_mode_end_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/system/health-check": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Run Health Check
+     * @description Run a health check now.
+     */
+    post: operations["run_health_check_api_v1_system_health_check_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/system/pressure-drill": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Pressure Drill
+     * @description Step memory pressure to its next level, as a drill.
+     */
+    post: operations["pressure_drill_api_v1_system_pressure_drill_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/models/families/{family}/pin": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Pin Family
+     * @description Pin or unpin a family's model.
+     */
+    put: operations["pin_family_api_v1_models_families__family__pin_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/models/selection": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Run Selection
+     * @description Queue a selection run.
+     */
+    post: operations["run_selection_api_v1_models_selection_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/services/{service_id}/logs": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Service Log
+     * @description A service's full masked log.
+     */
+    get: operations["service_log_api_v1_services__service_id__logs_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/schedule/{job_id}/time": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Job Time
+     * @description Move a job to another start time.
+     */
+    put: operations["set_job_time_api_v1_schedule__job_id__time_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/backups/drill": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Run Restore Drill
+     * @description Run a restore drill now.
+     */
+    post: operations["run_restore_drill_api_v1_backups_drill_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/backups/prune-plan": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Make Prune Plan
+     * @description Work out a prune plan.
+     */
+    post: operations["make_prune_plan_api_v1_backups_prune_plan_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/backups/prune-plan/discard": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Discard Prune Plan
+     * @description Put the prune plan away.
+     */
+    post: operations["discard_prune_plan_api_v1_backups_prune_plan_discard_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/backups/prune": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Run Prune
+     * @description Run the prune plan, behind a step-up.
+     */
+    post: operations["run_prune_api_v1_backups_prune_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/maintenance/findings/{finding_id}/wont-fix": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Wont Fix
+     * @description Mark a finding won't-fix with a reason.
+     */
+    post: operations["wont_fix_api_v1_maintenance_findings__finding_id__wont_fix_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/maintenance/findings/{finding_id}/reopen": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Reopen Finding
+     * @description Reopen a won't-fix finding.
+     */
+    post: operations["reopen_finding_api_v1_maintenance_findings__finding_id__reopen_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/metrics": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Metrics
+     * @description The metric catalog with 7- and 30-day trends.
+     */
+    get: operations["metrics_api_v1_metrics_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2410,6 +2710,8 @@ export interface components {
     /**
      * BackupsOverview
      * @description The Backups page. Starter mode carries a standing warning until a second location exists.
+     *
+     *     `offsite` is the paid offsite storage feature, the same panel as on Spend (spec 7.2).
      */
     BackupsOverview: {
       mode: components["schemas"]["StatusLabel"];
@@ -2418,10 +2720,16 @@ export interface components {
       /** Targets */
       targets: components["schemas"]["Row"][];
       drill: components["schemas"]["RestoreDrill"];
+      /** Drills */
+      drills: components["schemas"]["Row"][];
       /** Restore Points */
       restore_points: string[];
       /** Retention */
       retention: components["schemas"]["Row"][];
+      prune_plan: components["schemas"]["PrunePlan"] | null;
+      /** Last Prune */
+      last_prune: string;
+      offsite: components["schemas"]["PaidFeature"];
     };
     /**
      * BatchMessage
@@ -2497,6 +2805,33 @@ export interface components {
       spent: number;
       /** Budget */
       budget: number;
+    };
+    /**
+     * Candidate
+     * @description A benchmark card for a candidate model in a family (spec 8.6).
+     */
+    Candidate: {
+      /** Id */
+      id: string;
+      /** Family */
+      family: string;
+      /** Model */
+      model: string;
+      /** Figures */
+      figures: components["schemas"]["SourcedFigure"][];
+      /** Gates */
+      gates: components["schemas"]["CandidateGate"][];
+      verdict: components["schemas"]["StatusLabel"];
+    };
+    /**
+     * CandidateGate
+     * @description One selection gate a candidate model passed or failed (spec 8.6).
+     */
+    CandidateGate: {
+      /** Name */
+      name: string;
+      /** Passed */
+      passed: boolean;
     };
     /**
      * Case
@@ -2937,6 +3272,20 @@ export interface components {
       accounts: components["schemas"]["LinkableAccount"][];
     };
     /**
+     * CpuClass
+     * @description One host priority class and its share of CPU time now (spec 8.11.3).
+     */
+    CpuClass: {
+      /** Name */
+      name: string;
+      /** Members */
+      members: string;
+      /** Share */
+      share: string;
+      /** Setting */
+      setting: string;
+    };
+    /**
      * CriticalDecision
      * @description A critical decision record (CDR, spec 11.9): a choice the AI made that the Owner can veto.
      *
@@ -3132,6 +3481,32 @@ export interface components {
       draft: string;
     };
     /**
+     * DriveUse
+     * @description A drive's used space against the watchdog's thresholds and the development floor (8.11.5).
+     *
+     *     `thresholds` are the used percentages at which the watchdog acts; `next_action` says what
+     *     happens at the next one.
+     */
+    DriveUse: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Used Pct */
+      used_pct: number;
+      /** Free Gb */
+      free_gb: number;
+      /** Size Gb */
+      size_gb: number;
+      /** Floor Gb */
+      floor_gb: number | null;
+      /** Thresholds */
+      thresholds: number[];
+      /** Next Action */
+      next_action: string;
+      status: components["schemas"]["StatusLabel"];
+    };
+    /**
      * Employee
      * @description An employee card and profile in the Directory (spec 7.11, 14.7).
      *
@@ -3206,6 +3581,19 @@ export interface components {
       /** Meta */
       meta: string;
       residency: components["schemas"]["StatusLabel"];
+      /**
+       * Pinned
+       * @default false
+       */
+      pinned: boolean;
+    };
+    /**
+     * FamilyPin
+     * @description Pin or unpin a family's model.
+     */
+    FamilyPin: {
+      /** Pinned */
+      pinned: boolean;
     };
     /**
      * FigureSources
@@ -3266,7 +3654,7 @@ export interface components {
     };
     /**
      * Finding
-     * @description A maintenance finding (spec 18.7).
+     * @description A maintenance finding (spec 18.7). Won't-fix keeps it in the register with the reason.
      */
     Finding: {
       /** Id */
@@ -3280,6 +3668,26 @@ export interface components {
       title: string;
       /** Meta */
       meta: string;
+      /**
+       * Product
+       * @default
+       */
+      product: string;
+      /**
+       * Detail
+       * @default
+       */
+      detail: string;
+      /** Evidence */
+      evidence: string[];
+      /**
+       * State
+       * @default open
+       * @enum {string}
+       */
+      state: "open" | "wont_fix";
+      /** Reason */
+      reason: string | null;
     };
     /**
      * ForgottenItem
@@ -3351,6 +3759,20 @@ export interface components {
       name: string;
       /** Value */
       value: string;
+    };
+    /**
+     * HealthCheck
+     * @description The result of the Owner's last on-demand health check.
+     */
+    HealthCheck: {
+      /**
+       * At
+       * Format: date-time
+       */
+      at: string;
+      summary: components["schemas"]["StatusLabel"];
+      /** Rows */
+      rows: components["schemas"]["Row"][];
     };
     /**
      * HouseholdMember
@@ -3474,6 +3896,16 @@ export interface components {
       heavy: boolean;
       /** Paused */
       paused: boolean;
+      /** Time */
+      time: string | null;
+    };
+    /**
+     * JobTime
+     * @description Move a job to another start time, HH:MM.
+     */
+    JobTime: {
+      /** Time */
+      time: string;
     };
     /**
      * JobToggle
@@ -3482,6 +3914,20 @@ export interface components {
     JobToggle: {
       /** Paused */
       paused: boolean;
+    };
+    /**
+     * Lane
+     * @description One of the container VM's two lanes, which never lend memory to each other (spec 8.11.2).
+     */
+    Lane: {
+      /** Name */
+      name: string;
+      /** Used Gb */
+      used_gb: number;
+      /** Reserved Gb */
+      reserved_gb: number;
+      /** Meta */
+      meta: string;
     };
     /**
      * LibraryAnswer
@@ -3678,8 +4124,41 @@ export interface components {
       readonly session_state: "queued" | "running" | "waiting" | "paused" | "blocked";
     };
     /**
+     * LogLine
+     * @description One masked log line (spec 10.10).
+     */
+    LogLine: {
+      /** At */
+      at: string;
+      /**
+       * Level
+       * @enum {string}
+       */
+      level: "info" | "warn" | "error";
+      /** Text */
+      text: string;
+    };
+    /**
+     * MaintainedProduct
+     * @description A released product's maintenance level, `scan` or `fix` (spec 17.20, 22.8).
+     *
+     *     The level is the setting `setting_key`; raising it to `fix` loosens and needs a step-up.
+     */
+    MaintainedProduct: {
+      /** Repo */
+      repo: string;
+      /** Name */
+      name: string;
+      /** Setting Key */
+      setting_key: string;
+      /** Level */
+      level: string;
+      /** Meta */
+      meta: string;
+    };
+    /**
      * MaintenanceFix
-     * @description A fix merged by Pipeline C that the Owner can revert after seeing it (spec 7.2).
+     * @description A fix merged by Pipeline C that the Owner can revert after seeing its diff (spec 7.2).
      */
     MaintenanceFix: {
       /** Id */
@@ -3690,6 +4169,8 @@ export interface components {
       meta: string;
       /** Reverted */
       reverted: boolean;
+      /** Diff */
+      diff: string[];
     };
     /**
      * MaintenanceOverview
@@ -3702,10 +4183,14 @@ export interface components {
       summary: string;
       /** Stats */
       stats: components["schemas"]["Metric"][];
+      /** Products */
+      products: components["schemas"]["MaintainedProduct"][];
       /** Batch */
       batch: components["schemas"]["MaintenanceFix"][];
       /** Findings */
       findings: components["schemas"]["Finding"][];
+      /** Trends */
+      trends: components["schemas"]["Trend"][];
     };
     /**
      * MaintenanceToggle
@@ -3899,8 +4384,32 @@ export interface components {
       sampled_at: string | null;
     };
     /**
+     * MetricCatalog
+     * @description The metric catalog (spec 7.18), shown on System, Models and Settings.
+     */
+    MetricCatalog: {
+      /** Groups */
+      groups: components["schemas"]["TrendGroup"][];
+    };
+    /**
+     * ModelTimeShare
+     * @description Development's share of pool generation time over 24 hours against its floor (8.11.7).
+     */
+    ModelTimeShare: {
+      /** Share Pct */
+      share_pct: number;
+      /** Floor Pct */
+      floor_pct: number;
+      status: components["schemas"]["StatusLabel"];
+      /** Note */
+      note: string;
+    };
+    /**
      * ModelsOverview
      * @description The Models page, including the independent-reviewer impact preview (spec 7.18 example).
+     *
+     *     `plan_decisions` are the critical decision records that hold a pending model plan, which the
+     *     page shows with their veto (spec 8.6, 11.9).
      */
     ModelsOverview: {
       /** Pool Mode */
@@ -3918,6 +4427,18 @@ export interface components {
       /** Stats */
       stats: components["schemas"]["Metric"][];
       tokens: components["schemas"]["TokensPanel"];
+      /** Queue */
+      queue: components["schemas"]["SourcedFigure"][];
+      /** Split */
+      split: components["schemas"]["SourcedFigure"][];
+      routing: components["schemas"]["RoutingPanel"];
+      /** Candidates */
+      candidates: components["schemas"]["Candidate"][];
+      selection: components["schemas"]["SelectionRun"];
+      /** Plan Decisions */
+      plan_decisions: string[];
+      /** Pin Impact */
+      pin_impact: components["schemas"]["ImpactLine"][];
     };
     /**
      * Obligation
@@ -4070,6 +4591,12 @@ export interface components {
       quiet_hours: boolean;
       /** Degraded */
       degraded: string[];
+      /**
+       * Pressure
+       * @default normal
+       * @enum {string}
+       */
+      pressure: "normal" | "warning" | "critical";
       overall: components["schemas"]["StatusLabel"];
       /** Badges */
       badges: {
@@ -4077,6 +4604,53 @@ export interface components {
       };
       /** Features On */
       features_on: string[];
+    };
+    /**
+     * PoolModeChange
+     * @description Put the pool in another mode.
+     */
+    PoolModeChange: {
+      /**
+       * Mode
+       * @enum {string}
+       */
+      mode: "L" | "S" | "I" | "B" | "F";
+    };
+    /**
+     * PoolModeOption
+     * @description A mode the Owner can put the pool in, with what switching to it would do (spec 7.18).
+     */
+    PoolModeOption: {
+      /**
+       * Mode
+       * @enum {string}
+       */
+      mode: "L" | "S" | "I" | "B" | "F";
+      /** Label */
+      label: string;
+      /** Note */
+      note: string;
+      /** Impact */
+      impact: components["schemas"]["ImpactLine"][];
+    };
+    /**
+     * PoolState
+     * @description The model pool's mode and what is loaded. `can_end` is true in image or video mode.
+     */
+    PoolState: {
+      /**
+       * Mode
+       * @enum {string}
+       */
+      mode: "L" | "S" | "I" | "B" | "F";
+      /** Label */
+      label: string;
+      /** Loaded */
+      loaded: string[];
+      /** Can End */
+      can_end: boolean;
+      /** Options */
+      options: components["schemas"]["PoolModeOption"][];
     };
     /**
      * PrincipalDraft
@@ -4133,6 +4707,41 @@ export interface components {
        * @enum {string}
        */
       decision: "approve" | "decline";
+    };
+    /**
+     * PruneDone
+     * @description What the toast says after a prune.
+     */
+    PruneDone: {
+      /** Message */
+      message: string;
+    };
+    /**
+     * PrunePlan
+     * @description What a prune would remove under the retention rules, before anything is removed.
+     */
+    PrunePlan: {
+      /** Id */
+      id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+      /** Removes */
+      removes: components["schemas"]["Row"][];
+      /** Frees */
+      frees: string;
+      /** Keeps */
+      keeps: string;
+    };
+    /**
+     * PruneRequest
+     * @description Run the prune plan the Owner has seen.
+     */
+    PruneRequest: {
+      /** Plan Id */
+      plan_id: string;
     };
     /**
      * QuickCard
@@ -4255,6 +4864,32 @@ export interface components {
       reviewer: string;
       /** Readability */
       readability: string;
+    };
+    /**
+     * RoutingPanel
+     * @description The Routing panel (spec 8.10): where requests ran, whether it helped, and refusals.
+     */
+    RoutingPanel: {
+      /** Rows */
+      rows: components["schemas"]["RoutingRow"][];
+      /** Cloud Spend */
+      cloud_spend: string;
+      /** Refusals */
+      refusals: components["schemas"]["SourcedFigure"][];
+    };
+    /**
+     * RoutingRow
+     * @description One family's calls by difficulty tier and its first-pass gate rate against the control.
+     */
+    RoutingRow: {
+      /** Family */
+      family: string;
+      /** Tiers */
+      tiers: number[];
+      /** Gate Rate */
+      gate_rate: string;
+      /** Control */
+      control: string;
     };
     /**
      * Row
@@ -4408,6 +5043,17 @@ export interface components {
       chain: string;
     };
     /**
+     * SelectionRun
+     * @description The selector: when it last ran, and whether a run is queued (spec 8.6).
+     */
+    SelectionRun: {
+      status: components["schemas"]["StatusLabel"];
+      /** Last Run */
+      last_run: string;
+      /** Queued */
+      queued: boolean;
+    };
+    /**
      * ServiceGroup
      * @description Services grouped by where they run (spec 5.4).
      */
@@ -4416,6 +5062,25 @@ export interface components {
       name: string;
       /** Services */
       services: components["schemas"]["ServiceRow"][];
+    };
+    /**
+     * ServiceLog
+     * @description A service's full log as kept for 30 days (spec 13.7), newest first, already masked.
+     */
+    ServiceLog: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
+      status: components["schemas"]["StatusLabel"];
+      /** Restartable */
+      restartable: boolean;
+      /** Retained */
+      retained: string;
+      /** Lines */
+      lines: components["schemas"]["LogLine"][];
     };
     /**
      * ServiceRow
@@ -4756,12 +5421,27 @@ export interface components {
       /** Zones */
       zones: components["schemas"]["MemoryZone"][];
       pressure: components["schemas"]["StatusLabel"];
+      /**
+       * Pressure Level
+       * @enum {string}
+       */
+      pressure_level: "normal" | "warning" | "critical";
       /** Swap */
       swap: string;
       /** Tiles */
       tiles: components["schemas"]["Metric"][];
       /** Rows */
       rows: components["schemas"]["Row"][];
+      pool: components["schemas"]["PoolState"];
+      /** Lanes */
+      lanes: components["schemas"]["Lane"][];
+      /** Cpu */
+      cpu: components["schemas"]["CpuClass"][];
+      thermal: components["schemas"]["Thermal"];
+      /** Drives */
+      drives: components["schemas"]["DriveUse"][];
+      model_time: components["schemas"]["ModelTimeShare"];
+      health_check: components["schemas"]["HealthCheck"] | null;
     };
     /**
      * TaskDetail
@@ -4797,6 +5477,19 @@ export interface components {
       doing: string;
       /** Tokens Per Second */
       tokens_per_second: number | null;
+    };
+    /**
+     * Thermal
+     * @description The thermal ladder (spec 8.11.4): the state, the step taken and serious minutes today.
+     */
+    Thermal: {
+      state: components["schemas"]["StatusLabel"];
+      /** Step */
+      step: string;
+      /** Serious Minutes */
+      serious_minutes: number;
+      /** Note */
+      note: string;
     };
     /**
      * Thread
@@ -5026,6 +5719,42 @@ export interface components {
       retention_days: number;
     };
     /**
+     * Trend
+     * @description A metric from the catalog of spec 7.18 with its 7- and 30-day trends, oldest first.
+     */
+    Trend: {
+      /** Name */
+      name: string;
+      /** Value */
+      value: string;
+      /** Week */
+      week: number[];
+      /** Month */
+      month: number[];
+      /** Week Change */
+      week_change: string;
+      /** Month Change */
+      month_change: string;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "measured" | "simulated" | "estimate";
+      status: components["schemas"]["StatusLabel"] | null;
+    };
+    /**
+     * TrendGroup
+     * @description One area of the metric catalog, such as Memory or Tokens.
+     */
+    TrendGroup: {
+      /** Area */
+      area: string;
+      /** Source */
+      source: string;
+      /** Trends */
+      trends: components["schemas"]["Trend"][];
+    };
+    /**
      * TrustChange
      * @description A new trust level. Allowlisting loosens and needs a step-up; removing tightens.
      */
@@ -5103,6 +5832,14 @@ export interface components {
       selected: boolean;
       /** Locked */
       locked: boolean;
+    };
+    /**
+     * WontFix
+     * @description Close a finding as won't-fix, with the reason that stays on it.
+     */
+    WontFix: {
+      /** Reason */
+      reason: string;
     };
     /**
      * WorkBoard
@@ -9472,6 +10209,549 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["ArkDriveStarted"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_pool_mode_api_v1_system_pool_mode_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PoolModeChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SystemOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  end_pool_mode_api_v1_system_pool_mode_end_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SystemOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  run_health_check_api_v1_system_health_check_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SystemOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  pressure_drill_api_v1_system_pressure_drill_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SystemOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  pin_family_api_v1_models_families__family__pin_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        family: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FamilyPin"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ModelsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  run_selection_api_v1_models_selection_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ModelsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  service_log_api_v1_services__service_id__logs_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        service_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ServiceLog"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_job_time_api_v1_schedule__job_id__time_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        job_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["JobTime"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ScheduleOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  run_restore_drill_api_v1_backups_drill_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["BackupsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  make_prune_plan_api_v1_backups_prune_plan_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["BackupsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  discard_prune_plan_api_v1_backups_prune_plan_discard_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["BackupsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  run_prune_api_v1_backups_prune_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PruneRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PruneDone"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  wont_fix_api_v1_maintenance_findings__finding_id__wont_fix_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        finding_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["WontFix"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Finding"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  reopen_finding_api_v1_maintenance_findings__finding_id__reopen_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        finding_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Finding"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  metrics_api_v1_metrics_get: {
+    parameters: {
+      query?: {
+        page?: string;
+      };
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MetricCatalog"];
         };
       };
       /** @description Validation Error */

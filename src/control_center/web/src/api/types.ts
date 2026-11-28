@@ -97,3 +97,16 @@ export type Trust = Contact["trust"];
 export type VoiceOverview = Schemas["VoiceOverview"];
 export type WorkBoard = Schemas["WorkBoard"];
 export type WorkItem = Schemas["WorkItem"];
+
+// The operations controls on System, Models, Services, Schedule, Backups and Maintenance.
+export type Candidate = Schemas["Candidate"];
+export type DriveUse = Schemas["DriveUse"];
+export type Finding = Schemas["Finding"];
+export type MaintainedProduct = Schemas["MaintainedProduct"];
+export type MaintenanceFix = Schemas["MaintenanceFix"];
+export type MetricCatalog = Schemas["MetricCatalog"];
+export type PoolMode = Schemas["PoolState"]["mode"];
+export type PoolState = Schemas["PoolState"];
+export type PrunePlan = Schemas["PrunePlan"];
+export type ServiceLog = Schemas["ServiceLog"];
+export type Trend = Schemas["Trend"];

@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
-import { useLiveTasks, useModels, useTaskDetail } from "../api/queries";
+import { useLiveTasks, useModels, usePlatform, useTaskDetail } from "../api/queries";
 import type {
   Intervention,
   LiveTask,
@@ -141,9 +141,32 @@ function StageBar({ stages }: { stages: Stage[] }) {
   );
 }
 
+/** Whether memory pressure is above normal: transcripts stop streaming and the deck holds still
+ * (spec 7.17, "Degradation"). */
+function usePressured(): boolean {
+  const pressure = usePlatform().data?.pressure;
+  return pressure !== undefined && pressure !== "normal";
+}
+
+/** The line under a card's title; a queued card adds its estimated wait under pressure. */
+function CardMeta({ card }: { card: Card }) {
+  const pressured = usePressured();
+  const { first } = card;
+  return (
+    <span className="muted small">
+      {card.lead ? `${card.lead}'s thread` : `Scheduled · ${first.employee_name}`}
+      {pressured && first.session_state === "queued" && ` · ${QUEUE_WAIT}`}
+    </span>
+  );
+}
+
+/** What a queued card says under pressure; an estimate until the queue reports its own. */
+const QUEUE_WAIT = "about 10 min wait (estimate)";
+
 /** The transcript and controls for the chosen task, opened in place. */
 function TaskTranscript({ taskId }: { taskId: string }) {
   const query = useTaskDetail(taskId);
+  const pressured = usePressured();
   return (
     <div className="live-open">
       <QueryState query={query}>
@@ -153,8 +176,13 @@ function TaskTranscript({ taskId }: { taskId: string }) {
               {detail.task.employee_name} · {detail.task.item} · {detail.task.model}
             </p>
             {detail.stage_rail.length > 0 && <StageBar stages={detail.stage_rail} />}
+            {pressured && (
+              <p className="muted small">
+                Memory pressure is high, so only the latest step is shown until it eases.
+              </p>
+            )}
             <ol className="transcript" aria-live="polite">
-              {detail.transcript.map((entry) => (
+              {(pressured ? detail.transcript.slice(-1) : detail.transcript).map((entry) => (
                 <Entry key={entry.id} entry={entry} />
               ))}
             </ol>
@@ -319,9 +347,7 @@ function ThreadCard({
         )}
         <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
           <span className="row-title">{card.title}</span>
-          <span className="muted small">
-            {card.lead ? `${card.lead}'s thread` : `Scheduled · ${first.employee_name}`}
-          </span>
+          <CardMeta card={card} />
         </span>
         <span className={`state-pill state-${state}`}>{STATE_WORDS[state]}</span>
         <ChevronDown className="live-card-chevron" size={18} aria-hidden="true" />
@@ -454,6 +480,7 @@ export default function Live() {
   const filter: Filter = isFilter(shown) ? shown : "all";
   const tasks = useLiveTasks();
   const poolMode = useModels().data?.pool_mode;
+  const pressured = usePressured();
   const update = (next: { task?: string | null; show?: Filter }) => {
     const task = next.task === undefined ? chosen : next.task;
     const show = next.show ?? filter;
@@ -471,7 +498,7 @@ export default function Live() {
           const visible = all.filter((task) => passes(task, filter));
           return (
             <>
-              <LiveDeck tasks={all} mode={poolMode} />
+              <LiveDeck tasks={all} mode={poolMode} still={pressured} />
               <LiveFilters tasks={all} filter={filter} onFilter={(show) => update({ show })} />
               <Sessions visible={visible} chosen={chosen} onChoose={choose} />
             </>

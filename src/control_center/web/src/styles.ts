@@ -9,5 +9,6 @@ import "./design/base.css";
 import "./design/light.css";
 import "./components/components.css";
 import "./components/patterns.css";
+import "./components/ops.css";
 import "./shell/shell.css";
 import "./pages/personal/records.css";
