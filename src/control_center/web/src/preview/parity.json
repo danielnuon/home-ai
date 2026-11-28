@@ -10,7 +10,7 @@
     "away": false,
     "badges": {
      "approvals": {
-      "label": "4",
+      "label": "5",
       "status": "attention"
      },
      "backups": {
@@ -50,6 +50,8 @@
    "response": [
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-01",
      "data_class": "internal",
      "decided_note": null,
      "department": "personal",
@@ -59,6 +61,7 @@
      "expires_at": "2026-10-25T22:00:00Z",
      "id": "AP-0107",
      "needs_step_up": false,
+     "pipeline": "Personal ops",
      "principal": "Owner",
      "recipient": "front.desk@[clinic domain]",
      "recipient_trust": "allowlisted",
@@ -71,6 +74,8 @@
     },
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-02",
      "data_class": "restricted",
      "decided_note": null,
      "department": "personal",
@@ -80,6 +85,7 @@
      "expires_at": "2026-10-26T12:00:00Z",
      "id": "AP-0108",
      "needs_step_up": true,
+     "pipeline": "Personal ops",
      "principal": "Owner",
      "recipient": "Unit B tenant",
      "recipient_trust": "known",
@@ -92,6 +98,8 @@
     },
     {
      "approval_class": "R",
+     "batch": null,
+     "contact_id": null,
      "data_class": "internal",
      "decided_note": null,
      "department": "engineering",
@@ -101,6 +109,7 @@
      "expires_at": "2026-10-31T16:00:00Z",
      "id": "AP-0109",
      "needs_step_up": false,
+     "pipeline": "Development",
      "principal": "Owner",
      "recipient": null,
      "recipient_trust": null,
@@ -120,6 +129,8 @@
     },
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-05",
      "data_class": "restricted",
      "decided_note": null,
      "department": "personal",
@@ -129,6 +140,7 @@
      "expires_at": "2026-10-26T16:00:00Z",
      "id": "AP-0110",
      "needs_step_up": true,
+     "pipeline": "Personal ops",
      "principal": "Dad",
      "recipient": "Insurer member services",
      "recipient_trust": "known",
@@ -137,6 +149,49 @@
      "summary": "New recipient · asks to confirm in-network status for one pharmacy",
      "tier": "T3",
      "title": "Email the insurer from Dad's account",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "batch": [
+      {
+       "id": "B-1",
+       "included": true,
+       "recipient": "Unit A tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-2",
+       "included": true,
+       "recipient": "Unit B tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-3",
+       "included": true,
+       "recipient": "Unit C tenant",
+       "summary": "Rent reminder · lease ends Jan"
+      }
+     ],
+     "contact_id": null,
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "personal",
+     "domain": "Rental",
+     "draft": null,
+     "employee_name": "Keystone",
+     "expires_at": "2026-10-27T16:00:00Z",
+     "id": "AP-0111",
+     "needs_step_up": false,
+     "pipeline": "Personal ops",
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": null,
+     "state": "pending",
+     "summary": "3 messages · rent is due Dec 1",
+     "tier": "T3",
+     "title": "Send December rent reminders",
      "undo_until": null
     }
    ],
@@ -894,59 +949,227 @@
    "method": "GET",
    "path": "/contacts",
    "response": {
+    "accounts": [
+     {
+      "id": "A-01",
+      "kind": "account",
+      "label": "Personal Gmail"
+     },
+     {
+      "id": "A-02",
+      "kind": "account",
+      "label": "Work Outlook"
+     },
+     {
+      "id": "A-03",
+      "kind": "account",
+      "label": "Chase checking"
+     },
+     {
+      "id": "A-04",
+      "kind": "account",
+      "label": "Mom's Gmail"
+     },
+     {
+      "id": "A-05",
+      "kind": "account",
+      "label": "Mom's Medicare portal"
+     },
+     {
+      "id": "A-06",
+      "kind": "account",
+      "label": "Dad's Gmail"
+     },
+     {
+      "id": "A-07",
+      "kind": "account",
+      "label": "Dad's insurer portal"
+     },
+     {
+      "id": "K-01",
+      "kind": "calendar",
+      "label": "Your calendar"
+     },
+     {
+      "id": "K-02",
+      "kind": "calendar",
+      "label": "Family calendar"
+     },
+     {
+      "id": "K-03",
+      "kind": "calendar",
+      "label": "Mom's calendar"
+     },
+     {
+      "id": "K-04",
+      "kind": "calendar",
+      "label": "Dad's calendar"
+     }
+    ],
     "contacts": [
      {
+      "area": "Health",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "front.desk@[clinic domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-2231"
+       }
+      ],
       "id": "C-01",
-      "meta": "Health · email",
+      "linked_accounts": [
+       "Personal Gmail"
+      ],
+      "meta": "Health · email, phone",
       "name": "Dr. Patel's office",
+      "principal": "owner",
       "trust": "allowlisted"
      },
      {
+      "area": "Rental",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "unit.b@[tenant domain]"
+       },
+       {
+        "kind": "text",
+        "value": "(555) 010-4410"
+       }
+      ],
       "id": "C-02",
+      "linked_accounts": [
+       "Personal Gmail"
+      ],
       "meta": "Rental · email, text",
       "name": "Unit B tenant",
+      "principal": "owner",
       "trust": "known"
      },
      {
+      "area": "Home",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-7781"
+       },
+       {
+        "kind": "email",
+        "value": "office@[plumber domain]"
+       }
+      ],
       "id": "C-03",
-      "meta": "Home · vendor",
+      "linked_accounts": [
+       "Personal Gmail",
+       "Chase checking"
+      ],
+      "meta": "Home · phone, email",
       "name": "A-1 Plumbing",
+      "principal": "owner",
       "trust": "allowlisted"
      },
      {
+      "area": "Taxes",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "returns@[tax firm domain]"
+       }
+      ],
       "id": "C-04",
+      "linked_accounts": [
+       "Personal Gmail"
+      ],
       "meta": "Taxes · email",
       "name": "Tax preparer",
+      "principal": "owner",
       "trust": "allowlisted"
      },
      {
+      "area": "Health",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "members@[insurer domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-9000"
+       }
+      ],
       "id": "C-05",
-      "meta": "Health · Dad · new",
+      "linked_accounts": [
+       "Dad's Gmail",
+       "Dad's insurer portal"
+      ],
+      "meta": "Health · Dad · email, phone",
       "name": "Insurer member services",
+      "principal": "dad",
       "trust": "known"
      },
      {
+      "area": "Mail",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "deals@[promo domain]"
+       }
+      ],
       "id": "C-06",
-      "meta": "14 messages filed",
+      "linked_accounts": [],
+      "meta": "Mail · email",
       "name": "Promo sender",
+      "principal": "owner",
       "trust": "blocked"
      }
     ],
     "household": [
      {
+      "accounts": [
+       "A-01",
+       "A-02",
+       "A-03"
+      ],
+      "calendars": [
+       "K-01",
+       "K-02"
+      ],
       "id": "owner",
-      "meta": "Owner · 3 accounts",
-      "name": "You"
+      "meta": "Owner · 3 accounts · 2 calendars",
+      "name": "You",
+      "removal": null,
+      "role": "owner"
      },
      {
+      "accounts": [
+       "A-04",
+       "A-05"
+      ],
+      "calendars": [
+       "K-03"
+      ],
       "id": "mom",
-      "meta": "Principal · 2 accounts",
-      "name": "Mom"
+      "meta": "Principal · 2 accounts · 1 calendar",
+      "name": "Mom",
+      "removal": null,
+      "role": "principal"
      },
      {
+      "accounts": [
+       "A-06",
+       "A-07"
+      ],
+      "calendars": [
+       "K-04"
+      ],
       "id": "dad",
-      "meta": "Principal · 2 accounts",
-      "name": "Dad"
+      "meta": "Principal · 2 accounts · 1 calendar",
+      "name": "Dad",
+      "removal": null,
+      "role": "principal"
      }
     ]
    },
@@ -1980,6 +2203,8 @@
     "needs_you": [
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-01",
       "data_class": "internal",
       "decided_note": null,
       "department": "personal",
@@ -1989,6 +2214,7 @@
       "expires_at": "2026-10-25T22:00:00Z",
       "id": "AP-0107",
       "needs_step_up": false,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "front.desk@[clinic domain]",
       "recipient_trust": "allowlisted",
@@ -2001,6 +2227,8 @@
      },
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-02",
       "data_class": "restricted",
       "decided_note": null,
       "department": "personal",
@@ -2010,6 +2238,7 @@
       "expires_at": "2026-10-26T12:00:00Z",
       "id": "AP-0108",
       "needs_step_up": true,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "Unit B tenant",
       "recipient_trust": "known",
@@ -2021,7 +2250,7 @@
       "undo_until": null
      }
     ],
-    "needs_you_count": 5,
+    "needs_you_count": 6,
     "needs_you_threads": [
      {
       "approval_id": null,
@@ -5027,6 +5256,77 @@
    "step_up": null
   },
   {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/contacts/C-02",
+   "response": {
+    "contact": {
+     "area": "Rental",
+     "channels": [
+      {
+       "kind": "email",
+       "value": "unit.b@[tenant domain]"
+      },
+      {
+       "kind": "text",
+       "value": "(555) 010-4410"
+      }
+     ],
+     "id": "C-02",
+     "linked_accounts": [
+      "Personal Gmail"
+     ],
+     "meta": "Rental · email, text",
+     "name": "Unit B tenant",
+     "principal": "owner",
+     "trust": "known"
+    },
+    "history": [
+     {
+      "at": "2026-10-24T16:00:00Z",
+      "detail": "Keystone opened a maintenance case",
+      "kind": "message",
+      "title": "Kitchen faucet drips"
+     },
+     {
+      "at": "2026-09-28T16:00:00Z",
+      "detail": "Approved by you · Keystone",
+      "kind": "approval",
+      "title": "Sent: September rent receipt"
+     }
+    ],
+    "mentions": [
+     {
+      "href": "/approvals",
+      "id": "AP-0108",
+      "kind": "draft",
+      "title": "Send October rent receipt"
+     },
+     {
+      "href": "/personal",
+      "id": "RL-07",
+      "kind": "rule",
+      "title": "Send tenant maintenance requests to Keystone"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/contacts/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That contact no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
    "body": {
     "decision": "deny"
    },
@@ -5048,6 +5348,8 @@
    "path": "/approvals/AP-0107/decision",
    "response": {
     "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-01",
     "data_class": "internal",
     "decided_note": "Denied · Chrono notified",
     "department": "personal",
@@ -5057,6 +5359,7 @@
     "expires_at": "2026-10-25T22:00:00Z",
     "id": "AP-0107",
     "needs_step_up": false,
+    "pipeline": "Personal ops",
     "principal": "Owner",
     "recipient": "front.desk@[clinic domain]",
     "recipient_trust": "allowlisted",
@@ -5090,6 +5393,8 @@
    "path": "/approvals/AP-0107/undo",
    "response": {
     "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-01",
     "data_class": "internal",
     "decided_note": null,
     "department": "personal",
@@ -5099,6 +5404,7 @@
     "expires_at": "2026-10-25T22:00:00Z",
     "id": "AP-0107",
     "needs_step_up": false,
+    "pipeline": "Personal ops",
     "principal": "Owner",
     "recipient": "front.desk@[clinic domain]",
     "recipient_trust": "allowlisted",
@@ -5174,6 +5480,8 @@
    "path": "/approvals/AP-0110/decision",
    "response": {
     "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-05",
     "data_class": "restricted",
     "decided_note": "Approved · Pulse is sending",
     "department": "personal",
@@ -5183,6 +5491,7 @@
     "expires_at": "2026-10-26T16:00:00Z",
     "id": "AP-0110",
     "needs_step_up": true,
+    "pipeline": "Personal ops",
     "principal": "Dad",
     "recipient": "Insurer member services",
     "recipient_trust": "known",
@@ -5557,7 +5866,7 @@
     "away": true,
     "badges": {
      "approvals": {
-      "label": "3",
+      "label": "4",
       "status": "attention"
      },
      "backups": {
@@ -6098,9 +6407,24 @@
    "method": "PUT",
    "path": "/contacts/C-02/trust",
    "response": {
+    "area": "Rental",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "unit.b@[tenant domain]"
+     },
+     {
+      "kind": "text",
+      "value": "(555) 010-4410"
+     }
+    ],
     "id": "C-02",
+    "linked_accounts": [
+     "Personal Gmail"
+    ],
     "meta": "Rental · email, text",
     "name": "Unit B tenant",
+    "principal": "owner",
     "trust": "blocked"
    },
    "status": 200,
@@ -7509,7 +7833,7 @@
     "away": true,
     "badges": {
      "approvals": {
-      "label": "3",
+      "label": "4",
       "status": "attention"
      },
      "backups": {
@@ -7793,6 +8117,8 @@
     "needs_you": [
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-01",
       "data_class": "internal",
       "decided_note": null,
       "department": "personal",
@@ -7802,6 +8128,7 @@
       "expires_at": "2026-10-25T22:00:00Z",
       "id": "AP-0107",
       "needs_step_up": false,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "front.desk@[clinic domain]",
       "recipient_trust": "allowlisted",
@@ -7814,6 +8141,8 @@
      },
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-02",
       "data_class": "restricted",
       "decided_note": null,
       "department": "personal",
@@ -7823,6 +8152,7 @@
       "expires_at": "2026-10-26T12:00:00Z",
       "id": "AP-0108",
       "needs_step_up": true,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "Unit B tenant",
       "recipient_trust": "known",
@@ -7834,7 +8164,7 @@
       "undo_until": null
      }
     ],
-    "needs_you_count": 4,
+    "needs_you_count": 5,
     "needs_you_threads": [
      {
       "approval_id": null,
@@ -8145,7 +8475,7 @@
     "away": true,
     "badges": {
      "approvals": {
-      "label": "3",
+      "label": "4",
       "status": "attention"
      },
      "backups": {
@@ -12227,6 +12557,8 @@
     "needs_you": [
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-01",
       "data_class": "internal",
       "decided_note": null,
       "department": "personal",
@@ -12236,6 +12568,7 @@
       "expires_at": "2026-10-25T22:00:00Z",
       "id": "AP-0107",
       "needs_step_up": false,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "front.desk@[clinic domain]",
       "recipient_trust": "allowlisted",
@@ -12248,6 +12581,8 @@
      },
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-02",
       "data_class": "restricted",
       "decided_note": null,
       "department": "personal",
@@ -12257,6 +12592,7 @@
       "expires_at": "2026-10-26T12:00:00Z",
       "id": "AP-0108",
       "needs_step_up": true,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "Unit B tenant",
       "recipient_trust": "known",
@@ -12268,7 +12604,7 @@
       "undo_until": null
      }
     ],
-    "needs_you_count": 4,
+    "needs_you_count": 5,
     "needs_you_threads": [
      {
       "approval_id": null,
@@ -12765,7 +13101,7 @@
     "away": true,
     "badges": {
      "approvals": {
-      "label": "3",
+      "label": "4",
       "status": "attention"
      },
      "backups": {
@@ -13245,6 +13581,1776 @@
    "step_up": null
   },
   {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": " ",
+    "principal": "owner",
+    "trust": "known"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "error": "conflict",
+    "reason": "Give the contact a name first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "email",
+      "value": " "
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "known"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "error": "conflict",
+    "reason": "Fill in each channel, or remove the empty one."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "nobody",
+    "trust": "known"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "error": "conflict",
+    "reason": "That person isn't in the household."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "known"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "id": "C-id26",
+    "linked_accounts": [],
+    "meta": "Pets · phone",
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "known"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "allowlisted"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Allowlisting Northside Vet needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id27"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id27",
+    "challenge": "id27"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id28"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "allowlisted"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/contacts",
+   "response": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "id": "C-id29",
+    "linked_accounts": [],
+    "meta": "Pets · phone",
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "allowlisted"
+   },
+   "status": 200,
+   "step_up": "id28"
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "A-1 Plumbing",
+    "principal": "owner",
+    "trust": "blocked"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/contacts/C-03",
+   "response": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "id": "C-03",
+    "linked_accounts": [
+     "Personal Gmail",
+     "Chase checking"
+    ],
+    "meta": "Pets · phone",
+    "name": "A-1 Plumbing",
+    "principal": "owner",
+    "trust": "blocked"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "A-1 Plumbing",
+    "principal": "owner",
+    "trust": "allowlisted"
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/contacts/C-03",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Trusting A-1 Plumbing more needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": {
+    "area": "Pets",
+    "channels": [
+     {
+      "kind": "phone",
+      "value": "(555) 010-3300"
+     }
+    ],
+    "name": "Northside Vet",
+    "principal": "owner",
+    "trust": "known"
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/contacts/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That contact no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "into": "C-01"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/contacts/C-01/merge",
+   "response": {
+    "error": "conflict",
+    "reason": "Choose a different contact to merge into."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "into": "C-05"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash"
+      ]
+     }
+    },
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/contacts/C-01/merge",
+   "response": {
+    "area": "Health",
+    "channels": [
+     {
+      "kind": "email",
+      "value": "members@[insurer domain]"
+     },
+     {
+      "kind": "phone",
+      "value": "(555) 010-9000"
+     },
+     {
+      "kind": "email",
+      "value": "front.desk@[clinic domain]"
+     },
+     {
+      "kind": "phone",
+      "value": "(555) 010-2231"
+     }
+    ],
+    "id": "C-05",
+    "linked_accounts": [
+     "Dad's Gmail",
+     "Dad's insurer portal",
+     "Personal Gmail"
+    ],
+    "meta": "Health · Dad · email, phone",
+    "name": "Insurer member services",
+    "principal": "dad",
+    "trust": "known"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/contacts/C-05",
+   "response": {
+    "contact": {
+     "area": "Health",
+     "channels": [
+      {
+       "kind": "email",
+       "value": "members@[insurer domain]"
+      },
+      {
+       "kind": "phone",
+       "value": "(555) 010-9000"
+      },
+      {
+       "kind": "email",
+       "value": "front.desk@[clinic domain]"
+      },
+      {
+       "kind": "phone",
+       "value": "(555) 010-2231"
+      }
+     ],
+     "id": "C-05",
+     "linked_accounts": [
+      "Dad's Gmail",
+      "Dad's insurer portal",
+      "Personal Gmail"
+     ],
+     "meta": "Health · Dad · email, phone",
+     "name": "Insurer member services",
+     "principal": "dad",
+     "trust": "known"
+    },
+    "history": [
+     {
+      "at": "2026-10-25T11:12:00Z",
+      "detail": "Tuesday at 10:30 · filed under Health",
+      "kind": "message",
+      "title": "Appointment reminder"
+     },
+     {
+      "at": "2026-10-22T16:00:00Z",
+      "detail": "Filed under Health for Dad",
+      "kind": "message",
+      "title": "Explanation of benefits"
+     },
+     {
+      "at": "2026-10-13T16:00:00Z",
+      "detail": "Approved by you · Chrono",
+      "kind": "approval",
+      "title": "Sent: insurance card photo"
+     }
+    ],
+    "mentions": []
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash"
+      ]
+     }
+    },
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/contacts/C-04/remove",
+   "response": {
+    "message": "Tax preparer moved to Recently deleted.",
+    "trash_id": "TR-id31"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/contacts/C-04/remove",
+   "response": {
+    "error": "not_found",
+    "reason": "That contact no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/trash",
+   "response": {
+    "items": [
+     {
+      "deleted_at": "2026-10-25T16:00:09Z",
+      "home": "/contacts",
+      "id": "TR-id31",
+      "kind": "contact",
+      "meta": "Allowlisted · Taxes",
+      "purge_at": "2026-11-24T16:00:09Z",
+      "title": "Tax preparer"
+     },
+     {
+      "deleted_at": "2026-10-25T16:00:09Z",
+      "home": "/contacts",
+      "id": "TR-id30",
+      "kind": "contact",
+      "meta": "Allowlisted · Health",
+      "purge_at": "2026-11-24T16:00:09Z",
+      "title": "Dr. Patel's office"
+     },
+     {
+      "deleted_at": "2026-10-13T16:00:00Z",
+      "home": "/contacts",
+      "id": "TR-0005",
+      "kind": "contact",
+      "meta": "Known contact · Rental",
+      "purge_at": "2026-11-12T16:00:00Z",
+      "title": "Quick Fix Plumbing"
+     }
+    ],
+    "retention_days": 30
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/contacts",
+   "response": {
+    "accounts": [
+     {
+      "id": "A-01",
+      "kind": "account",
+      "label": "Personal Gmail"
+     },
+     {
+      "id": "A-02",
+      "kind": "account",
+      "label": "Work Outlook"
+     },
+     {
+      "id": "A-03",
+      "kind": "account",
+      "label": "Chase checking"
+     },
+     {
+      "id": "A-04",
+      "kind": "account",
+      "label": "Mom's Gmail"
+     },
+     {
+      "id": "A-05",
+      "kind": "account",
+      "label": "Mom's Medicare portal"
+     },
+     {
+      "id": "A-06",
+      "kind": "account",
+      "label": "Dad's Gmail"
+     },
+     {
+      "id": "A-07",
+      "kind": "account",
+      "label": "Dad's insurer portal"
+     },
+     {
+      "id": "K-01",
+      "kind": "calendar",
+      "label": "Your calendar"
+     },
+     {
+      "id": "K-02",
+      "kind": "calendar",
+      "label": "Family calendar"
+     },
+     {
+      "id": "K-03",
+      "kind": "calendar",
+      "label": "Mom's calendar"
+     },
+     {
+      "id": "K-04",
+      "kind": "calendar",
+      "label": "Dad's calendar"
+     }
+    ],
+    "contacts": [
+     {
+      "area": "Rental",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "unit.b@[tenant domain]"
+       },
+       {
+        "kind": "text",
+        "value": "(555) 010-4410"
+       }
+      ],
+      "id": "C-02",
+      "linked_accounts": [
+       "Personal Gmail"
+      ],
+      "meta": "Rental · email, text",
+      "name": "Unit B tenant",
+      "principal": "owner",
+      "trust": "blocked"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-03",
+      "linked_accounts": [
+       "Personal Gmail",
+       "Chase checking"
+      ],
+      "meta": "Pets · phone",
+      "name": "A-1 Plumbing",
+      "principal": "owner",
+      "trust": "blocked"
+     },
+     {
+      "area": "Health",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "members@[insurer domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-9000"
+       },
+       {
+        "kind": "email",
+        "value": "front.desk@[clinic domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-2231"
+       }
+      ],
+      "id": "C-05",
+      "linked_accounts": [
+       "Dad's Gmail",
+       "Dad's insurer portal",
+       "Personal Gmail"
+      ],
+      "meta": "Health · Dad · email, phone",
+      "name": "Insurer member services",
+      "principal": "dad",
+      "trust": "known"
+     },
+     {
+      "area": "Mail",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "deals@[promo domain]"
+       }
+      ],
+      "id": "C-06",
+      "linked_accounts": [],
+      "meta": "Mail · email",
+      "name": "Promo sender",
+      "principal": "owner",
+      "trust": "blocked"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-id26",
+      "linked_accounts": [],
+      "meta": "Pets · phone",
+      "name": "Northside Vet",
+      "principal": "owner",
+      "trust": "known"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-id29",
+      "linked_accounts": [],
+      "meta": "Pets · phone",
+      "name": "Northside Vet",
+      "principal": "owner",
+      "trust": "allowlisted"
+     }
+    ],
+    "household": [
+     {
+      "accounts": [
+       "A-01",
+       "A-02",
+       "A-03"
+      ],
+      "calendars": [
+       "K-01",
+       "K-02"
+      ],
+      "id": "owner",
+      "meta": "Owner · 3 accounts · 2 calendars",
+      "name": "You",
+      "removal": null,
+      "role": "owner"
+     },
+     {
+      "accounts": [
+       "A-04",
+       "A-05"
+      ],
+      "calendars": [
+       "K-03"
+      ],
+      "id": "mom",
+      "meta": "Principal · 2 accounts · 1 calendar",
+      "name": "Mom",
+      "removal": null,
+      "role": "principal"
+     },
+     {
+      "accounts": [
+       "A-06",
+       "A-07"
+      ],
+      "calendars": [
+       "K-04"
+      ],
+      "id": "dad",
+      "meta": "Principal · 2 accounts · 1 calendar",
+      "name": "Dad",
+      "removal": null,
+      "role": "principal"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "name": "Grandma"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/principals",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Adding Grandma to the household needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": {
+    "name": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/principals",
+   "response": {
+    "error": "conflict",
+    "reason": "Give the person a name first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id32"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id32",
+    "challenge": "id32"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id33"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "name": "Grandma"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/principals",
+   "response": {
+    "accounts": [],
+    "calendars": [],
+    "id": "P-id34",
+    "meta": "Principal · 0 accounts · 0 calendars",
+    "name": "Grandma",
+    "removal": null,
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": "id33"
+  },
+  {
+   "body": {
+    "accounts": [
+     "A-04"
+    ],
+    "calendars": [
+     "K-03"
+    ]
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/principals/mom/accounts",
+   "response": {
+    "accounts": [
+     "A-04"
+    ],
+    "calendars": [
+     "K-03"
+    ],
+    "id": "mom",
+    "meta": "Principal · 1 account · 1 calendar",
+    "name": "Mom",
+    "removal": null,
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "accounts": [
+     "A-04",
+     "A-07"
+    ],
+    "calendars": []
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/principals/mom/accounts",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Mapping accounts to Mom needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": {
+    "accounts": [
+     "K-01"
+    ],
+    "calendars": []
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/principals/mom/accounts",
+   "response": {
+    "error": "conflict",
+    "reason": "That account or calendar isn't connected. Add it on Connections."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id35"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id35",
+    "challenge": "id35"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id36"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "accounts": [
+     "A-04",
+     "A-07"
+    ],
+    "calendars": []
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/principals/mom/accounts",
+   "response": {
+    "accounts": [
+     "A-04",
+     "A-07"
+    ],
+    "calendars": [],
+    "id": "mom",
+    "meta": "Principal · 2 accounts · 0 calendars",
+    "name": "Mom",
+    "removal": null,
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": "id36"
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id37"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id37",
+    "challenge": "id37"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id38"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "keep": "archive"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/principals/owner/remove",
+   "response": {
+    "error": "conflict",
+    "reason": "The Owner can't be removed from the household."
+   },
+   "status": 409,
+   "step_up": "id38"
+  },
+  {
+   "body": {
+    "keep": "delete"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/principals/dad/remove",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Removing Dad needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id39"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id39",
+    "challenge": "id39"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id40"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "keep": "delete"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/principals/dad/remove",
+   "response": {
+    "accounts": [
+     "A-06"
+    ],
+    "calendars": [
+     "K-04"
+    ],
+    "id": "dad",
+    "meta": "Principal · 1 account · 1 calendar",
+    "name": "Dad",
+    "removal": {
+     "keep": "delete",
+     "undo_until": "2026-11-01T16:00:09Z"
+    },
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": "id40"
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/principals/dad/undo-remove",
+   "response": {
+    "accounts": [
+     "A-06"
+    ],
+    "calendars": [
+     "K-04"
+    ],
+    "id": "dad",
+    "meta": "Principal · 1 account · 1 calendar",
+    "name": "Dad",
+    "removal": null,
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/principals/dad/undo-remove",
+   "response": {
+    "error": "conflict",
+    "reason": "Dad isn't being removed."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id41"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id41",
+    "challenge": "id41"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id42"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "keep": "archive"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/principals/mom/remove",
+   "response": {
+    "accounts": [
+     "A-04",
+     "A-07"
+    ],
+    "calendars": [],
+    "id": "mom",
+    "meta": "Principal · 2 accounts · 0 calendars",
+    "name": "Mom",
+    "removal": {
+     "keep": "archive",
+     "undo_until": "2026-11-01T16:00:09Z"
+    },
+    "role": "principal"
+   },
+   "status": 200,
+   "step_up": "id42"
+  },
+  {
+   "body": {
+    "draft": "Hi, Tuesday at 10:30 works."
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "approvals",
+       "today",
+       "platform",
+       "chat",
+       "work"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/approvals/AP-0107/draft",
+   "response": {
+    "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-01",
+    "data_class": "internal",
+    "decided_note": null,
+    "department": "personal",
+    "domain": "Calendar and admin",
+    "draft": "Hi, Tuesday at 10:30 works.",
+    "employee_name": "Chrono",
+    "expires_at": "2026-10-25T22:00:00Z",
+    "id": "AP-0107",
+    "needs_step_up": false,
+    "pipeline": "Personal ops",
+    "principal": "Owner",
+    "recipient": "front.desk@[clinic domain]",
+    "recipient_trust": "allowlisted",
+    "release": null,
+    "state": "pending",
+    "summary": "Confirm Tuesday at 10:30 · from your Gmail",
+    "tier": "T2",
+    "title": "Reply to Dr. Patel's office",
+    "undo_until": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "draft": " "
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/approvals/AP-0107/draft",
+   "response": {
+    "error": "conflict",
+    "reason": "Write the message first, or deny the card."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "draft": "x"
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/approvals/AP-0109/draft",
+   "response": {
+    "error": "conflict",
+    "reason": "This card has no draft to edit."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "included": false
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "approvals",
+       "today",
+       "platform",
+       "chat",
+       "work"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/approvals/AP-0111/batch/B-3",
+   "response": {
+    "approval_class": "P",
+    "batch": [
+     {
+      "id": "B-1",
+      "included": true,
+      "recipient": "Unit A tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-2",
+      "included": true,
+      "recipient": "Unit B tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-3",
+      "included": false,
+      "recipient": "Unit C tenant",
+      "summary": "Rent reminder · lease ends Jan"
+     }
+    ],
+    "contact_id": null,
+    "data_class": "internal",
+    "decided_note": null,
+    "department": "personal",
+    "domain": "Rental",
+    "draft": null,
+    "employee_name": "Keystone",
+    "expires_at": "2026-10-27T16:00:00Z",
+    "id": "AP-0111",
+    "needs_step_up": false,
+    "pipeline": "Personal ops",
+    "principal": "Owner",
+    "recipient": null,
+    "recipient_trust": null,
+    "release": null,
+    "state": "pending",
+    "summary": "3 messages · rent is due Dec 1",
+    "tier": "T3",
+    "title": "Send December rent reminders",
+    "undo_until": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "included": false
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "approvals",
+       "today",
+       "platform",
+       "chat",
+       "work"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/approvals/AP-0111/batch/B-2",
+   "response": {
+    "approval_class": "P",
+    "batch": [
+     {
+      "id": "B-1",
+      "included": true,
+      "recipient": "Unit A tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-2",
+      "included": false,
+      "recipient": "Unit B tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-3",
+      "included": false,
+      "recipient": "Unit C tenant",
+      "summary": "Rent reminder · lease ends Jan"
+     }
+    ],
+    "contact_id": null,
+    "data_class": "internal",
+    "decided_note": null,
+    "department": "personal",
+    "domain": "Rental",
+    "draft": null,
+    "employee_name": "Keystone",
+    "expires_at": "2026-10-27T16:00:00Z",
+    "id": "AP-0111",
+    "needs_step_up": false,
+    "pipeline": "Personal ops",
+    "principal": "Owner",
+    "recipient": null,
+    "recipient_trust": null,
+    "release": null,
+    "state": "pending",
+    "summary": "3 messages · rent is due Dec 1",
+    "tier": "T3",
+    "title": "Send December rent reminders",
+    "undo_until": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "included": false
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/approvals/AP-0111/batch/B-1",
+   "response": {
+    "error": "conflict",
+    "reason": "Keep at least one message, or deny the card."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "included": false
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/approvals/AP-0111/batch/B-9",
+   "response": {
+    "error": "not_found",
+    "reason": "That message isn't on this card."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "decision": "approve"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "approvals",
+       "today",
+       "platform",
+       "chat",
+       "work"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/approvals/AP-0111/decision",
+   "response": {
+    "approval_class": "P",
+    "batch": [
+     {
+      "id": "B-1",
+      "included": true,
+      "recipient": "Unit A tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-2",
+      "included": false,
+      "recipient": "Unit B tenant",
+      "summary": "Rent reminder"
+     },
+     {
+      "id": "B-3",
+      "included": false,
+      "recipient": "Unit C tenant",
+      "summary": "Rent reminder · lease ends Jan"
+     }
+    ],
+    "contact_id": null,
+    "data_class": "internal",
+    "decided_note": "Approved · Keystone is sending 1 of 3",
+    "department": "personal",
+    "domain": "Rental",
+    "draft": null,
+    "employee_name": "Keystone",
+    "expires_at": "2026-10-27T16:00:00Z",
+    "id": "AP-0111",
+    "needs_step_up": false,
+    "pipeline": "Personal ops",
+    "principal": "Owner",
+    "recipient": null,
+    "recipient_trust": null,
+    "release": null,
+    "state": "approved",
+    "summary": "3 messages · rent is due Dec 1",
+    "tier": "T3",
+    "title": "Send December rent reminders",
+    "undo_until": "2026-10-25T16:00:17Z"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "included": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/approvals/AP-0111/batch/B-2",
+   "response": {
+    "error": "conflict",
+    "reason": "This card was already decided."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/approvals/AP-0109/allow-recipient",
+   "response": {
+    "error": "conflict",
+    "reason": "This recipient isn't a saved contact. Add them on Contacts first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/approvals/AP-0107/allow-recipient",
+   "response": {
+    "error": "conflict",
+    "reason": "This recipient isn't a saved contact. Add them on Contacts first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/approvals/AP-0108/allow-recipient",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Always allowing Unit B tenant needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id43"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id43",
+    "challenge": "id43"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id44"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "approvals",
+       "today",
+       "platform",
+       "chat",
+       "work",
+       "contacts",
+       "security"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/approvals/AP-0108/allow-recipient",
+   "response": {
+    "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-02",
+    "data_class": "restricted",
+    "decided_note": null,
+    "department": "personal",
+    "domain": "Rental",
+    "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+    "employee_name": "Keystone",
+    "expires_at": "2026-10-26T12:00:00Z",
+    "id": "AP-0108",
+    "needs_step_up": true,
+    "pipeline": "Personal ops",
+    "principal": "Owner",
+    "recipient": "Unit B tenant",
+    "recipient_trust": "allowlisted",
+    "release": null,
+    "state": "pending",
+    "summary": "New recipient · attachment: receipt-2026-10.pdf",
+    "tier": "T2",
+    "title": "Send October rent receipt",
+    "undo_until": null
+   },
+   "status": 200,
+   "step_up": "id44"
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/approvals/AP-0108/allow-recipient",
+   "response": {
+    "error": "conflict",
+    "reason": "Unit B tenant is already allowlisted."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/approvals",
+   "response": [
+    {
+     "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-01",
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "personal",
+     "domain": "Calendar and admin",
+     "draft": "Hi, Tuesday at 10:30 works.",
+     "employee_name": "Chrono",
+     "expires_at": "2026-10-25T22:00:00Z",
+     "id": "AP-0107",
+     "needs_step_up": false,
+     "pipeline": "Personal ops",
+     "principal": "Owner",
+     "recipient": "front.desk@[clinic domain]",
+     "recipient_trust": "allowlisted",
+     "release": null,
+     "state": "pending",
+     "summary": "Confirm Tuesday at 10:30 · from your Gmail",
+     "tier": "T2",
+     "title": "Reply to Dr. Patel's office",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-02",
+     "data_class": "restricted",
+     "decided_note": null,
+     "department": "personal",
+     "domain": "Rental",
+     "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+     "employee_name": "Keystone",
+     "expires_at": "2026-10-26T12:00:00Z",
+     "id": "AP-0108",
+     "needs_step_up": true,
+     "pipeline": "Personal ops",
+     "principal": "Owner",
+     "recipient": "Unit B tenant",
+     "recipient_trust": "allowlisted",
+     "release": null,
+     "state": "pending",
+     "summary": "New recipient · attachment: receipt-2026-10.pdf",
+     "tier": "T2",
+     "title": "Send October rent receipt",
+     "undo_until": null
+    },
+    {
+     "approval_class": "R",
+     "batch": null,
+     "contact_id": null,
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "engineering",
+     "domain": "Development",
+     "draft": null,
+     "employee_name": "Liftoff",
+     "expires_at": "2026-10-31T16:00:00Z",
+     "id": "AP-0109",
+     "needs_step_up": false,
+     "pipeline": "Development",
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": {
+      "added_lines": 412,
+      "checks_passed": 14,
+      "checks_total": 14,
+      "files": 9,
+      "removed_lines": 96,
+      "rollback": "One step to 1.1.4"
+     },
+     "state": "pending",
+     "summary": "R2 · gate G7",
+     "tier": null,
+     "title": "Release Lease Reminders 1.2",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-05",
+     "data_class": "restricted",
+     "decided_note": "Approved · Pulse is sending",
+     "department": "personal",
+     "domain": "Health",
+     "draft": "Hello, could you confirm whether the pharmacy on Elm Street is in network for my plan? Thank you.",
+     "employee_name": "Pulse",
+     "expires_at": "2026-10-26T16:00:00Z",
+     "id": "AP-0110",
+     "needs_step_up": true,
+     "pipeline": "Personal ops",
+     "principal": "Dad",
+     "recipient": "Insurer member services",
+     "recipient_trust": "known",
+     "release": null,
+     "state": "approved",
+     "summary": "New recipient · asks to confirm in-network status for one pharmacy",
+     "tier": "T3",
+     "title": "Email the insurer from Dad's account",
+     "undo_until": "2026-10-25T16:00:08Z"
+    },
+    {
+     "approval_class": "P",
+     "batch": [
+      {
+       "id": "B-1",
+       "included": true,
+       "recipient": "Unit A tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-2",
+       "included": false,
+       "recipient": "Unit B tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-3",
+       "included": false,
+       "recipient": "Unit C tenant",
+       "summary": "Rent reminder · lease ends Jan"
+      }
+     ],
+     "contact_id": null,
+     "data_class": "internal",
+     "decided_note": "Approved · Keystone is sending 1 of 3",
+     "department": "personal",
+     "domain": "Rental",
+     "draft": null,
+     "employee_name": "Keystone",
+     "expires_at": "2026-10-27T16:00:00Z",
+     "id": "AP-0111",
+     "needs_step_up": false,
+     "pipeline": "Personal ops",
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": null,
+     "state": "approved",
+     "summary": "3 messages · rent is due Dec 1",
+     "tier": "T3",
+     "title": "Send December rent reminders",
+     "undo_until": "2026-10-25T16:00:17Z"
+    }
+   ],
+   "status": 200,
+   "step_up": null
+  },
+  {
    "advance": 25200
   },
   {
@@ -13418,6 +15524,8 @@
     "needs_you": [
      {
       "approval_class": "P",
+      "batch": null,
+      "contact_id": "C-02",
       "data_class": "restricted",
       "decided_note": null,
       "department": "personal",
@@ -13427,18 +15535,21 @@
       "expires_at": "2026-10-26T12:00:00Z",
       "id": "AP-0108",
       "needs_step_up": true,
+      "pipeline": "Personal ops",
       "principal": "Owner",
       "recipient": "Unit B tenant",
-      "recipient_trust": "known",
+      "recipient_trust": "allowlisted",
       "release": null,
       "state": "pending",
       "summary": "New recipient · attachment: receipt-2026-10.pdf",
-      "tier": "T3",
+      "tier": "T2",
       "title": "Send October rent receipt",
       "undo_until": null
      },
      {
       "approval_class": "R",
+      "batch": null,
+      "contact_id": null,
       "data_class": "internal",
       "decided_note": null,
       "department": "engineering",
@@ -13448,6 +15559,7 @@
       "expires_at": "2026-10-31T16:00:00Z",
       "id": "AP-0109",
       "needs_step_up": false,
+      "pipeline": "Development",
       "principal": "Owner",
       "recipient": null,
       "recipient_trust": null,
@@ -13717,6 +15829,8 @@
    "response": [
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-02",
      "data_class": "restricted",
      "decided_note": null,
      "department": "personal",
@@ -13726,18 +15840,21 @@
      "expires_at": "2026-10-26T12:00:00Z",
      "id": "AP-0108",
      "needs_step_up": true,
+     "pipeline": "Personal ops",
      "principal": "Owner",
      "recipient": "Unit B tenant",
-     "recipient_trust": "known",
+     "recipient_trust": "allowlisted",
      "release": null,
      "state": "pending",
      "summary": "New recipient · attachment: receipt-2026-10.pdf",
-     "tier": "T3",
+     "tier": "T2",
      "title": "Send October rent receipt",
      "undo_until": null
     },
     {
      "approval_class": "R",
+     "batch": null,
+     "contact_id": null,
      "data_class": "internal",
      "decided_note": null,
      "department": "engineering",
@@ -13747,6 +15864,7 @@
      "expires_at": "2026-10-31T16:00:00Z",
      "id": "AP-0109",
      "needs_step_up": false,
+     "pipeline": "Development",
      "principal": "Owner",
      "recipient": null,
      "recipient_trust": null,
@@ -13766,15 +15884,18 @@
     },
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-01",
      "data_class": "internal",
      "decided_note": "Expired · nothing was sent",
      "department": "personal",
      "domain": "Calendar and admin",
-     "draft": "Hi, confirming Tuesday at 10:30. Thank you!",
+     "draft": "Hi, Tuesday at 10:30 works.",
      "employee_name": "Chrono",
      "expires_at": "2026-10-25T22:00:00Z",
      "id": "AP-0107",
      "needs_step_up": false,
+     "pipeline": "Personal ops",
      "principal": "Owner",
      "recipient": "front.desk@[clinic domain]",
      "recipient_trust": "allowlisted",
@@ -13787,6 +15908,8 @@
     },
     {
      "approval_class": "P",
+     "batch": null,
+     "contact_id": "C-05",
      "data_class": "restricted",
      "decided_note": "Approved · Pulse is sending",
      "department": "personal",
@@ -13796,6 +15919,7 @@
      "expires_at": "2026-10-26T16:00:00Z",
      "id": "AP-0110",
      "needs_step_up": true,
+     "pipeline": "Personal ops",
      "principal": "Dad",
      "recipient": "Insurer member services",
      "recipient_trust": "known",
@@ -13805,6 +15929,49 @@
      "tier": "T3",
      "title": "Email the insurer from Dad's account",
      "undo_until": "2026-10-25T16:00:08Z"
+    },
+    {
+     "approval_class": "P",
+     "batch": [
+      {
+       "id": "B-1",
+       "included": true,
+       "recipient": "Unit A tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-2",
+       "included": false,
+       "recipient": "Unit B tenant",
+       "summary": "Rent reminder"
+      },
+      {
+       "id": "B-3",
+       "included": false,
+       "recipient": "Unit C tenant",
+       "summary": "Rent reminder · lease ends Jan"
+      }
+     ],
+     "contact_id": null,
+     "data_class": "internal",
+     "decided_note": "Approved · Keystone is sending 1 of 3",
+     "department": "personal",
+     "domain": "Rental",
+     "draft": null,
+     "employee_name": "Keystone",
+     "expires_at": "2026-10-27T16:00:00Z",
+     "id": "AP-0111",
+     "needs_step_up": false,
+     "pipeline": "Personal ops",
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": null,
+     "state": "approved",
+     "summary": "3 messages · rent is due Dec 1",
+     "tier": "T3",
+     "title": "Send December rent reminders",
+     "undo_until": "2026-10-25T16:00:17Z"
     }
    ],
    "status": 200,
@@ -14027,6 +16194,8 @@
    "path": "/approvals/AP-0108/decision",
    "response": {
     "approval_class": "P",
+    "batch": null,
+    "contact_id": "C-02",
     "data_class": "restricted",
     "decided_note": "Denied · Keystone notified",
     "department": "personal",
@@ -14036,13 +16205,14 @@
     "expires_at": "2026-10-26T12:00:00Z",
     "id": "AP-0108",
     "needs_step_up": true,
+    "pipeline": "Personal ops",
     "principal": "Owner",
     "recipient": "Unit B tenant",
-    "recipient_trust": "known",
+    "recipient_trust": "allowlisted",
     "release": null,
     "state": "denied",
     "summary": "New recipient · attachment: receipt-2026-10.pdf",
-    "tier": "T3",
+    "tier": "T2",
     "title": "Send October rent receipt",
     "undo_until": "2026-10-25T23:00:17Z"
    },
@@ -14375,6 +16545,8 @@
     "needs_you": [
      {
       "approval_class": "R",
+      "batch": null,
+      "contact_id": null,
       "data_class": "internal",
       "decided_note": null,
       "department": "engineering",
@@ -14384,6 +16556,7 @@
       "expires_at": "2026-10-31T16:00:00Z",
       "id": "AP-0109",
       "needs_step_up": false,
+      "pipeline": "Development",
       "principal": "Owner",
       "recipient": null,
       "recipient_trust": null,
@@ -14639,6 +16812,242 @@
        "status": "healthy"
       },
       "value": "1 min ago"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "advance": 604800
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "contacts"
+      ]
+     }
+    }
+   ],
+   "method": "GET",
+   "path": "/contacts",
+   "response": {
+    "accounts": [
+     {
+      "id": "A-01",
+      "kind": "account",
+      "label": "Personal Gmail"
+     },
+     {
+      "id": "A-02",
+      "kind": "account",
+      "label": "Work Outlook"
+     },
+     {
+      "id": "A-03",
+      "kind": "account",
+      "label": "Chase checking"
+     },
+     {
+      "id": "A-04",
+      "kind": "account",
+      "label": "Mom's Gmail"
+     },
+     {
+      "id": "A-05",
+      "kind": "account",
+      "label": "Mom's Medicare portal"
+     },
+     {
+      "id": "A-06",
+      "kind": "account",
+      "label": "Dad's Gmail"
+     },
+     {
+      "id": "A-07",
+      "kind": "account",
+      "label": "Dad's insurer portal"
+     },
+     {
+      "id": "K-01",
+      "kind": "calendar",
+      "label": "Your calendar"
+     },
+     {
+      "id": "K-02",
+      "kind": "calendar",
+      "label": "Family calendar"
+     },
+     {
+      "id": "K-03",
+      "kind": "calendar",
+      "label": "Mom's calendar"
+     },
+     {
+      "id": "K-04",
+      "kind": "calendar",
+      "label": "Dad's calendar"
+     }
+    ],
+    "contacts": [
+     {
+      "area": "Rental",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "unit.b@[tenant domain]"
+       },
+       {
+        "kind": "text",
+        "value": "(555) 010-4410"
+       }
+      ],
+      "id": "C-02",
+      "linked_accounts": [
+       "Personal Gmail"
+      ],
+      "meta": "Rental · email, text",
+      "name": "Unit B tenant",
+      "principal": "owner",
+      "trust": "allowlisted"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-03",
+      "linked_accounts": [
+       "Personal Gmail",
+       "Chase checking"
+      ],
+      "meta": "Pets · phone",
+      "name": "A-1 Plumbing",
+      "principal": "owner",
+      "trust": "blocked"
+     },
+     {
+      "area": "Health",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "members@[insurer domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-9000"
+       },
+       {
+        "kind": "email",
+        "value": "front.desk@[clinic domain]"
+       },
+       {
+        "kind": "phone",
+        "value": "(555) 010-2231"
+       }
+      ],
+      "id": "C-05",
+      "linked_accounts": [
+       "Dad's Gmail",
+       "Dad's insurer portal",
+       "Personal Gmail"
+      ],
+      "meta": "Health · Dad · email, phone",
+      "name": "Insurer member services",
+      "principal": "dad",
+      "trust": "known"
+     },
+     {
+      "area": "Mail",
+      "channels": [
+       {
+        "kind": "email",
+        "value": "deals@[promo domain]"
+       }
+      ],
+      "id": "C-06",
+      "linked_accounts": [],
+      "meta": "Mail · email",
+      "name": "Promo sender",
+      "principal": "owner",
+      "trust": "blocked"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-id26",
+      "linked_accounts": [],
+      "meta": "Pets · phone",
+      "name": "Northside Vet",
+      "principal": "owner",
+      "trust": "known"
+     },
+     {
+      "area": "Pets",
+      "channels": [
+       {
+        "kind": "phone",
+        "value": "(555) 010-3300"
+       }
+      ],
+      "id": "C-id29",
+      "linked_accounts": [],
+      "meta": "Pets · phone",
+      "name": "Northside Vet",
+      "principal": "owner",
+      "trust": "allowlisted"
+     }
+    ],
+    "household": [
+     {
+      "accounts": [
+       "A-01",
+       "A-02",
+       "A-03"
+      ],
+      "calendars": [
+       "K-01",
+       "K-02"
+      ],
+      "id": "owner",
+      "meta": "Owner · 3 accounts · 2 calendars",
+      "name": "You",
+      "removal": null,
+      "role": "owner"
+     },
+     {
+      "accounts": [
+       "A-06"
+      ],
+      "calendars": [
+       "K-04"
+      ],
+      "id": "dad",
+      "meta": "Principal · 1 account · 1 calendar",
+      "name": "Dad",
+      "removal": null,
+      "role": "principal"
+     },
+     {
+      "accounts": [],
+      "calendars": [],
+      "id": "P-id34",
+      "meta": "Principal · 0 accounts · 0 calendars",
+      "name": "Grandma",
+      "removal": null,
+      "role": "principal"
      }
     ]
    },

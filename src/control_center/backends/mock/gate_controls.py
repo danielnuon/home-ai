@@ -1,48 +1,16 @@
 """The mock gate's controls over people and machinery.
 
-Contacts, employees, proposals, services and restores. Each loosening one asks for a step-up.
+Employees, proposals, services and restores. Each loosening one asks for a step-up.
 """
 
 from control_center.backends.errors import ConflictError, NotFoundError
-from control_center.backends.mock import setting_rules
-from control_center.backends.mock.fixtures import gate as gate_fixtures
 from control_center.backends.mock.fixtures import platform as platform_fixtures
 from control_center.backends.mock.gate_step_up import StepUpDesk
-from control_center.contract.personal import Contact, ContactsOverview, TrustChange
 from control_center.contract.work import ProposalDecision
 
 
 class GateControls(StepUpDesk):
-    """The contacts, employees, proposals, services and restore part of `ApprovalGate`."""
-
-    def contacts(self) -> ContactsOverview:
-        """Household principals and contacts."""
-        return ContactsOverview(
-            household=gate_fixtures.household(), contacts=list(self._world.contacts.values())
-        )
-
-    def set_trust(self, contact_id: str, change: TrustChange, step_up: str | None) -> Contact:
-        """Change a contact's trust; more trust needs a step-up.
-
-        Args:
-            contact_id: The contact.
-            change: The new trust level.
-            step_up: A proof from `verify_step_up`, needed only when the change loosens something.
-
-        Returns:
-            The contact with its new trust.
-
-        Raises:
-            NotFoundError: No such contact.
-        """
-        contact = self._world.contacts.get(contact_id)
-        if contact is None:
-            raise NotFoundError("That contact no longer exists.")
-        if setting_rules.is_trust_loosening(contact.trust, change.trust):
-            self._require_step_up(step_up, f"Trusting {contact.name} more needs your passkey.")
-        contact.trust = change.trust
-        self._world.bus.changed("contacts", "security")
-        return contact
+    """The employees, proposals, services and restore part of `ApprovalGate`."""
 
     def set_employee_enabled(self, employee_id: str, enabled: bool, step_up: str | None) -> None:
         """Enable or disable an employee.

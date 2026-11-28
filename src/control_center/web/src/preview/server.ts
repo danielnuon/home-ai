@@ -6,6 +6,7 @@
 import * as engine from "./engine";
 import { MockError, notFound } from "./errors";
 import * as gate from "./gate";
+import * as people from "./people";
 import * as chat from "./chat";
 import * as memory from "./memory";
 import * as shell from "./shell";
@@ -27,6 +28,8 @@ type Handler = (world: MockWorld, call: Call) => unknown;
 const NO_CONTENT = Symbol("no content");
 
 const str = (value: unknown) => (typeof value === "string" ? value : "");
+const list = (value: unknown) =>
+  Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
 const p = (call: Call, name: string) => call.params[name] ?? "";
 const convo = (call: Call) => ({ lead: p(call, "id"), thread: p(call, "thread") });
 const running = (world: MockWorld) =>
@@ -42,7 +45,8 @@ const GET: Record<string, Handler> = {
     settings: Object.values(w.settings),
     hard_limits: w.fixtures.hard_limits,
   }),
-  "/contacts": (w) => ({ household: w.fixtures.household, contacts: Object.values(w.contacts) }),
+  "/contacts": (w) => people.contactsOverview(w),
+  "/contacts/:id": (w, c) => people.contactDetail(w, p(c, "id")),
   "/live": (w) => work.liveTasks(w),
   "/live/:id": (w, c) => work.taskDetail(w, p(c, "id")),
   "/work": (w) => work.workBoard(w),
@@ -89,6 +93,14 @@ const POST: Record<string, Handler> = {
   },
   "/approvals/:id/decision": (w, c) => gate.decide(w, p(c, "id"), str(c.body.decision), c.stepUp),
   "/approvals/:id/undo": (w, c) => gate.undoDecision(w, p(c, "id")),
+  "/approvals/:id/allow-recipient": (w, c) => gate.allowRecipient(w, p(c, "id"), c.stepUp),
+  "/contacts": (w, c) => people.addContact(w, c.body, c.stepUp),
+  "/contacts/:id/merge": (w, c) => people.mergeContact(w, p(c, "id"), str(c.body.into)),
+  "/contacts/:id/remove": (w, c) => people.removeContact(w, p(c, "id")),
+  "/principals": (w, c) => people.addPrincipal(w, str(c.body.name), c.stepUp),
+  "/principals/:id/remove": (w, c) =>
+    people.removePrincipal(w, p(c, "id"), str(c.body.keep), c.stepUp),
+  "/principals/:id/undo-remove": (w, c) => people.undoRemovePrincipal(w, p(c, "id")),
   "/decisions/:id/acknowledge": (w, c) => gate.acknowledge(w, p(c, "id")),
   "/decisions/:id/veto": (w, c) =>
     gate.veto(w, p(c, "id"), typeof c.body.reason === "string" ? c.body.reason : null),
@@ -163,8 +175,14 @@ const POST: Record<string, Handler> = {
 
 const PUT: Record<string, Handler> = {
   "/settings/:key": (w, c) => gate.changeSetting(w, p(c, "key"), str(c.body.value), c.stepUp),
+  "/contacts/:id": (w, c) => people.editContact(w, p(c, "id"), c.body, c.stepUp),
   "/contacts/:id/trust": (w, c) =>
-    gate.setTrust(w, p(c, "id"), str(c.body.trust) as "known", c.stepUp),
+    people.setTrust(w, p(c, "id"), str(c.body.trust) as "known", c.stepUp),
+  "/principals/:id/accounts": (w, c) =>
+    people.mapPrincipal(w, p(c, "id"), list(c.body.accounts), list(c.body.calendars), c.stepUp),
+  "/approvals/:id/draft": (w, c) => gate.editDraft(w, p(c, "id"), str(c.body.draft)),
+  "/approvals/:id/batch/:message": (w, c) =>
+    gate.toggleBatchMessage(w, p(c, "id"), p(c, "message"), c.body.included === true),
   "/directory/:id/enabled": (w, c) => {
     gate.setEmployeeEnabled(w, p(c, "id"), c.body.enabled === true, c.stepUp);
     return NO_CONTENT;

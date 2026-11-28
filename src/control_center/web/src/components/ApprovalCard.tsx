@@ -4,7 +4,11 @@
  * Approve and Deny show their effect at once with an 8-second Undo (spec 7.4). Deny takes an
  * optional reason that goes back to the employee (7.16, rule 4). An approval that lapses says that
  * nothing will happen: approvals wait, they are never approved by timeout (rule 8).
+ *
+ * While it waits, the Owner can reword the draft, untick messages in a batch, and allowlist a
+ * recipient who isn't yet ("Always allow this contact", a step-up, rule 4) (spec 7.2, Approvals).
  */
+import { Pencil, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
@@ -93,6 +97,121 @@ function ApprovalActions({ approval }: { approval: Approval }) {
   );
 }
 
+/** The draft, and while the card waits, a way to reword it before approving. */
+function Draft({ approval, pending }: { approval: Approval; pending: boolean }) {
+  const [editing, setEditing] = useState(false);
+  const [text, setText] = useState(approval.draft ?? "");
+  const save = useAction<Approval>({ refresh: ["approvals"], done: () => "Draft saved" });
+  const submit = async () => {
+    const saved = await save.run(() =>
+      send<Approval>("PUT", `/approvals/${approval.id}/draft`, { draft: text }),
+    );
+    if (saved) setEditing(false);
+  };
+  if (approval.draft === null || approval.draft === undefined) return null;
+  return (
+    <Swap id={editing ? "editing" : "reading"} className="stack">
+      {editing ? (
+        <>
+          <textarea
+            className="field draft-field"
+            aria-label={`Draft for ${approval.title}`}
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+          />
+          <div className="row">
+            <button
+              type="button"
+              className="btn primary"
+              disabled={save.busy}
+              onClick={() => void submit()}
+            >
+              Save draft
+            </button>
+            <button type="button" className="btn ghost" onClick={() => setEditing(false)}>
+              Cancel
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <blockquote className="draft">{approval.draft}</blockquote>
+          {pending && (
+            <button
+              type="button"
+              className="btn compact"
+              onClick={() => {
+                setText(approval.draft ?? "");
+                setEditing(true);
+              }}
+            >
+              <Pencil size={16} aria-hidden="true" /> Edit draft
+            </button>
+          )}
+        </>
+      )}
+    </Swap>
+  );
+}
+
+/** A batch's messages, each with a tick; approving sends only the ticked ones. */
+function Batch({ approval, pending }: { approval: Approval; pending: boolean }) {
+  const toggle = useAction<Approval>({ refresh: ["approvals"] });
+  if (!approval.batch?.length) return null;
+  const sent = approval.batch.filter((message) => message.included).length;
+  return (
+    <fieldset className="stack batch" style={{ ["--gap" as string]: "var(--space-1)" }}>
+      <legend className="small muted">
+        Sending {sent} of {approval.batch.length}
+      </legend>
+      {approval.batch.map((message) => (
+        <label key={message.id} className="row check-row">
+          <input
+            type="checkbox"
+            checked={message.included}
+            disabled={!pending || toggle.busy}
+            onChange={(event) =>
+              void toggle.run(() =>
+                send<Approval>("PUT", `/approvals/${approval.id}/batch/${message.id}`, {
+                  included: event.target.checked,
+                }),
+              )
+            }
+          />
+          <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
+            <span>{message.recipient}</span>
+            <span className="muted small">{message.summary}</span>
+          </span>
+        </label>
+      ))}
+    </fieldset>
+  );
+}
+
+/** "Always allow this contact", on a card to a saved contact who isn't allowlisted yet. */
+function AllowRecipient({ approval }: { approval: Approval }) {
+  const allow = useAction<Approval>({
+    refresh: ["approvals", "contacts"],
+    done: (card) => `${card.recipient ?? "This contact"} is allowlisted`,
+  });
+  if (!approval.contact_id || !approval.recipient_trust) return null;
+  if (approval.recipient_trust === "allowlisted") return null;
+  return (
+    <button
+      type="button"
+      className="btn compact"
+      disabled={allow.busy}
+      onClick={() =>
+        void allow.run((proof) =>
+          send<Approval>("POST", `/approvals/${approval.id}/allow-recipient`, undefined, proof),
+        )
+      }
+    >
+      <ShieldCheck size={16} aria-hidden="true" /> Always allow this contact
+    </button>
+  );
+}
+
 /** One request and, while it is pending, the Owner's answer. */
 export function ApprovalCard({ approval }: { approval: Approval }) {
   const pending = approval.state === "pending";
@@ -114,8 +233,10 @@ export function ApprovalCard({ approval }: { approval: Approval }) {
         <span className="tag">{approval.data_class}</span>
       </div>
       <p className="small">{approval.summary}</p>
-      {approval.draft && <blockquote className="draft">{approval.draft}</blockquote>}
+      <Draft approval={approval} pending={pending} />
+      <Batch approval={approval} pending={pending} />
       {approval.release && <ReleaseLine release={approval.release} />}
+      {pending && <AllowRecipient approval={approval} />}
       <Swap id={pending ? "pending" : approval.state} className="stack">
         {pending ? (
           <ApprovalActions approval={approval} />

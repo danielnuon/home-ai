@@ -57,6 +57,9 @@ interface WorldState {
   decisions: Record<string, CriticalDecision>;
   settings: Record<string, Setting>;
   contacts: Record<string, Contact>;
+  household: Record<string, Schemas["HouseholdMember"]>;
+  /** Messages and approvals with each contact, newest first, by contact id. */
+  contact_history: Record<string, Schemas["ContactEvent"][]>;
   tasks: Record<string, LiveTask>;
   transcripts: Record<string, TranscriptEntry[]>;
   threads: Record<string, ThreadRecord>;
@@ -86,7 +89,9 @@ export type PaidFeatureRow = [string, string, string, string, string];
 /** The read-only fixture views, with each variant a setting can select. */
 interface Fixtures {
   hard_limits: Schemas["SettingsIndex"]["hard_limits"];
-  household: Schemas["ContactsOverview"]["household"];
+  linkable_accounts: Schemas["LinkableAccount"][];
+  /** Personal rules that name a contact: id, title and the contacts they mention. */
+  contact_rules: [string, string, string[]][];
   service_groups: Schemas["ServiceGroup"][];
   memory_zones: Schemas["MemoryZone"][];
   health_metrics: Schemas["Metric"][];
@@ -170,6 +175,7 @@ interface Constants {
   snooze_seconds: number;
   app_features: string[];
   ark_volumes: string[];
+  principal_undo_days: number;
 }
 
 interface Exported {

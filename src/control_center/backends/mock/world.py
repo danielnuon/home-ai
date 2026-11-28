@@ -13,6 +13,7 @@ from typing import Any, Protocol
 
 from control_center.backends.mock.fixtures import (
     chat,
+    contacts,
     gate,
     memory,
     ops,
@@ -26,7 +27,8 @@ from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
 from control_center.contract.memory import MemoryItem
-from control_center.contract.personal import AutomaticChange, Case, Contact, SetupStep
+from control_center.contract.people import Contact, ContactEvent, HouseholdMember
+from control_center.contract.personal import AutomaticChange, Case, SetupStep
 from control_center.contract.shell import TrashItem
 from control_center.contract.status import Job, MaintenanceFix
 from control_center.contract.today import Alert, ChatMessage
@@ -57,6 +59,9 @@ class MockWorld:
     decisions: dict[str, CriticalDecision]
     settings: dict[str, Setting]
     contacts: dict[str, Contact]
+    household: dict[str, HouseholdMember]
+    contact_history: dict[str, list[ContactEvent]]
+    """Messages and approvals with each contact, newest first, by contact id."""
     tasks: dict[str, LiveTask]
     transcripts: dict[str, list[TranscriptEntry]]
     threads: dict[str, ThreadRecord]
@@ -123,7 +128,9 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         approvals=by_id(gate.approvals(now)),
         decisions=by_id(gate.decisions(now)),
         settings={setting.key: setting for setting in settings.settings(now)},
-        contacts=by_id(gate.contacts()),
+        contacts=by_id(contacts.contacts()),
+        household=by_id(contacts.household()),
+        contact_history=contacts.history(now),
         tasks=by_id(work.live_tasks(now)),
         transcripts=work.transcripts(),
         threads=by_id(thread_fixtures.threads()),

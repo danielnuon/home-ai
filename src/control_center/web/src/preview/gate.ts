@@ -1,11 +1,10 @@
 /**
  * @file The preview's approval gate: approvals, decisions, settings, the kill switch, the step-up
- * and the controls over people and machinery. A line-for-line port of `backends/mock/gate*.py`
+ * and the controls over employees and machinery. A line-for-line port of `backends/mock/gate*.py`
  * and `setting_rules.py`; the parity test holds the two to the same answers.
  */
 import type {
   Approval,
-  Contact,
   CriticalDecision,
   PlatformState,
   Setting,
@@ -17,7 +16,8 @@ import { isOn, setting, type MockWorld } from "./world";
 
 const APPROVAL_PAGES = ["approvals", "today", "platform", "chat", "work"];
 const DECISION_PAGES = ["decisions", "today", "platform"];
-const TRUST_ORDER: Trust[] = ["blocked", "unknown", "known", "allowlisted"];
+/** Contact trust from tightest to loosest; moving right loosens (spec 7.16, rule 10). */
+export const TRUST_ORDER: Trust[] = ["blocked", "unknown", "known", "allowlisted"];
 const OWNER_TIME_ZONE = "America/Los_Angeles";
 
 const later = (world: MockWorld, seconds: number) =>
@@ -103,7 +103,7 @@ export function decide(
   if (decision === "approve") {
     if (card.needs_step_up) requireStepUp(world, stepUp, stepUpReason(card));
     card.state = "approved";
-    card.decided_note = `Approved · ${card.employee_name} is sending`;
+    card.decided_note = `Approved · ${card.employee_name} is sending${batchPart(card)}`;
   } else {
     card.state = "denied";
     card.decided_note = `Denied · ${card.employee_name} notified`;
@@ -123,6 +123,72 @@ export function undoDecision(world: MockWorld, id: string): Approval {
   card.decided_note = null;
   card.undo_until = null;
   world.bus.changed(...APPROVAL_PAGES);
+  return card;
+}
+
+/** How many of a batch go out, when one was left out; nothing otherwise. */
+function batchPart(card: Approval): string {
+  if (!card.batch?.length) return "";
+  const sent = card.batch.filter((m) => m.included).length;
+  return sent === card.batch.length ? "" : ` ${sent} of ${card.batch.length}`;
+}
+
+/** A card that can still be changed, refusing one that was decided or lapsed. */
+function pendingCard(world: MockWorld, id: string): Approval {
+  const card = approval(world, id);
+  if (expireIfLapsed(card, world.clock())) world.bus.changed(...APPROVAL_PAGES);
+  if (card.state !== "pending") throw conflict("This card was already decided.");
+  return card;
+}
+
+/** Replaces a pending card's draft with the Owner's wording. */
+export function editDraft(world: MockWorld, id: string, draft: string): Approval {
+  const card = pendingCard(world, id);
+  if (card.draft === null || card.draft === undefined) {
+    throw conflict("This card has no draft to edit.");
+  }
+  if (!draft.trim()) throw conflict("Write the message first, or deny the card.");
+  card.draft = draft.trim();
+  world.bus.changed(...APPROVAL_PAGES);
+  return card;
+}
+
+/** Ticks or unticks one message of a batch card; approving sends only the ticked ones. */
+export function toggleBatchMessage(
+  world: MockWorld,
+  id: string,
+  messageId: string,
+  included: boolean,
+): Approval {
+  const card = pendingCard(world, id);
+  const message = (card.batch ?? []).find((m) => m.id === messageId);
+  if (!message) throw notFound("That message isn't on this card.");
+  const others = (card.batch ?? []).filter((m) => m.id !== messageId && m.included);
+  if (!included && others.length === 0) {
+    throw conflict("Keep at least one message, or deny the card.");
+  }
+  message.included = included;
+  world.bus.changed(...APPROVAL_PAGES);
+  return card;
+}
+
+/** Allowlists a card's recipient from the card itself. Needs a step-up. */
+export function allowRecipient(world: MockWorld, id: string, stepUp: string | null): Approval {
+  const card = pendingCard(world, id);
+  const contact = world.contacts[card.contact_id ?? ""];
+  if (!contact) {
+    throw conflict("This recipient isn't a saved contact. Add them on Contacts first.");
+  }
+  if (contact.trust === "allowlisted") throw conflict(`${contact.name} is already allowlisted.`);
+  requireStepUp(world, stepUp, `Always allowing ${contact.name} needs your passkey.`);
+  contact.trust = "allowlisted";
+  for (const other of Object.values(world.approvals)) {
+    if (other.contact_id === contact.id && other.state === "pending") {
+      other.recipient_trust = "allowlisted";
+      if (other.tier !== null && other.tier !== undefined) other.tier = "T2";
+    }
+  }
+  world.bus.changed(...APPROVAL_PAGES, "contacts", "security");
   return card;
 }
 
@@ -320,23 +386,6 @@ export function platformState(world: MockWorld, running: number): PlatformState 
 }
 
 // People and machinery -------------------------------------------------------------------------
-
-/** Changes a contact's trust; more trust needs a step-up. */
-export function setTrust(
-  world: MockWorld,
-  id: string,
-  trust: Trust,
-  stepUp: string | null,
-): Contact {
-  const contact = world.contacts[id];
-  if (!contact) throw notFound("That contact no longer exists.");
-  if (TRUST_ORDER.indexOf(trust) > TRUST_ORDER.indexOf(contact.trust)) {
-    requireStepUp(world, stepUp, `Trusting ${contact.name} more needs your passkey.`);
-  }
-  contact.trust = trust;
-  world.bus.changed("contacts", "security");
-  return contact;
-}
 
 /** Enables or disables an employee; enabling needs a step-up. */
 export function setEmployeeEnabled(

@@ -27,23 +27,35 @@ from control_center.contract.common import Metric, Principal
 from control_center.contract.gate import (
     Approval,
     ApprovalDecision,
+    BatchToggle,
     CriticalDecision,
+    DraftEdit,
     PlatformState,
     Setting,
     SettingsIndex,
     StepUpProof,
 )
 from control_center.contract.memory import MemoryKind, MemoryOverview
+from control_center.contract.people import (
+    Contact,
+    ContactDetail,
+    ContactDraft,
+    ContactMerge,
+    ContactRemoved,
+    ContactsOverview,
+    HouseholdMember,
+    PrincipalDraft,
+    PrincipalMapping,
+    PrincipalRemove,
+    TrustChange,
+)
 from control_center.contract.personal import (
     Case,
     CaseAction,
-    Contact,
-    ContactsOverview,
     FinanceOverview,
     PersonalOverview,
     SetupAction,
     SetupStep,
-    TrustChange,
 )
 from control_center.contract.shell import (
     ArkDriveStarted,
@@ -151,8 +163,62 @@ class ApprovalGate(Protocol):
         """Household principals and outside contacts with their trust levels."""
         ...
 
+    def contact_detail(self, contact_id: str) -> ContactDetail:
+        """One contact with its history and the drafts and rules that mention it."""
+        ...
+
+    def add_contact(self, draft: ContactDraft, step_up: str | None) -> Contact:
+        """Add a contact. Adding one already allowlisted needs a step-up."""
+        ...
+
+    def edit_contact(self, contact_id: str, draft: ContactDraft, step_up: str | None) -> Contact:
+        """Change a contact's details. Giving it more trust needs a step-up."""
+        ...
+
     def set_trust(self, contact_id: str, change: TrustChange, step_up: str | None) -> Contact:
         """Change a contact's trust. Allowlisting needs a step-up; removing does not."""
+        ...
+
+    def merge_contact(self, contact_id: str, merge: ContactMerge) -> Contact:
+        """Fold a contact into another, which keeps its trust. The merged one goes to the trash."""
+        ...
+
+    def remove_contact(self, contact_id: str) -> ContactRemoved:
+        """Send a contact to the 30-day trash."""
+        ...
+
+    def add_principal(self, draft: PrincipalDraft, step_up: str | None) -> HouseholdMember:
+        """Add a household principal. Always needs a step-up."""
+        ...
+
+    def map_principal(
+        self, principal_id: str, mapping: PrincipalMapping, step_up: str | None
+    ) -> HouseholdMember:
+        """Map accounts and calendars to a principal. Mapping anything new needs a step-up."""
+        ...
+
+    def remove_principal(
+        self, principal_id: str, remove: PrincipalRemove, step_up: str | None
+    ) -> HouseholdMember:
+        """Start removing a principal, with seven days of undo. Needs a step-up."""
+        ...
+
+    def undo_remove_principal(self, principal_id: str) -> HouseholdMember:
+        """Keep a principal whose removal hasn't become permanent."""
+        ...
+
+    def edit_draft(self, approval_id: str, edit: DraftEdit) -> Approval:
+        """Replace a pending card's draft with the Owner's wording."""
+        ...
+
+    def toggle_batch_message(
+        self, approval_id: str, message_id: str, toggle: BatchToggle
+    ) -> Approval:
+        """Tick or untick one message of a pending batch card."""
+        ...
+
+    def allow_recipient(self, approval_id: str, step_up: str | None) -> Approval:
+        """Allowlist a card's recipient from the card itself. Needs a step-up."""
         ...
 
     def set_employee_enabled(self, employee_id: str, enabled: bool, step_up: str | None) -> None:

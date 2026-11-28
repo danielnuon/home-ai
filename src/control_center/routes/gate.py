@@ -1,4 +1,4 @@
-"""Approvals, decisions, settings, contacts and gated controls, all forwarded to the gate."""
+"""Approvals, decisions, settings and gated controls, all forwarded to the gate."""
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -6,13 +6,14 @@ from pydantic import BaseModel
 from control_center.contract.gate import (
     Approval,
     ApprovalDecision,
+    BatchToggle,
     CriticalDecision,
+    DraftEdit,
     Setting,
     SettingsIndex,
     SettingUpdate,
     VetoRequest,
 )
-from control_center.contract.personal import Contact, ContactsOverview, TrustChange
 from control_center.routes import BackendsDep, StepUp
 
 router = APIRouter()
@@ -49,6 +50,26 @@ def decide(
 def undo_decision(approval_id: str, backends: BackendsDep) -> Approval:
     """Take back a decision while the gate is holding its action."""
     return backends.gate.undo_decision(approval_id)
+
+
+@router.put("/approvals/{approval_id}/draft")
+def edit_draft(approval_id: str, body: DraftEdit, backends: BackendsDep) -> Approval:
+    """Replace a pending card's draft with the Owner's wording."""
+    return backends.gate.edit_draft(approval_id, body)
+
+
+@router.put("/approvals/{approval_id}/batch/{message_id}")
+def toggle_batch_message(
+    approval_id: str, message_id: str, body: BatchToggle, backends: BackendsDep
+) -> Approval:
+    """Tick or untick one message of a batch card."""
+    return backends.gate.toggle_batch_message(approval_id, message_id, body)
+
+
+@router.post("/approvals/{approval_id}/allow-recipient")
+def allow_recipient(approval_id: str, backends: BackendsDep, step_up: StepUp = None) -> Approval:
+    """Allowlist the card's recipient from the card ("Always allow this contact")."""
+    return backends.gate.allow_recipient(approval_id, step_up)
 
 
 @router.get("/decisions")
@@ -93,20 +114,6 @@ def change_setting(
 def revert_setting(key: str, backends: BackendsDep, step_up: StepUp = None) -> Setting:
     """Return a setting to its previous value."""
     return backends.gate.revert_setting(key, step_up)
-
-
-@router.get("/contacts")
-def contacts(backends: BackendsDep) -> ContactsOverview:
-    """Household principals and contacts."""
-    return backends.gate.contacts()
-
-
-@router.put("/contacts/{contact_id}/trust")
-def set_trust(
-    contact_id: str, body: TrustChange, backends: BackendsDep, step_up: StepUp = None
-) -> Contact:
-    """Change a contact's trust level."""
-    return backends.gate.set_trust(contact_id, body, step_up)
 
 
 @router.post("/services/{service_id}/restart", status_code=204)

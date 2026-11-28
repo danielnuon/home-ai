@@ -13,6 +13,7 @@ from control_center.backends.mock import setting_rules
 from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
+from control_center.backends.mock.gate_people import PeopleDesk
 from control_center.backends.mock.gate_shell import ShellControls
 from control_center.backends.mock.world import MockWorld
 from control_center.config import OWNER_TIME_ZONE
@@ -20,6 +21,8 @@ from control_center.contract.common import StatusLabel
 from control_center.contract.gate import (
     Approval,
     ApprovalDecision,
+    BatchToggle,
+    DraftEdit,
     PlatformState,
     Setting,
     SettingChange,
@@ -36,11 +39,12 @@ APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 """The resources that show approval cards, or a thread waiting on one."""
 
 
-class MockApprovalGate(DecisionLedger, GateControls, ShellControls):
+class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 
     Approvals, settings and the kill switch are here. Critical decisions are in `DecisionLedger`,
-    the controls over people and machinery in `GateControls`, alerts and the Ark drive in
+    contacts and principals in `PeopleDesk`, the controls over employees and machinery in
+    `GateControls`, alerts and the Ark drive in
     `ShellControls`, and the step-up in `StepUpDesk`.
     """
 
@@ -88,7 +92,9 @@ class MockApprovalGate(DecisionLedger, GateControls, ShellControls):
             if approval.needs_step_up:
                 self._require_step_up(step_up, _step_up_reason(approval))
             approval.state = "approved"
-            approval.decided_note = f"Approved · {approval.employee_name} is sending"
+            approval.decided_note = (
+                f"Approved · {approval.employee_name} is sending{_batch_part(approval)}"
+            )
             approval.undo_until = self._world.clock() + UNDO_WINDOW
         else:
             approval.state = "denied"
@@ -117,6 +123,97 @@ class MockApprovalGate(DecisionLedger, GateControls, ShellControls):
         approval.decided_note = None
         approval.undo_until = None
         self._world.bus.changed(*APPROVAL_PAGES)
+        return approval
+
+    def _pending(self, approval_id: str) -> Approval:
+        """A card that can still be changed, refusing one that was decided or lapsed."""
+        approval = self._approval(approval_id)
+        if _expire_if_lapsed(approval, self._world.clock()):
+            self._world.bus.changed(*APPROVAL_PAGES)
+        if approval.state != "pending":
+            raise ConflictError("This card was already decided.")
+        return approval
+
+    def edit_draft(self, approval_id: str, edit: DraftEdit) -> Approval:
+        """Replace a pending card's draft with the Owner's wording (spec 7.2, Approvals).
+
+        Args:
+            approval_id: The approval card.
+            edit: The new wording.
+
+        Returns:
+            The card with its new draft.
+
+        Raises:
+            ConflictError: The card has no draft, or the new one is empty.
+        """
+        approval = self._pending(approval_id)
+        if approval.draft is None:
+            raise ConflictError("This card has no draft to edit.")
+        if not edit.draft.strip():
+            raise ConflictError("Write the message first, or deny the card.")
+        approval.draft = edit.draft.strip()
+        self._world.bus.changed(*APPROVAL_PAGES)
+        return approval
+
+    def toggle_batch_message(
+        self, approval_id: str, message_id: str, toggle: BatchToggle
+    ) -> Approval:
+        """Tick or untick one message of a batch card; approving sends only the ticked ones.
+
+        Args:
+            approval_id: The approval card.
+            message_id: The message in its batch.
+            toggle: Whether to send it.
+
+        Returns:
+            The card with its batch as it is now.
+
+        Raises:
+            NotFoundError: No such message on the card.
+            ConflictError: Unticking it would leave nothing to send.
+        """
+        approval = self._pending(approval_id)
+        message = next((m for m in approval.batch or [] if m.id == message_id), None)
+        if message is None:
+            raise NotFoundError("That message isn't on this card.")
+        others = [m for m in approval.batch or [] if m.id != message_id and m.included]
+        if not toggle.included and not others:
+            raise ConflictError("Keep at least one message, or deny the card.")
+        message.included = toggle.included
+        self._world.bus.changed(*APPROVAL_PAGES)
+        return approval
+
+    def allow_recipient(self, approval_id: str, step_up: str | None) -> Approval:
+        """Allowlist a card's recipient from the card itself (spec 7.16, rule 4). Needs a step-up.
+
+        Every pending card to that contact becomes a one-tap T2 card; restricted data still asks
+        for the passkey when approved.
+
+        Args:
+            approval_id: The approval card.
+            step_up: A proof from `verify_step_up`.
+
+        Returns:
+            The card with its recipient allowlisted.
+
+        Raises:
+            ConflictError: The recipient isn't a saved contact, or is already allowlisted.
+        """
+        approval = self._pending(approval_id)
+        contact = self._world.contacts.get(approval.contact_id or "")
+        if contact is None:
+            raise ConflictError("This recipient isn't a saved contact. Add them on Contacts first.")
+        if contact.trust == "allowlisted":
+            raise ConflictError(f"{contact.name} is already allowlisted.")
+        self._require_step_up(step_up, f"Always allowing {contact.name} needs your passkey.")
+        contact.trust = "allowlisted"
+        for card in self._world.approvals.values():
+            if card.contact_id == contact.id and card.state == "pending":
+                card.recipient_trust = "allowlisted"
+                if card.tier is not None:
+                    card.tier = "T2"
+        self._world.bus.changed(*APPROVAL_PAGES, "contacts", "security")
         return approval
 
     # Settings ------------------------------------------------------------------------------
@@ -237,6 +334,14 @@ def _expire_if_lapsed(approval: Approval, now: datetime) -> bool:
         approval.decided_note = "Expired · nothing was sent"
         return True
     return False
+
+
+def _batch_part(approval: Approval) -> str:
+    """Say how many of a batch go out, when one was left out; nothing otherwise."""
+    if not approval.batch:
+        return ""
+    sent = sum(m.included for m in approval.batch)
+    return "" if sent == len(approval.batch) else f" {sent} of {len(approval.batch)}"
 
 
 def _count(number: int) -> StatusLabel:
