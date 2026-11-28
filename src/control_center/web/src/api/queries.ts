@@ -79,6 +79,13 @@ export const useMaintenance = () =>
 /** Connections page. */
 export const useConnections = () =>
   useResource<T.ConnectionsOverview>(["connections"], "/connections");
+/** Predicted versus actual for a setting's latest change; refetched with the settings. */
+export const useSettingOutcomes = (key: string, enabled: boolean) =>
+  useResource<T.SettingOutcomes>(
+    ["settings", key, "outcomes"],
+    `/settings/${key}/outcomes`,
+    enabled,
+  );
 /** Voice page. */
 export const useVoice = () => useResource<T.VoiceOverview>(["voice"], "/voice");
 /** Docs page. */

@@ -18,6 +18,7 @@ import { useLayout } from "../design/useLayout";
 import { ROUTES, TAB_PATHS } from "../routes";
 import { useNavRoutes } from "../shell/Navigation";
 import { StopControl } from "../shell/StopControl";
+import { ExportData } from "./settings/ExportData";
 
 /** Every page that is not on the phone's bottom bar. */
 function MorePages() {
@@ -71,6 +72,7 @@ function YourData() {
             <ChevronRight size={16} className="muted" aria-hidden="true" />
           </Link>
         ))}
+        <ExportData />
       </nav>
     </Section>
   );

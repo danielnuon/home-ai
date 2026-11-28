@@ -2143,6 +2143,426 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/connections/{connection_id}/connect": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Connect
+     * @description Connect an account or platform link. Needs a step-up.
+     */
+    post: operations["connect_api_v1_connections__connection_id__connect_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/connections/{connection_id}/disconnect": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Disconnect
+     * @description Disconnect at once.
+     */
+    post: operations["disconnect_api_v1_connections__connection_id__disconnect_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/connections/{connection_id}/secret": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Secret
+     * @description Enter or rotate a secret. Needs a step-up; the secret is never sent back.
+     */
+    put: operations["set_secret_api_v1_connections__connection_id__secret_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/connections/{connection_id}/secret/remove": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Remove Secret
+     * @description Remove a stored secret at once.
+     */
+    post: operations["remove_secret_api_v1_connections__connection_id__secret_remove_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/connections/{connection_id}/permission": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Ask Permission
+     * @description Show a macOS permission prompt again.
+     */
+    post: operations["ask_permission_api_v1_connections__connection_id__permission_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/connections/{connection_id}/test": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Test Connection
+     * @description Check that a connection answers.
+     */
+    post: operations["test_connection_api_v1_connections__connection_id__test_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/voice/profiles": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Voice Profile
+     * @description Add a stock voice, or a clone behind a step-up.
+     */
+    post: operations["add_voice_profile_api_v1_voice_profiles_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/voice/profiles/{profile_id}/render": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Render Voice Profile
+     * @description Render a profile's clips again.
+     */
+    post: operations["render_voice_profile_api_v1_voice_profiles__profile_id__render_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/voice/profiles/{profile_id}/preview": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Preview Voice Profile
+     * @description Play a profile's clips in Brain.
+     */
+    post: operations["preview_voice_profile_api_v1_voice_profiles__profile_id__preview_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/voice/profiles/{profile_id}/delete": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Delete Voice Profile
+     * @description Delete a profile with its sample, clips and Twilio assets.
+     */
+    post: operations["delete_voice_profile_api_v1_voice_profiles__profile_id__delete_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/workspaces/{workspace_id}/stop": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Stop Workspace
+     * @description Stop one workspace at once.
+     */
+    post: operations["stop_workspace_api_v1_security_workspaces__workspace_id__stop_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/workspaces/{workspace_id}/resume": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Resume Workspace
+     * @description Resume a stopped workspace. Needs a step-up.
+     */
+    post: operations["resume_workspace_api_v1_security_workspaces__workspace_id__resume_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/devices/{device_id}/sign-out": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Sign Out Device
+     * @description End a device's session at once.
+     */
+    post: operations["sign_out_device_api_v1_security_devices__device_id__sign_out_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/passkeys": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Passkey
+     * @description Register a passkey. Needs a step-up.
+     */
+    post: operations["add_passkey_api_v1_security_passkeys_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/passkeys/{passkey_id}/remove": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Remove Passkey
+     * @description Remove a passkey. Needs a step-up.
+     */
+    post: operations["remove_passkey_api_v1_security_passkeys__passkey_id__remove_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/totp/reset": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Reset Totp
+     * @description Replace the Discord authenticator secret. Needs a step-up.
+     */
+    post: operations["reset_totp_api_v1_security_totp_reset_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/recovery-codes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Regenerate Recovery Codes
+     * @description Issue new recovery codes. Needs a step-up.
+     */
+    post: operations["regenerate_recovery_codes_api_v1_security_recovery_codes_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/security/audit/export": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Export Audit
+     * @description A filtered range of the masked audit log.
+     */
+    post: operations["export_audit_api_v1_security_audit_export_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/exports": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Export Data
+     * @description Export all data or one principal's. Needs a step-up.
+     */
+    post: operations["export_data_api_v1_exports_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/settings/{key}/impact": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Setting Impact
+     * @description The impact card for a proposed setting change.
+     */
+    get: operations["setting_impact_api_v1_settings__key__impact_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/settings/{key}/outcomes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Setting Outcomes
+     * @description Predicted versus actual for a setting's latest change.
+     */
+    get: operations["setting_outcomes_api_v1_settings__key__outcomes_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2295,6 +2715,35 @@ export interface components {
     ArkDriveStarted: {
       /** Message */
       message: string;
+    };
+    /**
+     * AuditExport
+     * @description The exported range: masked lines, as the file the browser saves.
+     */
+    AuditExport: {
+      /** Filename */
+      filename: string;
+      /** Lines */
+      lines: string[];
+      /** Message */
+      message: string;
+    };
+    /**
+     * AuditExportRequest
+     * @description A filtered audit range to export.
+     */
+    AuditExportRequest: {
+      /**
+       * Range
+       * @default today
+       * @enum {string}
+       */
+      range: "today" | "7d" | "30d";
+      /**
+       * Filter
+       * @default
+       */
+      filter: string;
     };
     /**
      * AutomaticChange
@@ -2575,12 +3024,83 @@ export interface components {
       messages: components["schemas"]["ChatMessage"][];
     };
     /**
+     * Connection
+     * @description One connected account, app or provider (spec 7.2, Connections).
+     *
+     *     `secret` is None for a connection that takes no secret; otherwise it says whether one is
+     *     stored. A stored secret is never sent back: only when it was stored. `href` is the page that
+     *     owns what the connection serves, such as Spend for a paid provider.
+     */
+    Connection: {
+      /** Id */
+      id: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "mac_app" | "account" | "platform" | "provider";
+      /** Title */
+      title: string;
+      /** Meta */
+      meta: string;
+      status: components["schemas"]["StatusLabel"];
+      /** Connected */
+      connected: boolean;
+      /** Scopes */
+      scopes: string[];
+      /** Last Sync */
+      last_sync: string | null;
+      /** Last Error */
+      last_error: string | null;
+      /** Secret */
+      secret: ("none" | "stored") | null;
+      /** Secret Note */
+      secret_note: string | null;
+      /** Permission */
+      permission: ("allowed" | "waiting" | "denied" | "off") | null;
+      /** Expires */
+      expires: string | null;
+      /** Last Push */
+      last_push: string | null;
+      /** Href */
+      href: string | null;
+    };
+    /**
+     * ConnectionGroup
+     * @description Connections of one kind, as the page groups them.
+     */
+    ConnectionGroup: {
+      /** Name */
+      name: string;
+      /**
+       * Note
+       * @default
+       */
+      note: string;
+      /** Connections */
+      connections: components["schemas"]["Connection"][];
+    };
+    /**
+     * ConnectionResult
+     * @description A connection after an action, and what the toast says.
+     */
+    ConnectionResult: {
+      connection: components["schemas"]["Connection"];
+      /** Message */
+      message: string;
+      /**
+       * Ok
+       * @default true
+       */
+      ok: boolean;
+    };
+    /**
      * ConnectionsOverview
      * @description The Connections page.
      */
     ConnectionsOverview: {
       /** Groups */
-      groups: components["schemas"]["RowGroup"][];
+      groups: components["schemas"]["ConnectionGroup"][];
     };
     /**
      * Contact
@@ -2797,6 +3317,20 @@ export interface components {
       readonly vetoable: boolean;
     };
     /**
+     * Device
+     * @description A signed-in device: a Brain session on one of the Owner's tailnet devices.
+     */
+    Device: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
+      /** Current */
+      current: boolean;
+    };
+    /**
      * Directory
      * @description Everything on the Directory page.
      */
@@ -2973,6 +3507,22 @@ export interface components {
     EmployeeToggle: {
       /** Enabled */
       enabled: boolean;
+    };
+    /**
+     * ExportRequest
+     * @description Export all data, or one principal's (spec 7.2, Settings). Always behind a step-up.
+     */
+    ExportRequest: {
+      /** Scope */
+      scope: "all" | ("owner" | "mom" | "dad");
+    };
+    /**
+     * ExportStarted
+     * @description What the toast says once an export has started.
+     */
+    ExportStarted: {
+      /** Message */
+      message: string;
     };
     /**
      * FamilyAssignment
@@ -3258,6 +3808,35 @@ export interface components {
       reserved_gb: number;
       /** Meta */
       meta: string;
+    };
+    /**
+     * LedgerEntry
+     * @description One line of the spend ledger (spec 7.2, Spend), with every field the page groups by.
+     *
+     *     Local work is listed at $0 with its quantity, so the ledger shows where the free work went as
+     *     well as anything paid. `idea` and `work_item` are None for work outside Pipeline B.
+     */
+    LedgerEntry: {
+      /** Id */
+      id: string;
+      /** Month */
+      month: string;
+      /** Day */
+      day: string;
+      /** Service */
+      service: string;
+      /** Pipeline */
+      pipeline: string;
+      /** Idea */
+      idea: string | null;
+      /** Work Item */
+      work_item: string | null;
+      /** What */
+      what: string;
+      /** Quantity */
+      quantity: string;
+      /** Amount Usd */
+      amount_usd: number;
     };
     /**
      * LibraryAnswer
@@ -3771,6 +4350,41 @@ export interface components {
       pin_impact: components["schemas"]["ImpactLine"][];
     };
     /**
+     * NewPasskey
+     * @description A passkey to register, by the name the Owner gives the device.
+     */
+    NewPasskey: {
+      /** Name */
+      name: string;
+    };
+    /**
+     * NewVoiceProfile
+     * @description A profile to add. A stock voice names `stock_id`; a clone names itself and its sample.
+     *
+     *     A consented clone needs `consent`, how its owner agreed. A private celebrity clone needs the
+     *     setting on and `risk_acknowledged` (11.5.1, guardrail 3).
+     */
+    NewVoiceProfile: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "stock" | "consented_clone" | "celebrity_clone";
+      /** Stock Id */
+      stock_id?: string | null;
+      /** Name */
+      name?: string | null;
+      /** Sample */
+      sample?: string | null;
+      /** Consent */
+      consent?: string | null;
+      /**
+       * Risk Acknowledged
+       * @default false
+       */
+      risk_acknowledged: boolean;
+    };
+    /**
      * OfflinePack
      * @description The offline pack (spec 7.7): what the phone keeps for when the Mac can't be reached.
      *
@@ -3784,6 +4398,24 @@ export interface components {
       generated_at: string;
       /** Groups */
       groups: components["schemas"]["RowGroup"][];
+    };
+    /**
+     * OutcomeLine
+     * @description One predicted metric beside what was measured once the change had run for 7 days.
+     */
+    OutcomeLine: {
+      /** Name */
+      name: string;
+      /** Predicted */
+      predicted: string;
+      /** Actual */
+      actual: string | null;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "measured" | "simulated" | "estimate";
+      status: components["schemas"]["StatusLabel"] | null;
     };
     /**
      * PaidFeature
@@ -3811,6 +4443,18 @@ export interface components {
       ceiling_usd: number;
       /** Impact */
       impact: components["schemas"]["ImpactLine"][];
+    };
+    /**
+     * Passkey
+     * @description A registered passkey.
+     */
+    Passkey: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
     };
     /**
      * PersonalOverview
@@ -3901,6 +4545,28 @@ export interface components {
       can_end: boolean;
       /** Options */
       options: components["schemas"]["PoolModeOption"][];
+    };
+    /**
+     * PredictionOutcome
+     * @description Predicted versus actual for one change in a setting's history (spec 7.18).
+     *
+     *     `ready` turns true 7 days after the change; until then `actual` is None on every line and
+     *     `note` says when it will be checked.
+     */
+    PredictionOutcome: {
+      /**
+       * At
+       * Format: date-time
+       */
+      at: string;
+      /** Change */
+      change: string;
+      /** Ready */
+      ready: boolean;
+      /** Note */
+      note: string;
+      /** Lines */
+      lines: components["schemas"]["OutcomeLine"][];
     };
     /**
      * PrincipalDraft
@@ -4011,6 +4677,16 @@ export interface components {
       steps: string[];
       /** Source */
       source: string;
+    };
+    /**
+     * RecoveryCodes
+     * @description New recovery codes, shown once. The old ones stop working at once.
+     */
+    RecoveryCodes: {
+      /** Codes */
+      codes: string[];
+      /** Message */
+      message: string;
     };
     /**
      * RejectedOption
@@ -4196,22 +4872,52 @@ export interface components {
       results: components["schemas"]["SearchResult"][];
     };
     /**
+     * SecretEntry
+     * @description A secret typed into Brain. It goes to the secrets broker and is never shown again.
+     */
+    SecretEntry: {
+      /** Value */
+      value: string;
+    };
+    /**
      * SecurityOverview
      * @description The Security page. The audit lines are already masked by the audit logger's query socket.
+     *
+     *     `allowlist` summarises the allowlisted contacts; each opens Contacts, their home (7.16).
      */
     SecurityOverview: {
       /** Stopped */
       stopped: boolean;
       /** Tiles */
       tiles: components["schemas"]["Metric"][];
+      /** Workspaces */
+      workspaces: components["schemas"]["Workspace"][];
       /** Flags */
       flags: components["schemas"]["Row"][];
-      /** Sign In */
-      sign_in: components["schemas"]["Row"][];
+      /** Denied */
+      denied: components["schemas"]["Row"][];
+      /** Allowlist */
+      allowlist: components["schemas"]["Row"][];
+      /** Devices */
+      devices: components["schemas"]["Device"][];
+      /** Passkeys */
+      passkeys: components["schemas"]["Passkey"][];
+      /** Totp */
+      totp: string;
+      /** Recovery */
+      recovery: string;
       /** Audit */
       audit: string[];
       /** Chain */
       chain: string;
+    };
+    /**
+     * SecurityResult
+     * @description What the toast says after a security action.
+     */
+    SecurityResult: {
+      /** Message */
+      message: string;
     };
     /**
      * SelectionRun
@@ -4350,6 +5056,28 @@ export interface components {
       via: "brain" | "discord" | "desk";
     };
     /**
+     * SettingImpact
+     * @description The impact card for one proposed setting change (spec 7.18). Empty when nothing moves.
+     */
+    SettingImpact: {
+      /** Key */
+      key: string;
+      /** Value */
+      value: string;
+      /** Lines */
+      lines: components["schemas"]["ImpactLine"][];
+    };
+    /**
+     * SettingOutcomes
+     * @description Every change of a setting that has a recorded prediction, newest first.
+     */
+    SettingOutcomes: {
+      /** Key */
+      key: string;
+      /** Outcomes */
+      outcomes: components["schemas"]["PredictionOutcome"][];
+    };
+    /**
      * SettingUpdate
      * @description A requested new value for one setting. Values are strings for every kind.
      */
@@ -4449,6 +5177,21 @@ export interface components {
       source: "measured" | "simulated" | "estimate";
     };
     /**
+     * SpendForecast
+     * @description Where this month is heading, and where that figure comes from (spec 7.18).
+     */
+    SpendForecast: {
+      /** Value */
+      value: string;
+      /** Note */
+      note: string;
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "measured" | "simulated" | "estimate";
+    };
+    /**
      * SpendOverview
      * @description The Spend page.
      */
@@ -4461,7 +5204,8 @@ export interface components {
       /** Features */
       features: components["schemas"]["PaidFeature"][];
       /** Ledger */
-      ledger: components["schemas"]["Row"][];
+      ledger: components["schemas"]["LedgerEntry"][];
+      forecast: components["schemas"]["SpendForecast"];
     };
     /**
      * Stage
@@ -4534,6 +5278,18 @@ export interface components {
        * Format: date-time
        */
       expires_at: string;
+    };
+    /**
+     * StockVoice
+     * @description A built-in voice of the local engine that can be added as a profile in one tap.
+     */
+    StockVoice: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Note */
+      note: string;
     };
     /**
      * SystemOverview
@@ -4783,6 +5539,16 @@ export interface components {
       cap_impact: components["schemas"]["ImpactLine"][];
     };
     /**
+     * TotpReset
+     * @description A new Discord authenticator secret, shown once (spec 7.2, Security).
+     */
+    TotpReset: {
+      /** Setup Key */
+      setup_key: string;
+      /** Message */
+      message: string;
+    };
+    /**
      * TranscriptEntry
      * @description One line of a live transcript. Tool calls are chips that tick when done (spec 7.13).
      */
@@ -4922,12 +5688,34 @@ export interface components {
       celebrity_clones: boolean;
       /** Profiles */
       profiles: components["schemas"]["VoiceProfile"][];
+      /** Stock Voices */
+      stock_voices: components["schemas"]["StockVoice"][];
       /** Script */
       script: string;
+      /** Script Lines */
+      script_lines: string[];
+      /** Risk Notice */
+      risk_notice: string;
+    };
+    /**
+     * VoicePreview
+     * @description What a preview plays: the script lines in the profile's voice, in Brain only.
+     */
+    VoicePreview: {
+      /** Profile Id */
+      profile_id: string;
+      /** Lines */
+      lines: string[];
+      /** Message */
+      message: string;
     };
     /**
      * VoiceProfile
      * @description A voice for approval calls (spec 11.5.1).
+     *
+     *     `record` is the consent record for a consented clone, or the risk acknowledgement for a
+     *     private celebrity clone. `clips` counts the rendered script lines; `rendered_at` is when they
+     *     were last rendered (None for Twilio's own voice, which has no local clips).
      */
     VoiceProfile: {
       /** Id */
@@ -4941,6 +5729,16 @@ export interface components {
       kind: "default" | "stock" | "consented_clone" | "celebrity_clone";
       /** Meta */
       meta: string;
+      /** Engine */
+      engine: string;
+      /** Record */
+      record: string | null;
+      /** Sample */
+      sample: string | null;
+      /** Clips */
+      clips: number;
+      /** Rendered At */
+      rendered_at: string | null;
       /** Selected */
       selected: boolean;
       /** Locked */
@@ -5006,6 +5804,20 @@ export interface components {
       cost_usd: number;
       /** Waiting On Owner */
       waiting_on_owner: boolean;
+    };
+    /**
+     * Workspace
+     * @description A workspace the kill switch can stop on its own (spec 7.4, 11.10).
+     */
+    Workspace: {
+      /** Id */
+      id: string;
+      /** Name */
+      name: string;
+      /** Meta */
+      meta: string;
+      /** Stopped */
+      stopped: boolean;
     };
   };
   responses: never;
@@ -9038,6 +9850,779 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["MetricCatalog"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  connect_api_v1_connections__connection_id__connect_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  disconnect_api_v1_connections__connection_id__disconnect_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_secret_api_v1_connections__connection_id__secret_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["SecretEntry"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  remove_secret_api_v1_connections__connection_id__secret_remove_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  ask_permission_api_v1_connections__connection_id__permission_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  test_connection_api_v1_connections__connection_id__test_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        connection_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ConnectionResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_voice_profile_api_v1_voice_profiles_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["NewVoiceProfile"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VoiceProfile"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  render_voice_profile_api_v1_voice_profiles__profile_id__render_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        profile_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VoiceProfile"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  preview_voice_profile_api_v1_voice_profiles__profile_id__preview_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        profile_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["VoicePreview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  delete_voice_profile_api_v1_voice_profiles__profile_id__delete_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        profile_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  stop_workspace_api_v1_security_workspaces__workspace_id__stop_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        workspace_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Workspace"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  resume_workspace_api_v1_security_workspaces__workspace_id__resume_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        workspace_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Workspace"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  sign_out_device_api_v1_security_devices__device_id__sign_out_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        device_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SecurityResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_passkey_api_v1_security_passkeys_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["NewPasskey"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Passkey"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  remove_passkey_api_v1_security_passkeys__passkey_id__remove_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        passkey_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SecurityResult"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  reset_totp_api_v1_security_totp_reset_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TotpReset"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  regenerate_recovery_codes_api_v1_security_recovery_codes_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["RecoveryCodes"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  export_audit_api_v1_security_audit_export_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AuditExportRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AuditExport"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  export_data_api_v1_exports_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ExportRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ExportStarted"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  setting_impact_api_v1_settings__key__impact_get: {
+    parameters: {
+      query: {
+        value: string;
+      };
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        key: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SettingImpact"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  setting_outcomes_api_v1_settings__key__outcomes_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        key: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SettingOutcomes"];
         };
       };
       /** @description Validation Error */

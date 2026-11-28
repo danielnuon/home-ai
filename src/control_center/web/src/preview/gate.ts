@@ -273,7 +273,8 @@ function validateMoney(item: Setting, value: string): void {
   }
 }
 
-function validate(item: Setting, value: string): void {
+/** Refuses a value the setting cannot take, or one past its hard limit. */
+export function validate(item: Setting, value: string): void {
   if (item.kind === "switch" && value !== "on" && value !== "off") {
     throw refused(`${item.label} is a switch: use on or off.`);
   }

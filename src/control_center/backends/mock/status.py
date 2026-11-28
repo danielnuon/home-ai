@@ -2,24 +2,28 @@
 
 from datetime import datetime
 
-from control_center.backends.mock.fixtures import operations, ops, platform
+from control_center.backends.mock.fixtures import accounts, operations, ops, platform
 from control_center.backends.mock.world import MockWorld
-from control_center.contract.common import Metric, Row, RowGroup, StatusLabel
+from control_center.contract.accounts import (
+    ConnectionGroup,
+    ConnectionsOverview,
+    SecurityOverview,
+    VoiceOverview,
+)
+from control_center.contract.common import Metric, Row, StatusLabel
 from control_center.contract.status import (
     BackupsOverview,
-    ConnectionsOverview,
     MemoryZone,
     ModelsOverview,
     PaidFeature,
     PoolModeOption,
     PoolState,
-    SecurityOverview,
     SelectionRun,
     ServiceGroup,
     ServicesOverview,
+    SpendForecast,
     SpendOverview,
     SystemOverview,
-    VoiceOverview,
 )
 from control_center.contract.today import Tile
 
@@ -34,6 +38,9 @@ DESK_MODE_GB = 4
 
 OFFSITE_FEATURE = "offsite"
 """The paid feature Backups shows in the same panel as Spend."""
+
+SPEND_MONTH = "October"
+"""The mock world's month, as Spend names it."""
 
 BACKUP_MODE = StatusLabel(status="attention", label="Starter backup · one location")
 """The backup mode, shown on Backups and on Today's tile."""
@@ -195,14 +202,31 @@ class MockStatusAggregator:
             self._paid_feature(feature_id, name, kind, switch_key, cap_key)
             for feature_id, name, kind, switch_key, cap_key in platform.PAID_FEATURES
         ]
-        any_on = any(feature.on for feature in features)
+        on = [feature for feature in features if feature.on]
         summary = (
             StatusLabel(status="in_progress", label="Paid features on · spending stops at caps")
-            if any_on
+            if on
             else StatusLabel(status="healthy", label="Everything runs locally. Paid features off.")
         )
+        ledger = accounts.ledger()
+        total = sum(entry.amount_usd for entry in ledger if entry.month == SPEND_MONTH)
+        caps = sum(feature.cap_usd for feature in on)
+        forecast = (
+            SpendForecast(
+                value=f"${total:.2f} – ${total + caps:.2f}",
+                note="Paid features are on; spending stops at their caps",
+                source="simulated",
+            )
+            if on
+            else SpendForecast(value=f"${total:.2f}", note="Nothing paid is on", source="measured")
+        )
         return SpendOverview(
-            month="October", total_usd=0.0, summary=summary, features=features, ledger=[]
+            month=SPEND_MONTH,
+            total_usd=total,
+            summary=summary,
+            features=features,
+            ledger=ledger,
+            forecast=forecast,
         )
 
     def _paid_feature(
@@ -223,12 +247,24 @@ class MockStatusAggregator:
         )
 
     def security(self) -> SecurityOverview:
-        """Kill switch, flags, sign-in and masked audit lines."""
+        """Kill switch, workspaces, flags, denied calls, sign-in and masked audit lines."""
+        state = self._world.accounts
+        allowlist = [
+            Row(id=c.id, title=c.name, meta=c.meta, href="/contacts")
+            for c in self._world.contacts.values()
+            if c.trust == "allowlisted"
+        ]
         return SecurityOverview(
             stopped=self._world.stopped,
-            tiles=self._sampled(ops.security_tiles()),
+            tiles=self._sampled(ops.security_tiles(len(allowlist))),
+            workspaces=list(state.workspaces.values()),
             flags=ops.security_flags(),
-            sign_in=ops.sign_in_rows(),
+            denied=accounts.denied_calls(),
+            allowlist=allowlist,
+            devices=list(state.devices.values()),
+            passkeys=list(state.passkeys.values()),
+            totp=state.totp,
+            recovery=state.recovery,
             audit=ops.AUDIT_LINES,
             chain="Chain verified 00:00 · 0 breaks",
         )
@@ -254,31 +290,40 @@ class MockStatusAggregator:
         )
 
     def connections(self) -> ConnectionsOverview:
-        """Connections, with paid providers following their settings."""
-        groups = ops.connection_groups()
-        providers = [
-            Row(
-                id=feature_id,
-                title=name,
-                meta="Key stored" if self._world.is_on(switch_key) else "No key entered",
-                href="/spend",
-                status=StatusLabel(status="healthy", label="On")
-                if self._world.is_on(switch_key)
-                else StatusLabel(status="neutral", label="Off"),
-            )
-            for feature_id, name, _, switch_key, _ in platform.PAID_FEATURES
-        ]
-        groups.append(RowGroup(name="Optional paid providers", note="$0 until on", rows=providers))
-        return ConnectionsOverview(groups=groups)
+        """Connections grouped by kind, in page order."""
+        every = list(self._world.accounts.connections.values())
+        return ConnectionsOverview(
+            groups=[
+                ConnectionGroup(
+                    name=name, note=note, connections=[c for c in every if c.kind == kind]
+                )
+                for kind, (name, note) in accounts.GROUPS.items()
+            ]
+        )
 
     def voice(self) -> VoiceOverview:
-        """Voice profiles following `voice.profile` and the celebrity-clone setting."""
+        """Voice profiles, with the call voice and the celebrity lock read from the settings."""
         celebrity = self._world.is_on("voice.profiles.celebrity_clones")
+        selected = self._world.setting("voice.profile")
+        profiles = [
+            profile.model_copy(
+                update={
+                    "selected": profile.id == selected,
+                    "locked": profile.kind == "celebrity_clone" and not celebrity,
+                }
+            )
+            for profile in self._world.accounts.voices.values()
+        ]
         return VoiceOverview(
             calls_enabled=self._world.is_on("voice.enabled"),
             celebrity_clones=celebrity,
-            profiles=ops.voice_profiles(self._world.setting("voice.profile"), celebrity),
+            profiles=profiles,
+            stock_voices=[
+                v for v in accounts.STOCK_VOICES if v.id not in self._world.accounts.voices
+            ],
             script=CALL_SCRIPT,
+            script_lines=accounts.CALL_LINES,
+            risk_notice=accounts.RISK_NOTICE,
         )
 
 
