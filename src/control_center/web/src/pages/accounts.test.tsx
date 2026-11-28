@@ -141,3 +141,12 @@ test("raising a cap shows its impact first, and applies only when confirmed", as
   await userEvent.click(within(sheet).getByRole("button", { name: "Apply" }));
   await waitFor(() => expect(sent.some((r) => r.method === "PUT")).toBe(true));
 });
+
+test("exporting the audit opens the lines in a sheet with Copy, with no download", async () => {
+  mockBackend(["GET /security", "POST /security/audit/export"]);
+  renderPage(<Security />);
+
+  await userEvent.click(await screen.findByRole("button", { name: "Export" }));
+  const sheet = await screen.findByRole("dialog", { name: "audit-today.txt" });
+  expect(within(sheet).getByRole("button", { name: "Copy" })).toBeInTheDocument();
+});
