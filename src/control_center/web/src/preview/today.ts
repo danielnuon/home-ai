@@ -3,6 +3,7 @@
  */
 import type { TodayOverview } from "../api/types";
 import { listApprovals, listDecisions } from "./gate";
+import { alerts } from "./shell";
 import { liveTasks, threads } from "./work";
 import { healthMetrics, spend, subsystemTiles } from "./status";
 import type { MockWorld } from "./world";
@@ -69,5 +70,6 @@ export function buildToday(world: MockWorld): TodayOverview {
         ? null
         : { required_done: requiredDone, required_total: required.length },
     spend_label: `$${money.total_usd.toFixed(2)} this month`,
+    alerts: alerts(world),
   };
 }

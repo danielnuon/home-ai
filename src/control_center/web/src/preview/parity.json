@@ -31,6 +31,7 @@
      }
     },
     "degraded": [],
+    "features_on": [],
     "overall": {
      "label": "All clear",
      "status": "healthy"
@@ -836,6 +837,36 @@
       "on_is_loosening": true,
       "owner_page": "spend",
       "value": "0"
+     },
+     {
+      "category": "Operations",
+      "ceiling": null,
+      "choices": [],
+      "cost_note": "",
+      "default": "off",
+      "history": [],
+      "key": "offline_pack",
+      "kind": "switch",
+      "label": "Offline pack",
+      "note": "Emergency sheets, 30 days of agenda, key contacts and bills on your phone",
+      "on_is_loosening": true,
+      "owner_page": "offline",
+      "value": "off"
+     },
+     {
+      "category": "Operations",
+      "ceiling": null,
+      "choices": [],
+      "cost_note": "",
+      "default": "off",
+      "history": [],
+      "key": "offline_library",
+      "kind": "switch",
+      "label": "Offline library",
+      "note": "Survival and medical library with a librarian; about 4 GB to download",
+      "on_is_loosening": true,
+      "owner_page": "library",
+      "value": "off"
      },
      {
       "category": "Operations",
@@ -1815,6 +1846,34 @@
       "meta": "Home and auto · case open",
       "time": "18:00",
       "title": "Car registration renewal due"
+     }
+    ],
+    "alerts": [
+     {
+      "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+      "href": "/backups",
+      "id": "AL-0042",
+      "raised_at": "2026-10-25T13:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Needs attention",
+       "status": "attention"
+      },
+      "title": "Backups are in one place"
+     },
+     {
+      "detail": "The Saturday audit found drift. Custodian can fix it.",
+      "href": "/docs/rs-readme",
+      "id": "AL-0043",
+      "raised_at": "2026-10-24T20:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Stale",
+       "status": "attention"
+      },
+      "title": "Receipt Scanner README is out of date"
      }
     ],
     "blocked_threads": 1,
@@ -4734,7 +4793,7 @@
       "note": "",
       "rows": [
        {
-        "href": null,
+        "href": "/docs/infra",
         "id": "infra",
         "meta": "Checks, recovery, remote login · reviewed Oct 26",
         "status": {
@@ -4744,7 +4803,7 @@
         "title": "INFRASTRUCTURE.md"
        },
        {
-        "href": null,
+        "href": "/docs/run-0004",
         "id": "run-0004",
         "meta": "RUN-0004 · last tested Oct 4",
         "status": {
@@ -4754,7 +4813,7 @@
         "title": "Runbook: drive not mounted"
        },
        {
-        "href": null,
+        "href": "/docs/adr-0007",
         "id": "adr-0007",
         "meta": "Oct 24",
         "status": {
@@ -4770,7 +4829,7 @@
       "note": "",
       "rows": [
        {
-        "href": null,
+        "href": "/docs/prd-0003",
         "id": "prd-0003",
         "meta": "PRD-0003 · v1.2",
         "status": {
@@ -4780,7 +4839,7 @@
         "title": "PRD: Lease Reminders"
        },
        {
-        "href": null,
+        "href": "/docs/des-0009",
         "id": "des-0009",
         "meta": "DES-0009 · conformance record attached",
         "status": {
@@ -4806,7 +4865,7 @@
       "note": "",
       "rows": [
        {
-        "href": null,
+        "href": "/docs/rs-readme",
         "id": "rs-readme",
         "meta": "Drift found by Saturday audit",
         "status": {
@@ -4816,7 +4875,7 @@
         "title": "Receipt Scanner README"
        },
        {
-        "href": null,
+        "href": "/docs/run-restore",
         "id": "run-restore",
         "meta": "Review due Nov 2",
         "status": {
@@ -4830,6 +4889,141 @@
     ]
    },
    "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/docs/infra",
+   "response": {
+    "blocks": [
+     {
+      "kind": "paragraph",
+      "text": "How this Mac is set up, how to check it, and how to get it back when something breaks."
+     },
+     {
+      "kind": "heading",
+      "text": "Checks"
+     },
+     {
+      "kind": "item",
+      "text": "The watchdog reads every service's health every 30 seconds and shows it on System."
+     },
+     {
+      "kind": "item",
+      "text": "The heartbeat pings Healthchecks.io every 5 minutes; a missed ping emails you."
+     },
+     {
+      "kind": "item",
+      "text": "The restore drill runs on the first Sunday of each month and must pass."
+     },
+     {
+      "kind": "heading",
+      "text": "Recovery"
+     },
+     {
+      "kind": "paragraph",
+      "text": "After a power cut the Mac waits at the FileVault unlock screen. Unlock it, then wait for the working drive to mount before Brain shows all clear."
+     },
+     {
+      "kind": "code",
+      "text": "sudo launchctl kickstart -k system/ai.platform.watchdog"
+     },
+     {
+      "kind": "heading",
+      "text": "Remote login"
+     },
+     {
+      "kind": "paragraph",
+      "text": "Brain is reachable only over Tailscale. The Mac's own key never expires; your phone's key is renewed while the internet is up."
+     }
+    ],
+    "id": "infra",
+    "meta": "Checks, recovery, remote login · reviewed Oct 26",
+    "status": {
+     "label": "Approved",
+     "status": "healthy"
+    },
+    "title": "INFRASTRUCTURE.md"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/docs/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That document doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/trash",
+   "response": {
+    "items": [
+     {
+      "deleted_at": "2026-10-23T16:00:00Z",
+      "home": "/finance",
+      "id": "TR-0007",
+      "kind": "rule",
+      "meta": "Finance rule · Tally",
+      "purge_at": "2026-11-22T16:00:00Z",
+      "title": "File Costco receipts under Groceries"
+     },
+     {
+      "deleted_at": "2026-10-20T16:00:00Z",
+      "home": "/personal",
+      "id": "TR-0006",
+      "kind": "document",
+      "meta": "Rental · superseded by the 2026 lease",
+      "purge_at": "2026-11-19T16:00:00Z",
+      "title": "Unit A lease 2024.pdf"
+     },
+     {
+      "deleted_at": "2026-10-13T16:00:00Z",
+      "home": "/contacts",
+      "id": "TR-0005",
+      "kind": "contact",
+      "meta": "Known contact · Rental",
+      "purge_at": "2026-11-12T16:00:00Z",
+      "title": "Quick Fix Plumbing"
+     }
+    ],
+    "retention_days": 30
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/offline-pack",
+   "response": {
+    "error": "conflict",
+    "reason": "The offline pack is off. Turn it on first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/library",
+   "response": {
+    "error": "conflict",
+    "reason": "The offline library is off. Turn it on first."
+   },
+   "status": 409,
    "step_up": null
   },
   {
@@ -5384,6 +5578,7 @@
      }
     },
     "degraded": [],
+    "features_on": [],
     "overall": {
      "label": "Away mode",
      "status": "attention"
@@ -7335,6 +7530,7 @@
      }
     },
     "degraded": [],
+    "features_on": [],
     "overall": {
      "label": "Stopped",
      "status": "problem"
@@ -7463,6 +7659,34 @@
       "meta": "Home and auto · case open",
       "time": "18:00",
       "title": "Car registration renewal due"
+     }
+    ],
+    "alerts": [
+     {
+      "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+      "href": "/backups",
+      "id": "AL-0042",
+      "raised_at": "2026-10-25T13:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Needs attention",
+       "status": "attention"
+      },
+      "title": "Backups are in one place"
+     },
+     {
+      "detail": "The Saturday audit found drift. Custodian can fix it.",
+      "href": "/docs/rs-readme",
+      "id": "AL-0043",
+      "raised_at": "2026-10-24T20:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Stale",
+       "status": "attention"
+      },
+      "title": "Receipt Scanner README is out of date"
      }
     ],
     "blocked_threads": 0,
@@ -7942,6 +8166,7 @@
      }
     },
     "degraded": [],
+    "features_on": [],
     "overall": {
      "label": "Away mode",
      "status": "attention"
@@ -9676,6 +9901,1410 @@
    "step_up": null
   },
   {
+   "body": {
+    "page": "/",
+    "question": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/guide/ask",
+   "response": {
+    "error": "conflict",
+    "reason": "Type a question first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "page": "/",
+    "question": "What is this?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/guide/ask",
+   "response": {
+    "answer": "Today shows whether everything is all right and what needs you. Tiles are colored by status, and anything waiting on you is under Needs you.",
+    "id": "GA-id15",
+    "page": "/",
+    "question": "What is this?",
+    "sources": [
+     {
+      "href": "/docs/infra",
+      "title": "Brain architecture"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "context": "INFRASTRUCTURE.md",
+    "page": "/docs/infra",
+    "question": "Why?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/guide/ask",
+   "response": {
+    "answer": "About INFRASTRUCTURE.md: Docs are the platform's own documentation. Open one to read it, ask me about it, or request a change, which becomes a work item.",
+    "id": "GA-id16",
+    "page": "/docs/infra",
+    "question": "Why?",
+    "sources": [
+     {
+      "href": "/docs/infra",
+      "title": "INFRASTRUCTURE.md"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "page": "/x",
+    "question": "When is insurance?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/guide/ask",
+   "response": {
+    "answer": "Your home policy renews Dec 14. Dad's Medicare plan review is a case due Dec 7. The insurer call is today at 09:30.",
+    "id": "GA-id17",
+    "page": "/x",
+    "question": "When is insurance?",
+    "sources": []
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/docs/infra/change-requests",
+   "response": {
+    "error": "conflict",
+    "reason": "Say what should change first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Add a step."
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "work",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/docs/infra/change-requests",
+   "response": {
+    "message": "Requested. WI-id18 is on Work.",
+    "work_item_id": "WI-id18"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Hi."
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/docs/nope/change-requests",
+   "response": {
+    "error": "not_found",
+    "reason": "That document doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "action": "acknowledge"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/alerts/AL-0042/action",
+   "response": {
+    "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+    "href": "/backups",
+    "id": "AL-0042",
+    "raised_at": "2026-10-25T13:00:00Z",
+    "snoozed_until": null,
+    "state": "acknowledged",
+    "status": {
+     "label": "Needs attention",
+     "status": "attention"
+    },
+    "title": "Backups are in one place"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "action": "reopen"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/alerts/AL-0042/action",
+   "response": {
+    "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+    "href": "/backups",
+    "id": "AL-0042",
+    "raised_at": "2026-10-25T13:00:00Z",
+    "snoozed_until": null,
+    "state": "open",
+    "status": {
+     "label": "Needs attention",
+     "status": "attention"
+    },
+    "title": "Backups are in one place"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "action": "snooze"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/alerts/AL-0043/action",
+   "response": {
+    "detail": "The Saturday audit found drift. Custodian can fix it.",
+    "href": "/docs/rs-readme",
+    "id": "AL-0043",
+    "raised_at": "2026-10-24T20:00:00Z",
+    "snoozed_until": "2026-10-25T20:00:09Z",
+    "state": "snoozed",
+    "status": {
+     "label": "Stale",
+     "status": "attention"
+    },
+    "title": "Receipt Scanner README is out of date"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "action": "snooze"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/alerts/nope/action",
+   "response": {
+    "error": "not_found",
+    "reason": "That alert no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/today",
+   "response": {
+    "agenda": [
+     {
+      "id": "EV-1",
+      "meta": "Rental · Keystone prepared notes",
+      "time": "09:30",
+      "title": "Call with the property insurer"
+     },
+     {
+      "id": "EV-2",
+      "meta": "Health · Pulse · leave by 12:35",
+      "time": "13:00",
+      "title": "Dentist cleaning"
+     },
+     {
+      "id": "EV-3",
+      "meta": "Home and auto · case open",
+      "time": "18:00",
+      "title": "Car registration renewal due"
+     }
+    ],
+    "alerts": [
+     {
+      "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+      "href": "/backups",
+      "id": "AL-0042",
+      "raised_at": "2026-10-25T13:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Needs attention",
+       "status": "attention"
+      },
+      "title": "Backups are in one place"
+     }
+    ],
+    "blocked_threads": 0,
+    "date": "Sunday, October 25",
+    "greeting": "Good morning",
+    "metrics": [
+     {
+      "name": "Chat first token p95",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       12.0,
+       10.0,
+       13.0,
+       9.0,
+       11.0,
+       8.0,
+       9.0
+      ],
+      "status": null,
+      "value": "1.4 s"
+     },
+     {
+      "name": "Chat on fallback model",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       10.0,
+       9.0,
+       12.0,
+       8.0,
+       10.0,
+       9.0,
+       10.0
+      ],
+      "status": null,
+      "value": "9 min/d"
+     },
+     {
+      "name": "Model swaps today",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       10.0,
+       12.0,
+       8.0,
+       11.0,
+       10.0,
+       12.0,
+       10.0
+      ],
+      "status": {
+       "label": "",
+       "status": "healthy"
+      },
+      "value": "3 of ≤6"
+     },
+     {
+      "name": "Review wait p50",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       14.0,
+       12.0,
+       13.0,
+       10.0,
+       9.0,
+       10.0,
+       8.0
+      ],
+      "status": null,
+      "value": "6 min"
+     },
+     {
+      "name": "Memory pressure",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       13.0,
+       13.0,
+       12.0,
+       13.0,
+       13.0,
+       12.0,
+       13.0
+      ],
+      "status": {
+       "label": "",
+       "status": "healthy"
+      },
+      "value": "Normal"
+     },
+     {
+      "name": "Bug catch rate",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       9.0,
+       9.0,
+       8.0,
+       9.0,
+       8.0,
+       8.0,
+       8.0
+      ],
+      "status": null,
+      "value": "81%"
+     }
+    ],
+    "needs_you": [
+     {
+      "approval_class": "P",
+      "data_class": "internal",
+      "decided_note": null,
+      "department": "personal",
+      "domain": "Calendar and admin",
+      "draft": "Hi, confirming Tuesday at 10:30. Thank you!",
+      "employee_name": "Chrono",
+      "expires_at": "2026-10-25T22:00:00Z",
+      "id": "AP-0107",
+      "needs_step_up": false,
+      "principal": "Owner",
+      "recipient": "front.desk@[clinic domain]",
+      "recipient_trust": "allowlisted",
+      "release": null,
+      "state": "pending",
+      "summary": "Confirm Tuesday at 10:30 · from your Gmail",
+      "tier": "T2",
+      "title": "Reply to Dr. Patel's office",
+      "undo_until": null
+     },
+     {
+      "approval_class": "P",
+      "data_class": "restricted",
+      "decided_note": null,
+      "department": "personal",
+      "domain": "Rental",
+      "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+      "employee_name": "Keystone",
+      "expires_at": "2026-10-26T12:00:00Z",
+      "id": "AP-0108",
+      "needs_step_up": true,
+      "principal": "Owner",
+      "recipient": "Unit B tenant",
+      "recipient_trust": "known",
+      "release": null,
+      "state": "pending",
+      "summary": "New recipient · attachment: receipt-2026-10.pdf",
+      "tier": "T3",
+      "title": "Send October rent receipt",
+      "undo_until": null
+     }
+    ],
+    "needs_you_count": 4,
+    "needs_you_threads": [
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Foreman needs a yes on the design (gate G3).",
+      "id": "TH-0129",
+      "kind": "work_item",
+      "lead_department": "governance",
+      "lead_id": "foreman",
+      "lead_name": "Foreman",
+      "learning": true,
+      "pipeline": "Development",
+      "principal": "owner",
+      "since": "yesterday",
+      "state": "needs_owner",
+      "temporary_until": null,
+      "title": "Receipt scanner: better totals",
+      "unit_id": "WI-0029"
+     }
+    ],
+    "open_decision": {
+     "acknowledged": false,
+     "decided_on": "Oct 27",
+     "effect": "after_window",
+     "evidence": "Benchmark cards for both models",
+     "id": "CDR-0012",
+     "open": true,
+     "rationale": "Passed 9% more held-out Python and TypeScript tasks than the current model, at the same 4-bit size and 18 tok/s faster on files over 2,000 lines.",
+     "rejected": [
+      {
+       "effect": "slower on long files",
+       "option": "Keep the current model",
+       "outcome": "more time per work item"
+      },
+      {
+       "effect": "does not fit the 42GB pool beside EMBED",
+       "option": "Use the larger 8-bit build",
+       "outcome": "rejected"
+      }
+     ],
+     "risks": "New release has 3 weeks of community use. The old model stays downloaded; reverting is one step.",
+     "status": "pending_window",
+     "summary": "Passed 9% more held-out tasks at the same memory. Rejected: keeping the current model, which is slower on long files.",
+     "title": "Switch the coding model to a newer release",
+     "veto_preview": "The switch is cancelled. Bolt keeps the current coding model, and the selector won't propose this model again for 30 days.",
+     "veto_reason": null,
+     "vetoable": true,
+     "window_ends": "2026-10-26T10:04:00Z"
+    },
+    "review_ready_threads": 1,
+    "setup": {
+     "required_done": 1,
+     "required_total": 4
+    },
+    "spend_label": "$0.00 this month",
+    "tasks": [
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "is drafting tomorrow's brief",
+      "employee_id": "PO-1",
+      "employee_name": "Atlas",
+      "id": "T-5522",
+      "item": "Daily brief",
+      "lane": "personal",
+      "lead_name": null,
+      "model": "conversation model",
+      "paused": false,
+      "queued": false,
+      "session_state": "running",
+      "started_at": "2026-10-25T15:59:00Z",
+      "state": "generating",
+      "thread_id": null,
+      "thread_title": null,
+      "tokens_per_second": 23.0,
+      "waiting_on": null
+     },
+     {
+      "blocked_code": null,
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "employee_id": "GOV-1",
+      "employee_name": "Foreman",
+      "id": "T-5519",
+      "item": "WI-0029 Receipt scanner",
+      "lane": "development",
+      "lead_name": "Foreman",
+      "model": "coding model",
+      "paused": false,
+      "queued": false,
+      "session_state": "waiting",
+      "started_at": "2026-10-25T13:00:00Z",
+      "state": "waiting",
+      "thread_id": "TH-0129",
+      "thread_title": "Receipt scanner: better totals",
+      "tokens_per_second": null,
+      "waiting_on": "owner"
+     },
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "is waiting for the tenant's reply",
+      "employee_id": "PO-9",
+      "employee_name": "Keystone",
+      "id": "T-5525",
+      "item": "Lease renewal",
+      "lane": "personal",
+      "lead_name": "Atlas",
+      "model": "conversation model",
+      "paused": false,
+      "queued": false,
+      "session_state": "waiting",
+      "started_at": "2026-10-24T16:00:00Z",
+      "state": "idle",
+      "thread_id": "TH-0214",
+      "thread_title": "Lease renewal for the rental",
+      "tokens_per_second": null,
+      "waiting_on": "third_party"
+     },
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "will triage 6 new emails",
+      "employee_id": "PO-3",
+      "employee_name": "Sieve",
+      "id": "T-5524",
+      "item": "Inbox triage",
+      "lane": "personal",
+      "lead_name": null,
+      "model": "conversation model",
+      "paused": false,
+      "queued": true,
+      "session_state": "queued",
+      "started_at": null,
+      "state": "idle",
+      "thread_id": null,
+      "thread_title": null,
+      "tokens_per_second": null,
+      "waiting_on": null
+     }
+    ],
+    "team": [
+     {
+      "department": "personal",
+      "doing": "is drafting tomorrow's brief",
+      "id": "PO-1",
+      "name": "Atlas",
+      "state": "generating",
+      "tokens_per_second": 23.0
+     },
+     {
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "id": "GOV-1",
+      "name": "Foreman",
+      "state": "waiting",
+      "tokens_per_second": null
+     },
+     {
+      "department": "personal",
+      "doing": "is waiting for the tenant's reply",
+      "id": "PO-9",
+      "name": "Keystone",
+      "state": "idle",
+      "tokens_per_second": null
+     },
+     {
+      "department": "personal",
+      "doing": "will triage 6 new emails",
+      "id": "PO-3",
+      "name": "Sieve",
+      "state": "idle",
+      "tokens_per_second": null
+     }
+    ],
+    "tiles": [
+     {
+      "href": "/services",
+      "name": "Services",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Healthy",
+       "status": "healthy"
+      },
+      "value": "17 running"
+     },
+     {
+      "href": "/models",
+      "name": "Model pool",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Mode L",
+       "status": "healthy"
+      },
+      "value": "22 / 42 GB"
+     },
+     {
+      "href": "/backups",
+      "name": "Backups",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Starter backup · one location",
+       "status": "attention"
+      },
+      "value": "20:00 today"
+     },
+     {
+      "href": "/spend",
+      "name": "Spend",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Everything runs locally. Paid features off.",
+       "status": "healthy"
+      },
+      "value": "$0.00"
+     },
+     {
+      "href": "/connections",
+      "name": "Connections",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Contacts waiting",
+       "status": "attention"
+      },
+      "value": "3 of 4"
+     },
+     {
+      "href": "/system",
+      "name": "Heartbeat",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Reporting",
+       "status": "healthy"
+      },
+      "value": "1 min ago"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash",
+       "finance"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/trash/TR-0007/restore",
+   "response": {
+    "deleted_at": "2026-10-23T16:00:00Z",
+    "home": "/finance",
+    "id": "TR-0007",
+    "kind": "rule",
+    "meta": "Finance rule · Tally",
+    "purge_at": "2026-11-22T16:00:00Z",
+    "title": "File Costco receipts under Groceries"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/trash/TR-0006/purge",
+   "response": null,
+   "status": 204,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/trash/TR-0006/restore",
+   "response": {
+    "error": "not_found",
+    "reason": "That item is no longer in the trash."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/trash/TR-0001/restore",
+   "response": {
+    "error": "not_found",
+    "reason": "That item is no longer in the trash."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/trash",
+   "response": {
+    "items": [
+     {
+      "deleted_at": "2026-10-13T16:00:00Z",
+      "home": "/contacts",
+      "id": "TR-0005",
+      "kind": "contact",
+      "meta": "Known contact · Rental",
+      "purge_at": "2026-11-12T16:00:00Z",
+      "title": "Quick Fix Plumbing"
+     }
+    ],
+    "retention_days": 30
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "volume": "ARK-1"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ark-drive",
+   "response": {
+    "error": "conflict",
+    "reason": "The offline library is off. Turn it on first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id19"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id19",
+    "challenge": "id19"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id20"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "on"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "settings",
+       "library",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/settings/offline_library",
+   "response": {
+    "category": "Operations",
+    "ceiling": null,
+    "choices": [],
+    "cost_note": "",
+    "default": "off",
+    "history": [
+     {
+      "at": "2026-10-25T16:00:09Z",
+      "new": "on",
+      "old": "off",
+      "via": "brain"
+     }
+    ],
+    "key": "offline_library",
+    "kind": "switch",
+    "label": "Offline library",
+    "note": "Survival and medical library with a librarian; about 4 GB to download",
+    "on_is_loosening": true,
+    "owner_page": "library",
+    "value": "on"
+   },
+   "status": 200,
+   "step_up": "id20"
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id21"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id21",
+    "challenge": "id21"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id22"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "on"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "settings",
+       "offline",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/settings/offline_pack",
+   "response": {
+    "category": "Operations",
+    "ceiling": null,
+    "choices": [],
+    "cost_note": "",
+    "default": "off",
+    "history": [
+     {
+      "at": "2026-10-25T16:00:09Z",
+      "new": "on",
+      "old": "off",
+      "via": "brain"
+     }
+    ],
+    "key": "offline_pack",
+    "kind": "switch",
+    "label": "Offline pack",
+    "note": "Emergency sheets, 30 days of agenda, key contacts and bills on your phone",
+    "on_is_loosening": true,
+    "owner_page": "offline",
+    "value": "on"
+   },
+   "status": 200,
+   "step_up": "id22"
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/platform",
+   "response": {
+    "away": true,
+    "badges": {
+     "approvals": {
+      "label": "3",
+      "status": "attention"
+     },
+     "backups": {
+      "label": "▲",
+      "status": "attention"
+     },
+     "decisions": {
+      "label": "1",
+      "status": "attention"
+     },
+     "live": {
+      "label": "1",
+      "status": "neutral"
+     },
+     "setup": {
+      "label": "1/4",
+      "status": "attention"
+     }
+    },
+    "degraded": [],
+    "features_on": [
+     "offline_pack",
+     "offline_library"
+    ],
+    "overall": {
+     "label": "Away mode",
+     "status": "attention"
+    },
+    "quiet_hours": false,
+    "stopped": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/offline-pack",
+   "response": {
+    "generated_at": "2026-10-25T16:00:00Z",
+    "groups": [
+     {
+      "name": "Emergency sheets",
+      "note": "",
+      "rows": [
+       {
+        "href": null,
+        "id": "ES-mom",
+        "meta": "Allergic to penicillin · metformin 500 mg · Dr. Patel",
+        "status": null,
+        "title": "Mom"
+       },
+       {
+        "href": null,
+        "id": "ES-dad",
+        "meta": "Warfarin 5 mg · pacemaker · Medicare Advantage",
+        "status": null,
+        "title": "Dad"
+       },
+       {
+        "href": null,
+        "id": "ES-owner",
+        "meta": "No known allergies · Kaiser · O negative",
+        "status": null,
+        "title": "You"
+       }
+      ]
+     },
+     {
+      "name": "Next 30 days",
+      "note": "",
+      "rows": [
+       {
+        "href": null,
+        "id": "AG-1",
+        "meta": "Rental · Nov 30",
+        "status": null,
+        "title": "Unit B lease renewal"
+       },
+       {
+        "href": null,
+        "id": "AG-2",
+        "meta": "Health · Dad · Dec 7",
+        "status": null,
+        "title": "Medicare plan review"
+       },
+       {
+        "href": null,
+        "id": "AG-3",
+        "meta": "Household · Dec 14",
+        "status": null,
+        "title": "Home insurance renews"
+       }
+      ]
+     },
+     {
+      "name": "Key contacts",
+      "note": "",
+      "rows": [
+       {
+        "href": null,
+        "id": "KC-1",
+        "meta": "(555) 010-2231",
+        "status": null,
+        "title": "Dr. Patel's office"
+       },
+       {
+        "href": null,
+        "id": "KC-2",
+        "meta": "(555) 010-8890",
+        "status": null,
+        "title": "Insurer member services"
+       }
+      ]
+     },
+     {
+      "name": "Bills due",
+      "note": "",
+      "rows": [
+       {
+        "href": null,
+        "id": "BD-1",
+        "meta": "$142 · Dec 3 · autopay",
+        "status": null,
+        "title": "Electricity"
+       },
+       {
+        "href": null,
+        "id": "BD-2",
+        "meta": "$1,860 · Dec 1",
+        "status": null,
+        "title": "Unit B mortgage"
+       }
+      ]
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/library",
+   "response": {
+    "battery": null,
+    "categories": [
+     "Emergency",
+     "Medical",
+     "Water",
+     "Food",
+     "Shelter and warmth",
+     "Repair"
+    ],
+    "offgrid": false,
+    "quick_cards": [
+     {
+      "category": "Emergency",
+      "id": "QC-urgent",
+      "source": "American Red Cross First Aid manual",
+      "steps": [
+       "Call emergency services. If there is no signal, send someone for help.",
+       "Stay with the person and keep them still and warm.",
+       "Note the time and what happened, for the responders."
+      ],
+      "title": "Get help now"
+     },
+     {
+      "category": "Emergency",
+      "id": "QC-bleeding",
+      "source": "American Red Cross First Aid manual",
+      "steps": [
+       "Call emergency services if you can.",
+       "Press firmly on the wound with a clean cloth and keep pressing.",
+       "If blood soaks through, add more cloth on top. Do not lift the first one."
+      ],
+      "title": "Severe bleeding"
+     },
+     {
+      "category": "Water",
+      "id": "QC-water",
+      "source": "CDC, Making Water Safe in an Emergency",
+      "steps": [
+       "Bring clear water to a rolling boil for 1 minute.",
+       "Above 6,500 feet, boil for 3 minutes.",
+       "Let it cool. Store it in clean, covered containers."
+      ],
+      "title": "Make water safe to drink"
+     },
+     {
+      "category": "Shelter and warmth",
+      "id": "QC-warmth",
+      "source": "Ready.gov, Winter Weather",
+      "steps": [
+       "Close off unused rooms and gather in one.",
+       "Never run a generator, grill or camp stove indoors.",
+       "Wear layers and a hat; keep blankets off the floor."
+      ],
+      "title": "Keep warm without power"
+     },
+     {
+      "category": "Food",
+      "id": "QC-food",
+      "source": "USDA, Keeping Food Safe During an Emergency",
+      "steps": [
+       "A closed fridge keeps food cold for about 4 hours.",
+       "Throw out meat, dairy and leftovers kept above 40 °F for over 2 hours."
+      ],
+      "title": "Is food in the fridge still safe?"
+     }
+    ],
+    "safety_test": {
+     "label": "Passed 200 of 200 · Nov 20",
+     "status": "healthy"
+    },
+    "tiers": [
+     {
+      "installed": true,
+      "name": "Survive",
+      "size": "About 4 GB"
+     },
+     {
+      "installed": false,
+      "name": "Sustain",
+      "size": "About 60 GB"
+     },
+     {
+      "installed": false,
+      "name": "Rebuild",
+      "size": "About 90 GB"
+     }
+    ],
+    "volumes": [
+     "ARK-1",
+     "ARK-2"
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/library/search?q=boil",
+   "response": {
+    "query": "boil",
+    "results": [
+     {
+      "href": "",
+      "id": "QC-water",
+      "meta": "Water · CDC, Making Water Safe in an Emergency",
+      "title": "Make water safe to drink"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/library/search?q=",
+   "response": {
+    "query": "",
+    "results": []
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "question": ""
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ask",
+   "response": {
+    "error": "conflict",
+    "reason": "Type a question first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "question": "Chest pain, what now?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ask",
+   "response": {
+    "answer": null,
+    "citations": [],
+    "note": "Medical and safety answers are general information. Call for help when you can.",
+    "question": "Chest pain, what now?",
+    "quick_card": {
+     "category": "Emergency",
+     "id": "QC-urgent",
+     "source": "American Red Cross First Aid manual",
+     "steps": [
+      "Call emergency services. If there is no signal, send someone for help.",
+      "Stay with the person and keep them still and warm.",
+      "Note the time and what happened, for the responders."
+     ],
+     "title": "Get help now"
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "question": "Is this water safe?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ask",
+   "response": {
+    "answer": "Boil clear water at a rolling boil for 1 minute, or 3 minutes above 6,500 feet [1]. Cloudy water should settle and be filtered first [2].",
+    "citations": [
+     {
+      "number": 1,
+      "publisher": "CDC",
+      "reviewed": true,
+      "title": "Making Water Safe in an Emergency"
+     },
+     {
+      "number": 2,
+      "publisher": "Wikipedia",
+      "reviewed": false,
+      "title": "Water purification"
+     }
+    ],
+    "note": "Medical and safety answers are general information. Call for help when you can.",
+    "question": "Is this water safe?",
+    "quick_card": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "question": "Tan leather?"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ask",
+   "response": {
+    "answer": null,
+    "citations": [],
+    "note": "No passage in the library covers this, so there is no answer. Try other words.",
+    "question": "Tan leather?",
+    "quick_card": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "volume": "ARK-9"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ark-drive",
+   "response": {
+    "error": "not_found",
+    "reason": "That drive isn't connected."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "volume": "ARK-1"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ark-drive",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Writing an Ark drive needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id23"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id23",
+    "challenge": "id23"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id24"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "volume": "ARK-1"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/library/ark-drive",
+   "response": {
+    "message": "Writing Survive to ARK-1. You'll get a notice when it's done."
+   },
+   "status": 200,
+   "step_up": "id24"
+  },
+  {
+   "body": {
+    "value": "off"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "settings",
+       "library",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/settings/offline_library",
+   "response": {
+    "category": "Operations",
+    "ceiling": null,
+    "choices": [],
+    "cost_note": "",
+    "default": "off",
+    "history": [
+     {
+      "at": "2026-10-25T16:00:09Z",
+      "new": "off",
+      "old": "on",
+      "via": "brain"
+     },
+     {
+      "at": "2026-10-25T16:00:09Z",
+      "new": "on",
+      "old": "off",
+      "via": "brain"
+     }
+    ],
+    "key": "offline_library",
+    "kind": "switch",
+    "label": "Offline library",
+    "note": "Survival and medical library with a librarian; about 4 GB to download",
+    "on_is_loosening": true,
+    "owner_page": "library",
+    "value": "off"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
    "advance": 25200
   },
   {
@@ -9694,6 +11323,455 @@
      }
     }
    ],
+   "method": "GET",
+   "path": "/today",
+   "response": {
+    "agenda": [
+     {
+      "id": "EV-1",
+      "meta": "Rental · Keystone prepared notes",
+      "time": "09:30",
+      "title": "Call with the property insurer"
+     },
+     {
+      "id": "EV-2",
+      "meta": "Health · Pulse · leave by 12:35",
+      "time": "13:00",
+      "title": "Dentist cleaning"
+     },
+     {
+      "id": "EV-3",
+      "meta": "Home and auto · case open",
+      "time": "18:00",
+      "title": "Car registration renewal due"
+     }
+    ],
+    "alerts": [
+     {
+      "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+      "href": "/backups",
+      "id": "AL-0042",
+      "raised_at": "2026-10-25T13:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Needs attention",
+       "status": "attention"
+      },
+      "title": "Backups are in one place"
+     },
+     {
+      "detail": "The Saturday audit found drift. Custodian can fix it.",
+      "href": "/docs/rs-readme",
+      "id": "AL-0043",
+      "raised_at": "2026-10-24T20:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Stale",
+       "status": "attention"
+      },
+      "title": "Receipt Scanner README is out of date"
+     }
+    ],
+    "blocked_threads": 0,
+    "date": "Sunday, October 25",
+    "greeting": "Good afternoon",
+    "metrics": [
+     {
+      "name": "Chat first token p95",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       12.0,
+       10.0,
+       13.0,
+       9.0,
+       11.0,
+       8.0,
+       9.0
+      ],
+      "status": null,
+      "value": "1.4 s"
+     },
+     {
+      "name": "Chat on fallback model",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       10.0,
+       9.0,
+       12.0,
+       8.0,
+       10.0,
+       9.0,
+       10.0
+      ],
+      "status": null,
+      "value": "9 min/d"
+     },
+     {
+      "name": "Model swaps today",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       10.0,
+       12.0,
+       8.0,
+       11.0,
+       10.0,
+       12.0,
+       10.0
+      ],
+      "status": {
+       "label": "",
+       "status": "healthy"
+      },
+      "value": "3 of ≤6"
+     },
+     {
+      "name": "Review wait p50",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       14.0,
+       12.0,
+       13.0,
+       10.0,
+       9.0,
+       10.0,
+       8.0
+      ],
+      "status": null,
+      "value": "6 min"
+     },
+     {
+      "name": "Memory pressure",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       13.0,
+       13.0,
+       12.0,
+       13.0,
+       13.0,
+       12.0,
+       13.0
+      ],
+      "status": {
+       "label": "",
+       "status": "healthy"
+      },
+      "value": "Normal"
+     },
+     {
+      "name": "Bug catch rate",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "spark": [
+       9.0,
+       9.0,
+       8.0,
+       9.0,
+       8.0,
+       8.0,
+       8.0
+      ],
+      "status": null,
+      "value": "81%"
+     }
+    ],
+    "needs_you": [
+     {
+      "approval_class": "P",
+      "data_class": "restricted",
+      "decided_note": null,
+      "department": "personal",
+      "domain": "Rental",
+      "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+      "employee_name": "Keystone",
+      "expires_at": "2026-10-26T12:00:00Z",
+      "id": "AP-0108",
+      "needs_step_up": true,
+      "principal": "Owner",
+      "recipient": "Unit B tenant",
+      "recipient_trust": "known",
+      "release": null,
+      "state": "pending",
+      "summary": "New recipient · attachment: receipt-2026-10.pdf",
+      "tier": "T3",
+      "title": "Send October rent receipt",
+      "undo_until": null
+     },
+     {
+      "approval_class": "R",
+      "data_class": "internal",
+      "decided_note": null,
+      "department": "engineering",
+      "domain": "Development",
+      "draft": null,
+      "employee_name": "Liftoff",
+      "expires_at": "2026-10-31T16:00:00Z",
+      "id": "AP-0109",
+      "needs_step_up": false,
+      "principal": "Owner",
+      "recipient": null,
+      "recipient_trust": null,
+      "release": {
+       "added_lines": 412,
+       "checks_passed": 14,
+       "checks_total": 14,
+       "files": 9,
+       "removed_lines": 96,
+       "rollback": "One step to 1.1.4"
+      },
+      "state": "pending",
+      "summary": "R2 · gate G7",
+      "tier": null,
+      "title": "Release Lease Reminders 1.2",
+      "undo_until": null
+     }
+    ],
+    "needs_you_count": 3,
+    "needs_you_threads": [
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Foreman needs a yes on the design (gate G3).",
+      "id": "TH-0129",
+      "kind": "work_item",
+      "lead_department": "governance",
+      "lead_id": "foreman",
+      "lead_name": "Foreman",
+      "learning": true,
+      "pipeline": "Development",
+      "principal": "owner",
+      "since": "yesterday",
+      "state": "needs_owner",
+      "temporary_until": null,
+      "title": "Receipt scanner: better totals",
+      "unit_id": "WI-0029"
+     }
+    ],
+    "open_decision": {
+     "acknowledged": false,
+     "decided_on": "Oct 27",
+     "effect": "after_window",
+     "evidence": "Benchmark cards for both models",
+     "id": "CDR-0012",
+     "open": true,
+     "rationale": "Passed 9% more held-out Python and TypeScript tasks than the current model, at the same 4-bit size and 18 tok/s faster on files over 2,000 lines.",
+     "rejected": [
+      {
+       "effect": "slower on long files",
+       "option": "Keep the current model",
+       "outcome": "more time per work item"
+      },
+      {
+       "effect": "does not fit the 42GB pool beside EMBED",
+       "option": "Use the larger 8-bit build",
+       "outcome": "rejected"
+      }
+     ],
+     "risks": "New release has 3 weeks of community use. The old model stays downloaded; reverting is one step.",
+     "status": "pending_window",
+     "summary": "Passed 9% more held-out tasks at the same memory. Rejected: keeping the current model, which is slower on long files.",
+     "title": "Switch the coding model to a newer release",
+     "veto_preview": "The switch is cancelled. Bolt keeps the current coding model, and the selector won't propose this model again for 30 days.",
+     "veto_reason": null,
+     "vetoable": true,
+     "window_ends": "2026-10-26T10:04:00Z"
+    },
+    "review_ready_threads": 1,
+    "setup": {
+     "required_done": 1,
+     "required_total": 4
+    },
+    "spend_label": "$0.00 this month",
+    "tasks": [
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "is drafting tomorrow's brief",
+      "employee_id": "PO-1",
+      "employee_name": "Atlas",
+      "id": "T-5522",
+      "item": "Daily brief",
+      "lane": "personal",
+      "lead_name": null,
+      "model": "conversation model",
+      "paused": false,
+      "queued": false,
+      "session_state": "running",
+      "started_at": "2026-10-25T15:59:00Z",
+      "state": "generating",
+      "thread_id": null,
+      "thread_title": null,
+      "tokens_per_second": 23.0,
+      "waiting_on": null
+     },
+     {
+      "blocked_code": null,
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "employee_id": "GOV-1",
+      "employee_name": "Foreman",
+      "id": "T-5519",
+      "item": "WI-0029 Receipt scanner",
+      "lane": "development",
+      "lead_name": "Foreman",
+      "model": "coding model",
+      "paused": false,
+      "queued": false,
+      "session_state": "waiting",
+      "started_at": "2026-10-25T13:00:00Z",
+      "state": "waiting",
+      "thread_id": "TH-0129",
+      "thread_title": "Receipt scanner: better totals",
+      "tokens_per_second": null,
+      "waiting_on": "owner"
+     },
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "is waiting for the tenant's reply",
+      "employee_id": "PO-9",
+      "employee_name": "Keystone",
+      "id": "T-5525",
+      "item": "Lease renewal",
+      "lane": "personal",
+      "lead_name": "Atlas",
+      "model": "conversation model",
+      "paused": false,
+      "queued": false,
+      "session_state": "waiting",
+      "started_at": "2026-10-24T16:00:00Z",
+      "state": "idle",
+      "thread_id": "TH-0214",
+      "thread_title": "Lease renewal for the rental",
+      "tokens_per_second": null,
+      "waiting_on": "third_party"
+     },
+     {
+      "blocked_code": null,
+      "department": "personal",
+      "doing": "will triage 6 new emails",
+      "employee_id": "PO-3",
+      "employee_name": "Sieve",
+      "id": "T-5524",
+      "item": "Inbox triage",
+      "lane": "personal",
+      "lead_name": null,
+      "model": "conversation model",
+      "paused": false,
+      "queued": true,
+      "session_state": "queued",
+      "started_at": null,
+      "state": "idle",
+      "thread_id": null,
+      "thread_title": null,
+      "tokens_per_second": null,
+      "waiting_on": null
+     }
+    ],
+    "team": [
+     {
+      "department": "personal",
+      "doing": "is drafting tomorrow's brief",
+      "id": "PO-1",
+      "name": "Atlas",
+      "state": "generating",
+      "tokens_per_second": 23.0
+     },
+     {
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "id": "GOV-1",
+      "name": "Foreman",
+      "state": "waiting",
+      "tokens_per_second": null
+     },
+     {
+      "department": "personal",
+      "doing": "is waiting for the tenant's reply",
+      "id": "PO-9",
+      "name": "Keystone",
+      "state": "idle",
+      "tokens_per_second": null
+     },
+     {
+      "department": "personal",
+      "doing": "will triage 6 new emails",
+      "id": "PO-3",
+      "name": "Sieve",
+      "state": "idle",
+      "tokens_per_second": null
+     }
+    ],
+    "tiles": [
+     {
+      "href": "/services",
+      "name": "Services",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Healthy",
+       "status": "healthy"
+      },
+      "value": "17 running"
+     },
+     {
+      "href": "/models",
+      "name": "Model pool",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Mode L",
+       "status": "healthy"
+      },
+      "value": "22 / 42 GB"
+     },
+     {
+      "href": "/backups",
+      "name": "Backups",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Starter backup · one location",
+       "status": "attention"
+      },
+      "value": "20:00 today"
+     },
+     {
+      "href": "/spend",
+      "name": "Spend",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Everything runs locally. Paid features off.",
+       "status": "healthy"
+      },
+      "value": "$0.00"
+     },
+     {
+      "href": "/connections",
+      "name": "Connections",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Contacts waiting",
+       "status": "attention"
+      },
+      "value": "3 of 4"
+     },
+     {
+      "href": "/system",
+      "name": "Heartbeat",
+      "sampled_at": "2026-10-25T16:00:00Z",
+      "status": {
+       "label": "Reporting",
+       "status": "healthy"
+      },
+      "value": "1 min ago"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
    "method": "GET",
    "path": "/approvals",
    "response": [
@@ -9991,6 +12069,9 @@
      }
     },
     "degraded": [],
+    "features_on": [
+     "offline_pack"
+    ],
     "overall": {
      "label": "Away mode",
      "status": "attention"
@@ -10025,6 +12106,34 @@
       "meta": "Home and auto · case open",
       "time": "18:00",
       "title": "Car registration renewal due"
+     }
+    ],
+    "alerts": [
+     {
+      "detail": "Starter backup · the two drives back each other up. Add a backup drive.",
+      "href": "/backups",
+      "id": "AL-0042",
+      "raised_at": "2026-10-25T13:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Needs attention",
+       "status": "attention"
+      },
+      "title": "Backups are in one place"
+     },
+     {
+      "detail": "The Saturday audit found drift. Custodian can fix it.",
+      "href": "/docs/rs-readme",
+      "id": "AL-0043",
+      "raised_at": "2026-10-24T20:00:00Z",
+      "snoozed_until": null,
+      "state": "open",
+      "status": {
+       "label": "Stale",
+       "status": "attention"
+      },
+      "title": "Receipt Scanner README is out of date"
      }
     ],
     "blocked_threads": 0,

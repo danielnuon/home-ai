@@ -22,7 +22,15 @@ from control_center.backends.mock import activity, chat, gate, gate_step_up, sta
 from control_center.backends.mock.engine_work import INSTRUMENT_COUNT
 from control_center.backends.mock.fixtures import chat as chat_fixtures
 from control_center.backends.mock.fixtures import gate as gate_fixtures
-from control_center.backends.mock.fixtures import ops, people, personal, platform, reference, work
+from control_center.backends.mock.fixtures import (
+    ops,
+    people,
+    personal,
+    platform,
+    reference,
+    shell,
+    work,
+)
 from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import BLOCKED_WORDS, STATE_ORDER, WAITING_WORDS
@@ -71,6 +79,8 @@ def world_state() -> dict[str, Any]:
         "fixes",
         "chats",
         "chat_heads",
+        "alerts",
+        "trash",
     ]
     state = {name: dump(getattr(world, name)) for name in fields}
     state["stopped"] = world.stopped
@@ -137,6 +147,21 @@ def fixtures() -> dict[str, Any]:
         "mock_reply": chat_fixtures.MOCK_REPLY,
         "mock_retry": chat_fixtures.MOCK_RETRY,
         "thread_leads": thread_fixtures.LEADS,
+        "doc_bodies": dump(shell.DOC_BODIES),
+        "intake_stage": {
+            "stages": dump(work.stage_rail(0)),
+            "label": work.phase_label(0, "D0 intake"),
+        },
+        "guide_pages": {page: dump(list(said)) for page, said in shell.GUIDE_PAGES.items()},
+        "guide_fallback": shell.GUIDE_FALLBACK,
+        "offline_pack": dump(shell.offline_pack()),
+        "library_categories": shell.LIBRARY_CATEGORIES,
+        "quick_cards": dump(shell.quick_cards()),
+        "library_tiers": dump(shell.library_tiers()),
+        "red_flags": shell.RED_FLAGS,
+        "library_answers": {w: dump(list(a)) for w, a in shell.LIBRARY_ANSWERS.items()},
+        "library_caveat": shell.LIBRARY_CAVEAT,
+        "no_passage": shell.NO_PASSAGE,
     }
 
 
@@ -163,6 +188,10 @@ def constants() -> dict[str, Any]:
         "sample_every_ticks": activity.SAMPLE_EVERY_TICKS,
         "rate_bounds": list(activity.RATE_BOUNDS),
         "streamed_code": activity.STREAMED_CODE,
+        "trash_days": shell.TRASH_DAYS,
+        "snooze_seconds": shell.SNOOZE.total_seconds(),
+        "app_features": list(gate.APP_FEATURES),
+        "ark_volumes": shell.ARK_VOLUMES,
     }
 
 

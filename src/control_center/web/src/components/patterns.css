@@ -1,0 +1,350 @@
+/*
+ * The shared interaction patterns (spec 7.14, 7.15): the "…" menu, swipe rows and cards, hold to
+ * confirm, the Guide panel, the help menu, pull down to ask, and the ambient background.
+ * Only transform and opacity animate (7.17).
+ */
+
+:root {
+  --nav-pill: rgb(86 111 95 / 14%);
+  --ambient-dawn: rgb(124 147 168 / 14%);
+  --ambient-dusk: rgb(201 161 90 / 14%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    --nav-pill: rgb(143 179 160 / 18%);
+    --ambient-dawn: rgb(147 169 191 / 8%);
+    --ambient-dusk: rgb(216 181 113 / 7%);
+  }
+}
+
+/* Ambient time: two tints behind everything, changing only in opacity, over minutes */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ambient > div {
+  position: absolute;
+  inset: 0;
+  transition: opacity 90s linear;
+}
+
+.ambient-dawn {
+  background: radial-gradient(120% 70% at 20% 0%, var(--ambient-dawn), transparent 70%);
+}
+
+.ambient-dusk {
+  background: radial-gradient(120% 70% at 80% 0%, var(--ambient-dusk), transparent 70%);
+}
+
+/* The bar above every page: search, Guide and help */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.top-bar .search-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.shell-phone .guide-button-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.shell-phone .guide-button {
+  width: var(--touch);
+  padding: 0;
+}
+
+/* The "…" menu */
+
+.more-button {
+  flex: none;
+  color: var(--muted);
+}
+
+.menu-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+}
+
+.more-menu {
+  position: fixed;
+  width: 240px;
+  padding: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+  transform-origin: top right;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--touch);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-row);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-item:focus-visible,
+.menu-item:active {
+  background: var(--raised);
+  outline: none;
+}
+
+@media (hover: hover) {
+  .menu-item:hover {
+    background: var(--raised);
+  }
+}
+
+.menu-item.destructive {
+  color: var(--clay-text);
+}
+
+/* Swipe rows and cards */
+
+.swipe {
+  position: relative;
+  overflow: hidden;
+}
+
+.list > .swipe:not(:first-child),
+.list > :not(:first-child) > .swipe {
+  border-top: 1px solid var(--line);
+}
+
+.swipe-card {
+  border-radius: var(--radius-card);
+}
+
+.swipe-face {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  touch-action: pan-y;
+}
+
+.swipe-face > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.swipe-row .list-row {
+  border-top: 0;
+}
+
+.swipe-behind {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5);
+  color: var(--on-accent);
+  font-weight: var(--weight-medium);
+}
+
+.swipe-start {
+  justify-content: flex-start;
+}
+
+.swipe-end {
+  justify-content: flex-end;
+}
+
+.tone-accent {
+  background: var(--accent-text);
+}
+
+.tone-sand {
+  background: var(--sand-text);
+}
+
+.tone-clay {
+  background: var(--clay-text);
+}
+
+/* The pointer's stand-ins for the swipes: they rest over the row's right end, left of its "…",
+   and take no room until the pointer rests on the row or focus is inside it. */
+.swipe-buttons {
+  position: absolute;
+  top: 50%;
+  right: 52px;
+  display: none;
+  gap: var(--space-2);
+  padding-left: var(--space-6);
+  background: linear-gradient(to right, transparent, var(--surface) var(--space-6));
+  transform: translateY(-50%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .swipe-buttons {
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+  }
+
+  .swipe-face:hover .swipe-buttons,
+  .swipe-face:focus-within .swipe-buttons {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.swipe-face:focus-within .swipe-buttons {
+  display: flex;
+}
+
+.swipe-card .swipe-buttons {
+  top: auto;
+  bottom: var(--space-3);
+  transform: none;
+}
+
+.swipe-button {
+  min-height: 36px;
+}
+
+/* Hold to confirm */
+
+.hold-button {
+  position: relative;
+  overflow: hidden;
+  border-color: var(--clay-text);
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hold-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--clay-text);
+  opacity: 0.18;
+  transform-origin: left;
+}
+
+.hold-label {
+  position: relative;
+}
+
+/* Pull down to ask */
+
+.pull-hint {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: -110px;
+  width: 220px;
+  justify-content: center;
+  min-height: 36px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--accent-text);
+  pointer-events: none;
+}
+
+/* Guide answers, shortcut keys */
+
+.guide-answer {
+  --gap: var(--space-2);
+}
+
+kbd {
+  font-family: var(--font-mono);
+  padding: 2px var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+}
+
+/* Documents in the Docs reader */
+
+.doc-body {
+  max-width: 68ch;
+}
+
+.doc-body h2 {
+  margin-top: var(--space-4);
+}
+
+.doc-body pre {
+  overflow-x: auto;
+  padding: var(--space-3);
+  border-radius: var(--radius-row);
+  background: var(--raised);
+  font-family: var(--font-mono);
+}
+
+/* Library quick cards print on their own (spec 12.8, "print the quick cards") */
+
+@media print {
+  .sidebar,
+  .rail,
+  .tab-bar,
+  .top-bar,
+  .banners,
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Action rows and cards */
+
+.action-row,
+.action-card-body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.action-row > .list-row {
+  flex: 1;
+  min-width: 0;
+}
+
+.action-row > .more-button {
+  margin-right: var(--space-2);
+}
+
+.action-card {
+  padding: 0;
+}
+
+.action-card .swipe-face {
+  border-radius: inherit;
+}
+
+.action-card-body {
+  gap: var(--space-2);
+  padding: var(--space-4);
+  align-items: flex-start;
+}

@@ -9,15 +9,25 @@ turning on a paid feature changes Spend and Settings) without building the servi
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Protocol
+from typing import Any, Protocol
 
-from control_center.backends.mock.fixtures import chat, gate, ops, people, personal, settings, work
+from control_center.backends.mock.fixtures import (
+    chat,
+    gate,
+    ops,
+    people,
+    personal,
+    settings,
+    shell,
+    work,
+)
 from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
 from control_center.contract.personal import AutomaticChange, Case, Contact, SetupStep
+from control_center.contract.shell import TrashItem
 from control_center.contract.status import Job, MaintenanceFix
-from control_center.contract.today import ChatMessage
+from control_center.contract.today import Alert, ChatMessage
 from control_center.contract.work import (
     Employee,
     LifecycleProposal,
@@ -60,6 +70,8 @@ class MockWorld:
     """Chat messages by conversation thread id: every branch, as a tree (`chat_tree.py`)."""
     chat_heads: dict[str, str]
     """The newest message of the branch on show in each conversation; the next turn follows it."""
+    alerts: dict[str, Alert]
+    trash: dict[str, TrashItem]
     sampled_at: datetime
     """When the simulated status aggregator last collected health and metrics."""
     stopped: bool = False
@@ -68,6 +80,9 @@ class MockWorld:
     """How many health samples the simulated aggregator has taken; the figures move with it."""
     step_up_challenges: set[str] = field(default_factory=set)
     step_up_proofs: dict[str, datetime] = field(default_factory=dict)
+    trashed: dict[str, Any] = field(default_factory=dict)
+    """What each trash item held when it was deleted, by trash id, for its restorer to put back
+    (`engine_shell.send_to_trash`). The fixtures' items hold nothing."""
 
     def setting(self, key: str) -> str:
         """The current value of a setting. Raises KeyError for an unknown key."""
@@ -115,5 +130,7 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         fixes=by_id(ops.maintenance_batch()),
         chats={chat.ATLAS_THREAD: chat.atlas_history(now)},
         chat_heads={chat.ATLAS_THREAD: "M-2"},
+        alerts=by_id(shell.alerts(now)),
+        trash=by_id(shell.trash(now)),
         sampled_at=now,
     )
