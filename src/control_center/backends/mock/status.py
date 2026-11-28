@@ -2,16 +2,19 @@
 
 from datetime import datetime
 
-from control_center.backends.mock.fixtures import ops, platform
+from control_center.backends.mock.fixtures import operations, ops, platform
 from control_center.backends.mock.world import MockWorld
 from control_center.contract.common import Metric, Row, RowGroup, StatusLabel
 from control_center.contract.status import (
     BackupsOverview,
     ConnectionsOverview,
+    MemoryZone,
     ModelsOverview,
     PaidFeature,
-    RestoreDrill,
+    PoolModeOption,
+    PoolState,
     SecurityOverview,
+    SelectionRun,
     ServiceGroup,
     ServicesOverview,
     SpendOverview,
@@ -26,8 +29,11 @@ CALL_SCRIPT = (
 )
 """What an approval call says (spec 11.5.1). The same fixed lines for every voice."""
 
-POOL_MODE = "Mode L"
-"""The model pool's mode, shown on Models and on Today's tile."""
+DESK_MODE_GB = 4
+"""How much of the pool Desk mode gives to the Owner's session (spec 8.11.2)."""
+
+OFFSITE_FEATURE = "offsite"
+"""The paid feature Backups shows in the same panel as Spend."""
 
 BACKUP_MODE = StatusLabel(status="attention", label="Starter backup · one location")
 """The backup mode, shown on Backups and on Today's tile."""
@@ -57,14 +63,14 @@ class MockStatusAggregator:
         Returns:
             One tile per subsystem, stamped with the latest sample time.
         """
-        pool = next(z for z in platform.MEMORY_ZONES if z.name == "Model pool")
+        pool = next(z for z in self._zones() if z.name == "Model pool")
         healthy = StatusLabel(status="healthy", label="Healthy")
         tiles = [
             ("Services", f"{_running(platform.service_groups())} running", healthy, "/services"),
             (
                 "Model pool",
                 f"{pool.used_gb:g} / {pool.budget_gb:g} GB",
-                StatusLabel(status="healthy", label=POOL_MODE),
+                StatusLabel(status="healthy", label=self._mode_name()),
                 "/models",
             ),
             ("Backups", "20:00 today", BACKUP_MODE, "/backups"),
@@ -86,16 +92,61 @@ class MockStatusAggregator:
         """Today's live figures, stamped like every other sample."""
         return self._sampled(platform.health_metrics(self._world.samples))
 
+    def _mode_name(self) -> str:
+        """The pool mode as Today's tile and Models name it, such as "Mode L"."""
+        return f"Mode {self._world.ops.pool_mode}"
+
+    def _zones(self) -> list[MemoryZone]:
+        """The memory budget; Desk mode moves 4 GB from the pool to your session (8.11.2)."""
+        if not self._world.is_on("resources.desk_mode"):
+            return platform.MEMORY_ZONES
+        moved = {"macOS and your session": DESK_MODE_GB, "Model pool": -DESK_MODE_GB}
+        return [
+            zone.model_copy(update={"budget_gb": zone.budget_gb + moved.get(zone.name, 0)})
+            for zone in platform.MEMORY_ZONES
+        ]
+
+    def _pool(self) -> PoolState:
+        mode = self._world.ops.pool_mode
+        label, _, loaded = operations.POOL_MODES[mode]
+        options = [
+            PoolModeOption(
+                mode=option,
+                label=operations.POOL_MODES[option][0],
+                note=operations.POOL_MODES[option][1],
+                impact=operations.MODE_IMPACT[option],
+            )
+            for option in operations.OWNER_MODES
+        ]
+        return PoolState(
+            mode=mode, label=label, loaded=loaded, can_end=mode == "I", options=options
+        )
+
     def system(self) -> SystemOverview:
-        """Machine, memory zones and hardware signals."""
+        """Machine, memory zones, the host's resource controls and hardware signals."""
+        level = self._world.ops.pressure
+        pressure, _ = operations.PRESSURE_WORDS[level]
+        summary = (
+            StatusLabel(status="healthy", label="All clear")
+            if level == "normal"
+            else StatusLabel(status=pressure.status, label=f"Memory pressure {level}")
+        )
         return SystemOverview(
-            summary=StatusLabel(status="healthy", label="All clear"),
+            summary=summary,
             machine="Mac mini M5 Pro · 64 GB · up 12 d 4 h · 0 unexpected reboots",
-            zones=platform.MEMORY_ZONES,
-            pressure=StatusLabel(status="healthy", label="Normal"),
+            zones=self._zones(),
+            pressure=pressure,
+            pressure_level=level,
             swap="0.3 GB · alert at 2 GB",
             tiles=self._sampled(platform.system_tiles()),
             rows=platform.system_rows(),
+            pool=self._pool(),
+            lanes=operations.LANES,
+            cpu=operations.CPU_CLASSES,
+            thermal=operations.THERMAL,
+            drives=operations.DRIVES,
+            model_time=operations.MODEL_TIME,
+            health_check=self._world.ops.health_check,
         )
 
     def services(self) -> ServicesOverview:
@@ -109,15 +160,33 @@ class MockStatusAggregator:
     def models(self) -> ModelsOverview:
         """Assignments and the independent-reviewer preview, following the setting."""
         independent = self._world.is_on("models.review.independent")
+        pins = self._world.ops.pins
+        queued = self._world.ops.selection_queued
         return ModelsOverview(
-            pool_mode=POOL_MODE,
+            pool_mode=self._mode_name(),
             resident="Conversation model + embeddings",
             swaps_today="3 · plan ≤ 6",
-            assignments=platform.family_assignments(independent),
+            assignments=[
+                a.model_copy(update={"pinned": a.family in pins})
+                for a in platform.family_assignments(independent)
+            ],
             independent_reviewer=independent,
             reviewer_impact=platform.reviewer_impact(),
             stats=platform.model_stats(),
             tokens=platform.tokens_panel(),
+            queue=operations.queue_depth(),
+            split=operations.local_cloud_split(),
+            routing=operations.routing_panel(),
+            candidates=operations.candidates(),
+            selection=SelectionRun(
+                status=StatusLabel(status="in_progress", label=operations.SELECTION_NEXT)
+                if queued
+                else StatusLabel(status="healthy", label="Idle"),
+                last_run=operations.SELECTION_IDLE,
+                queued=queued,
+            ),
+            plan_decisions=operations.PLAN_DECISIONS,
+            pin_impact=operations.PIN_IMPACT,
         )
 
     def spend(self) -> SpendOverview:
@@ -165,7 +234,9 @@ class MockStatusAggregator:
         )
 
     def backups(self) -> BackupsOverview:
-        """Starter mode, targets, the last drill and retention."""
+        """Starter mode, targets, drills, retention, a prune plan and paid offsite storage."""
+        ops_state = self._world.ops
+        offsite = next(f for f in platform.PAID_FEATURES if f[0] == OFFSITE_FEATURE)
         return BackupsOverview(
             mode=BACKUP_MODE,
             mode_note=(
@@ -173,15 +244,13 @@ class MockStatusAggregator:
                 "not theft, fire or a power surge that takes both."
             ),
             targets=ops.backup_targets(),
-            drill=RestoreDrill(
-                status=StatusLabel(status="healthy", label="Passed"),
-                detail=(
-                    "Oct 4 · one repository, tasks.db and the audit log restored to a scratch "
-                    "folder · hash chain verified · 4 min"
-                ),
-            ),
+            drill=ops_state.drill,
+            drills=ops_state.drills,
             restore_points=["Today 20:00", "Yesterday 00:00", "Oct 20 (weekly)"],
             retention=ops.retention(),
+            prune_plan=ops_state.prune_plan,
+            last_prune=ops_state.last_prune,
+            offsite=self._paid_feature(*offsite),
         )
 
     def connections(self) -> ConnectionsOverview:

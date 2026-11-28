@@ -423,6 +423,98 @@ def people_steps() -> list[Step]:
     ]
 
 
+def ops_steps() -> list[Step]:
+    """The operations controls, with each refusal.
+
+    Pool mode, health check, pressure drill, pins, selection, logs, job times, backups and
+    maintenance.
+    """
+    return [
+        {"method": "GET", "path": "/metrics?page=system"},
+        {"method": "GET", "path": "/metrics?page=models"},
+        {"method": "GET", "path": "/metrics"},
+        {"method": "PUT", "path": "/system/pool-mode", "body": {"mode": "L"}},
+        {"method": "PUT", "path": "/system/pool-mode", "body": {"mode": "B"}},
+        {"method": "POST", "path": "/system/pool-mode/end"},
+        {"method": "PUT", "path": "/system/pool-mode", "body": {"mode": "I"}},
+        {"method": "GET", "path": "/today"},
+        {"method": "POST", "path": "/system/pool-mode/end"},
+        {"method": "POST", "path": "/system/health-check"},
+        {"method": "PUT", "path": "/settings/resources.desk_mode", "body": {"value": "on"}},
+        {"method": "GET", "path": "/system"},
+        {"method": "PUT", "path": "/settings/resources.desk_mode", "body": {"value": "off"}},
+        {"method": "PUT", "path": "/system/pool-mode", "body": {"mode": "S"}},
+        {"method": "POST", "path": "/system/pressure-drill"},
+        {"method": "GET", "path": "/platform"},
+        {"method": "POST", "path": "/system/pressure-drill"},
+        {"method": "GET", "path": "/platform"},
+        {"method": "GET", "path": "/schedule"},
+        {"method": "POST", "path": "/schedule/snapshots/run"},
+        {"method": "POST", "path": "/schedule/daily-brief/run"},
+        {"method": "PUT", "path": "/system/pool-mode", "body": {"mode": "I"}},
+        {"method": "POST", "path": "/system/pressure-drill"},
+        {"method": "GET", "path": "/platform"},
+        {"method": "PUT", "path": "/models/families/CODE/pin", "body": {"pinned": True}},
+        {"method": "PUT", "path": "/models/families/NOPE/pin", "body": {"pinned": True}},
+        {"method": "PUT", "path": "/models/families/CODE/pin", "body": {"pinned": False}},
+        {"method": "POST", "path": "/models/selection"},
+        {"method": "POST", "path": "/models/selection"},
+        {"method": "GET", "path": "/services/model-router/logs"},
+        {"method": "GET", "path": "/services/nope/logs"},
+        {"method": "PUT", "path": "/schedule/pruning/time", "body": {"time": "4am"}},
+        {"method": "PUT", "path": "/schedule/pruning/time", "body": {"time": "23:30"}},
+        {"method": "PUT", "path": "/schedule/account-sync/time", "body": {"time": "10:00"}},
+        {"method": "PUT", "path": "/schedule/pruning/time", "body": {"time": "03:30"}},
+        {"method": "PUT", "path": "/schedule/nope/time", "body": {"time": "03:30"}},
+        {"method": "POST", "path": "/backups/drill"},
+        {"method": "POST", "path": "/backups/prune-plan/discard"},
+        {"method": "POST", "path": "/backups/prune", "body": {"plan_id": "nope"}},
+        {"method": "POST", "path": "/backups/prune-plan"},
+        {"method": "POST", "path": "/backups/prune", "body": "$plan"},
+        *step_up(),
+        {"method": "POST", "path": "/backups/prune", "body": "$plan", "step_up": PROOF},
+        {"method": "POST", "path": "/backups/prune-plan"},
+        {"method": "POST", "path": "/backups/prune-plan/discard"},
+        {
+            "method": "PUT",
+            "path": "/settings/maintenance.receipt-scanner",
+            "body": {"value": "fix"},
+        },
+        *step_up(),
+        {
+            "method": "PUT",
+            "path": "/settings/maintenance.receipt-scanner",
+            "body": {"value": "fix"},
+            "step_up": PROOF,
+        },
+        {
+            "method": "PUT",
+            "path": "/settings/maintenance.lease-reminders",
+            "body": {"value": "scan"},
+        },
+        {"method": "POST", "path": "/maintenance/findings/F-042/wont-fix", "body": {"reason": " "}},
+        {
+            "method": "POST",
+            "path": "/maintenance/findings/F-042/wont-fix",
+            "body": {"reason": "Docs move"},
+        },
+        {
+            "method": "POST",
+            "path": "/maintenance/findings/F-042/wont-fix",
+            "body": {"reason": "Again"},
+        },
+        {"method": "GET", "path": "/maintenance"},
+        {"method": "POST", "path": "/maintenance/findings/F-042/reopen"},
+        {"method": "POST", "path": "/maintenance/findings/F-042/reopen"},
+        {"method": "POST", "path": "/maintenance/findings/nope/reopen"},
+        {"method": "POST", "path": "/platform/stop"},
+        {"method": "POST", "path": "/backups/drill"},
+        {"method": "POST", "path": "/models/selection"},
+        *step_up(),
+        {"method": "POST", "path": "/platform/resume", "step_up": PROOF},
+    ]
+
+
 def later_steps() -> list[Step]:
     """Time passing: cards expire, decisions take effect, a snooze ends."""
     return [
@@ -482,7 +574,7 @@ def run(steps: list[Step]) -> list[Step]:
     """Send each step and record its answer and the events it published."""
     clock = FakeClock()
     client, bus = deterministic_app(clock)
-    challenge = proof = ""
+    challenge = proof = plan = ""
     recorded: list[Step] = []
     for step in steps:
         if "advance" in step:
@@ -492,6 +584,8 @@ def run(steps: list[Step]) -> list[Step]:
         body = step.get("body")
         if body == "$assertion":
             body = {"challenge": challenge, "assertion": f"virtual:{challenge}"}
+        if body == "$plan":
+            body = {"plan_id": plan}
         headers = {"X-Step-Up": proof} if step.get("step_up") == PROOF else {}
         before = bus.last_id
         answer = client.request(
@@ -503,6 +597,7 @@ def run(steps: list[Step]) -> list[Step]:
         response = answer.json() if is_json else None
         found = response if isinstance(response, dict) else {}
         challenge = found.get("challenge", challenge)
+        plan = (found.get("prune_plan") or {}).get("id", plan)
         proof = found.get("proof", proof)
         events = [{"kind": e.kind, "payload": e.payload} for e in bus.replay_after(before)]
         recorded.append(
@@ -528,6 +623,7 @@ def main() -> None:
         *shell_steps(),
         *people_steps(),
         *board_steps(),
+        *ops_steps(),
         *later_steps(),
     ]
     payload = {"exported_at": EXPORT_NOW.isoformat(), "steps": run(steps)}

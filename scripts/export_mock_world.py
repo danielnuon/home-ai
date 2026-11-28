@@ -28,11 +28,13 @@ from control_center.backends.mock import (
     memory_rules,
     status,
 )
+from control_center.backends.mock.engine_ops import PAGE_AREAS
 from control_center.backends.mock.engine_work import INSTRUMENT_COUNT
 from control_center.backends.mock.fixtures import chat as chat_fixtures
 from control_center.backends.mock.fixtures import contacts as contact_fixtures
 from control_center.backends.mock.fixtures import memory as memory_fixtures
 from control_center.backends.mock.fixtures import (
+    operations,
     ops,
     people,
     personal,
@@ -101,6 +103,7 @@ def world_state() -> dict[str, Any]:
     state["stopped"] = world.stopped
     state["maintenance_running"] = world.maintenance_running
     state["memory_paused"] = world.memory_paused
+    state["ops"] = dump(world.ops)
     return state
 
 
@@ -148,7 +151,6 @@ def fixtures() -> dict[str, Any]:
             for celebrity in (True, False)
         },
         "maintenance_stats": dump(ops.maintenance_stats()),
-        "findings": dump(ops.findings()),
         "agenda": dump(personal.agenda()),
         "domains": dump(personal.domains()),
         "finance": {p: dump(personal.finance(p)) for p in ("owner", "mom", "dad")},
@@ -185,6 +187,45 @@ def fixtures() -> dict[str, Any]:
         "library_answers": {w: dump(list(a)) for w, a in shell.LIBRARY_ANSWERS.items()},
         "library_caveat": shell.LIBRARY_CAVEAT,
         "no_passage": shell.NO_PASSAGE,
+        "operations": operations_fixtures(),
+    }
+
+
+def operations_fixtures() -> dict[str, Any]:
+    """System, Models, Services, Backups and Maintenance views for the operations controls."""
+    o = operations
+    services = [s.id for g in platform.service_groups() for s in g.services]
+    return {
+        "pool_modes": {m: dump(list(v)) for m, v in o.POOL_MODES.items()},
+        "owner_modes": o.OWNER_MODES,
+        "mode_impact": dump(o.MODE_IMPACT),
+        "lanes": dump(o.LANES),
+        "cpu_classes": dump(o.CPU_CLASSES),
+        "thermal": dump(o.THERMAL),
+        "drives": dump(o.DRIVES),
+        "model_time": dump(o.MODEL_TIME),
+        "health_checks": dump(o.HEALTH_CHECKS),
+        "pressure_words": dump({k: list(v) for k, v in o.PRESSURE_WORDS.items()}),
+        "pressure_drill": o.PRESSURE_DRILL,
+        "log_retained": o.LOG_RETAINED,
+        "service_logs": {sid: dump(o.service_log(sid)) for sid in services},
+        "queue_depth": dump(o.queue_depth()),
+        "local_cloud_split": dump(o.local_cloud_split()),
+        "routing_panel": dump(o.routing_panel()),
+        "candidates": dump(o.candidates()),
+        "plan_decisions": o.PLAN_DECISIONS,
+        "pin_impact": dump(o.PIN_IMPACT),
+        "selection_next": o.SELECTION_NEXT,
+        "selection_idle": o.SELECTION_IDLE,
+        "drill_detail": o.DRILL_DETAIL,
+        "prune_removes": dump(o.prune_removes()),
+        "prune_frees": o.PRUNE_FREES,
+        "prune_keeps": o.PRUNE_KEEPS,
+        "products": dump(o.PRODUCTS),
+        "maintenance_trends": dump(o.maintenance_trends()),
+        "metric_catalog": dump(o.metric_catalog()),
+        "page_areas": PAGE_AREAS,
+        "families": [a.family for a in platform.family_assignments(independent_reviewer=True)],
     }
 
 
@@ -209,7 +250,8 @@ def constants() -> dict[str, Any]:
         "blocked_words": BLOCKED_WORDS,
         "waiting_words": WAITING_WORDS,
         "call_script": status.CALL_SCRIPT,
-        "pool_mode": status.POOL_MODE,
+        "desk_mode_gb": status.DESK_MODE_GB,
+        "offsite_feature": status.OFFSITE_FEATURE,
         "backup_mode": dump(status.BACKUP_MODE),
         "tick_seconds": activity.TICK_SECONDS,
         "transcript_every_ticks": activity.TRANSCRIPT_EVERY_TICKS,

@@ -1,5 +1,7 @@
 """Schedule, Security, Backups, Maintenance, Connections and Voice fixtures."""
 
+import re
+
 from control_center.contract.common import Metric, Row, RowGroup, StatusLabel
 from control_center.contract.status import Finding, Job, MaintenanceFix, VoiceProfile
 
@@ -24,6 +26,7 @@ def jobs() -> list[Job]:
     ) -> Job:
         """`when` is the schedule and the next run, as the Schedule page shows them."""
         schedule, next_run = when
+        found = re.search(r"\b\d{2}:\d{2}\b", schedule)
         return Job(
             id=job_id,
             name=name,
@@ -32,6 +35,7 @@ def jobs() -> list[Job]:
             last_run=last,
             heavy=heavy,
             paused=False,
+            time=None if schedule.startswith("Every") or found is None else found.group(),
         )
 
     return [
@@ -185,18 +189,42 @@ def maintenance_batch() -> list[MaintenanceFix]:
             title="Off-by-one in lease end reminder",
             meta="lease-reminders · +18 −3 · regression test added",
             reverted=False,
+            diff=[
+                "--- a/lease_reminders/dates.py",
+                "+++ b/lease_reminders/dates.py",
+                "@@ -14,7 +14,7 @@ def reminder_dates(lease_end: date) -> list[date]:",
+                "-    return [lease_end - timedelta(days=d - 1) for d in OFFSETS]",
+                "+    return [lease_end - timedelta(days=d) for d in OFFSETS]",
+                "--- a/tests/test_dates.py",
+                "+++ b/tests/test_dates.py",
+                "+def test_reminder_lands_on_the_offset_day() -> None:",
+                "+    assert reminder_dates(date(2026, 12, 31))[0] == date(2026, 12, 1)",
+            ],
         ),
         MaintenanceFix(
             id="F-034",
             title="Patch update: httpx 0.28.1",
             meta="lease-reminders · lockfile only · advisories none",
             reverted=False,
+            diff=[
+                "--- a/uv.lock",
+                "+++ b/uv.lock",
+                '-version = "0.28.0"',
+                '+version = "0.28.1"',
+            ],
         ),
         MaintenanceFix(
             id="F-029",
             title="Remove unused CSV exporter",
             meta="receipt-scanner · −142 · provably unreferenced",
             reverted=False,
+            diff=[
+                "--- a/receipt_scanner/export_csv.py",
+                "+++ /dev/null",
+                "@@ -1,142 +0,0 @@",
+                '-"""Write receipts as CSV. Unused since the ledger export (F-012)."""',
+                "-…139 more removed lines",
+            ],
         ),
     ]
 
@@ -209,24 +237,54 @@ def findings() -> list[Finding]:
             severity="high",
             title="Token compared with == in webhook check",
             meta="receipt-scanner · security · fix branch tonight",
+            product="receipt-scanner",
+            detail=(
+                "The webhook handler compares the shared token with ==, which leaks timing. "
+                "Custodian proposes hmac.compare_digest and a test that the check rejects a wrong "
+                "token."
+            ),
+            evidence=[
+                "semgrep: python.lang.security.audit.timing-attack",
+                "receipt_scanner/webhooks.py:41",
+            ],
         ),
         Finding(
             id="F-041",
             severity="medium",
             title="N+1 query on the tenants list",
             meta="lease-reminders · performance · benchmark first",
+            product="lease-reminders",
+            detail=(
+                "Listing tenants runs one query per lease. The benchmark against the release "
+                "baseline shows 38 ms at 20 tenants; it grows with every tenant."
+            ),
+            evidence=[
+                "benchmark: tenants_list p95 38 ms (baseline 12 ms)",
+                "lease_reminders/tenants.py:77",
+            ],
         ),
         Finding(
             id="F-042",
             severity="medium",
             title="README setup steps out of date",
             meta="receipt-scanner · docs drift",
+            product="receipt-scanner",
+            detail=(
+                "The README still says to run make setup, which was renamed make install in 0.4."
+            ),
+            evidence=["docs check: README.md:18 names a target that no longer exists"],
         ),
         Finding(
             id="F-043",
             severity="low",
             title="Duplicated date parsing in 3 files",
             meta="lease-reminders · refactor · proposal",
+            product="lease-reminders",
+            detail=(
+                "Three modules parse dates the same way. A shared helper would remove 31 lines; "
+                "behaviour stays the same."
+            ),
+            evidence=["jscpd: 3 clones, 31 lines", "lease_reminders/{dates,import_csv,notices}.py"],
         ),
     ]
 

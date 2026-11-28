@@ -24,6 +24,7 @@ from control_center.backends.mock.fixtures import (
     work,
 )
 from control_center.backends.mock.fixtures import threads as thread_fixtures
+from control_center.backends.mock.ops_state import OpsState
 from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
 from control_center.contract.memory import MemoryItem
@@ -99,6 +100,8 @@ class MockWorld:
     trashed: dict[str, Any] = field(default_factory=dict)
     """What each trash item held when it was deleted, by trash id, for its restorer to put back
     (`engine_shell.send_to_trash`). The fixtures' items hold nothing."""
+    ops: OpsState = field(default_factory=OpsState)
+    """Pool mode, memory pressure, pins, drills, prunes and findings (`ops_state.py`)."""
 
     def setting(self, key: str) -> str:
         """The current value of a setting. Raises KeyError for an unknown key."""

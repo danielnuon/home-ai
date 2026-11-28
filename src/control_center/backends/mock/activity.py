@@ -46,7 +46,8 @@ async def simulate_activity(world: MockWorld, rng: random.Random | None = None) 
         if world.stopped:
             continue
         _drift_token_rates(world, rng)
-        if tick % TRANSCRIPT_EVERY_TICKS == 0:
+        # Under memory pressure Brain stops streaming transcripts (spec 7.17, "Degradation").
+        if tick % TRANSCRIPT_EVERY_TICKS == 0 and world.ops.pressure == "normal":
             _grow_transcript(world, tick // TRANSCRIPT_EVERY_TICKS)
 
 

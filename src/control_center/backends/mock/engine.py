@@ -7,8 +7,9 @@ from typing import Literal
 
 from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock.engine_board import BoardDesk
+from control_center.backends.mock.engine_ops import OpsDesk, heavy_work_paused
 from control_center.backends.mock.engine_shell import ShellDesk
-from control_center.backends.mock.fixtures import ops, personal, reference
+from control_center.backends.mock.fixtures import operations, ops, personal, reference
 from control_center.contract.common import Principal, StatusLabel
 from control_center.contract.personal import (
     Case,
@@ -20,6 +21,7 @@ from control_center.contract.personal import (
 )
 from control_center.contract.status import (
     DocsOverview,
+    MaintainedProduct,
     MaintenanceOverview,
     ScheduleOverview,
 )
@@ -33,13 +35,14 @@ CASE_STATE_AFTER: dict[str, Literal["open", "done", "snoozed"]] = {
 """The state a case is in after each Owner action."""
 
 
-class MockPipelineEngine(BoardDesk, ShellDesk):
+class MockPipelineEngine(BoardDesk, ShellDesk, OpsDesk):
     """In-memory stand-in for the pipeline engine (spec C3). Implements `PipelineEngine`.
 
     Sessions, threads and the Directory are in `WorkDesk`; the Work boards, ideas, work items,
     products, moves and suggested roles in `BoardDesk`; personal records, Setup, the schedule,
-    maintenance, docs and search are here. The Guide panel, the Docs reader,
-    the trash, the offline pack and the library are in `ShellDesk`.
+    maintenance, docs and search are here. The Guide panel, the Docs reader, the trash, the
+    offline pack and the library are in `ShellDesk`; pool mode, pins, logs, job times, drills,
+    prune plans, findings and the metric catalog are in `OpsDesk`.
     """
 
     # Personal ------------------------------------------------------------------------------
@@ -139,9 +142,14 @@ class MockPipelineEngine(BoardDesk, ShellDesk):
 
     def schedule(self) -> ScheduleOverview:
         """Jobs, the maintenance lock and quiet hours."""
+        lock = (
+            StatusLabel(status="problem", label="Held · memory pressure critical, heavy jobs wait")
+            if heavy_work_paused(self._world)
+            else StatusLabel(status="healthy", label="Free · next taken by Snapshots at 23:30")
+        )
         return ScheduleOverview(
             now="22:45",
-            lock=StatusLabel(status="healthy", label="Free · next taken by Snapshots at 23:30"),
+            lock=lock,
             quiet_hours=self._world.setting("quiet_hours"),
             jobs=list(self._world.jobs.values()),
         )
@@ -177,26 +185,46 @@ class MockPipelineEngine(BoardDesk, ShellDesk):
 
         Raises:
             NotFoundError: No such job.
-            ConflictError: The kill switch is on.
+            ConflictError: The kill switch is on, or critical memory pressure holds heavy jobs.
         """
         job = self._world.jobs.get(job_id)
         if job is None:
             raise NotFoundError("That job doesn't exist.")
         if self._world.stopped:
             raise ConflictError("Everything is stopped. Resume first.")
+        if job.heavy and heavy_work_paused(self._world):
+            raise ConflictError(
+                "Memory pressure is critical, so heavy jobs wait. Your requests and approvals "
+                "still run."
+            )
         job.last_run = StatusLabel(status="healthy", label="ok · just now")
         self._world.bus.changed("schedule", "backups")
         return self.schedule()
 
     def maintenance(self) -> MaintenanceOverview:
         """Pipeline C's state, last batch and findings."""
-        running = self._world.maintenance_running
+        products = [
+            MaintainedProduct(
+                repo=repo,
+                name=name,
+                setting_key=f"maintenance.{repo}",
+                level=self._world.setting(f"maintenance.{repo}"),
+                meta=meta,
+            )
+            for repo, name, meta in operations.PRODUCTS
+        ]
+        fixing = sum(1 for product in products if product.level == "fix")
         return MaintenanceOverview(
-            running=running,
-            summary="Custodian · 2 products scanned, 2 with fixes on · 0 reverts in 30 days",
+            running=self._world.maintenance_running,
+            summary=(
+                f"Custodian · {len(products)} products scanned, {fixing} with fixes on · "
+                "0 reverts in 30 days"
+            ),
             stats=ops.maintenance_stats(),
+            products=products,
             batch=list(self._world.fixes.values()),
-            findings=ops.findings(),
+            findings=list(self._world.ops.findings.values()),
+            trends=operations.maintenance_trends(),
         )
 
     def set_maintenance_running(self, running: bool) -> MaintenanceOverview:

@@ -97,6 +97,9 @@ export const ROUTES: PageRoute[] = [
   route("/work/items/:id", "Work item", Briefcase, () => import("./pages/WorkItem"), {
     inNav: false,
   }),
+  route("/services/:id", "Services", Server, () => import("./pages/ServiceLogs"), {
+    inNav: false,
+  }),
   route("/trash", "Recently deleted", Trash2, () => import("./pages/Trash"), { inNav: false }),
   route("/offline", "Offline pack", Smartphone, () => import("./pages/OfflinePack"), {
     inNav: false,

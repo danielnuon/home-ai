@@ -119,3 +119,9 @@ export const useSearch = (query: string) =>
     `/search?q=${encodeURIComponent(query)}`,
     query.trim() !== "",
   );
+/** A service's full masked log. */
+export const useServiceLog = (serviceId: string) =>
+  useResource<T.ServiceLog>(["services", serviceId], `/services/${serviceId}/logs`);
+/** The metric catalog with 7- and 30-day trends for one page (spec 7.18). */
+export const useMetrics = (page: "system" | "models" | "settings") =>
+  useResource<T.MetricCatalog>(["metrics", page], `/metrics?page=${page}`);

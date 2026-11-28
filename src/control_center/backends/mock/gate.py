@@ -10,9 +10,11 @@ from datetime import datetime, timedelta
 
 from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock import setting_rules
+from control_center.backends.mock.fixtures import operations
 from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
+from control_center.backends.mock.gate_ops import OpsControls
 from control_center.backends.mock.gate_people import PeopleDesk
 from control_center.backends.mock.gate_shell import ShellControls
 from control_center.backends.mock.world import MockWorld
@@ -39,7 +41,7 @@ APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 """The resources that show approval cards, or a thread waiting on one."""
 
 
-class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls):
+class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls, OpsControls):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 
     Approvals, settings and the kill switch are here. Critical decisions are in `DecisionLedger`,
@@ -303,7 +305,8 @@ class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls):
             stopped=world.stopped,
             away=world.is_on("away_mode"),
             quiet_hours=_in_quiet_hours(world.setting("quiet_hours"), world.clock()),
-            degraded=[],
+            degraded=_degraded(world),
+            pressure=world.ops.pressure,
             overall=overall,
             badges={page: badge for page, badge in badges.items() if badge.label not in ("", "0")},
             features_on=[key for key in APP_FEATURES if world.is_on(key)],
@@ -321,6 +324,12 @@ class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls):
         self._world.stopped = False
         self._world.bus.changed("*")
         return self.platform_state()
+
+
+def _degraded(world: MockWorld) -> list[str]:
+    """The banner for each degraded mode in force: memory pressure (spec 7.17, 7.16 rule 6)."""
+    banner = operations.PRESSURE_WORDS[world.ops.pressure][1]
+    return [banner] if banner else []
 
 
 def _expire_if_lapsed(approval: Approval, now: datetime) -> bool:

@@ -11,6 +11,7 @@ import type {
   SetupStep,
 } from "../api/types";
 import { conflict, notFound } from "./errors";
+import { heavyWorkPaused } from "./ops";
 import { setting, type MockWorld } from "./world";
 
 const CASE_STATE_AFTER: Record<string, Case["state"]> = {
@@ -65,7 +66,9 @@ export function setupAction(world: MockWorld, id: string, action: string): Setup
 export function schedule(world: MockWorld): ScheduleOverview {
   return {
     now: "22:45",
-    lock: { status: "healthy", label: "Free · next taken by Snapshots at 23:30" },
+    lock: heavyWorkPaused(world)
+      ? { status: "problem", label: "Held · memory pressure critical, heavy jobs wait" }
+      : { status: "healthy", label: "Free · next taken by Snapshots at 23:30" },
     quiet_hours: setting(world, "quiet_hours"),
     jobs: Object.values(world.jobs),
   };
@@ -88,6 +91,11 @@ export function setJobPaused(world: MockWorld, id: string, paused: boolean): Sch
 export function runJob(world: MockWorld, id: string): ScheduleOverview {
   const found = job(world, id);
   if (world.stopped) throw conflict("Everything is stopped. Resume first.");
+  if (found.heavy && heavyWorkPaused(world)) {
+    throw conflict(
+      "Memory pressure is critical, so heavy jobs wait. Your requests and approvals still run.",
+    );
+  }
   found.last_run = { status: "healthy", label: "ok · just now" };
   world.bus.changed("schedule", "backups");
   return schedule(world);
@@ -95,12 +103,24 @@ export function runJob(world: MockWorld, id: string): ScheduleOverview {
 
 /** Pipeline C's state, last batch and findings. */
 export function maintenance(world: MockWorld): MaintenanceOverview {
+  const products = world.fixtures.operations.products.map(([repo, name, meta]) => ({
+    repo,
+    name,
+    setting_key: `maintenance.${repo}`,
+    level: setting(world, `maintenance.${repo}`),
+    meta,
+  }));
+  const fixing = products.filter((product) => product.level === "fix").length;
   return {
     running: world.maintenance_running,
-    summary: "Custodian · 2 products scanned, 2 with fixes on · 0 reverts in 30 days",
+    summary:
+      `Custodian · ${products.length} products scanned, ${fixing} with fixes on · ` +
+      "0 reverts in 30 days",
     stats: world.fixtures.maintenance_stats,
+    products,
     batch: Object.values(world.fixes),
-    findings: world.fixtures.findings,
+    findings: Object.values(world.ops.findings),
+    trends: world.fixtures.operations.maintenance_trends,
   };
 }
 
