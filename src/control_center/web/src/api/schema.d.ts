@@ -911,6 +911,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/remember": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Remember
+     * @description Save one of the Owner's messages to memory (spec 15.9.3).
+     */
+    post: operations["chat_remember_api_v1_chat__lead_id___thread_id__messages__message_id__remember_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/chat/{lead_id}/{thread_id}/messages/{message_id}/branch": {
     parameters: {
       query?: never;
@@ -925,6 +945,150 @@ export interface paths {
      * @description Start a new conversation thread from the branch on show, up to a message.
      */
     post: operations["chat_branch_api_v1_chat__lead_id___thread_id__messages__message_id__branch_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Memory
+     * @description Every saved note, whether memory is paused, and the forgets that can be undone.
+     */
+    get: operations["memory_api_v1_memory_get"];
+    put?: never;
+    /**
+     * Memory Add
+     * @description Add a note, most often "don't bring this up".
+     */
+    post: operations["memory_add_api_v1_memory_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/paused": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Memory Paused
+     * @description Pause or resume memory.
+     */
+    put: operations["memory_paused_api_v1_memory_paused_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/{item_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Memory Edit
+     * @description Change a note's text, or pin or unpin it.
+     */
+    put: operations["memory_edit_api_v1_memory__item_id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/{item_id}/forget": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Memory Forget
+     * @description Forget a note. It can be brought back for ten minutes.
+     */
+    post: operations["memory_forget_api_v1_memory__item_id__forget_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/{item_id}/restore": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Memory Restore
+     * @description Bring back a note forgotten in the last ten minutes.
+     */
+    post: operations["memory_restore_api_v1_memory__item_id__restore_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/{item_id}/confirm": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Memory Confirm
+     * @description Confirm a proposed note.
+     */
+    post: operations["memory_confirm_api_v1_memory__item_id__confirm_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/memory/{item_id}/dismiss": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Memory Dismiss
+     * @description Turn down a proposed note.
+     */
+    post: operations["memory_dismiss_api_v1_memory__item_id__dismiss_post"];
     delete?: never;
     options?: never;
     head?: never;
@@ -1454,7 +1618,8 @@ export interface components {
      *     tree (15.9.8): `parent_id` is the message this one follows, and an edit or a regenerated
      *     reply is a sibling that starts a new branch. `sibling_ids` lists every branch at this point,
      *     oldest first, when there is more than one, and `branch` is this one's place among them, from
-     *     1. `stopped` marks a reply the Owner stopped before it finished.
+     *     1. `stopped` marks a reply the Owner stopped before it finished. `memory_used` lists the
+     *     saved notes a reply drew on, and `memory_notes` what the turn saved or learned (15.9.3).
      */
     ChatMessage: {
       /** Id */
@@ -1498,6 +1663,10 @@ export interface components {
       branch: number;
       /** Sibling Ids */
       sibling_ids: string[];
+      /** Memory Used */
+      memory_used: components["schemas"]["MemoryRef"][];
+      /** Memory Notes */
+      memory_notes: components["schemas"]["MemoryNote"][];
     };
     /**
      * ChatSend
@@ -1773,6 +1942,21 @@ export interface components {
       /** Meta */
       meta: string;
     };
+    /**
+     * ForgottenItem
+     * @description An item the Owner just forgot, which they can bring back until `undo_until` (15.9.7).
+     */
+    ForgottenItem: {
+      /** Id */
+      id: string;
+      /** Text */
+      text: string;
+      /**
+       * Undo Until
+       * Format: date-time
+       */
+      undo_until: string;
+    };
     /** HTTPValidationError */
     HTTPValidationError: {
       /** Detail */
@@ -2009,6 +2193,158 @@ export interface components {
     MaintenanceToggle: {
       /** Running */
       running: boolean;
+    };
+    /**
+     * MemoryEdit
+     * @description A change to an item: new text, pinned or unpinned. A field left out is unchanged.
+     */
+    MemoryEdit: {
+      /** Text */
+      text?: string | null;
+      /** Pinned */
+      pinned?: boolean | null;
+    };
+    /**
+     * MemoryItem
+     * @description One short fact, preference or "don't bring this up" note, with where it came from.
+     *
+     *     `scope_label` names the scope in words ("Everyone", "Home and auto", "Custodian only").
+     *     `source_thread_id` is the thread it was said in, led by `source_lead_id`; `source` describes
+     *     a proposed item's source when it is not the Owner's own words ("from an email from Delta").
+     *     `superseded_by` links a superseded item to the one that replaced it.
+     */
+    MemoryItem: {
+      /** Id */
+      id: string;
+      /** Text */
+      text: string;
+      /**
+       * Kind
+       * @default note
+       * @enum {string}
+       */
+      kind: "note" | "avoid";
+      /**
+       * Scope
+       * @enum {string}
+       */
+      scope: "owner" | "domain" | "space" | "product" | "idea" | "lead";
+      /** Scope Label */
+      scope_label: string;
+      /** Lead Id */
+      lead_id: string | null;
+      /**
+       * Principal
+       * @default owner
+       * @enum {string}
+       */
+      principal: "owner" | "mom" | "dad";
+      /**
+       * Status
+       * @default active
+       * @enum {string}
+       */
+      status: "active" | "proposed" | "superseded";
+      /**
+       * How
+       * @enum {string}
+       */
+      how: "said" | "learned" | "imported" | "confirmed";
+      /**
+       * Pinned
+       * @default false
+       */
+      pinned: boolean;
+      /** Source Thread Id */
+      source_thread_id: string | null;
+      /** Source Thread Title */
+      source_thread_title: string | null;
+      /** Source Lead Id */
+      source_lead_id: string | null;
+      /** Source */
+      source: string | null;
+      /**
+       * Saved At
+       * Format: date-time
+       */
+      saved_at: string;
+      /** Last Used */
+      last_used: string | null;
+      /**
+       * Use Count
+       * @default 0
+       */
+      use_count: number;
+      /** Superseded By */
+      superseded_by: string | null;
+    };
+    /**
+     * MemoryNew
+     * @description A note the Owner adds in the Memory view; most often "don't bring this up".
+     */
+    MemoryNew: {
+      /** Text */
+      text: string;
+      /**
+       * Kind
+       * @default avoid
+       * @enum {string}
+       */
+      kind: "note" | "avoid";
+    };
+    /**
+     * MemoryNote
+     * @description What a turn did to memory, shown under the lead's reply (15.9.3).
+     *
+     *     `saved`, `updated` and `learned` name the item; `not_saved` gives the reason in `text`.
+     */
+    MemoryNote: {
+      /**
+       * Outcome
+       * @enum {string}
+       */
+      outcome: "saved" | "updated" | "learned" | "not_saved";
+      /** Item Id */
+      item_id: string | null;
+      /** Text */
+      text: string;
+    };
+    /**
+     * MemoryOverview
+     * @description The Memory view: every item, whether memory is paused, and what can still be undone.
+     *
+     *     `pinned_max` is how many items may be pinned (`chat_memory.pinned_max`).
+     */
+    MemoryOverview: {
+      /** Items */
+      items: components["schemas"]["MemoryItem"][];
+      /**
+       * Paused
+       * @default false
+       */
+      paused: boolean;
+      /** Pinned Max */
+      pinned_max: number;
+      /** Forgotten */
+      forgotten: components["schemas"]["ForgottenItem"][];
+    };
+    /**
+     * MemoryPause
+     * @description Pause memory: items are kept, but none is read or learned until it resumes.
+     */
+    MemoryPause: {
+      /** Paused */
+      paused: boolean;
+    };
+    /**
+     * MemoryRef
+     * @description An item as a reply cites it under "Used memory".
+     */
+    MemoryRef: {
+      /** Id */
+      id: string;
+      /** Text */
+      text: string;
     };
     /**
      * MemoryZone
@@ -4658,6 +4994,44 @@ export interface operations {
       };
     };
   };
+  chat_remember_api_v1_chat__lead_id___thread_id__messages__message_id__remember_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   chat_branch_api_v1_chat__lead_id___thread_id__messages__message_id__branch_post: {
     parameters: {
       query?: never;
@@ -4683,6 +5057,300 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_api_v1_memory_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_add_api_v1_memory_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["MemoryNew"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_paused_api_v1_memory_paused_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["MemoryPause"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_edit_api_v1_memory__item_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["MemoryEdit"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_forget_api_v1_memory__item_id__forget_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_restore_api_v1_memory__item_id__restore_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_confirm_api_v1_memory__item_id__confirm_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  memory_dismiss_api_v1_memory__item_id__dismiss_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        item_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MemoryOverview"];
         };
       };
       /** @description Validation Error */

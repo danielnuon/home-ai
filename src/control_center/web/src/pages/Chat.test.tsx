@@ -64,6 +64,8 @@ const message = (id: string, text: string, threadId: string): ChatMessage => ({
   stopped: false,
   branch: 1,
   sibling_ids: [],
+  memory_used: [],
+  memory_notes: [],
 });
 
 /** Answers like the server: the lead's threads, and the picked thread's messages. */

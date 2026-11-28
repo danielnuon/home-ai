@@ -8,6 +8,7 @@ from pydantic import Field
 from control_center.contract.base import ContractModel
 from control_center.contract.common import Department, EmployeeState, Metric, StatusLabel
 from control_center.contract.gate import Approval, CriticalDecision
+from control_center.contract.memory import MemoryNote, MemoryRef
 from control_center.contract.work import LiveTask, Thread
 
 
@@ -98,7 +99,8 @@ class ChatMessage(ContractModel):
     tree (15.9.8): `parent_id` is the message this one follows, and an edit or a regenerated
     reply is a sibling that starts a new branch. `sibling_ids` lists every branch at this point,
     oldest first, when there is more than one, and `branch` is this one's place among them, from
-    1. `stopped` marks a reply the Owner stopped before it finished.
+    1. `stopped` marks a reply the Owner stopped before it finished. `memory_used` lists the
+    saved notes a reply drew on, and `memory_notes` what the turn saved or learned (15.9.3).
     """
 
     id: str
@@ -114,6 +116,8 @@ class ChatMessage(ContractModel):
     stopped: bool = False
     branch: int = 1
     sibling_ids: list[str] = Field(default_factory=list)
+    memory_used: list[MemoryRef] = Field(default_factory=list)
+    memory_notes: list[MemoryNote] = Field(default_factory=list)
 
 
 class ChatThread(ContractModel):

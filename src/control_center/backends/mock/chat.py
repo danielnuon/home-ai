@@ -12,8 +12,11 @@ from control_center.backends.mock import chat_tree
 from control_center.backends.mock.engine_work import THREAD_PAGES, WorkDesk
 from control_center.backends.mock.fixtures import chat as chat_fixtures
 from control_center.backends.mock.fixtures import threads as thread_fixtures
+from control_center.backends.mock.memory import MockMemory
+from control_center.backends.mock.memory_rules import explicit
 from control_center.backends.mock.threads import ThreadRecord
 from control_center.backends.mock.world import MockWorld
+from control_center.contract.memory import MemoryNote, MemoryRef
 from control_center.contract.today import ChatLead, ChatMessage, ChatThread
 from control_center.contract.work import Thread
 
@@ -47,6 +50,7 @@ class MockLeadChat:
         """Keep messages in `world`, read threads through the work desk, publish on its bus."""
         self._world = world
         self._desk = WorkDesk(world)
+        self._memory = MockMemory(world)
         self._streams: dict[str, tuple[asyncio.Task[None], ChatMessage]] = {}
 
     def _lead(self, lead_id: str) -> ChatLead:
@@ -172,7 +176,16 @@ class MockLeadChat:
         self._halt(thread_id)
         parent = self._world.chat_heads.get(thread_id)
         owner = self._add_owner_message(lead_id, thread_id, text, parent)
-        self._start_reply(lead_id, thread_id, owner, chat_fixtures.MOCK_REPLY)
+        record = self._world.threads[thread_id]
+        asked = explicit(text)
+        if asked is None:
+            notes = self._memory.learn(text, record)
+            template = chat_fixtures.MOCK_REPLY
+        else:
+            notes = [self._memory.remember(asked, record)]
+            template = _said(notes[0])
+        used = self._memory.recall(text, lead_id, record)
+        self._start_reply(lead_id, thread_id, owner, template, (used, notes))
         return self.thread(lead_id, thread_id)
 
     def edit(self, lead_id: str, thread_id: str, message_id: str, text: str) -> ChatThread:
@@ -332,6 +345,31 @@ class MockLeadChat:
         self._world.bus.changed(*THREAD_PAGES)
         return self.thread(lead_id, thread_id)
 
+    def remember(self, lead_id: str, thread_id: str, message_id: str) -> ChatThread:
+        """Save one of the Owner's messages to memory: the Remember action (spec 15.9.3).
+
+        Args:
+            lead_id: One of the five leads.
+            thread_id: One of that lead's threads.
+            message_id: One of the Owner's messages on the branch on show.
+
+        Returns:
+            The chat, with the message marked saved.
+
+        Raises:
+            NotFoundError: No such lead, thread or message on the branch on show.
+            ConflictError: The message is the lead's, or it may not be saved; the message says why.
+        """  # noqa: DOC503 NotFoundError is raised by self._shown_message()
+        shown = self._shown_message(lead_id, thread_id, message_id)
+        if shown.author != "owner":
+            raise ConflictError("Only what you wrote can be saved to memory.")
+        note = self._memory.remember(shown.text, self._world.threads[thread_id])
+        if note.outcome == "not_saved":
+            raise ConflictError(note.text)
+        stored = next(m for m in self._world.chats[thread_id] if m.id == message_id)
+        stored.memory_notes = [note]
+        return self.thread(lead_id, thread_id)
+
     def stop(self, lead_id: str, thread_id: str) -> ChatThread:
         """End the reply being written in `thread_id` at once, keeping what it wrote so far.
 
@@ -368,8 +406,18 @@ class MockLeadChat:
         shown = chat_tree.with_branches(tree, message)
         self._world.bus.publish("chat.message", shown.model_dump(mode="json"))
 
-    def _start_reply(self, lead_id: str, thread_id: str, parent: str, template: str) -> None:
-        """Add the lead's reply, empty, at the end of the branch, and stream its words in."""
+    def _start_reply(
+        self,
+        lead_id: str,
+        thread_id: str,
+        parent: str,
+        template: str,
+        memory: tuple[list[MemoryRef], list[MemoryNote]] = ([], []),
+    ) -> None:
+        """Add the lead's reply, empty, at the end of the branch, and stream its words in.
+
+        `memory` is the items the reply used and what the turn saved or learned.
+        """
         message = ChatMessage(
             id=f"M-{secrets.token_hex(4)}",
             lead_id=lead_id,
@@ -380,10 +428,12 @@ class MockLeadChat:
             at=self._world.clock(),
             note="Mock chat · nothing sent anywhere",
             streaming=True,
+            memory_used=memory[0],
+            memory_notes=memory[1],
         )
         self._world.chats.setdefault(thread_id, []).append(message)
         self._world.chat_heads[thread_id] = message.id
-        reply = template.format(name=self._lead(lead_id).name)
+        reply = template.replace("{name}", self._lead(lead_id).name)
         task = asyncio.get_running_loop().create_task(self._stream(thread_id, message, reply))
         self._streams[thread_id] = (task, message)
 
@@ -395,3 +445,12 @@ class MockLeadChat:
         message.streaming = False
         self._streams.pop(thread_id, None)
         self._publish(message)
+
+
+def _said(note: MemoryNote) -> str:
+    """The lead's one-line answer to "remember …" (15.9.3)."""
+    if note.outcome == "updated":
+        return f"Updated: {note.text}"
+    if note.outcome == "not_saved":
+        return note.text
+    return f"Saved to memory: {note.text}"

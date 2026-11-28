@@ -7,6 +7,7 @@ import * as engine from "./engine";
 import { MockError, notFound } from "./errors";
 import * as gate from "./gate";
 import * as chat from "./chat";
+import * as memory from "./memory";
 import * as status from "./status";
 import { buildToday } from "./today";
 import * as work from "./work";
@@ -55,6 +56,7 @@ const GET: Record<string, Handler> = {
   "/setup": (w) => Object.values(w.setup),
   "/search": (w, c) => engine.search(w, c.query.get("q") ?? ""),
   "/chat/:id": (w, c) => chat.chatThread(w, p(c, "id"), c.query.get("thread")),
+  "/memory": (w) => memory.memoryOverview(w),
   "/system": (w) => status.system(w),
   "/services": (w) => status.services(w),
   "/models": (w) => status.models(w),
@@ -116,6 +118,14 @@ const POST: Record<string, Handler> = {
       c.body.temporary === true,
     ),
   "/chat/:id/:thread/keep": (w, c) => chat.chatKeep(w, convo(c)),
+  "/chat/:id/:thread/messages/:message/remember": (w, c) =>
+    chat.chatRemember(w, convo(c), p(c, "message")),
+  "/memory": (w, c) =>
+    memory.memoryAdd(w, str(c.body.text), c.body.kind === "note" ? "note" : "avoid"),
+  "/memory/:id/forget": (w, c) => memory.memoryForget(w, p(c, "id")),
+  "/memory/:id/restore": (w, c) => memory.memoryRestore(w, p(c, "id")),
+  "/memory/:id/confirm": (w, c) => memory.memoryConfirm(w, p(c, "id")),
+  "/memory/:id/dismiss": (w, c) => memory.memoryDismiss(w, p(c, "id")),
   "/chat/:id/:thread/stop": (w, c) => chat.chatStop(w, convo(c)),
   "/chat/:id/:thread/messages/:message/edit": (w, c) =>
     chat.chatEdit(w, convo(c), p(c, "message"), str(c.body.text)),
@@ -139,6 +149,12 @@ const PUT: Record<string, Handler> = {
   },
   "/schedule/:id/paused": (w, c) => engine.setJobPaused(w, p(c, "id"), c.body.paused === true),
   "/maintenance/running": (w, c) => engine.setMaintenanceRunning(w, c.body.running === true),
+  "/memory/paused": (w, c) => memory.memoryPause(w, c.body.paused === true),
+  "/memory/:id": (w, c) =>
+    memory.memoryEdit(w, p(c, "id"), {
+      text: typeof c.body.text === "string" ? c.body.text : null,
+      pinned: typeof c.body.pinned === "boolean" ? c.body.pinned : null,
+    }),
   "/chat/:id/:thread/learning": (w, c) => chat.chatLearning(w, convo(c), c.body.learning === true),
 };
 

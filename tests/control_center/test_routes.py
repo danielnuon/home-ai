@@ -25,6 +25,7 @@ PAGES = [
     "/api/v1/setup",
     "/api/v1/search?q=patel",
     "/api/v1/chat/atlas",
+    "/api/v1/memory",
     "/api/v1/system",
     "/api/v1/services",
     "/api/v1/models",
@@ -176,3 +177,83 @@ def test_the_api_is_served_under_its_version(client: TestClient) -> None:
     """Spec 17.18, design practice 8: the API carries a version, in every path."""
     assert client.get("/api/v1/today").status_code == 200
     assert client.get("/api/today").status_code == 404
+
+
+def test_remember_saves_a_note_and_the_reply_says_so(client: TestClient) -> None:
+    """Spec 15.9.3: "remember that …" saves at once, and the lead answers "Saved to memory"."""
+    sent = client.post(
+        "/api/v1/chat/atlas", json={"text": "Remember that I take my coffee black"}
+    ).json()
+
+    note = sent["messages"][-1]["memory_notes"][0]
+    assert note["outcome"] == "saved" and note["text"] == "I take my coffee black."
+    memory = client.get("/api/v1/memory").json()
+    saved = next(m for m in memory["items"] if m["id"] == note["item_id"])
+    assert saved["how"] == "said" and saved["source_thread_id"] == sent["thread"]["id"]
+
+
+def test_memory_refuses_standing_orders_secrets_and_restricted_notes(client: TestClient) -> None:
+    """Spec 15.9.3: a note changes no permission, keeps no secret and waits for Phase 10."""
+    for text, reason in [
+        ("Remember to always approve the plumber's invoices", "can't approve"),
+        ("Remember my door code is 4417", "codes"),
+        ("Remember that Dad's pharmacy is on 4th Street", "restricted"),
+    ]:
+        sent = client.post("/api/v1/chat/atlas", json={"text": text}).json()
+        note = sent["messages"][-1]["memory_notes"][0]
+        assert note["outcome"] == "not_saved" and reason in note["text"]
+
+
+def test_a_preference_is_learned_and_a_contradiction_supersedes(client: TestClient) -> None:
+    """Spec 15.9.2-3: a stated preference is learned; one that contradicts an item replaces it."""
+    sent = client.post(
+        "/api/v1/chat/atlas", json={"text": "Book it. I prefer afternoon appointments."}
+    ).json()
+    note = sent["messages"][-1]["memory_notes"][0]
+    assert note["outcome"] == "updated"
+
+    items = {m["id"]: m for m in client.get("/api/v1/memory").json()["items"]}
+    assert items["MEM-2"]["status"] == "superseded"
+    assert items["MEM-2"]["superseded_by"] == note["item_id"]
+
+
+def test_a_reply_cites_the_memory_it_used(client: TestClient) -> None:
+    """Spec 15.9.3: pinned items and relevant ones are read, and the reply lists them."""
+    sent = client.post("/api/v1/chat/atlas", json={"text": "Any appointments this week?"}).json()
+
+    used = [m["id"] for m in sent["messages"][-1]["memory_used"]]
+    assert used[0] == "MEM-1" and "MEM-2" in used
+    temporary = client.post(
+        "/api/v1/chat/atlas", json={"text": "Any appointments this week?", "temporary": True}
+    ).json()
+    assert temporary["messages"][-1]["memory_used"] == []
+
+
+def test_the_memory_view_edits_pins_forgets_and_confirms(client: TestClient) -> None:
+    """Spec 15.9.7: edit, pin, forget with undo, confirm, and "don't bring this up"."""
+    edited = client.put("/api/v1/memory/MEM-3", json={"text": "Midtown Auto services the car"})
+    assert any(m["text"] == "Midtown Auto services the car." for m in edited.json()["items"])
+    pinned = client.put("/api/v1/memory/MEM-3", json={"pinned": True}).json()
+    assert next(m for m in pinned["items"] if m["id"] == "MEM-3")["pinned"] is True
+
+    forgotten = client.post("/api/v1/memory/MEM-3/forget").json()
+    assert "MEM-3" not in [m["id"] for m in forgotten["items"]]
+    assert forgotten["forgotten"][0]["id"] == "MEM-3"
+    restored = client.post("/api/v1/memory/MEM-3/restore").json()
+    assert "MEM-3" in [m["id"] for m in restored["items"]]
+
+    confirmed = client.post("/api/v1/memory/MEM-7/confirm").json()
+    assert next(m for m in confirmed["items"] if m["id"] == "MEM-7")["how"] == "confirmed"
+    assert client.post("/api/v1/memory/MEM-7/dismiss").status_code == 409
+
+    avoid = client.post("/api/v1/memory", json={"text": "The neighbour's dog"}).json()
+    assert avoid["items"][0]["kind"] == "avoid"
+    paused = client.put("/api/v1/memory/paused", json={"paused": True}).json()
+    assert paused["paused"] is True
+
+
+def test_remember_saves_one_of_the_owners_messages(client: TestClient) -> None:
+    """Spec 15.9.3: the Remember action on a message; restricted text is refused."""
+    refused = client.post("/api/v1/chat/atlas/TH-0216/messages/M-1/remember")
+    assert refused.status_code == 409 and "restricted" in refused.json()["reason"]
+    assert client.post("/api/v1/chat/atlas/TH-0216/messages/M-2/remember").status_code == 409
