@@ -154,6 +154,14 @@ def work_steps() -> list[Step]:
         {"method": "GET", "path": "/chat/nobody"},
         {"method": "GET", "path": "/chat/atlas?thread=TH-0216"},
         {"method": "GET", "path": "/chat/spark?thread=TH-0216"},
+        # Only the reply controls that start no streamed reply, so the answers are deterministic.
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-1/regenerate"},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-2/edit", "body": {"text": "x"}},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-1/edit", "body": {"text": " "}},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-2/switch"},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/nope/switch"},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/stop"},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-1/branch"},
     ]
 
 

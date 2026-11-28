@@ -1356,6 +1356,7 @@
      "open": [
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Its budget cap is reached. The lead can narrow the scope, or you can raise the cap.",
        "id": "TH-0120",
@@ -1372,6 +1373,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Foreman needs a yes on the design (gate G3).",
        "id": "TH-0129",
@@ -1388,6 +1390,7 @@
       },
       {
        "approval_id": "AP-0107",
+       "branched_from": null,
        "closing_summary": null,
        "detail": "An approval is waiting for you.",
        "id": "TH-0209",
@@ -1404,6 +1407,7 @@
       },
       {
        "approval_id": "AP-0110",
+       "branched_from": null,
        "closing_summary": null,
        "detail": "An approval is waiting for you.",
        "id": "TH-0216",
@@ -1420,6 +1424,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Bolt is writing the reminder schedule · 1 more",
        "id": "TH-0131",
@@ -1436,6 +1441,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
        "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
        "id": "TH-0207",
@@ -1452,6 +1458,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Waiting on the tenant's reply, expected by Thursday",
        "id": "TH-0214",
@@ -1468,6 +1475,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since Tuesday",
        "id": "TH-0118",
@@ -1486,6 +1494,7 @@
      "recently_resolved": [
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Renewed online. The sticker arrives by mail.",
        "id": "TH-0201",
@@ -1502,6 +1511,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Released, and its 7-day review is done.",
        "id": "TH-0127",
@@ -1936,6 +1946,7 @@
     "needs_you_threads": [
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Foreman needs a yes on the design (gate G3).",
       "id": "TH-0129",
@@ -2730,6 +2741,7 @@
     "threads": [
      {
       "approval_id": "AP-0107",
+      "branched_from": null,
       "closing_summary": null,
       "detail": "An approval is waiting for you.",
       "id": "TH-0209",
@@ -2746,6 +2758,7 @@
      },
      {
       "approval_id": "AP-0110",
+      "branched_from": null,
       "closing_summary": null,
       "detail": "An approval is waiting for you.",
       "id": "TH-0216",
@@ -2762,6 +2775,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
       "id": "TH-0207",
@@ -2778,6 +2792,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Waiting on the tenant's reply, expected by Thursday",
       "id": "TH-0214",
@@ -2794,6 +2809,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Renewed online. The sticker arrives by mail.",
       "id": "TH-0201",
@@ -2874,6 +2890,7 @@
     "threads": [
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Its budget cap is reached. The lead can narrow the scope, or you can raise the cap.",
       "id": "TH-0120",
@@ -2890,6 +2907,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Idle since Tuesday",
       "id": "TH-0118",
@@ -6730,6 +6748,7 @@
      "open": [
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Its budget cap is reached. The lead can narrow the scope, or you can raise the cap.",
        "id": "TH-0120",
@@ -6746,6 +6765,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Foreman needs a yes on the design (gate G3).",
        "id": "TH-0129",
@@ -6762,6 +6782,7 @@
       },
       {
        "approval_id": "AP-0107",
+       "branched_from": null,
        "closing_summary": null,
        "detail": "An approval is waiting for you.",
        "id": "TH-0209",
@@ -6778,6 +6799,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Redline is waiting for Bolt",
        "id": "TH-0131",
@@ -6794,6 +6816,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
        "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
        "id": "TH-0207",
@@ -6810,6 +6833,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Waiting on the tenant's reply, expected by Thursday",
        "id": "TH-0214",
@@ -6826,6 +6850,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since today",
        "id": "TH-0216",
@@ -6842,6 +6867,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Idle since Tuesday",
        "id": "TH-0118",
@@ -6860,6 +6886,7 @@
      "recently_resolved": [
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Renewed online. The sticker arrives by mail.",
        "id": "TH-0201",
@@ -6876,6 +6903,7 @@
       },
       {
        "approval_id": null,
+       "branched_from": null,
        "closing_summary": null,
        "detail": "Released, and its 7-day review is done.",
        "id": "TH-0127",
@@ -7127,6 +7155,7 @@
    "path": "/threads/TH-0131/resolve",
    "response": {
     "approval_id": null,
+    "branched_from": null,
     "closing_summary": null,
     "detail": "Resolved by you.",
     "id": "TH-0131",
@@ -7177,6 +7206,7 @@
    "path": "/threads/TH-0131/reopen",
    "response": {
     "approval_id": null,
+    "branched_from": null,
     "closing_summary": null,
     "detail": "Idle since Oct 27",
     "id": "TH-0131",
@@ -7524,6 +7554,7 @@
     "needs_you_threads": [
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Foreman needs a yes on the design (gate G3).",
       "id": "TH-0129",
@@ -8656,9 +8687,13 @@
       "approval_id": null,
       "at": "2026-10-25T15:00:00Z",
       "author": "owner",
+      "branch": 1,
       "id": "M-1",
       "lead_id": "atlas",
       "note": null,
+      "parent_id": null,
+      "sibling_ids": [],
+      "stopped": false,
       "streaming": false,
       "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
       "thread_id": "TH-0216"
@@ -8667,9 +8702,13 @@
       "approval_id": "AP-0110",
       "at": "2026-10-25T15:01:00Z",
       "author": "lead",
+      "branch": 1,
       "id": "M-2",
       "lead_id": "atlas",
       "note": "Local model · nothing sent to the cloud",
+      "parent_id": "M-1",
+      "sibling_ids": [],
+      "stopped": false,
       "streaming": false,
       "text": "Two things, done and drafted:\n1. Passport renewal is now a case, due March 1, with reminders 60 and 14 days before. I mirrored it to your Reminders.\n2. Health is a restricted domain, so Pulse checked it locally. The plan needs the pharmacy to be in network. I drafted an email to the insurer asking them to confirm.",
       "thread_id": "TH-0216"
@@ -8677,6 +8716,7 @@
     ],
     "thread": {
      "approval_id": null,
+     "branched_from": null,
      "closing_summary": null,
      "detail": "Idle since today",
      "id": "TH-0216",
@@ -8694,6 +8734,7 @@
     "threads": [
      {
       "approval_id": "AP-0107",
+      "branched_from": null,
       "closing_summary": null,
       "detail": "An approval is waiting for you.",
       "id": "TH-0209",
@@ -8710,6 +8751,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
       "id": "TH-0207",
@@ -8726,6 +8768,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Waiting on the tenant's reply, expected by Thursday",
       "id": "TH-0214",
@@ -8742,6 +8785,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Idle since today",
       "id": "TH-0216",
@@ -8758,6 +8802,7 @@
      },
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Renewed online. The sticker arrives by mail.",
       "id": "TH-0201",
@@ -8787,6 +8832,478 @@
     "reason": "Spark has no thread TH-0216."
    },
    "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-1/regenerate",
+   "response": {
+    "error": "conflict",
+    "reason": "Only a lead's reply can be regenerated. Edit your message instead."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "x"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-2/edit",
+   "response": {
+    "error": "conflict",
+    "reason": "Only your own messages can be edited. Regenerate a reply instead."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-1/edit",
+   "response": {
+    "error": "conflict",
+    "reason": "Write the new message first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-2/switch",
+   "response": {
+    "lead": {
+     "department": "personal",
+     "id": "atlas",
+     "name": "Atlas",
+     "now": "Writing the brief",
+     "state": "generating",
+     "title": "Chief of Staff"
+    },
+    "leads": [
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "now": "Writing the brief",
+      "state": "generating",
+      "title": "Chief of Staff"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "now": "Blocked: an idea reached its budget",
+      "state": "blocked",
+      "title": "Ideation Lead"
+     },
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "now": "Waiting on you",
+      "state": "waiting",
+      "title": "Development Lead"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "now": "Next run 01:00",
+      "state": "idle",
+      "title": "Maintenance Lead"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "now": "",
+      "state": "idle",
+      "title": "Platform Guide"
+     }
+    ],
+    "messages": [
+     {
+      "approval_id": null,
+      "at": "2026-10-25T15:00:00Z",
+      "author": "owner",
+      "branch": 1,
+      "id": "M-1",
+      "lead_id": "atlas",
+      "note": null,
+      "parent_id": null,
+      "sibling_ids": [],
+      "stopped": false,
+      "streaming": false,
+      "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
+      "thread_id": "TH-0216"
+     },
+     {
+      "approval_id": "AP-0110",
+      "at": "2026-10-25T15:01:00Z",
+      "author": "lead",
+      "branch": 1,
+      "id": "M-2",
+      "lead_id": "atlas",
+      "note": "Local model · nothing sent to the cloud",
+      "parent_id": "M-1",
+      "sibling_ids": [],
+      "stopped": false,
+      "streaming": false,
+      "text": "Two things, done and drafted:\n1. Passport renewal is now a case, due March 1, with reminders 60 and 14 days before. I mirrored it to your Reminders.\n2. Health is a restricted domain, so Pulse checked it locally. The plan needs the pharmacy to be in network. I drafted an email to the insurer asking them to confirm.",
+      "thread_id": "TH-0216"
+     }
+    ],
+    "thread": {
+     "approval_id": null,
+     "branched_from": null,
+     "closing_summary": null,
+     "detail": "Idle since today",
+     "id": "TH-0216",
+     "kind": "conversation",
+     "lead_department": "personal",
+     "lead_id": "atlas",
+     "lead_name": "Atlas",
+     "pipeline": "Personal",
+     "principal": "owner",
+     "since": "today",
+     "state": "idle",
+     "title": "Passport renewal and Dad's pharmacy",
+     "unit_id": null
+    },
+    "threads": [
+     {
+      "approval_id": "AP-0107",
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "An approval is waiting for you.",
+      "id": "TH-0209",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "needs_owner",
+      "title": "Reply to Dr. Patel's office",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+      "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+      "id": "TH-0207",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "review_ready",
+      "title": "Book the oil change",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Waiting on the tenant's reply, expected by Thursday",
+      "id": "TH-0214",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "Tuesday",
+      "state": "waiting",
+      "title": "Lease renewal for the rental",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Idle since today",
+      "id": "TH-0216",
+      "kind": "conversation",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "idle",
+      "title": "Passport renewal and Dad's pharmacy",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Renewed online. The sticker arrives by mail.",
+      "id": "TH-0201",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "Oct 22",
+      "state": "resolved",
+      "title": "Renew the car registration",
+      "unit_id": null
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/nope/switch",
+   "response": {
+    "error": "not_found",
+    "reason": "That message isn't in this conversation."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/stop",
+   "response": {
+    "error": "conflict",
+    "reason": "Nothing is being written right now."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/chat/atlas/TH-0216/messages/M-1/branch",
+   "response": {
+    "lead": {
+     "department": "personal",
+     "id": "atlas",
+     "name": "Atlas",
+     "now": "Writing the brief",
+     "state": "generating",
+     "title": "Chief of Staff"
+    },
+    "leads": [
+     {
+      "department": "personal",
+      "id": "atlas",
+      "name": "Atlas",
+      "now": "Writing the brief",
+      "state": "generating",
+      "title": "Chief of Staff"
+     },
+     {
+      "department": "ideation",
+      "id": "spark",
+      "name": "Spark",
+      "now": "Blocked: an idea reached its budget",
+      "state": "blocked",
+      "title": "Ideation Lead"
+     },
+     {
+      "department": "governance",
+      "id": "foreman",
+      "name": "Foreman",
+      "now": "Waiting on you",
+      "state": "waiting",
+      "title": "Development Lead"
+     },
+     {
+      "department": "engineering",
+      "id": "custodian",
+      "name": "Custodian",
+      "now": "Next run 01:00",
+      "state": "idle",
+      "title": "Maintenance Lead"
+     },
+     {
+      "department": "governance",
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "now": "",
+      "state": "idle",
+      "title": "Platform Guide"
+     }
+    ],
+    "messages": [
+     {
+      "approval_id": null,
+      "at": "2026-10-25T15:00:00Z",
+      "author": "owner",
+      "branch": 1,
+      "id": "M-id14",
+      "lead_id": "atlas",
+      "note": null,
+      "parent_id": null,
+      "sibling_ids": [],
+      "stopped": false,
+      "streaming": false,
+      "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
+      "thread_id": "TH-ID13"
+     }
+    ],
+    "thread": {
+     "approval_id": null,
+     "branched_from": "TH-0216",
+     "closing_summary": null,
+     "detail": "Idle since today",
+     "id": "TH-ID13",
+     "kind": "conversation",
+     "lead_department": "personal",
+     "lead_id": "atlas",
+     "lead_name": "Atlas",
+     "pipeline": "Personal",
+     "principal": "owner",
+     "since": "today",
+     "state": "idle",
+     "title": "Passport renewal and Dad's pharmacy (branch)",
+     "unit_id": null
+    },
+    "threads": [
+     {
+      "approval_id": "AP-0107",
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "An approval is waiting for you.",
+      "id": "TH-0209",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "needs_owner",
+      "title": "Reply to Dr. Patel's office",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+      "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+      "id": "TH-0207",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "review_ready",
+      "title": "Book the oil change",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Waiting on the tenant's reply, expected by Thursday",
+      "id": "TH-0214",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "Tuesday",
+      "state": "waiting",
+      "title": "Lease renewal for the rental",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Idle since today",
+      "id": "TH-0216",
+      "kind": "conversation",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "idle",
+      "title": "Passport renewal and Dad's pharmacy",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": "TH-0216",
+      "closing_summary": null,
+      "detail": "Idle since today",
+      "id": "TH-ID13",
+      "kind": "conversation",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "today",
+      "state": "idle",
+      "title": "Passport renewal and Dad's pharmacy (branch)",
+      "unit_id": null
+     },
+     {
+      "approval_id": null,
+      "branched_from": null,
+      "closing_summary": null,
+      "detail": "Renewed online. The sticker arrives by mail.",
+      "id": "TH-0201",
+      "kind": "case",
+      "lead_department": "personal",
+      "lead_id": "atlas",
+      "lead_name": "Atlas",
+      "pipeline": "Personal",
+      "principal": "owner",
+      "since": "Oct 22",
+      "state": "resolved",
+      "title": "Renew the car registration",
+      "unit_id": null
+     }
+    ]
+   },
+   "status": 200,
    "step_up": null
   },
   {
@@ -9276,6 +9793,7 @@
     "needs_you_threads": [
      {
       "approval_id": null,
+      "branched_from": null,
       "closing_summary": null,
       "detail": "Foreman needs a yes on the design (gate G3).",
       "id": "TH-0129",

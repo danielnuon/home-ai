@@ -171,6 +171,7 @@ function shownThread(world: MockWorld, record: ThreadRecord, sessions: LiveTask[
     since: record.since,
     closing_summary: state === "review_ready" ? record.proposed_resolution : null,
     approval_id: pending ? record.approval_id : null,
+    branched_from: record.branched_from,
   };
 }
 

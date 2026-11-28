@@ -106,6 +106,7 @@ export function makeThread(overrides: Partial<Thread> = {}): Thread {
     since: "Oct 27",
     closing_summary: null,
     approval_id: null,
+    branched_from: null,
     ...overrides,
   };
 }

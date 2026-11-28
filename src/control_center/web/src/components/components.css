@@ -940,6 +940,60 @@ dl.list.facts {
   opacity: 0.9;
 }
 
+.message-body {
+  min-width: 0;
+}
+
+/* The lead's face stays level with the bottom of its bubble, not with the controls under it. */
+.message.theirs:has(.chat-tools) > :first-child {
+  margin-bottom: 32px;
+}
+
+.mine .message-body {
+  align-items: flex-end;
+}
+
+/* Reply controls under a finished message (spec 15.9.8): quiet until reached for */
+.chat-tools {
+  --gap: 0;
+  color: var(--muted);
+}
+
+.btn.chat-tool {
+  min-height: 32px;
+  padding: 0 var(--space-2);
+  gap: var(--space-1);
+  font-size: 12px;
+  color: inherit;
+}
+
+.btn.chat-tool:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.branch-switch {
+  --gap: 0;
+  align-items: center;
+}
+
+.chat-edit {
+  width: min(100%, 520px);
+}
+
+.chat-edit textarea {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+}
+
+.branched-from {
+  align-self: flex-start;
+  gap: var(--space-1);
+  min-height: 32px;
+  color: inherit;
+  text-decoration: none;
+}
+
 /* Today: the widget grid. Four columns on a wide page, two on a tablet, one on a phone. */
 
 .home {

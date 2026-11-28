@@ -317,6 +317,26 @@ class LeadChat(Protocol):
         """Send the Owner's message, starting a thread if none is given; the reply streams in."""
         ...
 
+    def edit(self, lead_id: str, thread_id: str, message_id: str, text: str) -> ChatThread:
+        """Re-run the turn from an edited Owner message as a new branch (spec 15.9.8)."""
+        ...
+
+    def regenerate(self, lead_id: str, thread_id: str, message_id: str) -> ChatThread:
+        """Write a lead's reply again as a new branch."""
+        ...
+
+    def switch(self, lead_id: str, thread_id: str, message_id: str) -> ChatThread:
+        """Show the branch that runs through a message; the next turn continues it."""
+        ...
+
+    def branch(self, lead_id: str, thread_id: str, message_id: str) -> ChatThread:
+        """Start a new conversation thread from the branch on show, up to a message."""
+        ...
+
+    def stop(self, lead_id: str, thread_id: str) -> ChatThread:
+        """End the reply being written at once."""
+        ...
+
 
 @dataclass(frozen=True)
 class Backends:

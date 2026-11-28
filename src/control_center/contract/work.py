@@ -181,7 +181,8 @@ class Thread(ContractModel):
     unit; nothing sets it directly. `detail` is the line the state is shown with: who is doing
     what, what it waits on, or why it is blocked and who can unblock it. `approval_id` is set when
     the Owner decision it waits for is an approval card, which Brain then shows instead of a
-    second row for the same decision. `lead_id` is the lead's id in Chat.
+    second row for the same decision. `lead_id` is the lead's id in Chat. `branched_from` names
+    the conversation a thread was branched from in Chat (spec 15.9.8).
     """
 
     id: str
@@ -198,6 +199,7 @@ class Thread(ContractModel):
     since: str
     closing_summary: str | None = None
     approval_id: str | None = None
+    branched_from: str | None = None
 
 
 class ThreadsOverview(ContractModel):

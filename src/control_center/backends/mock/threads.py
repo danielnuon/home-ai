@@ -70,6 +70,7 @@ class ThreadRecord:
     proposed_resolution: str | None = None
     waiting_for: str | None = None
     outcome: str | None = None
+    branched_from: str | None = None
 
 
 def derive(
@@ -168,4 +169,5 @@ def to_thread(record: ThreadRecord, sessions: list[LiveTask], approval_pending: 
         since=record.since,
         closing_summary=record.proposed_resolution if state == "review_ready" else None,
         approval_id=record.approval_id if approval_pending else None,
+        branched_from=record.branched_from,
     )

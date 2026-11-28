@@ -6,7 +6,7 @@
 import * as engine from "./engine";
 import { MockError, notFound } from "./errors";
 import * as gate from "./gate";
-import { chatSend, chatThread } from "./live";
+import * as chat from "./chat";
 import * as status from "./status";
 import { buildToday } from "./today";
 import * as work from "./work";
@@ -26,6 +26,7 @@ const NO_CONTENT = Symbol("no content");
 
 const str = (value: unknown) => (typeof value === "string" ? value : "");
 const p = (call: Call, name: string) => call.params[name] ?? "";
+const convo = (call: Call) => ({ lead: p(call, "id"), thread: p(call, "thread") });
 const running = (world: MockWorld) =>
   Object.values(world.tasks).filter((t) => work.sessionState(t) === "running").length;
 const platform = (world: MockWorld) => gate.platformState(world, running(world));
@@ -53,7 +54,7 @@ const GET: Record<string, Handler> = {
   },
   "/setup": (w) => Object.values(w.setup),
   "/search": (w, c) => engine.search(w, c.query.get("q") ?? ""),
-  "/chat/:id": (w, c) => chatThread(w, p(c, "id"), c.query.get("thread")),
+  "/chat/:id": (w, c) => chat.chatThread(w, p(c, "id"), c.query.get("thread")),
   "/system": (w) => status.system(w),
   "/services": (w) => status.services(w),
   "/models": (w) => status.models(w),
@@ -107,12 +108,21 @@ const POST: Record<string, Handler> = {
   "/changes/:id/undo": (w, c) => engine.undoChange(w, p(c, "id")),
   "/setup/:id": (w, c) => engine.setupAction(w, p(c, "id"), str(c.body.action)),
   "/chat/:id": (w, c) =>
-    chatSend(
+    chat.chatSend(
       w,
       p(c, "id"),
       str(c.body.text),
       typeof c.body.thread_id === "string" ? c.body.thread_id : null,
     ),
+  "/chat/:id/:thread/stop": (w, c) => chat.chatStop(w, convo(c)),
+  "/chat/:id/:thread/messages/:message/edit": (w, c) =>
+    chat.chatEdit(w, convo(c), p(c, "message"), str(c.body.text)),
+  "/chat/:id/:thread/messages/:message/regenerate": (w, c) =>
+    chat.chatRegenerate(w, convo(c), p(c, "message")),
+  "/chat/:id/:thread/messages/:message/switch": (w, c) =>
+    chat.chatSwitch(w, convo(c), p(c, "message")),
+  "/chat/:id/:thread/messages/:message/branch": (w, c) =>
+    chat.chatBranch(w, convo(c), p(c, "message")),
   "/schedule/:id/run": (w, c) => engine.runJob(w, p(c, "id")),
   "/maintenance/fixes/:id/revert": (w, c) => engine.toggleFixReverted(w, p(c, "id")),
 };

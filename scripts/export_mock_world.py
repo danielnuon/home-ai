@@ -70,6 +70,7 @@ def world_state() -> dict[str, Any]:
         "jobs",
         "fixes",
         "chats",
+        "chat_heads",
     ]
     state = {name: dump(getattr(world, name)) for name in fields}
     state["stopped"] = world.stopped
@@ -134,6 +135,7 @@ def fixtures() -> dict[str, Any]:
         "not_yet_hired": sorted(people.NOT_YET_HIRED),
         "chat_leads": dump(chat_fixtures.LEADS),
         "mock_reply": chat_fixtures.MOCK_REPLY,
+        "mock_retry": chat_fixtures.MOCK_RETRY,
         "thread_leads": thread_fixtures.LEADS,
     }
 

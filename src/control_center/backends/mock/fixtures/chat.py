@@ -37,6 +37,7 @@ def atlas_history(now: datetime) -> list[ChatMessage]:
             id="M-2",
             lead_id="atlas",
             thread_id=ATLAS_THREAD,
+            parent_id="M-1",
             author="lead",
             text=(
                 "Two things, done and drafted:\n"
@@ -58,3 +59,10 @@ MOCK_REPLY = (
     "In the real platform this answer comes from {name}'s lead session in the pipeline engine."
 )
 """What every lead says in the mock. Plain about being a stand-in, so nobody mistakes it."""
+
+
+MOCK_RETRY = (
+    "Here's another go, still from the mock chat standing in for {name}. A regenerated reply in "
+    "the real platform comes from {name}'s lead session again, as a new branch you can switch to."
+)
+"""What a lead says when the Owner regenerates its reply in the mock."""
