@@ -148,6 +148,7 @@ def constants() -> dict[str, Any]:
         "mock_assertion_prefix": gate_step_up.MOCK_ASSERTION_PREFIX,
         "word_delay_seconds": chat.WORD_DELAY_SECONDS,
         "title_words": chat.TITLE_WORDS,
+        "temporary_retain_hours": chat.TEMPORARY_RETAIN_HOURS,
         "instrument_count": INSTRUMENT_COUNT,
         "needs_you_shown": NEEDS_YOU_SHOWN,
         "team_shown": TEAM_SHOWN,

@@ -172,13 +172,32 @@ function shownThread(world: MockWorld, record: ThreadRecord, sessions: LiveTask[
     closing_summary: state === "review_ready" ? record.proposed_resolution : null,
     approval_id: pending ? record.approval_id : null,
     branched_from: record.branched_from,
+    temporary_until: record.temporary_until,
+    learning: record.learning,
   };
 }
 
-/** Open threads in state order, then the resolved ones. */
-export function threads(world: MockWorld): ThreadsOverview {
+/** Deletes temporary chats past their time, with their messages (spec 15.9.6). */
+function purgeExpired(world: MockWorld): void {
+  const now = world.clock().getTime();
+  const expired = Object.values(world.threads).filter(
+    (r) => r.temporary_until !== null && new Date(r.temporary_until).getTime() <= now,
+  );
+  for (const record of expired) {
+    Reflect.deleteProperty(world.threads, record.id);
+    Reflect.deleteProperty(world.chats, record.id);
+    Reflect.deleteProperty(world.chat_heads, record.id);
+  }
+  if (expired.length > 0) world.bus.changed(...THREAD_PAGES);
+}
+
+/** Open threads in state order, then the resolved ones; temporary chats only when asked for. */
+export function threads(world: MockWorld, includeTemporary = false): ThreadsOverview {
+  purgeExpired(world);
   const sessions = liveTasks(world);
-  const every = Object.values(world.threads).map((r) => shownThread(world, r, sessions));
+  const every = Object.values(world.threads)
+    .filter((r) => includeTemporary || r.temporary_until === null)
+    .map((r) => shownThread(world, r, sessions));
   const order = world.constants.state_order;
   return {
     open: every

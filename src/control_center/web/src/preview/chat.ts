@@ -66,7 +66,7 @@ function titleFrom(world: MockWorld, text: string): string {
 }
 
 function leadThreads(world: MockWorld, leadId: string): Thread[] {
-  const overview = threads(world);
+  const overview = threads(world, true);
   return [...overview.open, ...overview.recently_resolved].filter((t) => t.lead_id === leadId);
 }
 
@@ -91,7 +91,13 @@ export function chatThread(
   };
 }
 
-function newThread(world: MockWorld, leadId: string, title: string, from: string | null = null) {
+interface NewThread {
+  title: string;
+  from?: string | null;
+  temporary?: boolean;
+}
+
+function newThread(world: MockWorld, leadId: string, { title, from = null, temporary }: NewThread) {
   const known = world.fixtures.thread_leads[leadId];
   if (!known) throw notFound("Brain can chat only with the five leads.");
   const [name, department, pipeline] = known;
@@ -113,9 +119,16 @@ function newThread(world: MockWorld, leadId: string, title: string, from: string
     waiting_for: null,
     outcome: null,
     branched_from: from,
+    temporary_until: temporary ? retainUntil(world) : null,
+    learning: !temporary,
   };
   world.bus.changed(...THREAD_PAGES);
   return id;
+}
+
+function retainUntil(world: MockWorld): string {
+  const hours = world.constants.temporary_retain_hours;
+  return new Date(world.clock().getTime() + hours * 3_600_000).toISOString();
 }
 
 function shownMessage(world: MockWorld, leadId: string, threadId: string, messageId: string) {
@@ -216,9 +229,11 @@ export function chatSend(
   id: string,
   text: string,
   threadId: string | null = null,
+  temporary = false,
 ): ChatThread {
   lead(world, id);
-  if (threadId === null) threadId = newThread(world, id, titleFrom(world, text));
+  if (threadId === null)
+    threadId = newThread(world, id, { title: titleFrom(world, text), temporary });
   else chatThread(world, id, threadId);
   halt(world, threadId);
   const ids = { lead: id, thread: threadId };
@@ -283,7 +298,7 @@ export function chatBranch(
 ): ChatThread {
   shownMessage(world, ids.lead, ids.thread, messageId);
   const title = `${world.threads[ids.thread]?.title ?? "Chat"} (branch)`;
-  const created = newThread(world, ids.lead, title, ids.thread);
+  const created = newThread(world, ids.lead, { title, from: ids.thread });
   const upto = path(world.chats[ids.thread] ?? [], messageId);
   const renamed = new Map(upto.map((m) => [m.id, `M-${world.ids(4)}`]));
   const copy = (id: string | null) => renamed.get(id ?? "") ?? null;
@@ -295,6 +310,33 @@ export function chatBranch(
   }));
   world.chat_heads[created] = copy(messageId) ?? messageId;
   return chatThread(world, ids.lead, created);
+}
+
+/** "Keep this chat": a temporary chat becomes a normal thread; learning stays off (15.9.6). */
+export function chatKeep(world: MockWorld, ids: { lead: string; thread: string }): ChatThread {
+  chatThread(world, ids.lead, ids.thread);
+  const record = world.threads[ids.thread];
+  if (!record || record.temporary_until === null) throw conflict("This chat is already kept.");
+  record.temporary_until = null;
+  world.bus.changed(...THREAD_PAGES);
+  return chatThread(world, ids.lead, ids.thread);
+}
+
+/** Turns "Don't learn from this chat" off or on; a temporary chat never learns (15.9.6). */
+export function chatLearning(
+  world: MockWorld,
+  ids: { lead: string; thread: string },
+  learning: boolean,
+): ChatThread {
+  chatThread(world, ids.lead, ids.thread);
+  const record = world.threads[ids.thread];
+  if (!record) throw notFound("That thread doesn't exist.");
+  if (record.temporary_until !== null) {
+    throw conflict("A temporary chat never learns. Keep it first.");
+  }
+  record.learning = learning;
+  world.bus.changed(...THREAD_PAGES);
+  return chatThread(world, ids.lead, ids.thread);
 }
 
 /** Ends the reply being written at once, keeping what it wrote so far. */

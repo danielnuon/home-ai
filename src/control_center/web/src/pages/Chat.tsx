@@ -31,6 +31,7 @@ import { StatusText } from "../design/status";
 import { useLayout } from "../design/useLayout";
 import { scroller } from "../shell/scroll";
 import { Message, useChatControl } from "./chat/Message";
+import { ChatPrivacy, PrivateSwitch } from "./chat/Privacy";
 
 type Control = ReturnType<typeof useChatControl>;
 
@@ -48,17 +49,19 @@ interface ComposerProps {
   onStarted: (threadId: string) => void;
   /** While a reply is being written, the send button stops it instead (spec 15.9.8). */
   onStop: (() => void) | null;
+  /** Whether a new chat starts as a temporary chat (spec 15.9.6). */
+  temporary?: boolean;
 }
 
 /** The message box. */
-function Composer({ leadId, leadName, threadId, onStarted, onStop }: ComposerProps) {
+function Composer({ leadId, leadName, threadId, onStarted, onStop, temporary }: ComposerProps) {
   const [text, setText] = useState("");
   const client = useQueryClient();
   const post = useAction<ChatThread>({ refresh: ["chat"] });
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (!text.trim()) return;
-    const body = { text: text.trim(), thread_id: threadId };
+    const body = { text: text.trim(), thread_id: threadId, temporary: temporary === true };
     const sent = await post.run(() => send<ChatThread>("POST", `/chat/${leadId}`, body));
     if (!sent) return;
     setText("");
@@ -208,6 +211,7 @@ function ThreadRow({ thread, current }: { thread: Thread; current: boolean }) {
       >
         <span className="row">
           <span className="row-title grow thread-row-title">{thread.title}</span>
+          {thread.temporary_until && <span className="tag tiny">Temporary</span>}
           <StatusText value={THREAD_STATE[thread.state]} className="tiny" />
         </span>
         <span className="muted small thread-row-detail">{thread.detail}</span>
@@ -284,11 +288,14 @@ function Conversation({ chat, phone }: { chat: ChatThread; phone: boolean }) {
   const navigate = useNavigate();
   const control = useChatControl(chat);
   const { lead } = chat;
+  const [temporary, setTemporary] = useState(false);
   const writing = chat.thread !== null && chat.messages.some((message) => message.streaming);
   return (
     <section className="card chat stack" aria-label={`Chat with ${lead.name}`}>
       <ChatHead chat={chat} phone={phone} />
       {chat.thread?.branched_from && <BranchedFrom chat={chat} />}
+      <ChatPrivacy chat={chat} control={control} />
+      {!chat.thread && <PrivateSwitch checked={temporary} onChange={setTemporary} />}
       <Messages thread={chat} control={control} />
       <OnTheBar>
         <Composer
@@ -296,8 +303,12 @@ function Conversation({ chat, phone }: { chat: ChatThread; phone: boolean }) {
           leadId={lead.id}
           leadName={lead.name}
           threadId={chat.thread?.id ?? null}
-          onStarted={(id) => navigate(`/chat?lead=${lead.id}&thread=${id}`, { replace: true })}
+          onStarted={(id) => {
+            setTemporary(false);
+            navigate(`/chat?lead=${lead.id}&thread=${id}`, { replace: true });
+          }}
           onStop={writing ? () => void control.run("/stop") : null}
+          temporary={temporary}
         />
       </OnTheBar>
     </section>

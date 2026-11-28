@@ -1013,7 +1013,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0129": {
     "id": "TH-0129",
@@ -1031,7 +1033,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0209": {
     "id": "TH-0209",
@@ -1049,7 +1053,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0216": {
     "id": "TH-0216",
@@ -1067,7 +1073,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0131": {
     "id": "TH-0131",
@@ -1085,7 +1093,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0207": {
     "id": "TH-0207",
@@ -1103,7 +1113,9 @@
     "proposed_resolution": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0214": {
     "id": "TH-0214",
@@ -1121,7 +1133,9 @@
     "proposed_resolution": null,
     "waiting_for": "the tenant's reply, expected by Thursday",
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0118": {
     "id": "TH-0118",
@@ -1139,7 +1153,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": null,
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0201": {
     "id": "TH-0201",
@@ -1157,7 +1173,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": "Renewed online. The sticker arrives by mail.",
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    },
    "TH-0127": {
     "id": "TH-0127",
@@ -1175,7 +1193,9 @@
     "proposed_resolution": null,
     "waiting_for": null,
     "outcome": "Released, and its 7-day review is done.",
-    "branched_from": null
+    "branched_from": null,
+    "temporary_until": null,
+    "learning": true
    }
   },
   "work_items": [
@@ -4680,6 +4700,7 @@
   "mock_assertion_prefix": "virtual:",
   "word_delay_seconds": 0.06,
   "title_words": 6,
+  "temporary_retain_hours": 24,
   "instrument_count": 7,
   "needs_you_shown": 2,
   "team_shown": 4,

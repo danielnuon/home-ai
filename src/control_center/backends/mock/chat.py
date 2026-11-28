@@ -5,6 +5,7 @@ The reply controls of spec 15.9.8 are here too: stop, edit, regenerate, switch a
 
 import asyncio
 import secrets
+from datetime import timedelta
 
 from control_center.backends.errors import ConflictError, NotFoundError
 from control_center.backends.mock import chat_tree
@@ -18,6 +19,9 @@ from control_center.contract.work import Thread
 
 WORD_DELAY_SECONDS = 0.06
 """Pause between streamed words, close to a local model's speed on this hardware (8.1)."""
+
+TEMPORARY_RETAIN_HOURS = 24
+"""How long a temporary chat's transcript is kept (`chat_memory.temporary_retain_hours`, 15.9.6)."""
 
 TITLE_WORDS = 6
 """A new conversation is titled with the first words the Owner wrote, until the lead renames it."""
@@ -60,7 +64,7 @@ class MockLeadChat:
 
     def _threads(self, lead_id: str) -> list[Thread]:
         """The lead's threads: open ones in state order, then the recently resolved."""
-        overview = self._desk.threads()
+        overview = self._desk.threads(include_temporary=True)
         return [t for t in [*overview.open, *overview.recently_resolved] if t.lead_id == lead_id]
 
     def thread(self, lead_id: str, thread_id: str | None = None) -> ChatThread:
@@ -90,8 +94,15 @@ class MockLeadChat:
             messages=chat_tree.shown(messages, self._world.chat_heads.get(thread_id or "")),
         )
 
-    def _new_thread(self, lead_id: str, title: str, branched_from: str | None = None) -> str:
-        """Open a `conversation` thread (spec 15.8.1) and return its id."""
+    def _new_thread(
+        self,
+        lead_id: str,
+        title: str,
+        branched_from: str | None = None,
+        temporary: bool = False,
+    ) -> str:
+        """Open a `conversation` thread (spec 15.8.1), temporary if asked, and return its id."""
+        until = self._world.clock() + timedelta(hours=TEMPORARY_RETAIN_HOURS)
         name, department, pipeline = thread_fixtures.LEADS[lead_id]
         thread_id = f"TH-{secrets.token_hex(2).upper()}"
         self._world.threads[thread_id] = ThreadRecord(
@@ -106,6 +117,8 @@ class MockLeadChat:
             principal="owner",
             since="today",
             branched_from=branched_from,
+            temporary_until=until if temporary else None,
+            learning=not temporary,
         )
         self._world.bus.changed(*THREAD_PAGES)
         return thread_id
@@ -134,13 +147,16 @@ class MockLeadChat:
         self._world.chat_heads[thread_id] = message.id
         return message.id
 
-    def send(self, lead_id: str, text: str, thread_id: str | None = None) -> ChatThread:
+    def send(
+        self, lead_id: str, text: str, thread_id: str | None = None, temporary: bool = False
+    ) -> ChatThread:
         """Store the Owner's message at the end of the branch on show, and stream the reply.
 
         Args:
             lead_id: One of the five leads.
             text: What the Owner wrote.
             thread_id: The thread it continues, or None to start a new one.
+            temporary: Whether the new thread is a temporary chat (15.9.6); ignored otherwise.
 
         Returns:
             The chat, now open on the thread the message went to.
@@ -150,7 +166,7 @@ class MockLeadChat:
         """  # noqa: DOC502 raised by self._lead() and self.thread()
         self._lead(lead_id)
         if thread_id is None:
-            thread_id = self._new_thread(lead_id, title_from(text))
+            thread_id = self._new_thread(lead_id, title_from(text), temporary=temporary)
         else:
             self.thread(lead_id, thread_id)
         self._halt(thread_id)
@@ -268,6 +284,53 @@ class MockLeadChat:
         ]
         self._world.chat_heads[new_id] = ids[message_id]
         return self.thread(lead_id, new_id)
+
+    def keep(self, lead_id: str, thread_id: str) -> ChatThread:
+        """Turn a temporary chat into a normal thread: "Keep this chat" (spec 15.9.6).
+
+        Learning stays off, because the Owner started it as a private chat; they can turn it on.
+
+        Args:
+            lead_id: One of the five leads.
+            thread_id: One of that lead's threads.
+
+        Returns:
+            The chat, now an ordinary thread.
+
+        Raises:
+            NotFoundError: No such lead or thread.
+            ConflictError: The thread is not a temporary chat.
+        """  # noqa: DOC503 NotFoundError is raised by self.thread()
+        self.thread(lead_id, thread_id)
+        record = self._world.threads[thread_id]
+        if record.temporary_until is None:
+            raise ConflictError("This chat is already kept.")
+        record.temporary_until = None
+        self._world.bus.changed(*THREAD_PAGES)
+        return self.thread(lead_id, thread_id)
+
+    def set_learning(self, lead_id: str, thread_id: str, learning: bool) -> ChatThread:
+        """Turn "Don't learn from this chat" off or on (spec 15.9.6).
+
+        Args:
+            lead_id: One of the five leads.
+            thread_id: One of that lead's threads.
+            learning: Whether the lead may learn memory items from it.
+
+        Returns:
+            The chat, with the setting changed.
+
+        Raises:
+            NotFoundError: No such lead or thread.
+            ConflictError: The thread is a temporary chat, which never learns.
+        """  # noqa: DOC503 NotFoundError is raised by self.thread()
+        self.thread(lead_id, thread_id)
+        record = self._world.threads[thread_id]
+        if record.temporary_until is not None:
+            raise ConflictError("A temporary chat never learns. Keep it first.")
+        record.learning = learning
+        self._world.bus.changed(*THREAD_PAGES)
+        return self.thread(lead_id, thread_id)
 
     def stop(self, lead_id: str, thread_id: str) -> ChatThread:
         """End the reply being written in `thread_id` at once, keeping what it wrote so far.

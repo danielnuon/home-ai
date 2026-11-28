@@ -45,6 +45,9 @@ export interface ThreadRecord {
   waiting_for: string | null;
   outcome: string | null;
   branched_from: string | null;
+  /** When a temporary chat is deleted (15.9.6); null for every other thread. */
+  temporary_until: string | null;
+  learning: boolean;
 }
 
 /** Every piece of mutable mock state, as in `world.py`. */
@@ -125,6 +128,7 @@ interface Constants {
   mock_assertion_prefix: string;
   word_delay_seconds: number;
   title_words: number;
+  temporary_retain_hours: number;
   instrument_count: number;
   needs_you_shown: number;
   team_shown: number;
