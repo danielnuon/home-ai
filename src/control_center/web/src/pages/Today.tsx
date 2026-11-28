@@ -9,11 +9,14 @@
  * chips count blocked threads and threads ready for review; those stay out of Needs you, because
  * nothing waits on them (spec 15.8.9).
  */
-import { ChevronRight } from "lucide-react";
+import { AlarmClock, ArrowUpRight, Check, ChevronRight } from "lucide-react";
+import { useAction } from "../api/actions";
+import { send } from "../api/client";
+import { ActionCard } from "../components/ActionRow";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usePlatform, useSettings, useToday } from "../api/queries";
-import type { Tile, TodayOverview } from "../api/types";
+import type { Alert, Tile, TodayOverview } from "../api/types";
 import { ApprovalCard } from "../components/ApprovalCard";
 import { Avatar } from "../components/Avatar";
 import { DecisionCard } from "../components/DecisionCard";
@@ -377,6 +380,73 @@ function Widgets({ today }: { today: TodayOverview }) {
   );
 }
 
+/** Acknowledge, snooze or reopen an alert, with Undo on the toast. */
+function useAlertAction(alert: Alert) {
+  const act = (action: "acknowledge" | "snooze" | "reopen") =>
+    send<Alert>("POST", `/alerts/${alert.id}/action`, { action });
+  const { run } = useAction<Alert>({
+    refresh: ["today"],
+    done: (after) =>
+      after.state === "open"
+        ? "Back on Today"
+        : {
+            message: after.state === "snoozed" ? "Snoozed for 4 hours" : "Acknowledged",
+            undo: () => void run(() => act("reopen")),
+          },
+  });
+  return (action: "acknowledge" | "snooze") => void run(() => act(action));
+}
+
+/** One open alert: swipe right to acknowledge, left to snooze (spec 7.14), or use its buttons. */
+function AlertCard({ alert }: { alert: Alert }) {
+  const navigate = useNavigate();
+  const act = useAlertAction(alert);
+  const acknowledge = { label: "Acknowledge", icon: Check, onSelect: () => act("acknowledge") };
+  const snooze = {
+    label: "Snooze",
+    icon: AlarmClock,
+    tone: "sand" as const,
+    onSelect: () => act("snooze"),
+  };
+  const page = alert.href.split("/")[1] ?? "";
+  return (
+    <ActionCard
+      label={alert.title}
+      className="attention"
+      start={acknowledge}
+      end={snooze}
+      more={[
+        acknowledge,
+        { ...snooze, label: "Snooze for 4 hours" },
+        {
+          label: `Open ${page || "Today"}`,
+          icon: ArrowUpRight,
+          onSelect: () => navigate(alert.href),
+        },
+      ]}
+    >
+      <div className="stack" style={{ ["--gap" as string]: "2px" }}>
+        <StatusText value={alert.status} className="small" />
+        <span className="row-title">{alert.title}</span>
+        <span className="muted small">{alert.detail}</span>
+      </div>
+    </ActionCard>
+  );
+}
+
+/** Open alerts, under the decision banner. Each leaves gliding out when handled. */
+function Alerts({ alerts }: { alerts: Alert[] }) {
+  return (
+    <AnimatePresence initial={false} mode="popLayout">
+      {alerts.map((alert) => (
+        <m.div key={alert.id} layout="position" exit={LEAVE}>
+          <AlertCard alert={alert} />
+        </m.div>
+      ))}
+    </AnimatePresence>
+  );
+}
+
 /** The Today page. */
 export default function Today() {
   const query = useToday();
@@ -386,6 +456,7 @@ export default function Today() {
         <Page title={today.greeting} subtitle={today.date} actions={<StatusChips today={today} />}>
           <SetupNudge today={today} />
           {today.open_decision && <DecisionCard decision={today.open_decision} />}
+          <Alerts alerts={today.alerts} />
           <Widgets today={today} />
         </Page>
       )}

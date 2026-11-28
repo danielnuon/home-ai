@@ -120,6 +120,7 @@
 }
 
 .nav-item {
+  position: relative;
   flex: none;
   display: flex;
   align-items: center;
@@ -131,10 +132,31 @@
   text-decoration: none;
 }
 
+/* The current page: a tinted pill behind it, an accent icon and a bold label (never colour alone) */
+
+.nav-item > :not(.nav-pill) {
+  position: relative;
+}
+
+.nav-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-row);
+  background: var(--nav-pill);
+  box-shadow: inset 3px 0 0 var(--accent-text);
+}
+
+.nav-icon {
+  display: inline-flex;
+}
+
 .nav-item.active {
-  background: var(--raised);
   color: var(--text);
-  font-weight: var(--weight-medium);
+  font-weight: 600;
+}
+
+.nav-item.active .nav-icon {
+  color: var(--accent-text);
 }
 
 .nav-label {
@@ -250,8 +272,24 @@
 }
 
 .tab-bar .nav-item.active {
-  background: transparent;
   color: var(--accent-text);
+}
+
+/* On the tab bar the pill sits behind the icon only, as on iOS and Android bottom bars */
+.tab-bar .nav-pill {
+  inset: auto;
+  top: 7px;
+  left: 50%;
+  width: 56px;
+  height: 30px;
+  margin-left: -28px;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.rail .nav-pill {
+  inset: 2px 6px;
+  box-shadow: none;
 }
 
 .tab-bar .nav-label {

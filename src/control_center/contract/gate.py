@@ -175,6 +175,8 @@ class PlatformState(ContractModel):
     """Global states shown on every page (spec 7.16, rule 6) plus the navigation badges.
 
     `badges` maps a page route (for example "approvals") to a short count or symbol.
+    `features_on` lists the optional features that are on and add a page or a cache to the app,
+    such as `offline_library`, which puts Library in the navigation (spec 7.2).
     """
 
     stopped: bool
@@ -183,6 +185,7 @@ class PlatformState(ContractModel):
     degraded: list[str]
     overall: StatusLabel
     badges: dict[str, StatusLabel]
+    features_on: list[str]
 
 
 class StepUpProof(ContractModel):

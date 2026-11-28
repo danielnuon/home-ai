@@ -15,12 +15,13 @@ import { QueryState } from "../components/QueryState";
 import { SettingRow } from "../components/SettingControl";
 import { useLayout } from "../design/useLayout";
 import { ROUTES, TAB_PATHS } from "../routes";
+import { useNavRoutes } from "../shell/Navigation";
 import { StopControl } from "../shell/StopControl";
 
 /** Every page that is not on the phone's bottom bar. */
 function MorePages() {
   const badges = (usePlatform().data?.badges ?? {}) as Record<string, StatusLabel>;
-  const pages = ROUTES.filter((page) => page.inNav && !TAB_PATHS.includes(page.path));
+  const pages = useNavRoutes().filter((page) => !TAB_PATHS.includes(page.path));
   return (
     <Section title="More">
       <div className="card">
@@ -38,6 +39,37 @@ function MorePages() {
             </Link>
           );
         })}
+      </nav>
+    </Section>
+  );
+}
+
+/** Where deleted things wait, and what this phone keeps offline. */
+function YourData() {
+  const rows = [
+    {
+      path: "/trash",
+      label: "Recently deleted",
+      note: "Restore anything deleted in the last 30 days",
+    },
+    {
+      path: "/offline",
+      label: "Offline pack",
+      note: "What your phone keeps for when the Mac is away",
+    },
+  ];
+  return (
+    <Section title="Your data">
+      <nav className="list" aria-label="Your data">
+        {rows.map((row) => (
+          <Link key={row.path} to={row.path} className="list-row">
+            <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
+              <span className="row-title">{row.label}</span>
+              <span className="muted small">{row.note}</span>
+            </span>
+            <ChevronRight size={16} className="muted" aria-hidden="true" />
+          </Link>
+        ))}
       </nav>
     </Section>
   );
@@ -97,6 +129,7 @@ export default function Settings() {
                 </div>
               </Section>
             ))}
+            <YourData />
             <Section title="Hard limits" aside="From policy.yaml; change only at the desk">
               <dl className="list facts">
                 {index.hard_limits.map((limit) => (

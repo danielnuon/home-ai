@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useDirectory } from "../api/queries";
 import type { Employee, EmployeeState } from "../api/types";
 import { AnimatePresence, m } from "../design/motion";
+import { swallowNextClick } from "./MoreMenu";
 import { Sheet } from "./Sheet";
 
 /** How long a pointer rests on a face before its card shows, in ms. */
@@ -98,16 +99,6 @@ export function usePeek() {
   /** The card keeps itself open while the pointer is on it. */
   const card = { onPointerEnter: clear, onPointerLeave: () => setMode(null) };
   return { anchor, mode, place, holding, handlers, card, close: () => setMode(null) };
-}
-
-/** Stops the click that a finished hold would otherwise send to whatever the face sits in. */
-function swallowNextClick() {
-  const stop = (event: Event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  window.addEventListener("click", stop, { capture: true, once: true });
-  window.setTimeout(() => window.removeEventListener("click", stop, { capture: true }), 600);
 }
 
 /** The details themselves, the same in the card and in the sheet. */

@@ -1,15 +1,20 @@
 /**
  * @file The frame around every page: navigation for the current layout, global banners, the
- * search field, and the page itself.
+ * search field with the Guide and help buttons, the pull-down to ask, the ambient background, and
+ * the page itself.
  */
 import { Search } from "lucide-react";
 import { Suspense, useEffect, useState, type FormEvent } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Ambient } from "../design/Ambient";
 import { ARRIVE, m } from "../design/motion";
 import { startScrollLight } from "../design/light";
 import { useLayout } from "../design/useLayout";
 import { Banners } from "./Banners";
+import { GuideButton, GuideProvider } from "./Guide";
+import { HelpMenu } from "./Help";
 import { Sidebar, TabBar } from "./Navigation";
+import { PullToAsk } from "./PullToAsk";
 import { useScrollMemory } from "./scroll";
 import { TrailProvider } from "./trail";
 
@@ -56,19 +61,27 @@ export function AppShell() {
   useScrollMemory();
   useEffect(startScrollLight, []);
   return (
-    <div className={`shell shell-${layout}`}>
-      {layout === "desktop" && <Sidebar />}
-      {layout === "tablet" && <Sidebar rail />}
-      <main className="content">
-        <Banners />
-        <SearchField />
-        <Suspense fallback={<div className="loading" aria-busy="true" />}>
-          <TrailProvider>
-            <PageArrival />
-          </TrailProvider>
-        </Suspense>
-      </main>
-      {layout === "phone" && <TabBar />}
-    </div>
+    <GuideProvider>
+      <div className={`shell shell-${layout}`}>
+        <Ambient />
+        {layout === "desktop" && <Sidebar />}
+        {layout === "tablet" && <Sidebar rail />}
+        <main className="content">
+          {layout !== "desktop" && <PullToAsk />}
+          <Banners />
+          <div className="top-bar">
+            <SearchField />
+            <GuideButton />
+            <HelpMenu />
+          </div>
+          <Suspense fallback={<div className="loading" aria-busy="true" />}>
+            <TrailProvider>
+              <PageArrival />
+            </TrailProvider>
+          </Suspense>
+        </main>
+        {layout === "phone" && <TabBar />}
+      </div>
+    </GuideProvider>
   );
 }

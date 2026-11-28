@@ -51,6 +51,28 @@ class SetupProgress(ContractModel):
     required_total: int
 
 
+AlertState = Literal["open", "acknowledged", "snoozed"]
+
+
+class Alert(ContractModel):
+    """An open alert on Today (spec 7.2): swipe right to acknowledge, left to snooze (7.14)."""
+
+    id: str
+    title: str
+    detail: str
+    status: StatusLabel
+    href: str
+    raised_at: datetime
+    state: AlertState
+    snoozed_until: datetime | None = None
+
+
+class AlertAction(ContractModel):
+    """Acknowledge or snooze an alert, or reopen it (the undo of either)."""
+
+    action: Literal["acknowledge", "snooze", "reopen"]
+
+
 class TodayOverview(ContractModel):
     """Everything on Today, in one request (spec 7.17: one data request per page).
 
@@ -74,6 +96,8 @@ class TodayOverview(ContractModel):
     metrics: list[Metric]
     setup: SetupProgress | None
     spend_label: str
+    alerts: list[Alert]
+    """Open alerts (spec 7.2): acknowledge or snooze each, with Undo."""
 
 
 class ChatLead(ContractModel):
