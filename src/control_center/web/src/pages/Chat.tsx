@@ -11,7 +11,8 @@
  * (decisions 135, 137). On wider screens the list sits beside the conversation.
  * The reply streams in over the event stream as the lead writes it. When a request needs the
  * Owner's approval, the lead's message links to the approval card rather than acting. New
- * messages rise in; nothing pops (spec 7.14).
+ * messages rise in; nothing pops (spec 7.14). The Memory tab lists the Owner's saved notes
+ * (15.9.7).
  */
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowUp, ChevronLeft, Square, SquarePen } from "lucide-react";
@@ -23,6 +24,7 @@ import { send } from "../api/client";
 import { useChat } from "../api/queries";
 import type { ChatLead, ChatThread, Thread } from "../api/types";
 import { Avatar, STATE_WORDS } from "../components/Avatar";
+import { Segmented } from "../components/Controls";
 import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { chatPath, THREAD_STATE } from "../components/ThreadCard";
@@ -31,6 +33,7 @@ import { StatusText } from "../design/status";
 import { useLayout } from "../design/useLayout";
 import { scroller } from "../shell/scroll";
 import { Message, useChatControl } from "./chat/Message";
+import { MemoryView } from "./chat/MemoryView";
 import { ChatPrivacy, PrivateSwitch } from "./chat/Privacy";
 
 type Control = ReturnType<typeof useChatControl>;
@@ -315,11 +318,36 @@ function Conversation({ chat, phone }: { chat: ChatThread; phone: boolean }) {
   );
 }
 
+type Tab = "chats" | "memory";
+
+const TABS: readonly { value: Tab; label: string }[] = [
+  { value: "chats", label: "Chats" },
+  { value: "memory", label: "Memory" },
+];
+
 /**
- * The Chat page. `lead` picks the lead and `thread` the conversation: a thread id, `new` for a new
- * chat, or nothing. With nothing, a phone shows the list and a wider screen opens a new chat.
+ * The Chat page. `view=memory` opens the Memory tab, at the note `item` names. Otherwise `lead`
+ * picks the lead and `thread` the conversation: a thread id, `new` for a new chat, or nothing.
  */
 export default function Chat() {
+  const [params, setParams] = useSearchParams();
+  const tab: Tab = params.get("view") === "memory" ? "memory" : "chats";
+  const pick = (next: Tab) => setParams(next === "memory" ? { view: "memory" } : {});
+  if (tab === "memory") {
+    return (
+      <Page title="Chat">
+        <Segmented label="Chat or memory" value={tab} options={TABS} onChange={pick} />
+        <MemoryView focus={params.get("item")} />
+      </Page>
+    );
+  }
+  return (
+    <Chats tabs={<Segmented label="Chat or memory" value={tab} options={TABS} onChange={pick} />} />
+  );
+}
+
+/** The Chats tab: the leads, their threads and the conversation. */
+function Chats({ tabs }: { tabs: ReactNode }) {
   const [params, setParams] = useSearchParams();
   const phone = useLayout() === "phone";
   const leadId = params.get("lead") ?? DEFAULT_LEAD;
@@ -330,6 +358,7 @@ export default function Chat() {
     <QueryState query={query}>
       {(chat) => (
         <Page title="Chat">
+          {(listOnly || !phone) && tabs}
           {(listOnly || !phone) && (
             <Contacts
               leads={chat.leads}

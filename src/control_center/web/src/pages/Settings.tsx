@@ -5,7 +5,7 @@
  * On a phone this page is also "More": the bottom bar only fits five tabs, so the remaining pages
  * are listed above the settings.
  */
-import { ChevronRight } from "lucide-react";
+import { Brain, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePlatform, useSettings } from "../api/queries";
@@ -129,6 +129,15 @@ export default function Settings() {
                 </div>
               </Section>
             ))}
+            <Section title="Memory">
+              <nav className="list" aria-label="Memory">
+                <Link to="/chat?view=memory" className="list-row">
+                  <Brain size={18} aria-hidden="true" />
+                  <span className="grow">Your saved notes</span>
+                  <ChevronRight size={16} className="muted" aria-hidden="true" />
+                </Link>
+              </nav>
+            </Section>
             <YourData />
             <Section title="Hard limits" aside="From policy.yaml; change only at the desk">
               <dl className="list facts">

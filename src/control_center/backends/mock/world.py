@@ -14,6 +14,7 @@ from typing import Any, Protocol
 from control_center.backends.mock.fixtures import (
     chat,
     gate,
+    memory,
     ops,
     people,
     personal,
@@ -24,6 +25,7 @@ from control_center.backends.mock.fixtures import (
 from control_center.backends.mock.fixtures import threads as thread_fixtures
 from control_center.backends.mock.threads import ThreadRecord
 from control_center.contract.gate import Approval, CriticalDecision, Setting
+from control_center.contract.memory import MemoryItem
 from control_center.contract.personal import AutomaticChange, Case, Contact, SetupStep
 from control_center.contract.shell import TrashItem
 from control_center.contract.status import Job, MaintenanceFix
@@ -70,6 +72,8 @@ class MockWorld:
     """Chat messages by conversation thread id: every branch, as a tree (`chat_tree.py`)."""
     chat_heads: dict[str, str]
     """The newest message of the branch on show in each conversation; the next turn follows it."""
+    memories: dict[str, MemoryItem]
+    """The Owner's saved notes (15.9.2), by id."""
     alerts: dict[str, Alert]
     trash: dict[str, TrashItem]
     sampled_at: datetime
@@ -80,6 +84,9 @@ class MockWorld:
     """How many health samples the simulated aggregator has taken; the figures move with it."""
     step_up_challenges: set[str] = field(default_factory=set)
     step_up_proofs: dict[str, datetime] = field(default_factory=dict)
+    memory_paused: bool = False
+    memory_forgotten: dict[str, tuple[MemoryItem, datetime]] = field(default_factory=dict)
+    """Items forgotten in the last ten minutes, with when their undo runs out (15.9.7)."""
     trashed: dict[str, Any] = field(default_factory=dict)
     """What each trash item held when it was deleted, by trash id, for its restorer to put back
     (`engine_shell.send_to_trash`). The fixtures' items hold nothing."""
@@ -130,6 +137,7 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         fixes=by_id(ops.maintenance_batch()),
         chats={chat.ATLAS_THREAD: chat.atlas_history(now)},
         chat_heads={chat.ATLAS_THREAD: "M-2"},
+        memories=by_id(memory.items(now)),
         alerts=by_id(shell.alerts(now)),
         trash=by_id(shell.trash(now)),
         sampled_at=now,

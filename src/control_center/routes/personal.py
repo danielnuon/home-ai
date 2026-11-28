@@ -130,6 +130,14 @@ def chat_switch(lead_id: str, thread_id: str, message_id: str, backends: Backend
     return backends.chat.switch(lead_id, thread_id, message_id)
 
 
+@router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/remember")
+def chat_remember(
+    lead_id: str, thread_id: str, message_id: str, backends: BackendsDep
+) -> ChatThread:
+    """Save one of the Owner's messages to memory (spec 15.9.3)."""
+    return backends.chat.remember(lead_id, thread_id, message_id)
+
+
 @router.post("/chat/{lead_id}/{thread_id}/messages/{message_id}/branch")
 def chat_branch(lead_id: str, thread_id: str, message_id: str, backends: BackendsDep) -> ChatThread:
     """Start a new conversation thread from the branch on show, up to a message."""

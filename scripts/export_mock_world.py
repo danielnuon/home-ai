@@ -18,10 +18,19 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from control_center.backends.mock import activity, chat, gate, gate_step_up, status
+from control_center.backends.mock import (
+    activity,
+    chat,
+    gate,
+    gate_step_up,
+    memory,
+    memory_rules,
+    status,
+)
 from control_center.backends.mock.engine_work import INSTRUMENT_COUNT
 from control_center.backends.mock.fixtures import chat as chat_fixtures
 from control_center.backends.mock.fixtures import gate as gate_fixtures
+from control_center.backends.mock.fixtures import memory as memory_fixtures
 from control_center.backends.mock.fixtures import (
     ops,
     people,
@@ -79,12 +88,14 @@ def world_state() -> dict[str, Any]:
         "fixes",
         "chats",
         "chat_heads",
+        "memories",
         "alerts",
         "trash",
     ]
     state = {name: dump(getattr(world, name)) for name in fields}
     state["stopped"] = world.stopped
     state["maintenance_running"] = world.maintenance_running
+    state["memory_paused"] = world.memory_paused
     return state
 
 
@@ -174,6 +185,11 @@ def constants() -> dict[str, Any]:
         "word_delay_seconds": chat.WORD_DELAY_SECONDS,
         "title_words": chat.TITLE_WORDS,
         "temporary_retain_hours": chat.TEMPORARY_RETAIN_HOURS,
+        "pinned_max": memory_fixtures.PINNED_MAX,
+        "forget_undo_seconds": memory.FORGET_UNDO.total_seconds(),
+        "items_per_turn": memory.ITEMS_PER_TURN,
+        "item_max_chars": memory_rules.ITEM_MAX_CHARS,
+        "max_learned_per_turn": memory_rules.MAX_LEARNED_PER_TURN,
         "instrument_count": INSTRUMENT_COUNT,
         "needs_you_shown": NEEDS_YOU_SHOWN,
         "team_shown": TEAM_SHOWN,

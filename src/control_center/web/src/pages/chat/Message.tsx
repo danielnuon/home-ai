@@ -1,10 +1,18 @@
 /**
  * @file One chat message with its reply controls (spec 15.9.8): edit one of the Owner's messages,
  * regenerate the lead's latest reply, branch into a new thread from any message, and ‹ 2 / 3 ›
- * to switch between the branches an edit or a regeneration made. Every control is a visible
+ * to switch between the branches an edit or a regeneration made, and Remember on the Owner's
+ * messages, which saves one to memory (15.9.3). Every control is a visible
  * button under the bubble (spec 7.15, rule 5); each answer replaces the conversation in place.
  */
-import { ChevronLeft, ChevronRight, GitBranch, Pencil, RotateCcw } from "lucide-react";
+import {
+  BookmarkPlus,
+  ChevronLeft,
+  ChevronRight,
+  GitBranch,
+  Pencil,
+  RotateCcw,
+} from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +23,7 @@ import { ApprovalPeek } from "../../components/ApprovalPeek";
 import { Avatar } from "../../components/Avatar";
 import { ARRIVE, m } from "../../design/motion";
 import { clockTime } from "../../design/time";
+import { MemoryNotes, UsedMemory } from "./MemoryNotes";
 
 /** Runs one reply control and puts the conversation it answers with on screen. */
 export function useChatControl(chat: ChatThread) {
@@ -114,11 +123,13 @@ interface ToolsProps {
   message: ChatMessage;
   control: Control;
   latest: boolean;
+  /** Whether Remember is offered: not in a temporary chat, and not once saved. */
+  rememberable: boolean;
   onEdit: () => void;
 }
 
 /** The controls under a finished message, as small labelled buttons. */
-function Tools({ message, control, latest, onEdit }: ToolsProps) {
+function Tools({ message, control, latest, rememberable, onEdit }: ToolsProps) {
   const mine = message.author === "owner";
   const tool = (label: string, icon: React.ReactNode, onClick: () => void) => (
     <button type="button" className="btn ghost chat-tool" disabled={control.busy} onClick={onClick}>
@@ -130,6 +141,11 @@ function Tools({ message, control, latest, onEdit }: ToolsProps) {
     <span className="chat-tools row wrap">
       <BranchSwitcher message={message} control={control} />
       {mine && tool("Edit", <Pencil size={14} aria-hidden="true" />, onEdit)}
+      {mine &&
+        rememberable &&
+        tool("Remember", <BookmarkPlus size={14} aria-hidden="true" />, () => {
+          void control.run(`/messages/${message.id}/remember`);
+        })}
       {!mine &&
         latest &&
         tool("Regenerate", <RotateCcw size={14} aria-hidden="true" />, () => {
@@ -169,6 +185,17 @@ function Bubble({ message }: { message: ChatMessage }) {
   );
 }
 
+/** Under a finished message: the memory it used or saved, then its controls. */
+function Settled(props: ToolsProps) {
+  return (
+    <>
+      <UsedMemory message={props.message} />
+      <MemoryNotes message={props.message} />
+      <Tools {...props} />
+    </>
+  );
+}
+
 /** One message bubble, with its controls once it has finished. */
 export function Message({ message, chat, control, latest }: MessageProps) {
   const mine = message.author === "owner";
@@ -191,10 +218,11 @@ export function Message({ message, chat, control, latest }: MessageProps) {
           <Bubble message={message} />
         )}
         {settled && (
-          <Tools
+          <Settled
             message={message}
             control={control}
             latest={latest}
+            rememberable={!chat.thread?.temporary_until && message.memory_notes.length === 0}
             onEdit={() => setEditing(true)}
           />
         )}
