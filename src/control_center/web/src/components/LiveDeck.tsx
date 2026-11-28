@@ -48,19 +48,19 @@ export function passes(task: LiveTask, filter: Filter): boolean {
 const SAMPLES = 32;
 
 /** The total rate, sampled once a second for the waveform, which draws in from the right. */
-function useRateHistory(total: number): number[] {
+function useRateHistory(total: number, still: boolean): number[] {
   const latest = useRef(total);
   const [history, setHistory] = useState<number[]>(() => [total, total]);
   useEffect(() => {
     latest.current = total;
   }, [total]);
   useEffect(() => {
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (still || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
       setHistory((previous) => [...previous.slice(1 - SAMPLES), latest.current]);
     }, 1000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [still]);
   return history;
 }
 
@@ -161,13 +161,24 @@ function Orbit({ tasks }: { tasks: LiveTask[] }) {
   );
 }
 
-/** The deck: the rate, the waveform and every session in orbit. */
-export function LiveDeck({ tasks, mode }: { tasks: LiveTask[]; mode?: string }) {
+/**
+ * The deck: the rate, the waveform and every session in orbit. With `still`, under memory
+ * pressure, the waveform stops sampling and every animation pauses where it is (spec 7.17).
+ */
+export function LiveDeck({
+  tasks,
+  mode,
+  still = false,
+}: {
+  tasks: LiveTask[];
+  mode?: string;
+  still?: boolean;
+}) {
   const running = tasks.filter((task) => task.session_state === "running");
   const total = running.reduce((sum, task) => sum + (task.tokens_per_second ?? 0), 0);
-  const history = useRateHistory(total);
+  const history = useRateHistory(total, still);
   return (
-    <section className="live-deck" aria-label="Everything running now">
+    <section className={`live-deck${still ? " still" : ""}`} aria-label="Everything running now">
       <div className="live-deck-head">
         <span className="live-deck-rate mono">
           <Counter value={total} />

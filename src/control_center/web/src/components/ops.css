@@ -1,0 +1,156 @@
+/* Operations controls: System, Models, Services logs, Schedule, Backups, Maintenance, trends. */
+
+.meter {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--raised);
+  overflow: hidden;
+}
+
+.meter > .meter-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent-fill);
+  border-radius: inherit;
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.meter.attention > .meter-fill {
+  background: var(--sand-fill);
+}
+
+.meter > .meter-mark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--line-strong);
+}
+
+.meter > .meter-mark.floor {
+  background: var(--text);
+}
+
+.option-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.option-card {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.option-card[aria-pressed="true"] {
+  border-color: var(--accent-fill);
+  background: color-mix(in srgb, var(--accent-fill) 8%, var(--surface));
+}
+
+.option-card:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-2);
+}
+
+.figure {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3);
+  border-radius: var(--radius-row);
+  background: var(--raised);
+}
+
+.tier-bar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+}
+
+.tier-bar > span {
+  border-radius: 2px;
+  min-width: 2px;
+}
+
+.log-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.log-lines li {
+  display: grid;
+  grid-template-columns: 72px 44px 1fr;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.log-lines li:last-child {
+  border-bottom: 0;
+}
+
+.diff {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-row);
+  background: var(--raised);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.diff .add {
+  color: var(--healthy-text);
+}
+
+.diff .del {
+  color: var(--clay-text);
+}
+
+.trend-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.time-edit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0 var(--space-4) var(--space-3);
+}
+
+.time-edit .field {
+  width: auto;
+}
+
+/* Under memory pressure the Live deck holds still: animations pause where they are, no jump. */
+.live-deck.still,
+.live-deck.still * {
+  animation-play-state: paused !important;
+}

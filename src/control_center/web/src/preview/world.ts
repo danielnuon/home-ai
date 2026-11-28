@@ -81,6 +81,22 @@ interface WorldState {
   /** The Owner's saved notes (15.9.2), by id. */
   memories: Record<string, MemoryItem>;
   memory_paused: boolean;
+  /** Pool mode, memory pressure, pins, drills, prunes and findings (`ops_state.py`). */
+  ops: OpsState;
+}
+
+/** The operations controls' state, as in `ops_state.py`. */
+interface OpsState {
+  pool_mode: Schemas["PoolState"]["mode"];
+  pressure: Schemas["SystemOverview"]["pressure_level"];
+  pins: string[];
+  selection_queued: boolean;
+  health_check: Schemas["HealthCheck"] | null;
+  drill: Schemas["RestoreDrill"];
+  drills: Schemas["Row"][];
+  prune_plan: Schemas["PrunePlan"] | null;
+  last_prune: string;
+  findings: Record<string, Schemas["Finding"]>;
 }
 
 /** A paid feature row: id, name, kind, switch setting, cap setting (`platform.PAID_FEATURES`). */
@@ -114,7 +130,6 @@ interface Fixtures {
   connection_groups: Schemas["RowGroup"][];
   voice_profiles: Record<string, Schemas["VoiceOverview"]["profiles"]>;
   maintenance_stats: Schemas["MaintenanceOverview"]["stats"];
-  findings: Schemas["MaintenanceOverview"]["findings"];
   agenda: Schemas["TodayOverview"]["agenda"];
   domains: Schemas["PersonalOverview"]["domains"];
   finance: Record<string, Schemas["FinanceOverview"]>;
@@ -142,6 +157,44 @@ interface Fixtures {
   library_answers: Record<string, [string, Schemas["LibraryCitation"][]]>;
   library_caveat: string;
   no_passage: string;
+  operations: OperationsFixtures;
+}
+
+type Level = Schemas["SystemOverview"]["pressure_level"];
+type Mode = Schemas["PoolState"]["mode"];
+
+/** The operations controls' fixture views (`fixtures/operations.py`). */
+interface OperationsFixtures {
+  pool_modes: Record<Mode, [string, string, string[]]>;
+  owner_modes: Mode[];
+  mode_impact: Record<Mode, Schemas["ImpactLine"][]>;
+  lanes: Schemas["Lane"][];
+  cpu_classes: Schemas["CpuClass"][];
+  thermal: Schemas["Thermal"];
+  drives: Schemas["DriveUse"][];
+  model_time: Schemas["ModelTimeShare"];
+  health_checks: Schemas["Row"][];
+  pressure_words: Record<Level, [Schemas["StatusLabel"], string | null]>;
+  pressure_drill: Record<Level, Level>;
+  log_retained: string;
+  service_logs: Record<string, Schemas["LogLine"][]>;
+  queue_depth: Schemas["SourcedFigure"][];
+  local_cloud_split: Schemas["SourcedFigure"][];
+  routing_panel: Schemas["RoutingPanel"];
+  candidates: Schemas["Candidate"][];
+  plan_decisions: string[];
+  pin_impact: Schemas["ImpactLine"][];
+  selection_next: string;
+  selection_idle: string;
+  drill_detail: string;
+  prune_removes: Schemas["Row"][];
+  prune_frees: string;
+  prune_keeps: string;
+  products: [string, string, string][];
+  maintenance_trends: Schemas["Trend"][];
+  metric_catalog: Schemas["TrendGroup"][];
+  page_areas: Record<string, string[]>;
+  families: string[];
 }
 
 /** The rules' numbers and words, read from the Python modules instead of repeated here. */
@@ -164,7 +217,8 @@ interface Constants {
   blocked_words: Record<string, string>;
   waiting_words: Record<string, string>;
   call_script: string;
-  pool_mode: string;
+  desk_mode_gb: number;
+  offsite_feature: string;
   backup_mode: Schemas["StatusLabel"];
   tick_seconds: number;
   transcript_every_ticks: number;

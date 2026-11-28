@@ -1,16 +1,24 @@
 /**
- * @file Models: which local model serves each family, the pool's mode, the Tokens panel with its
- * caps, and the independent reviewer option with its impact preview (design: Models; spec 7.18,
- * 8.8.7).
+ * @file Models: which local model serves each family, the pool's mode and queue, a pending model
+ * plan with its veto, pins, Run selection now, the Routing panel, candidate cards, the Tokens panel
+ * with its caps, the independent reviewer option and the metric trends (design: Models; spec 7.2,
+ * 7.18, 8.6, 8.8.7, 8.10).
  */
-import { useModels, useSettings } from "../api/queries";
+import { RefreshCw } from "lucide-react";
+import { useAction } from "../api/actions";
+import { send } from "../api/client";
+import { useDecisions, useModels, useSettings } from "../api/queries";
 import type { ModelsOverview, SourcedFigure } from "../api/types";
+import { DecisionCard } from "../components/DecisionCard";
 import { ImpactCard } from "../components/ImpactCard";
 import { Page, Section } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { MetricTiles } from "../components/Rows";
 import { SettingRow } from "../components/SettingControl";
+import { Trends } from "../components/Trends";
 import { StatusText } from "../design/status";
+import { Families } from "./models/Families";
+import { Candidates, FigureGrid, Routing } from "./models/Panels";
 
 /** The independent reviewer switch, from the shared settings. */
 function ReviewerSetting() {
@@ -68,6 +76,48 @@ function Tokens({ tokens }: { tokens: ModelsOverview["tokens"] }) {
   );
 }
 
+/** A pending model plan from the selector, with its veto (spec 8.6, 11.9). */
+function PendingPlan({ ids }: { ids: string[] }) {
+  const plans = (useDecisions().data ?? []).filter((d) => ids.includes(d.id) && d.vetoable);
+  if (plans.length === 0) return null;
+  return (
+    <Section title="Pending plan" to={{ path: "/decisions", label: "Decisions" }}>
+      <div className="stack">
+        {plans.map((decision) => (
+          <DecisionCard key={decision.id} decision={decision} />
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/** When the selector last ran, and Run selection now. */
+function Selection({ selection }: { selection: ModelsOverview["selection"] }) {
+  const run = useAction<ModelsOverview>({
+    refresh: ["models", "schedule"],
+    done: (models) => models.selection.status.label,
+  });
+  return (
+    <Section title="Selection">
+      <div className="card stack">
+        <span className="row">
+          <span className="grow muted small">{selection.last_run}</span>
+          <StatusText value={selection.status} className="small" />
+        </span>
+        <button
+          type="button"
+          className="btn"
+          disabled={run.busy || selection.queued}
+          onClick={() => void run.run(() => send("POST", "/models/selection"))}
+        >
+          <RefreshCw size={18} aria-hidden="true" />
+          {selection.queued ? "Selection queued" : "Run selection now"}
+        </button>
+      </div>
+    </Section>
+  );
+}
+
 /** The Models page. */
 export default function Models() {
   const query = useModels();
@@ -79,25 +129,20 @@ export default function Models() {
           subtitle={`${models.pool_mode} · ${models.resident} resident · ${models.swaps_today}`}
         >
           <MetricTiles metrics={models.stats} />
-          <Section title="Model families">
-            <ul className="list">
-              {models.assignments.map((assignment) => (
-                <li key={assignment.family} className="list-row">
-                  <span className="mono small family">{assignment.family}</span>
-                  <span className="grow stack" style={{ ["--gap" as string]: "2px" }}>
-                    <span className="row-title">{assignment.model}</span>
-                    <span className="muted small">{assignment.meta}</span>
-                  </span>
-                  <StatusText value={assignment.residency} className="small" />
-                </li>
-              ))}
-            </ul>
+          <PendingPlan ids={models.plan_decisions} />
+          <Families models={models} />
+          <Section title="Queue and split">
+            <FigureGrid figures={[...models.queue, ...models.split]} />
           </Section>
+          <Selection selection={models.selection} />
+          <Routing routing={models.routing} />
+          <Candidates candidates={models.candidates} />
           <Tokens tokens={models.tokens} />
           <Section title="Independent reviewer">
             <ReviewerSetting />
             <ImpactCard lines={models.reviewer_impact} />
           </Section>
+          <Trends page="models" />
         </Page>
       )}
     </QueryState>

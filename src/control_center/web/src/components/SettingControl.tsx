@@ -43,7 +43,9 @@ function MoneyField({ setting }: { setting: Setting }) {
 /** The control that fits the setting's kind. */
 function SettingControl({ setting }: { setting: Setting }) {
   const { change, busy } = useChangeSetting(setting);
-  switch (setting.kind) {
+  // A free choice between off and on, such as Desk mode, is still a switch to look at.
+  const onOff = setting.kind === "choice" && setting.choices.join() === "off,on";
+  switch (onOff ? "switch" : setting.kind) {
     case "switch":
       return (
         <Switch

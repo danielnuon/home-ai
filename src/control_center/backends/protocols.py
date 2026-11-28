@@ -74,10 +74,15 @@ from control_center.contract.status import (
     BackupsOverview,
     ConnectionsOverview,
     DocsOverview,
+    Finding,
     MaintenanceOverview,
+    MetricCatalog,
     ModelsOverview,
+    PoolMode,
+    PruneDone,
     ScheduleOverview,
     SecurityOverview,
+    ServiceLog,
     ServicesOverview,
     SpendOverview,
     SystemOverview,
@@ -237,6 +242,10 @@ class ApprovalGate(Protocol):
         """Restore a file, folder or record into a side folder. Returns where it will appear."""
         ...
 
+    def run_prune(self, plan_id: str, step_up: str | None) -> PruneDone:
+        """Run the prune plan the Owner has seen, behind a step-up (spec 13.7)."""
+        ...
+
     def alerts(self) -> list[Alert]:
         """Open alerts for Today; a snoozed one returns when its snooze ends."""
         ...
@@ -347,6 +356,62 @@ class PipelineEngine(Protocol):
 
     def docs(self) -> DocsOverview:
         """Documentation by area with review status."""
+        ...
+
+    def set_pool_mode(self, mode: PoolMode) -> None:
+        """Put the model pool in another mode (spec 8.3)."""
+        ...
+
+    def end_pool_mode(self) -> None:
+        """End image or video mode; the pool returns to mode L."""
+        ...
+
+    def run_health_check(self) -> None:
+        """Check services, the audit chain, drives and the network now."""
+        ...
+
+    def pressure_drill(self) -> None:
+        """Step memory pressure to its next level, as a resilience drill (spec 7.17)."""
+        ...
+
+    def pin_family(self, family: str, pinned: bool) -> None:
+        """Pin a family's model through re-selection, or unpin it."""
+        ...
+
+    def run_selection(self) -> None:
+        """Queue a selector run for the next window (spec 8.6)."""
+        ...
+
+    def service_log(self, service_id: str) -> ServiceLog:
+        """A service's full masked log, newest first."""
+        ...
+
+    def set_job_time(self, job_id: str, time: str) -> ScheduleOverview:
+        """Move a job to another start time."""
+        ...
+
+    def run_restore_drill(self) -> None:
+        """Restore into a scratch folder and verify it (spec 13.5)."""
+        ...
+
+    def make_prune_plan(self) -> None:
+        """Work out what a prune would remove, removing nothing."""
+        ...
+
+    def discard_prune_plan(self) -> None:
+        """Put the prune plan away."""
+        ...
+
+    def wont_fix(self, finding_id: str, reason: str) -> Finding:
+        """Close a maintenance finding as won't-fix, with the reason."""
+        ...
+
+    def reopen_finding(self, finding_id: str) -> Finding:
+        """Reopen a won't-fix finding."""
+        ...
+
+    def metrics(self, page: str) -> MetricCatalog:
+        """The metric catalog with 7- and 30-day trends for a page (spec 7.18)."""
         ...
 
     def search(self, query: str) -> SearchResults:

@@ -5,6 +5,7 @@
 import type {
   BackupsOverview,
   ConnectionsOverview,
+  MemoryZone,
   Metric,
   ModelsOverview,
   PaidFeature,
@@ -31,14 +32,14 @@ const general = (value: number) => String(Number(value.toPrecision(6)));
 
 /** Today's tiles, from the same figures the pages show. */
 export function subsystemTiles(world: MockWorld, spend: SpendOverview): Tile[] {
-  const pool = world.fixtures.memory_zones.find((zone) => zone.name === "Model pool");
+  const pool = zones(world).find((zone) => zone.name === "Model pool");
   const healthy = { status: "healthy", label: "Healthy" } as const;
   const tiles: [string, string, Tile["status"], string][] = [
     ["Services", `${running(world)} running`, healthy, "/services"],
     [
       "Model pool",
       `${general(pool?.used_gb ?? 0)} / ${general(pool?.budget_gb ?? 0)} GB`,
-      { status: "healthy", label: world.constants.pool_mode },
+      { status: "healthy", label: modeName(world) },
       "/models",
     ],
     ["Backups", "20:00 today", world.constants.backup_mode, "/backups"],
@@ -76,16 +77,62 @@ export const healthMetrics = (world: MockWorld): Metric[] =>
     ),
   );
 
-/** Machine, memory zones and hardware signals. */
-export function system(world: MockWorld): SystemOverview {
+/** The pool mode as Today's tile and Models name it, such as "Mode L". */
+const modeName = (world: MockWorld) => `Mode ${world.ops.pool_mode}`;
+
+/** The memory budget; Desk mode moves 4 GB from the pool to your session (8.11.2). */
+function zones(world: MockWorld): MemoryZone[] {
+  if (!isOn(world, "resources.desk_mode")) return world.fixtures.memory_zones;
+  const gb = world.constants.desk_mode_gb;
+  const moved: Record<string, number> = { "macOS and your session": gb, "Model pool": -gb };
+  return world.fixtures.memory_zones.map((zone) => ({
+    ...zone,
+    budget_gb: zone.budget_gb + (moved[zone.name] ?? 0),
+  }));
+}
+
+function pool(world: MockWorld): SystemOverview["pool"] {
+  const o = world.fixtures.operations;
+  const mode = world.ops.pool_mode;
+  const [label, , loaded] = o.pool_modes[mode];
   return {
-    summary: { status: "healthy", label: "All clear" },
+    mode,
+    label,
+    loaded,
+    can_end: mode === "I",
+    options: o.owner_modes.map((option) => ({
+      mode: option,
+      label: o.pool_modes[option][0],
+      note: o.pool_modes[option][1],
+      impact: o.mode_impact[option],
+    })),
+  };
+}
+
+/** Machine, memory zones, the host's resource controls and hardware signals. */
+export function system(world: MockWorld): SystemOverview {
+  const o = world.fixtures.operations;
+  const level = world.ops.pressure;
+  const [pressure] = o.pressure_words[level];
+  return {
+    summary:
+      level === "normal"
+        ? { status: "healthy", label: "All clear" }
+        : { status: pressure.status, label: `Memory pressure ${level}` },
     machine: "Mac mini M5 Pro · 64 GB · up 12 d 4 h · 0 unexpected reboots",
-    zones: world.fixtures.memory_zones,
-    pressure: { status: "healthy", label: "Normal" },
+    zones: zones(world),
+    pressure,
+    pressure_level: level,
     swap: "0.3 GB · alert at 2 GB",
     tiles: sampled(world, world.fixtures.system_tiles),
     rows: world.fixtures.system_rows,
+    pool: pool(world),
+    lanes: o.lanes,
+    cpu: o.cpu_classes,
+    thermal: o.thermal,
+    drives: o.drives,
+    model_time: o.model_time,
+    health_check: world.ops.health_check,
   };
 }
 
@@ -100,15 +147,32 @@ export function services(world: MockWorld): ServicesOverview {
 /** Assignments and the independent-reviewer preview, following the setting. */
 export function models(world: MockWorld): ModelsOverview {
   const independent = isOn(world, "models.review.independent");
+  const o = world.fixtures.operations;
+  const queued = world.ops.selection_queued;
   return {
-    pool_mode: world.constants.pool_mode,
+    pool_mode: modeName(world),
     resident: "Conversation model + embeddings",
     swaps_today: "3 · plan ≤ 6",
-    assignments: world.fixtures.family_assignments[independent ? "independent" : "shared"],
+    assignments: world.fixtures.family_assignments[independent ? "independent" : "shared"].map(
+      (a) => ({ ...a, pinned: world.ops.pins.includes(a.family) }),
+    ),
     independent_reviewer: independent,
     reviewer_impact: world.fixtures.reviewer_impact,
     stats: world.fixtures.model_stats,
     tokens: world.fixtures.tokens_panel,
+    queue: o.queue_depth,
+    split: o.local_cloud_split,
+    routing: o.routing_panel,
+    candidates: o.candidates,
+    selection: {
+      status: queued
+        ? { status: "in_progress", label: o.selection_next }
+        : { status: "healthy", label: "Idle" },
+      last_run: o.selection_idle,
+      queued,
+    },
+    plan_decisions: o.plan_decisions,
+    pin_impact: o.pin_impact,
   };
 }
 
@@ -128,6 +192,12 @@ function paidFeature(world: MockWorld, [id, name, kind, switchKey, capKey]: Paid
     impact: world.fixtures.cloud_impact[String(ceiling)] ?? [],
   };
   return feature;
+}
+
+function offsiteRow(world: MockWorld): PaidFeatureRow {
+  const row = world.fixtures.paid_features.find(([id]) => id === world.constants.offsite_feature);
+  if (!row) throw new Error("No paid offsite feature");
+  return row;
 }
 
 /** Paid features with their switches and caps, read from the settings store. */
@@ -159,14 +229,13 @@ export function backups(world: MockWorld): BackupsOverview {
       "Your two drives back each other up. That covers a failed drive and mistakes, not theft, " +
       "fire or a power surge that takes both.",
     targets: world.fixtures.backup_targets,
-    drill: {
-      status: { status: "healthy", label: "Passed" },
-      detail:
-        "Oct 4 · one repository, tasks.db and the audit log restored to a scratch folder · " +
-        "hash chain verified · 4 min",
-    },
+    drill: world.ops.drill,
+    drills: world.ops.drills,
     restore_points: ["Today 20:00", "Yesterday 00:00", "Oct 20 (weekly)"],
     retention: world.fixtures.retention,
+    prune_plan: world.ops.prune_plan,
+    last_prune: world.ops.last_prune,
+    offsite: paidFeature(world, offsiteRow(world)),
   };
 }
 
