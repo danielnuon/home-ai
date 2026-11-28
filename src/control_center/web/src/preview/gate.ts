@@ -361,6 +361,12 @@ function overall(world: MockWorld): StatusLabel {
   return { status: "healthy", label: "All clear" };
 }
 
+/** The banner for each degraded mode in force: memory pressure (spec 7.17). */
+function degraded(world: MockWorld): string[] {
+  const banner = world.fixtures.operations.pressure_words[world.ops.pressure][1];
+  return banner ? [banner] : [];
+}
+
 /** Global banners and the navigation badges. */
 export function platformState(world: MockWorld, running: number): PlatformState {
   const pending = listApprovals(world).filter((a) => a.state === "pending").length;
@@ -376,7 +382,8 @@ export function platformState(world: MockWorld, running: number): PlatformState 
     stopped: world.stopped,
     away: isOn(world, "away_mode"),
     quiet_hours: inQuietHours(setting(world, "quiet_hours"), world.clock()),
-    degraded: [],
+    degraded: degraded(world),
+    pressure: world.ops.pressure,
     overall: overall(world),
     badges: Object.fromEntries(
       Object.entries(badges).filter(([, badge]) => badge.label !== "" && badge.label !== "0"),
@@ -429,6 +436,20 @@ export function requestRestore(
 ): string {
   requireStepUp(world, stepUp, "Restoring needs your passkey.");
   return `Restoring ${what} from ${point} into Restores on the working drive.`;
+}
+
+/** Runs the prune plan the Owner has seen, behind a step-up (spec 13.7). */
+export function runPrune(world: MockWorld, planId: string, stepUp: string | null) {
+  const plan = world.ops.prune_plan;
+  if (!plan || plan.id !== planId) {
+    throw conflict("That prune plan has changed. Look at the new plan first.");
+  }
+  if (world.stopped) throw conflict("Everything is stopped. Resume first.");
+  requireStepUp(world, stepUp, "Pruning removes backup snapshots for good; it needs your passkey.");
+  world.ops.prune_plan = null;
+  world.ops.last_prune = `Last prune just now · freed ${plan.frees}`;
+  world.bus.changed("backups");
+  return { message: `Pruned. ${plan.frees} freed; everything retention keeps is untouched.` };
 }
 
 /** Stops everything at once. */

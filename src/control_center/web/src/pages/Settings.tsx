@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { usePlatform, useSettings } from "../api/queries";
 import type { Setting, StatusLabel } from "../api/types";
 import { Page, Section } from "../components/Page";
+import { Trends } from "../components/Trends";
 import { QueryState } from "../components/QueryState";
 import { SettingRow } from "../components/SettingControl";
 import { useLayout } from "../design/useLayout";
@@ -139,6 +140,7 @@ export default function Settings() {
               </nav>
             </Section>
             <YourData />
+            <Trends page="settings" />
             <Section title="Hard limits" aside="From policy.yaml; change only at the desk">
               <dl className="list facts">
                 {index.hard_limits.map((limit) => (

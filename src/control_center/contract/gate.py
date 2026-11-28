@@ -7,6 +7,7 @@ from pydantic import Field, computed_field
 
 from control_center.contract.base import ContractModel
 from control_center.contract.common import DataClass, Department, StatusLabel, Trust
+from control_center.contract.status import PressureLevel
 
 ApprovalState = Literal["pending", "approved", "denied", "expired"]
 
@@ -209,6 +210,8 @@ class PlatformState(ContractModel):
     away: bool
     quiet_hours: bool
     degraded: list[str]
+    pressure: PressureLevel = "normal"
+    """Memory pressure: at warning Brain stops streaming transcripts and holds the Live deck."""
     overall: StatusLabel
     badges: dict[str, StatusLabel]
     features_on: list[str]

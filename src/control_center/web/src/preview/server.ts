@@ -9,6 +9,7 @@ import * as gate from "./gate";
 import * as people from "./people";
 import * as chat from "./chat";
 import * as memory from "./memory";
+import * as ops from "./ops";
 import * as shell from "./shell";
 import * as status from "./status";
 import { buildToday } from "./today";
@@ -26,6 +27,12 @@ interface Call {
 type Handler = (world: MockWorld, call: Call) => unknown;
 
 const NO_CONTENT = Symbol("no content");
+
+/** Runs an action, then answers with the page it changed, as the server's route does. */
+const then = (world: MockWorld, act: (w: MockWorld) => void, page: (w: MockWorld) => unknown) => {
+  act(world);
+  return page(world);
+};
 
 const str = (value: unknown) => (typeof value === "string" ? value : "");
 const list = (value: unknown) =>
@@ -78,6 +85,8 @@ const GET: Record<string, Handler> = {
   "/offline-pack": (w) => shell.offlinePack(w),
   "/library": (w) => shell.library(w),
   "/library/search": (w, c) => shell.librarySearch(w, c.query.get("q") ?? ""),
+  "/services/:id/logs": (w, c) => ops.serviceLog(w, p(c, "id")),
+  "/metrics": (w, c) => ops.metrics(w, c.query.get("page") ?? "settings"),
 };
 
 const POST: Record<string, Handler> = {
@@ -171,6 +180,16 @@ const POST: Record<string, Handler> = {
   },
   "/library/ask": (w, c) => shell.libraryAsk(w, str(c.body.question)),
   "/library/ark-drive": (w, c) => shell.writeArkDrive(w, str(c.body.volume), c.stepUp),
+  "/system/pool-mode/end": (w) => then(w, ops.endPoolMode, status.system),
+  "/system/health-check": (w) => then(w, ops.runHealthCheck, status.system),
+  "/system/pressure-drill": (w) => then(w, ops.pressureDrill, status.system),
+  "/models/selection": (w) => then(w, ops.runSelection, status.models),
+  "/backups/drill": (w) => then(w, ops.runRestoreDrill, status.backups),
+  "/backups/prune-plan": (w) => then(w, ops.makePrunePlan, status.backups),
+  "/backups/prune-plan/discard": (w) => then(w, ops.discardPrunePlan, status.backups),
+  "/backups/prune": (w, c) => gate.runPrune(w, str(c.body.plan_id), c.stepUp),
+  "/maintenance/findings/:id/wont-fix": (w, c) => ops.wontFix(w, p(c, "id"), str(c.body.reason)),
+  "/maintenance/findings/:id/reopen": (w, c) => ops.reopenFinding(w, p(c, "id")),
 };
 
 const PUT: Record<string, Handler> = {
@@ -196,6 +215,11 @@ const PUT: Record<string, Handler> = {
       pinned: typeof c.body.pinned === "boolean" ? c.body.pinned : null,
     }),
   "/chat/:id/:thread/learning": (w, c) => chat.chatLearning(w, convo(c), c.body.learning === true),
+  "/system/pool-mode": (w, c) =>
+    then(w, (world) => ops.setPoolMode(world, str(c.body.mode)), status.system),
+  "/models/families/:family/pin": (w, c) =>
+    then(w, (world) => ops.pinFamily(world, p(c, "family"), c.body.pinned === true), status.models),
+  "/schedule/:id/time": (w, c) => ops.setJobTime(w, p(c, "id"), str(c.body.time)),
 };
 
 const TABLES: Record<string, Record<string, Handler>> = { GET, POST, PUT };

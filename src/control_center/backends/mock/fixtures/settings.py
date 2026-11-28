@@ -17,7 +17,46 @@ def settings(now: datetime) -> list[Setting]:
         *_privacy_settings(),
         *_call_settings(now),
         *_operation_settings(now),
+        *_resource_settings(),
     ]
+
+
+MAINTAINED_REPOS = ["lease-reminders", "receipt-scanner"]
+"""Released repositories under Pipeline C (spec 17.20); each has a `maintenance.<repo>` level."""
+
+
+def _resource_settings() -> list[Setting]:
+    """Desk mode (spec 8.11.2) and each released product's maintenance level (17.20, 22.8).
+
+    Desk mode is an operating choice either way. A maintenance level runs from `scan` to `fix`;
+    raising it loosens, so it needs a step-up, and lowering it is one tap.
+    """
+    desk = Setting(
+        key="resources.desk_mode",
+        label="Desk mode",
+        note="Frees up to 4 GB of the model pool for your apps; agents keep working, more slowly",
+        category="Operations",
+        kind="choice",
+        value="off",
+        default="off",
+        choices=["off", "on"],
+        owner_page="system",
+    )
+    levels = [
+        Setting(
+            key=f"maintenance.{repo}",
+            label=f"Maintenance level: {repo}",
+            note="scan finds and reports; fix also merges Custodian's fixes",
+            category="Maintenance",
+            kind="level",
+            value="scan" if repo == "receipt-scanner" else "fix",
+            default="scan",
+            choices=["scan", "fix"],
+            owner_page="maintenance",
+        )
+        for repo in MAINTAINED_REPOS
+    ]
+    return [desk, *levels]
 
 
 def _paid_feature(
