@@ -1,11 +1,11 @@
-"""Personal operations: cases, domains, finance, contacts and the Owner's Setup steps."""
+"""Personal operations: cases, domains, finance and the Owner's Setup steps."""
 
 from typing import Literal
 
 from pydantic import Field
 
 from control_center.contract.base import ContractModel
-from control_center.contract.common import DataClass, Metric, Principal, StatusLabel, Trust
+from control_center.contract.common import DataClass, Metric, Principal, StatusLabel
 
 
 class Case(ContractModel):
@@ -76,36 +76,6 @@ class FinanceOverview(ContractModel):
     budget: list[BudgetLine]
     net_worth: Metric
     imports: list[StatementImport]
-
-
-class HouseholdMember(ContractModel):
-    """A household principal, shown at the top of Contacts."""
-
-    id: Principal
-    name: str
-    meta: str
-
-
-class Contact(ContractModel):
-    """An outside contact and its trust level (spec 7.2, Contacts)."""
-
-    id: str
-    name: str
-    meta: str
-    trust: Trust
-
-
-class ContactsOverview(ContractModel):
-    """The Contacts page."""
-
-    household: list[HouseholdMember]
-    contacts: list[Contact]
-
-
-class TrustChange(ContractModel):
-    """A new trust level. Allowlisting loosens and needs a step-up; removing tightens."""
-
-    trust: Trust
 
 
 SetupState = Literal["ready", "waiting", "deferred", "done"]

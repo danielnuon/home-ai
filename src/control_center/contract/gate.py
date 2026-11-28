@@ -22,6 +22,15 @@ class ReleaseSummary(ContractModel):
     rollback: str
 
 
+class BatchMessage(ContractModel):
+    """One message in a batch card; an unticked one is left out when the batch is approved."""
+
+    id: str
+    recipient: str
+    summary: str
+    included: bool = True
+
+
 class Approval(ContractModel):
     """One approval card, rendered by the gate (spec 11.3).
 
@@ -41,9 +50,14 @@ class Approval(ContractModel):
     principal: str
     recipient: str | None = None
     recipient_trust: Trust | None = None
+    contact_id: str | None = None
+    """The contact the recipient is, when it is one; "Always allow this contact" changes it."""
+    pipeline: str = ""
+    """The pipeline that drafted it, for the Approvals filters (spec 7.2)."""
     summary: str
     draft: str | None = None
     release: ReleaseSummary | None = None
+    batch: list[BatchMessage] | None = None
     expires_at: datetime | None = None
     needs_step_up: bool
     state: ApprovalState
@@ -56,6 +70,18 @@ class ApprovalDecision(ContractModel):
 
     decision: Literal["approve", "deny"]
     reason: str | None = None
+
+
+class DraftEdit(ContractModel):
+    """The Owner's own wording for a pending card's draft."""
+
+    draft: str
+
+
+class BatchToggle(ContractModel):
+    """Tick or untick one message of a batch card."""
+
+    included: bool
 
 
 class RejectedOption(ContractModel):

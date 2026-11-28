@@ -207,6 +207,66 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/approvals/{approval_id}/draft": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Edit Draft
+     * @description Replace a pending card's draft with the Owner's wording.
+     */
+    put: operations["edit_draft_api_v1_approvals__approval_id__draft_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/approvals/{approval_id}/batch/{message_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Toggle Batch Message
+     * @description Tick or untick one message of a batch card.
+     */
+    put: operations["toggle_batch_message_api_v1_approvals__approval_id__batch__message_id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/approvals/{approval_id}/allow-recipient": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Allow Recipient
+     * @description Allowlist the card's recipient from the card ("Always allow this contact").
+     */
+    post: operations["allow_recipient_api_v1_approvals__approval_id__allow_recipient_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/decisions": {
     parameters: {
       query?: never;
@@ -347,46 +407,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/contacts": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Contacts
-     * @description Household principals and contacts.
-     */
-    get: operations["contacts_api_v1_contacts_get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/contacts/{contact_id}/trust": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    /**
-     * Set Trust
-     * @description Change a contact's trust level.
-     */
-    put: operations["set_trust_api_v1_contacts__contact_id__trust_put"];
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   "/api/v1/services/{service_id}/restart": {
     parameters: {
       query?: never;
@@ -421,6 +441,194 @@ export interface paths {
      * @description Restore into a side folder, never over the original.
      */
     post: operations["restore_api_v1_backups_restore_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/contacts": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Contacts
+     * @description Household principals, contacts, and the accounts that can be mapped.
+     */
+    get: operations["contacts_api_v1_contacts_get"];
+    put?: never;
+    /**
+     * Add Contact
+     * @description Add a contact.
+     */
+    post: operations["add_contact_api_v1_contacts_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/contacts/{contact_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Contact Detail
+     * @description One contact with its history and what mentions it.
+     */
+    get: operations["contact_detail_api_v1_contacts__contact_id__get"];
+    /**
+     * Edit Contact
+     * @description Change a contact's details.
+     */
+    put: operations["edit_contact_api_v1_contacts__contact_id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/contacts/{contact_id}/trust": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Set Trust
+     * @description Change a contact's trust level.
+     */
+    put: operations["set_trust_api_v1_contacts__contact_id__trust_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/contacts/{contact_id}/merge": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Merge Contact
+     * @description Fold a contact into another.
+     */
+    post: operations["merge_contact_api_v1_contacts__contact_id__merge_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/contacts/{contact_id}/remove": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Remove Contact
+     * @description Send a contact to the 30-day trash.
+     */
+    post: operations["remove_contact_api_v1_contacts__contact_id__remove_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/principals": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Principal
+     * @description Add a household principal.
+     */
+    post: operations["add_principal_api_v1_principals_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/principals/{principal_id}/accounts": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Map Principal
+     * @description Map accounts and calendars to a principal.
+     */
+    put: operations["map_principal_api_v1_principals__principal_id__accounts_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/principals/{principal_id}/remove": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Remove Principal
+     * @description Start removing a principal, with seven days of undo.
+     */
+    post: operations["remove_principal_api_v1_principals__principal_id__remove_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/principals/{principal_id}/undo-remove": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Undo Remove Principal
+     * @description Keep a principal whose removal hasn't become permanent.
+     */
+    post: operations["undo_remove_principal_api_v1_principals__principal_id__undo_remove_post"];
     delete?: never;
     options?: never;
     head?: never;
@@ -1731,11 +1939,20 @@ export interface components {
       recipient: string | null;
       /** Recipient Trust */
       recipient_trust: ("allowlisted" | "known" | "unknown" | "blocked") | null;
+      /** Contact Id */
+      contact_id: string | null;
+      /**
+       * Pipeline
+       * @default
+       */
+      pipeline: string;
       /** Summary */
       summary: string;
       /** Draft */
       draft: string | null;
       release: components["schemas"]["ReleaseSummary"] | null;
+      /** Batch */
+      batch: components["schemas"]["BatchMessage"][] | null;
       /** Expires At */
       expires_at: string | null;
       /** Needs Step Up */
@@ -1806,6 +2023,31 @@ export interface components {
       restore_points: string[];
       /** Retention */
       retention: components["schemas"]["Row"][];
+    };
+    /**
+     * BatchMessage
+     * @description One message in a batch card; an unticked one is left out when the batch is approved.
+     */
+    BatchMessage: {
+      /** Id */
+      id: string;
+      /** Recipient */
+      recipient: string;
+      /** Summary */
+      summary: string;
+      /**
+       * Included
+       * @default true
+       */
+      included: boolean;
+    };
+    /**
+     * BatchToggle
+     * @description Tick or untick one message of a batch card.
+     */
+    BatchToggle: {
+      /** Included */
+      included: boolean;
     };
     /**
      * BudgetLine
@@ -2008,6 +2250,8 @@ export interface components {
     /**
      * Contact
      * @description An outside contact and its trust level (spec 7.2, Contacts).
+     *
+     *     `meta` is the line under the name: the area and how the contact is reached.
      */
     Contact: {
       /** Id */
@@ -2021,6 +2265,119 @@ export interface components {
        * @enum {string}
        */
       trust: "allowlisted" | "known" | "unknown" | "blocked";
+      /**
+       * Area
+       * @default
+       */
+      area: string;
+      /** Principal */
+      principal: string | null;
+      /** Channels */
+      channels: components["schemas"]["ContactChannel"][];
+      /** Linked Accounts */
+      linked_accounts: string[];
+    };
+    /**
+     * ContactChannel
+     * @description One way to reach a contact.
+     */
+    ContactChannel: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "email" | "phone" | "text" | "post";
+      /** Value */
+      value: string;
+    };
+    /**
+     * ContactDetail
+     * @description One contact as its sheet shows it: channels, accounts, history and what mentions it.
+     */
+    ContactDetail: {
+      contact: components["schemas"]["Contact"];
+      /** History */
+      history: components["schemas"]["ContactEvent"][];
+      /** Mentions */
+      mentions: components["schemas"]["ContactMention"][];
+    };
+    /**
+     * ContactDraft
+     * @description A new contact, or a contact's edited fields. Allowlisting through it needs a step-up.
+     */
+    ContactDraft: {
+      /** Name */
+      name: string;
+      /**
+       * Area
+       * @default
+       */
+      area: string;
+      /** Principal */
+      principal?: string | null;
+      /** Channels */
+      channels?: components["schemas"]["ContactChannel"][];
+      /**
+       * Trust
+       * @default known
+       * @enum {string}
+       */
+      trust: "allowlisted" | "known" | "unknown" | "blocked";
+    };
+    /**
+     * ContactEvent
+     * @description A message or approval in a contact's history.
+     */
+    ContactEvent: {
+      /**
+       * At
+       * Format: date-time
+       */
+      at: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "message" | "approval";
+      /** Title */
+      title: string;
+      /** Detail */
+      detail: string;
+    };
+    /**
+     * ContactMention
+     * @description A draft or rule that names a contact; listed before the contact is removed (7.16, rule 5).
+     */
+    ContactMention: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "draft" | "rule";
+      /** Id */
+      id: string;
+      /** Title */
+      title: string;
+      /** Href */
+      href: string;
+    };
+    /**
+     * ContactMerge
+     * @description Merge this contact into another one, which keeps its own trust.
+     */
+    ContactMerge: {
+      /** Into */
+      into: string;
+    };
+    /**
+     * ContactRemoved
+     * @description A contact sent to the trash, with the trash item that restores it.
+     */
+    ContactRemoved: {
+      /** Trash Id */
+      trash_id: string;
+      /** Message */
+      message: string;
     };
     /**
      * ContactsOverview
@@ -2031,6 +2388,8 @@ export interface components {
       household: components["schemas"]["HouseholdMember"][];
       /** Contacts */
       contacts: components["schemas"]["Contact"][];
+      /** Accounts */
+      accounts: components["schemas"]["LinkableAccount"][];
     };
     /**
      * CriticalDecision
@@ -2168,6 +2527,14 @@ export interface components {
        * @enum {string}
        */
       data_class: "public" | "internal" | "restricted";
+    };
+    /**
+     * DraftEdit
+     * @description The Owner's own wording for a pending card's draft.
+     */
+    DraftEdit: {
+      /** Draft */
+      draft: string;
     };
     /**
      * Employee
@@ -2355,18 +2722,26 @@ export interface components {
     };
     /**
      * HouseholdMember
-     * @description A household principal, shown at the top of Contacts.
+     * @description A household principal, shown at the top of Contacts, with the accounts mapped to them.
      */
     HouseholdMember: {
-      /**
-       * Id
-       * @enum {string}
-       */
-      id: "owner" | "mom" | "dad";
+      /** Id */
+      id: string;
       /** Name */
       name: string;
       /** Meta */
       meta: string;
+      /**
+       * Role
+       * @default principal
+       * @enum {string}
+       */
+      role: "owner" | "principal";
+      /** Accounts */
+      accounts: string[];
+      /** Calendars */
+      calendars: string[];
+      removal: components["schemas"]["PrincipalRemoval"] | null;
     };
     /**
      * Idea
@@ -2534,6 +2909,21 @@ export interface components {
        * @enum {string}
        */
       state: "open" | "approved" | "declined";
+    };
+    /**
+     * LinkableAccount
+     * @description A connected account or calendar that can be mapped to a principal.
+     */
+    LinkableAccount: {
+      /** Id */
+      id: string;
+      /** Label */
+      label: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "account" | "calendar";
     };
     /**
      * LiveTask
@@ -2937,6 +3327,51 @@ export interface components {
       };
       /** Features On */
       features_on: string[];
+    };
+    /**
+     * PrincipalDraft
+     * @description A new principal. Adding one needs a step-up.
+     */
+    PrincipalDraft: {
+      /** Name */
+      name: string;
+    };
+    /**
+     * PrincipalMapping
+     * @description The accounts and calendars mapped to a principal. Changing them needs a step-up.
+     */
+    PrincipalMapping: {
+      /** Accounts */
+      accounts: string[];
+      /** Calendars */
+      calendars: string[];
+    };
+    /**
+     * PrincipalRemoval
+     * @description A principal being removed: what happens to their data, and when that becomes permanent.
+     */
+    PrincipalRemoval: {
+      /**
+       * Keep
+       * @enum {string}
+       */
+      keep: "archive" | "delete";
+      /**
+       * Undo Until
+       * Format: date-time
+       */
+      undo_until: string;
+    };
+    /**
+     * PrincipalRemove
+     * @description Remove a principal, archiving or deleting their data after seven days.
+     */
+    PrincipalRemove: {
+      /**
+       * Keep
+       * @enum {string}
+       */
+      keep: "archive" | "delete";
     };
     /**
      * ProposalDecision
@@ -4201,6 +4636,124 @@ export interface operations {
       };
     };
   };
+  edit_draft_api_v1_approvals__approval_id__draft_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        approval_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DraftEdit"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Approval"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  toggle_batch_message_api_v1_approvals__approval_id__batch__message_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        approval_id: string;
+        message_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["BatchToggle"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Approval"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  allow_recipient_api_v1_approvals__approval_id__allow_recipient_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        approval_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Approval"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
   list_decisions_api_v1_decisions_get: {
     parameters: {
       query?: never;
@@ -4459,81 +5012,6 @@ export interface operations {
       };
     };
   };
-  contacts_api_v1_contacts_get: {
-    parameters: {
-      query?: never;
-      header?: {
-        "Tailscale-User-Login"?: string | null;
-        "X-CSRF-Token"?: string | null;
-      };
-      path?: never;
-      cookie?: {
-        brain_session?: string | null;
-      };
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ContactsOverview"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
-  set_trust_api_v1_contacts__contact_id__trust_put: {
-    parameters: {
-      query?: never;
-      header?: {
-        "X-Step-Up"?: string | null;
-        "Tailscale-User-Login"?: string | null;
-        "X-CSRF-Token"?: string | null;
-      };
-      path: {
-        contact_id: string;
-      };
-      cookie?: {
-        brain_session?: string | null;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TrustChange"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Contact"];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
-        };
-      };
-    };
-  };
   restart_service_api_v1_services__service_id__restart_post: {
     parameters: {
       query?: never;
@@ -4595,6 +5073,430 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["RestoreAccepted"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  contacts_api_v1_contacts_get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ContactsOverview"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_contact_api_v1_contacts_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ContactDraft"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Contact"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  contact_detail_api_v1_contacts__contact_id__get: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        contact_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ContactDetail"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  edit_contact_api_v1_contacts__contact_id__put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        contact_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ContactDraft"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Contact"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_trust_api_v1_contacts__contact_id__trust_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        contact_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TrustChange"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Contact"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  merge_contact_api_v1_contacts__contact_id__merge_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        contact_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ContactMerge"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Contact"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  remove_contact_api_v1_contacts__contact_id__remove_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        contact_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ContactRemoved"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_principal_api_v1_principals_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path?: never;
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PrincipalDraft"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HouseholdMember"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  map_principal_api_v1_principals__principal_id__accounts_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PrincipalMapping"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HouseholdMember"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  remove_principal_api_v1_principals__principal_id__remove_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "X-Step-Up"?: string | null;
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PrincipalRemove"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HouseholdMember"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  undo_remove_principal_api_v1_principals__principal_id__undo_remove_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        principal_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HouseholdMember"];
         };
       };
       /** @description Validation Error */
