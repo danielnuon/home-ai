@@ -5,12 +5,21 @@ from fastapi import APIRouter
 from control_center.contract.work import (
     Directory,
     EmployeeToggle,
+    Idea,
+    IdeaDraft,
     Intervention,
+    LifecycleProposal,
     LiveTask,
+    PausedChange,
+    PriorityChange,
     ProposalDecision,
+    RoleSuggestion,
     TaskDetail,
     Thread,
+    ThreadMove,
     WorkBoard,
+    WorkItem,
+    WorkItemDetail,
 )
 from control_center.routes import BackendsDep, StepUp
 
@@ -53,6 +62,72 @@ def reopen_thread(thread_id: str, backends: BackendsDep) -> Thread:
     return backends.engine.reopen_thread(thread_id)
 
 
+@router.post("/threads/{thread_id}/move")
+def move_thread(thread_id: str, body: ThreadMove, backends: BackendsDep) -> Thread:
+    """Move a misrouted thread to another lead: an Owner command, undone by moving it back."""
+    return backends.engine.move_thread(thread_id, body.lead_id)
+
+
+@router.post("/ideas")
+def submit_idea(body: IdeaDraft, backends: BackendsDep) -> Idea:
+    """Capture a new idea for the Ideation Lead."""
+    return backends.engine.submit_idea(body)
+
+
+@router.put("/ideas/{idea_id}")
+def edit_idea(idea_id: str, body: IdeaDraft, backends: BackendsDep) -> Idea:
+    """Change an idea's title or description."""
+    return backends.engine.edit_idea(idea_id, body)
+
+
+@router.post("/ideas/{idea_id}/withdraw")
+def withdraw_idea(idea_id: str, backends: BackendsDep) -> Idea:
+    """Withdraw an idea, undone by reopening it."""
+    return backends.engine.withdraw_idea(idea_id)
+
+
+@router.post("/ideas/{idea_id}/reopen")
+def reopen_idea(idea_id: str, backends: BackendsDep) -> Idea:
+    """Reopen a withdrawn idea."""
+    return backends.engine.reopen_idea(idea_id)
+
+
+@router.put("/ideas/{idea_id}/paused")
+def set_idea_paused(idea_id: str, body: PausedChange, backends: BackendsDep) -> Idea:
+    """Pause or resume an idea: an Owner command."""
+    return backends.engine.set_idea_paused(idea_id, body.paused)
+
+
+@router.put("/ideas/{idea_id}/priority")
+def set_idea_priority(idea_id: str, body: PriorityChange, backends: BackendsDep) -> Idea:
+    """Change an idea's priority."""
+    return backends.engine.set_idea_priority(idea_id, body.priority)
+
+
+@router.get("/work-items/{item_id}")
+def item_detail(item_id: str, backends: BackendsDep) -> WorkItemDetail:
+    """One work item's page."""
+    return backends.engine.item_detail(item_id)
+
+
+@router.put("/work-items/{item_id}/paused")
+def set_item_paused(item_id: str, body: PausedChange, backends: BackendsDep) -> WorkItem:
+    """Pause or resume a work item: an Owner command."""
+    return backends.engine.set_item_paused(item_id, body.paused)
+
+
+@router.put("/work-items/{item_id}/priority")
+def set_item_priority(item_id: str, body: PriorityChange, backends: BackendsDep) -> WorkItem:
+    """Change a work item's priority."""
+    return backends.engine.set_item_priority(item_id, body.priority)
+
+
+@router.post("/products/{product_id}/retire")
+def retire_product(product_id: str, backends: BackendsDep) -> WorkItem:
+    """Ask Foreman to retire a product: opens its retirement work item and approval card."""
+    return backends.engine.retire_product(product_id)
+
+
 @router.get("/directory")
 def directory(backends: BackendsDep) -> Directory:
     """Employees and lifecycle proposals."""
@@ -65,6 +140,12 @@ def set_employee_enabled(
 ) -> None:
     """Enable or disable an employee. This is a setting, so it goes to the gate."""
     backends.gate.set_employee_enabled(employee_id, body.enabled, step_up)
+
+
+@router.post("/directory/role-suggestions")
+def suggest_role(body: RoleSuggestion, backends: BackendsDep) -> LifecycleProposal:
+    """Suggest a new role; it becomes a lifecycle proposal."""
+    return backends.engine.suggest_role(body)
 
 
 @router.post("/proposals/{proposal_id}/decision", status_code=204)

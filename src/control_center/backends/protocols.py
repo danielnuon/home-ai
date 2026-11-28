@@ -80,13 +80,20 @@ from control_center.contract.today import (
 )
 from control_center.contract.work import (
     Directory,
+    Idea,
+    IdeaDraft,
     Intervention,
+    LifecycleProposal,
     LiveTask,
+    Priority,
     ProposalDecision,
+    RoleSuggestion,
     TaskDetail,
     Thread,
     ThreadsOverview,
     WorkBoard,
+    WorkItem,
+    WorkItemDetail,
 )
 from control_center.events import EventBus
 
@@ -219,7 +226,55 @@ class PipelineEngine(Protocol):
         ...
 
     def work_board(self) -> WorkBoard:
-        """Threads, work items, ideas and review requests."""
+        """Threads, work items, ideas, review requests and products, with WIP counted."""
+        ...
+
+    def submit_idea(self, draft: IdeaDraft) -> Idea:
+        """Capture a new idea and open its thread with the Ideation Lead (spec 16.1)."""
+        ...
+
+    def edit_idea(self, idea_id: str, draft: IdeaDraft) -> Idea:
+        """Change an idea's title or description; refused once it is withdrawn."""
+        ...
+
+    def withdraw_idea(self, idea_id: str) -> Idea:
+        """Withdraw an idea; its thread resolves and its sessions end."""
+        ...
+
+    def reopen_idea(self, idea_id: str) -> Idea:
+        """Reopen a withdrawn idea; the undo of withdrawing."""
+        ...
+
+    def set_idea_paused(self, idea_id: str, paused: bool) -> Idea:
+        """Pause or resume an idea's analysis (spec 7.10)."""
+        ...
+
+    def set_idea_priority(self, idea_id: str, priority: Priority) -> Idea:
+        """Move an idea up or down the ideas board."""
+        ...
+
+    def set_item_paused(self, item_id: str, paused: bool) -> WorkItem:
+        """Pause or resume a work item; its sessions hold at the next step boundary."""
+        ...
+
+    def set_item_priority(self, item_id: str, priority: Priority) -> WorkItem:
+        """Move a work item up or down its pipeline's queue."""
+        ...
+
+    def item_detail(self, item_id: str) -> WorkItemDetail:
+        """A work item's page: stage history, gates, its review's diff and its transcripts."""
+        ...
+
+    def retire_product(self, product_id: str) -> WorkItem:
+        """Open a released product's retirement work item and its approval card (spec 17.21)."""
+        ...
+
+    def move_thread(self, thread_id: str, lead_id: str) -> Thread:
+        """Move a misrouted thread to another lead (spec 15.8.5)."""
+        ...
+
+    def suggest_role(self, suggestion: RoleSuggestion) -> LifecycleProposal:
+        """Turn the Owner's suggested role into a lifecycle proposal (spec 7.2, 14.7)."""
         ...
 
     def directory(self) -> Directory:

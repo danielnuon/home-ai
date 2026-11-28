@@ -121,8 +121,18 @@ class Stage(ContractModel):
     state: Literal["done", "current", "todo"]
 
 
+Priority = Literal["high", "normal", "low"]
+"""A work item's or an idea's place in its pipeline's queue (spec 7.2, Work)."""
+
+
 class WorkItem(ContractModel):
-    """A work item's status card, rendered the same way everywhere (spec 7.10, "Status cards")."""
+    """A work item's status card, rendered the same way everywhere (spec 7.10, "Status cards").
+
+    `paused` is the Owner's pause (7.10): its sessions hold at their next step boundary and its
+    status reads Paused. `rework_count` counts rework cycles so far (17.10). `product_id` names
+    the product whose repository the item changes (17.19), and `thread_id` the thread it runs in.
+    A `retirement` item is the one that ends a product's life (17.21).
+    """
 
     id: str
     title: str
@@ -137,15 +147,138 @@ class WorkItem(ContractModel):
     eta: str
     cost_usd: float
     waiting_on_owner: bool
+    priority: Priority = "normal"
+    paused: bool = False
+    rework_count: int = 0
+    product_id: str | None = None
+    thread_id: str | None = None
+    kind: Literal["build", "retirement"] = "build"
 
 
 class Idea(ContractModel):
-    """An idea on the ideas board (spec 16.2)."""
+    """An idea on the ideas board (spec 16.2).
+
+    `state` is its Pipeline A state in words. `summary` is the Owner's own description, which
+    the Owner can edit until the idea is withdrawn. A withdrawn idea stays on the board, marked,
+    so it can be reopened (Undo). `thread_id` is the idea's thread with the Ideation Lead.
+    """
 
     id: str
     title: str
     state: str
     lead: str
+    summary: str = ""
+    priority: Priority = "normal"
+    paused: bool = False
+    withdrawn: bool = False
+    thread_id: str | None = None
+
+
+class IdeaDraft(ContractModel):
+    """A new idea, or an edit to one: its title and the Owner's description (spec 16.1)."""
+
+    title: str
+    summary: str = ""
+
+
+class PausedChange(ContractModel):
+    """Pause or resume an idea or a work item: an Owner command (spec 7.10, 15.8.10)."""
+
+    paused: bool
+
+
+class PriorityChange(ContractModel):
+    """Move an idea or work item up or down its pipeline's queue."""
+
+    priority: Priority
+
+
+class PullRequest(ContractModel):
+    """An open pull request on a product's GitHub mirror, one per work item (spec 17.19)."""
+
+    number: int
+    title: str
+    url: str
+    item_id: str | None
+
+
+class Product(ContractModel):
+    """A product the development pipeline built: its repository and its mirror (spec 17.19).
+
+    `wip` counts its work items in D4 to D7 against `wip_limit` (17.10). Only a `released`
+    product can be retired; asking opens its retirement work item (17.21).
+    """
+
+    id: str
+    name: str
+    state: Literal["building", "released", "retiring"]
+    repo_path: str
+    github_url: str | None
+    pull_requests: list[PullRequest]
+    wip: int
+    wip_limit: int
+
+
+class WipCount(ContractModel):
+    """Work items in D4 to D7 across every product, against the global limit (spec 17.10)."""
+
+    in_progress: int
+    limit: int
+
+
+class StageEvent(ContractModel):
+    """One entry in a work item's stage history: a stage entered, a gate passed or a rework."""
+
+    code: str
+    text: str
+    when: str
+
+
+class GateCheck(ContractModel):
+    """One gate on a work item's path, G1 to G8 (spec 17.3), and where it stands."""
+
+    code: str
+    name: str
+    state: Literal["passed", "waiting", "todo"]
+    note: str
+
+
+class DiffLine(ContractModel):
+    """One line of a diff: added, removed, or unchanged context."""
+
+    kind: Literal["add", "remove", "context"]
+    text: str
+
+
+class DiffFile(ContractModel):
+    """One changed file in a review request's diff (spec 7.2, the review diff viewer)."""
+
+    path: str
+    added: int
+    removed: int
+    lines: list[DiffLine]
+
+
+class TranscriptLog(ContractModel):
+    """One session's transcript on a work item, with who ran it."""
+
+    task_id: str
+    employee_name: str
+    department: Department
+    doing: str
+    entries: list[TranscriptEntry]
+
+
+class WorkItemDetail(ContractModel):
+    """A work item's detail page: stage history, gates, diffs and transcripts (spec 7.2)."""
+
+    item: WorkItem
+    product: Product | None
+    history: list[StageEvent]
+    gates: list[GateCheck]
+    review: "ReviewRequest | None"
+    diff: list[DiffFile]
+    transcripts: list[TranscriptLog]
 
 
 class ReviewRequest(ContractModel):
@@ -157,6 +290,7 @@ class ReviewRequest(ContractModel):
     removed_lines: int
     reviewer: str
     readability: str
+    item_id: str | None = None
 
 
 ThreadKind = Literal[
@@ -206,20 +340,33 @@ class Thread(ContractModel):
     learning: bool = True
 
 
+class ThreadMove(ContractModel):
+    """Move a misrouted thread to another lead: an Owner command, one tap with Undo (15.8.5)."""
+
+    lead_id: str
+
+
 class ThreadsOverview(ContractModel):
-    """The Threads view: open threads in state order, then the recently resolved."""
+    """The Threads view: open threads in state order, then the recently resolved.
+
+    `archived` holds resolved threads past their archive delay. The view hides them unless the
+    Owner turns on the Archived filter (spec 15.8.9).
+    """
 
     open: list[Thread]
     recently_resolved: list[Thread]
+    archived: list[Thread]
 
 
 class WorkBoard(ContractModel):
-    """The Work page: threads first, then items being built, ideas, and reviews waiting."""
+    """The Work page: threads first, then items being built, ideas, reviews and products."""
 
     threads: ThreadsOverview
     items: list[WorkItem]
     ideas: list[Idea]
     reviews: list[ReviewRequest]
+    products: list[Product]
+    wip: WipCount
 
 
 EmployeeStatus = Literal[
@@ -232,6 +379,8 @@ class Employee(ContractModel):
     """An employee card and profile in the Directory (spec 7.11, 14.7).
 
     `state` drives the avatar; `status` is the roll-up of the employee's sessions shown in words.
+    `pipeline` is the pipeline the employee works in, for the Directory's filter and team view;
+    `reports_to` is its lead's id, for the org view, and is None for a lead (spec 7.11).
     """
 
     id: str
@@ -249,6 +398,8 @@ class Employee(ContractModel):
     tasks_done: int
     enabled: bool
     status: EmployeeStatus = "idle"
+    pipeline: str = ""
+    reports_to: str | None = None
 
 
 class LifecycleProposal(ContractModel):
@@ -266,6 +417,13 @@ class Directory(ContractModel):
     employees: list[Employee]
     proposals: list[LifecycleProposal]
     instruments: int
+
+
+class RoleSuggestion(ContractModel):
+    """The Owner's suggestion for a new role. It becomes a lifecycle proposal (spec 7.2)."""
+
+    title: str
+    reason: str = ""
 
 
 class ProposalDecision(ContractModel):

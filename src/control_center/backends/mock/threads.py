@@ -53,7 +53,9 @@ class ThreadRecord:
     `owner_decision` is a question or gate waiting on the Owner, in words. `approval_id` names an
     approval card the thread waits on instead. `proposed_resolution` is the closing summary the
     lead wrote when it proposed resolving; `outcome` is set once the thread is resolved.
-    `waiting_for` says what a waiting thread expects, when the lead recorded it.
+    `waiting_for` says what a waiting thread expects, when the lead recorded it. `paused` is the
+    Owner's pause on the thread's idea or work item (spec 7.10). `archived` marks a resolved thread
+    past its archive delay, shown only under the Archived filter (15.8.9).
     """
 
     id: str
@@ -74,6 +76,8 @@ class ThreadRecord:
     branched_from: str | None = None
     temporary_until: datetime | None = None
     learning: bool = True
+    paused: bool = False
+    archived: bool = False
 
 
 def derive(
@@ -96,7 +100,7 @@ def derive(
         for found in (
             _blocked(sessions),
             _needs_owner(record, sessions, approval_pending),
-            _paused(sessions),
+            _paused(record, sessions),
             _working(sessions),
             _review_ready(record),
             _waiting(record, sessions),
@@ -124,8 +128,9 @@ def _needs_owner(record: ThreadRecord, sessions: list[LiveTask], approval_pendin
     return None if asking is None else ("needs_owner", f"{asking.employee_name} {asking.doing}")
 
 
-def _paused(sessions: list[LiveTask]) -> Derived:
-    if sessions and all(session.paused for session in sessions):
+def _paused(record: ThreadRecord, sessions: list[LiveTask]) -> Derived:
+    """Paused by the Owner's pause on its idea or work item, or with every session held."""
+    if record.paused or (sessions and all(session.paused for session in sessions)):
         return "paused", "Paused. Nothing runs until it is resumed."
     return None
 

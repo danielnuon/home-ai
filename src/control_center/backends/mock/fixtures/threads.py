@@ -20,6 +20,7 @@ def _thread(
     """A thread led by `lead_id`. Its kind and unit come from `facts["unit_id"]`, if given.
 
     `facts["conversation"]` marks a conversation thread: chat that is not yet a case or a unit.
+    `facts["archived"]` marks a resolved thread past its archive delay (spec 15.8.7).
     """
     name, department, pipeline = LEADS[lead_id]
     unit_id = facts.pop("unit_id", None)
@@ -44,13 +45,14 @@ def _thread(
         principal="owner",
         since=since,
     )
+    record.archived = facts.pop("archived", None) is not None
     for fact, value in facts.items():
         setattr(record, fact, value)
     return record
 
 
 def threads() -> list[ThreadRecord]:
-    """Open threads, then two resolved ones. Sessions in `work.live_tasks` name these by id."""
+    """Open threads, two resolved and two archived. Sessions in `work.live_tasks` name these."""
     return [
         _thread("TH-0120", "Shared family calendar digest", "spark", "Monday", unit_id="ID-0013"),
         _thread(
@@ -102,5 +104,22 @@ def threads() -> list[ThreadRecord]:
             "Oct 20",
             unit_id="WI-0027",
             outcome="Released, and its 7-day review is done.",
+        ),
+        _thread(
+            "TH-0096",
+            "Water heater warranty claim",
+            "atlas",
+            "Sep 30",
+            outcome="The claim was approved and the part was replaced.",
+            archived="yes",
+        ),
+        _thread(
+            "TH-0088",
+            "Rent ledger 1.0",
+            "foreman",
+            "Sep 12",
+            unit_id="WI-0019",
+            outcome="Released, and its 7-day review is done.",
+            archived="yes",
         ),
     ]
