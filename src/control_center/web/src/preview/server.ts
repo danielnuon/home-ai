@@ -4,9 +4,10 @@
  * requests to backend calls, as on the server; every rule lives in the backend modules.
  */
 import * as engine from "./engine";
-import { MockError, notFound } from "./errors";
+import { MockError } from "./errors";
 import * as gate from "./gate";
 import * as people from "./people";
+import * as records from "./records";
 import * as chat from "./chat";
 import * as memory from "./memory";
 import * as shell from "./shell";
@@ -52,12 +53,10 @@ const GET: Record<string, Handler> = {
   "/work": (w) => work.workBoard(w),
   "/directory": (w) => work.directory(w),
   "/today": (w) => buildToday(w),
-  "/personal": (w) => engine.personal(w),
-  "/finance/:who": (w, c) => {
-    const found = w.fixtures.finance[p(c, "who")];
-    if (!found) throw notFound("Not Found");
-    return found;
-  },
+  "/personal": (w) => records.personal(w),
+  "/finance/:who": (w, c) => records.finance(w, p(c, "who")),
+  "/finance/:who/sources/:figure": (w, c) => records.figureSources(w, p(c, "who"), p(c, "figure")),
+  "/domains/:id": (w, c) => records.domainDetail(w, p(c, "id")),
   "/setup": (w) => Object.values(w.setup),
   "/search": (w, c) => engine.search(w, c.query.get("q") ?? ""),
   "/chat/:id": (w, c) => chat.chatThread(w, p(c, "id"), c.query.get("thread")),
@@ -169,6 +168,23 @@ const POST: Record<string, Handler> = {
     shell.purgeFromTrash(w, p(c, "id"));
     return NO_CONTENT;
   },
+  "/cases": (w, c) => records.createCase(w, c.body),
+  "/cases/:id/reassign": (w, c) => records.reassignCase(w, p(c, "id"), str(c.body.employee_name)),
+  "/cases/:id/notes": (w, c) => records.addCaseNote(w, p(c, "id"), str(c.body.text)),
+  "/obligations": (w, c) => records.createObligation(w, c.body),
+  "/domains/:id/records": (w, c) => records.addRecord(w, p(c, "id"), c.body),
+  "/domains/:id/documents": (w, c) => records.uploadDocument(w, p(c, "id"), c.body),
+  "/finance/:who/transactions/:id/category": (w, c) =>
+    records.fixCategory(w, p(c, "who"), p(c, "id"), str(c.body.category)),
+  "/finance/:who/imports/:id/upload": (w, c) =>
+    records.uploadStatement(w, p(c, "who"), p(c, "id"), c.body),
+  "/finance/accounts/:id/map": (w, c) => records.mapAccount(w, p(c, "id"), str(c.body.principal)),
+  "/finance/:who/requests": (w, c) => records.financeRequest(w, p(c, "who"), str(c.body.kind)),
+  "/setup/:id/secrets/:field": (w, c) =>
+    records.saveSetupSecret(w, p(c, "id"), p(c, "field"), str(c.body.value), c.stepUp),
+  "/setup/:id/interview/answer": (w, c) => records.interviewAnswer(w, p(c, "id"), str(c.body.text)),
+  "/setup/:id/interview/confirm": (w, c) => records.interviewConfirm(w, p(c, "id")),
+  "/setup/:id/interview/restart": (w, c) => records.interviewRestart(w, p(c, "id")),
   "/library/ask": (w, c) => shell.libraryAsk(w, str(c.body.question)),
   "/library/ark-drive": (w, c) => shell.writeArkDrive(w, str(c.body.volume), c.stepUp),
 };
@@ -196,9 +212,17 @@ const PUT: Record<string, Handler> = {
       pinned: typeof c.body.pinned === "boolean" ? c.body.pinned : null,
     }),
   "/chat/:id/:thread/learning": (w, c) => chat.chatLearning(w, convo(c), c.body.learning === true),
+  "/checklist/:id": (w, c) => records.setChecklist(w, p(c, "id"), c.body.done === true),
+  "/records/:id": (w, c) => records.editRecord(w, p(c, "id"), str(c.body.title), str(c.body.meta)),
+  "/rules/:id": (w, c) => records.editRule(w, p(c, "id"), str(c.body.when), str(c.body.then)),
 };
 
-const TABLES: Record<string, Record<string, Handler>> = { GET, POST, PUT };
+const DELETE: Record<string, Handler> = {
+  "/records/:id": (w, c) => records.deleteRecord(w, p(c, "id")),
+  "/rules/:id": (w, c) => records.deleteRule(w, p(c, "id")),
+};
+
+const TABLES: Record<string, Record<string, Handler>> = { GET, POST, PUT, DELETE };
 
 /** Finds the route for a path, with its named parts. */
 function match(method: string, path: string): [Handler, Record<string, string>] | null {

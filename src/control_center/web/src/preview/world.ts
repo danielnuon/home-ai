@@ -76,6 +76,16 @@ interface WorldState {
   chat_heads: Record<string, string>;
   alerts: Record<string, Schemas["Alert"]>;
   trash: Record<string, Schemas["TrashItem"]>;
+  obligations: Record<string, Schemas["Obligation"]>;
+  /** Every domain's register entries and filed documents, newest first. */
+  records: Record<string, Schemas["DomainRecord"]>;
+  rules: Record<string, Schemas["Rule"]>;
+  checklist: Record<string, Schemas["ChecklistItem"]>;
+  /** This month's transactions by principal; every Finance figure is computed from them. */
+  transactions: Record<string, Schemas["SourceRow"][]>;
+  /** Statement import rows by principal, then by id. */
+  imports: Record<string, Record<string, Schemas["StatementImport"]>>;
+  unmapped: Record<string, Schemas["UnmappedAccount"]>;
   stopped: boolean;
   maintenance_running: boolean;
   /** The Owner's saved notes (15.9.2), by id. */
@@ -117,7 +127,35 @@ interface Fixtures {
   findings: Schemas["MaintenanceOverview"]["findings"];
   agenda: Schemas["TodayOverview"]["agenda"];
   domains: Schemas["PersonalOverview"]["domains"];
-  finance: Record<string, Schemas["FinanceOverview"]>;
+  briefs: Schemas["Brief"][];
+  sync: Schemas["SyncStatus"][];
+  assignees: string[];
+  domain_ids: Record<string, string>;
+  months: string[];
+  repeat_words: Record<string, string>;
+  categories: string[];
+  income: string;
+  budgets: Record<string, Record<string, number>>;
+  balances: Record<string, Schemas["SourceRow"][]>;
+  cash_flow_history: Record<
+    string,
+    {
+      key: string;
+      month: string;
+      money_in: number;
+      money_out: number;
+      rows: Schemas["SourceRow"][];
+    }[]
+  >;
+  net_worth_spark: number[];
+  bills: Record<string, Schemas["Bill"][]>;
+  inbox_folders: Record<string, string>;
+  principal_names: Record<string, string>;
+  request_words: Record<string, [string, string, string]>;
+  secret_proofs: Record<string, string>;
+  interview_questions: [string, string][];
+  interview_done: string;
+  fresh_interview: Schemas["Interview"];
   doc_groups: Schemas["DocsOverview"]["groups"];
   search_index: Schemas["SearchSection"][];
   wayfinder_answers: Record<string, string>;
@@ -176,6 +214,9 @@ interface Constants {
   app_features: string[];
   ark_volumes: string[];
   principal_undo_days: number;
+  statement_types: string[];
+  max_upload_bytes: number;
+  secret_min_length: number;
 }
 
 interface Exported {

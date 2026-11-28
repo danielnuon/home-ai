@@ -14,6 +14,7 @@ from control_center.backends.mock.fixtures import settings as settings_fixtures
 from control_center.backends.mock.gate_controls import GateControls
 from control_center.backends.mock.gate_decisions import DecisionLedger
 from control_center.backends.mock.gate_people import PeopleDesk
+from control_center.backends.mock.gate_records import SetupSecrets
 from control_center.backends.mock.gate_shell import ShellControls
 from control_center.backends.mock.world import MockWorld
 from control_center.config import OWNER_TIME_ZONE
@@ -39,7 +40,7 @@ APPROVAL_PAGES = ("approvals", "today", "platform", "chat", "work")
 """The resources that show approval cards, or a thread waiting on one."""
 
 
-class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls):
+class MockApprovalGate(DecisionLedger, GateControls, PeopleDesk, ShellControls, SetupSecrets):
     """In-memory stand-in for the approval gate (spec C8). Implements `ApprovalGate`.
 
     Approvals, settings and the kill switch are here. Critical decisions are in `DecisionLedger`,

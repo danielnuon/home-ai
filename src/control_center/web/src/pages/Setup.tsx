@@ -3,6 +3,7 @@
  * (design: Setup).
  *
  * Each step says why it matters and what works without it, so deferring is an informed choice.
+ * A step that needs a secret takes it in its card, and the profile step holds Atlas's interview.
  */
 import { useAction } from "../api/actions";
 import { send } from "../api/client";
@@ -11,6 +12,7 @@ import type { SetupStep } from "../api/types";
 import { Page } from "../components/Page";
 import { QueryState } from "../components/QueryState";
 import { StatusText } from "../design/status";
+import { InterviewPanel, SecretForm } from "./setup/StepForms";
 
 type StepAction = "start" | "defer" | "resume" | "redo";
 
@@ -64,6 +66,8 @@ function Step({ step }: { step: SetupStep }) {
           ))}
         </ul>
       )}
+      <SecretForm step={step} />
+      <InterviewPanel step={step} />
       <div className="row wrap">
         {actionsFor(step).map(({ action, label }) => (
           <button

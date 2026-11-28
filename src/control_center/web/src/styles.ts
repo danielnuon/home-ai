@@ -10,3 +10,4 @@ import "./design/light.css";
 import "./components/components.css";
 import "./components/patterns.css";
 import "./shell/shell.css";
+import "./pages/personal/records.css";

@@ -2562,12 +2562,60 @@
    "method": "GET",
    "path": "/personal",
    "response": {
+    "assignees": [
+     "You",
+     "Atlas",
+     "Hearth",
+     "Ledger",
+     "Pulse",
+     "Keystone",
+     "Taxonomy",
+     "Tally"
+    ],
+    "briefs": [
+     {
+      "id": "BR-3",
+      "items": [
+       "09:30 Call with the property insurer; Keystone prepared notes",
+       "Car registration renewal is due today",
+       "2 approvals waiting, one for Mom",
+       "Mom's prescription refill in 9 days"
+      ],
+      "kind": "daily",
+      "summary": "3 events, 1 case due today, 2 approvals waiting.",
+      "title": "Daily brief · today 06:15"
+     },
+     {
+      "id": "BR-2",
+      "items": [
+       "Transport is $30 over budget; groceries $110 under",
+       "Unit B lease renewal due Nov 30",
+       "Confirm 2 new rules: \"Clipper card\" → Transport, Kaiser mail → Mom",
+       "Nothing stale for more than 3 days"
+      ],
+      "kind": "weekly",
+      "summary": "Budget on track, 1 renewal coming, 2 new rules to confirm.",
+      "title": "Weekly review · Sunday 18:00"
+     },
+     {
+      "id": "BR-1",
+      "items": [
+       "13:00 Dentist cleaning; leave by 12:35",
+       "Credit card statement is overdue for import",
+       "1 approval waiting"
+      ],
+      "kind": "daily",
+      "summary": "2 events, nothing due, 1 approval waiting.",
+      "title": "Daily brief · yesterday 06:15"
+     }
+    ],
     "cases": [
      {
       "domain": "Home and auto",
       "due": "today",
       "employee_name": "Hearth",
       "id": "CS-0201",
+      "notes": [],
       "principal": "owner",
       "state": "open",
       "status": {
@@ -2581,6 +2629,7 @@
       "due": "Jan 15",
       "employee_name": "Taxonomy",
       "id": "CS-0198",
+      "notes": [],
       "principal": "owner",
       "state": "open",
       "status": {
@@ -2594,6 +2643,7 @@
       "due": "Nov 30",
       "employee_name": "Keystone",
       "id": "CS-0187",
+      "notes": [],
       "principal": "owner",
       "state": "open",
       "status": {
@@ -2607,6 +2657,7 @@
       "due": "Dec 7",
       "employee_name": "Pulse",
       "id": "CS-0176",
+      "notes": [],
       "principal": "dad",
       "state": "open",
       "status": {
@@ -2616,46 +2667,165 @@
       "title": "Medicare plan review"
      }
     ],
+    "checklist": [
+     {
+      "detail": "Home and auto · make, model and odometer",
+      "done": true,
+      "id": "CK-1",
+      "title": "List your vehicles"
+     },
+     {
+      "detail": "Health and benefits · one line each",
+      "done": false,
+      "id": "CK-2",
+      "title": "Add Mom's and Dad's doctors"
+     },
+     {
+      "detail": "Taxes · Inbox/taxes",
+      "done": false,
+      "id": "CK-3",
+      "title": "Drop last year's tax return in the inbox"
+     },
+     {
+      "detail": "Home and auto, Health · or drop the PDFs",
+      "done": false,
+      "id": "CK-4",
+      "title": "List your insurance policies"
+     },
+     {
+      "detail": "Rental · Keystone reads the dates",
+      "done": true,
+      "id": "CK-5",
+      "title": "Add the rental leases"
+     }
+    ],
     "domains": [
      {
       "data_class": "internal",
+      "id": "calendar",
       "name": "Calendar and admin",
       "open_cases": "4 open"
      },
      {
       "data_class": "internal",
+      "id": "home-auto",
       "name": "Home and auto",
       "open_cases": "3 open · 1 due"
      },
      {
       "data_class": "restricted",
+      "id": "health",
       "name": "Health and benefits",
       "open_cases": "2 open"
      },
      {
       "data_class": "restricted",
+      "id": "finance",
       "name": "Finance",
       "open_cases": "1 open"
      },
      {
       "data_class": "restricted",
+      "id": "investing",
       "name": "Investing",
       "open_cases": "Nothing open"
      },
      {
       "data_class": "restricted",
+      "id": "taxes",
       "name": "Taxes",
       "open_cases": "2 open"
      },
      {
       "data_class": "restricted",
+      "id": "rental",
       "name": "Rental",
       "open_cases": "3 open"
      },
      {
       "data_class": "internal",
+      "id": "career",
       "name": "Career and business",
       "open_cases": "1 open"
+     }
+    ],
+    "obligations": [
+     {
+      "days": 9,
+      "domain": "Health and benefits",
+      "id": "OB-2",
+      "kind": "date",
+      "lead_days": 5,
+      "next_due": "2026-11-03T16:00:00Z",
+      "principal": "mom",
+      "rule": "Every month",
+      "title": "Mom's prescription refill"
+     },
+     {
+      "days": 12,
+      "domain": "Home and auto",
+      "id": "OB-1",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-06T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Smoke detector batteries"
+     },
+     {
+      "days": 37,
+      "domain": "Home and auto",
+      "id": "OB-3",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Car insurance renewal"
+     },
+     {
+      "days": 40,
+      "domain": "Health and benefits",
+      "id": "OB-4",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-04T16:00:00Z",
+      "principal": "dad",
+      "rule": "Every year",
+      "title": "Dad's Medicare enrollment"
+     },
+     {
+      "days": 68,
+      "domain": "Rental",
+      "id": "OB-5",
+      "kind": "date",
+      "lead_days": 30,
+      "next_due": "2027-01-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every year",
+      "title": "Property tax, second installment"
+     },
+     {
+      "days": 75,
+      "domain": "Calendar and admin",
+      "id": "OB-6",
+      "kind": "date",
+      "lead_days": 120,
+      "next_due": "2027-01-08T16:00:00Z",
+      "principal": "owner",
+      "rule": "From the expiry date",
+      "title": "Passport renewal"
+     },
+     {
+      "days": null,
+      "domain": "Home and auto",
+      "id": "OB-7",
+      "kind": "usage",
+      "lead_days": 0,
+      "next_due": null,
+      "principal": "owner",
+      "rule": "Every 5,000 miles · 4,200 since the last one",
+      "title": "Oil change"
      }
     ],
     "recent_changes": [
@@ -2669,6 +2839,83 @@
       "text": "Added \"oil change\" at 5,000 miles",
       "undone": false
      }
+    ],
+    "rules": [
+     {
+      "id": "RU-1",
+      "kind": "routing",
+      "source": "Your correction · Oct 12",
+      "then": "Health and benefits · Mom",
+      "when": "Mail from \"Kaiser Permanente\""
+     },
+     {
+      "id": "RU-2",
+      "kind": "category",
+      "source": "Your correction · Oct 14",
+      "then": "Transport",
+      "when": "Payee is \"Clipper card\""
+     },
+     {
+      "id": "RU-3",
+      "kind": "routing",
+      "source": "Set up in Setup · Oct 24",
+      "then": "Principal Dad",
+      "when": "Files dropped in Inbox/dad"
+     },
+     {
+      "id": "RU-4",
+      "kind": "category",
+      "source": "Confirmed in the weekly review · Oct 20",
+      "then": "Utilities",
+      "when": "Payee contains \"PG&E\""
+     }
+    ],
+    "sync": [
+     {
+      "id": "SY-1",
+      "meta": "3 calendars · 4 min ago",
+      "name": "Calendar",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-2",
+      "meta": "2 mailboxes · 2 min ago",
+      "name": "Mail",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-3",
+      "meta": "4 min ago",
+      "name": "Reminders",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-4",
+      "meta": "Last file Oct 3",
+      "name": "Statement inbox folder",
+      "status": {
+       "label": "Watching",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-5",
+      "meta": "Needs the Contacts permission in Setup",
+      "name": "Contacts",
+      "status": {
+       "label": "Waiting",
+       "status": "attention"
+      }
+     }
     ]
    },
    "status": 200,
@@ -2680,37 +2927,115 @@
    "method": "GET",
    "path": "/finance/owner",
    "response": {
+    "bills": [
+     {
+      "account": "Checking ··1042",
+      "amount": 118,
+      "due": "Nov 12",
+      "id": "BL-owner-1",
+      "name": "PG&E",
+      "status": {
+       "label": "Autopay",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 1240,
+      "due": "Nov 18",
+      "id": "BL-owner-2",
+      "name": "Credit card ··7731",
+      "status": {
+       "label": "Scheduled",
+       "status": "neutral"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 640,
+      "due": "Dec 2",
+      "id": "BL-owner-3",
+      "name": "Car insurance",
+      "status": {
+       "label": "Reminder",
+       "status": "in_progress"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 3860,
+      "due": "Dec 10",
+      "id": "BL-owner-4",
+      "name": "Property tax",
+      "status": {
+       "label": "Due",
+       "status": "attention"
+      }
+     }
+    ],
     "budget": [
      {
       "budget": 2100,
+      "id": "budget-housing",
       "name": "Housing",
       "spent": 2100
      },
      {
       "budget": 650,
+      "id": "budget-groceries",
       "name": "Groceries",
       "spent": 540
      },
      {
       "budget": 280,
+      "id": "budget-transport",
       "name": "Transport",
       "spent": 310
      },
      {
       "budget": 240,
+      "id": "budget-utilities",
       "name": "Utilities",
       "spent": 190
      },
      {
       "budget": 90,
+      "id": "budget-subscriptions",
       "name": "Subscriptions",
       "spent": 86
+     },
+     {
+      "budget": 120,
+      "id": "budget-household",
+      "name": "Household",
+      "spent": 0
+     }
+    ],
+    "cash_flow": [
+     {
+      "id": "cash-aug",
+      "money_in": 6400,
+      "money_out": 3150,
+      "month": "Aug"
+     },
+     {
+      "id": "cash-sep",
+      "money_in": 6400,
+      "money_out": 3390,
+      "month": "Sep"
+     },
+     {
+      "id": "cash-oct",
+      "money_in": 6400,
+      "money_out": 3226,
+      "month": "Oct"
      }
     ],
     "days_elapsed": "25 of 31 days",
     "imports": [
      {
       "account": "Checking ··1042",
+      "id": "IM-checking",
       "meta": "Last statement Oct 1 · next Nov 1",
       "status": {
        "label": "Current",
@@ -2719,6 +3044,7 @@
      },
      {
       "account": "Credit card ··7731",
+      "id": "IM-card",
       "meta": "Last statement Sep 18 · expected Oct 18",
       "status": {
        "label": "Overdue",
@@ -2727,6 +3053,7 @@
      },
      {
       "account": "Brokerage ··5520",
+      "id": "IM-brokerage",
       "meta": "Last export Oct 3",
       "status": {
        "label": "Current",
@@ -2734,6 +3061,7 @@
       }
      }
     ],
+    "inbox": "Inbox/finance",
     "month": "October",
     "net_worth": {
      "name": "Net worth",
@@ -2755,7 +3083,19 @@
      "status": null,
      "value": "$412,800"
     },
-    "principal": "owner"
+    "principal": "owner",
+    "unmapped": [
+     {
+      "id": "UA-1",
+      "meta": "In a dropped statement · Nov 2",
+      "name": "Savings ··3318"
+     },
+     {
+      "id": "UA-2",
+      "meta": "Found by the mail connector · Oct 30",
+      "name": "HSA ··0907"
+     }
+    ]
    },
    "status": 200,
    "step_up": null
@@ -2766,37 +3106,115 @@
    "method": "GET",
    "path": "/finance/mom",
    "response": {
+    "bills": [
+     {
+      "account": "Checking ··1042",
+      "amount": 71,
+      "due": "Nov 12",
+      "id": "BL-mom-1",
+      "name": "PG&E",
+      "status": {
+       "label": "Autopay",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 744,
+      "due": "Nov 18",
+      "id": "BL-mom-2",
+      "name": "Credit card ··7731",
+      "status": {
+       "label": "Scheduled",
+       "status": "neutral"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 384,
+      "due": "Dec 2",
+      "id": "BL-mom-3",
+      "name": "Car insurance",
+      "status": {
+       "label": "Reminder",
+       "status": "in_progress"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 2316,
+      "due": "Dec 10",
+      "id": "BL-mom-4",
+      "name": "Property tax",
+      "status": {
+       "label": "Due",
+       "status": "attention"
+      }
+     }
+    ],
     "budget": [
      {
       "budget": 1260,
+      "id": "budget-housing",
       "name": "Housing",
       "spent": 1260
      },
      {
       "budget": 390,
+      "id": "budget-groceries",
       "name": "Groceries",
       "spent": 324
      },
      {
       "budget": 168,
+      "id": "budget-transport",
       "name": "Transport",
       "spent": 186
      },
      {
       "budget": 144,
+      "id": "budget-utilities",
       "name": "Utilities",
       "spent": 114
      },
      {
       "budget": 54,
+      "id": "budget-subscriptions",
       "name": "Subscriptions",
       "spent": 52
+     },
+     {
+      "budget": 72,
+      "id": "budget-household",
+      "name": "Household",
+      "spent": 0
+     }
+    ],
+    "cash_flow": [
+     {
+      "id": "cash-aug",
+      "money_in": 3840,
+      "money_out": 1890,
+      "month": "Aug"
+     },
+     {
+      "id": "cash-sep",
+      "money_in": 3840,
+      "money_out": 2034,
+      "month": "Sep"
+     },
+     {
+      "id": "cash-oct",
+      "money_in": 3840,
+      "money_out": 1936,
+      "month": "Oct"
      }
     ],
     "days_elapsed": "25 of 31 days",
     "imports": [
      {
       "account": "Checking ··1042",
+      "id": "IM-checking",
       "meta": "Last statement Oct 1 · next Nov 1",
       "status": {
        "label": "Current",
@@ -2805,6 +3223,7 @@
      },
      {
       "account": "Credit card ··7731",
+      "id": "IM-card",
       "meta": "Last statement Sep 18 · expected Oct 18",
       "status": {
        "label": "Overdue",
@@ -2813,6 +3232,7 @@
      },
      {
       "account": "Brokerage ··5520",
+      "id": "IM-brokerage",
       "meta": "Last export Oct 3",
       "status": {
        "label": "Current",
@@ -2820,6 +3240,7 @@
       }
      }
     ],
+    "inbox": "Inbox/mom/finance",
     "month": "October",
     "net_worth": {
      "name": "Net worth",
@@ -2841,7 +3262,19 @@
      "status": null,
      "value": "$247,680"
     },
-    "principal": "mom"
+    "principal": "mom",
+    "unmapped": [
+     {
+      "id": "UA-1",
+      "meta": "In a dropped statement · Nov 2",
+      "name": "Savings ··3318"
+     },
+     {
+      "id": "UA-2",
+      "meta": "Found by the mail connector · Oct 30",
+      "name": "HSA ··0907"
+     }
+    ]
    },
    "status": 200,
    "step_up": null
@@ -2857,8 +3290,10 @@
      "cta": "Register",
      "duration": "About 5 min",
      "id": "OI-10",
+     "interview": null,
      "proof": "Test assertion passed Oct 24 · iPhone and security key",
      "required": true,
+     "secrets": [],
      "state": "done",
      "stub": "Virtual authenticator",
      "title": "Register your passkeys",
@@ -2907,8 +3342,10 @@
      "cta": "Open Screen Sharing",
      "duration": "About 5 min · over Screen Sharing",
      "id": "OI-15",
+     "interview": null,
      "proof": null,
      "required": true,
+     "secrets": [],
      "state": "ready",
      "stub": "Recorded test calendar and mailbox",
      "title": "Allow Mac permissions",
@@ -2921,8 +3358,20 @@
      "cta": "Start with Atlas",
      "duration": "About 20 min · chat, can pause",
      "id": "OI-18",
+     "interview": {
+      "asked": 0,
+      "facts": [],
+      "total": 4,
+      "turns": [
+       {
+        "speaker": "atlas",
+        "text": "When do you usually start your day, and when should I go quiet at night?"
+       }
+      ]
+     },
      "proof": null,
      "required": false,
+     "secrets": [],
      "state": "ready",
      "stub": "Sample profile",
      "title": "Profile interview with Atlas",
@@ -2935,8 +3384,10 @@
      "cta": "Review defaults",
      "duration": "2 min · defaults shown",
      "id": "OI-22",
+     "interview": null,
      "proof": null,
      "required": false,
+     "secrets": [],
      "state": "ready",
      "stub": "Defaults",
      "title": "Confirm your preferences",
@@ -2949,8 +3400,23 @@
      "cta": "Start guide",
      "duration": "About 15 min · two bot tokens",
      "id": "OI-13",
+     "interview": null,
      "proof": null,
      "required": false,
+     "secrets": [
+      {
+       "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+       "id": "assistant-token",
+       "label": "Assistant bot token",
+       "saved": false
+      },
+      {
+       "hint": "The same, for the Ops app",
+       "id": "ops-token",
+       "label": "Ops bot token",
+       "saved": false
+      }
+     ],
      "state": "deferred",
      "stub": "Local Discord mock",
      "title": "Discord server and bots",
@@ -2963,8 +3429,17 @@
      "cta": "Connect",
      "duration": "About 10 min per account",
      "id": "OI-16",
+     "interview": null,
      "proof": null,
      "required": true,
+     "secrets": [
+      {
+       "hint": "An app password from your mail provider, never your sign-in password",
+       "id": "mail-app-password",
+       "label": "Mail app password",
+       "saved": false
+      }
+     ],
      "state": "waiting",
      "stub": "Test mail and calendar server",
      "title": "Connect your accounts",
@@ -2977,8 +3452,10 @@
      "cta": "Map accounts",
      "duration": "About 5 min",
      "id": "OI-17",
+     "interview": null,
      "proof": null,
      "required": true,
+     "secrets": [],
      "state": "waiting",
      "stub": "Synthetic principals",
      "title": "Name principals and map accounts",
@@ -5322,6 +5799,632 @@
    "response": {
     "error": "not_found",
     "reason": "That contact no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/dad",
+   "response": {
+    "bills": [
+     {
+      "account": "Checking ··1042",
+      "amount": 71,
+      "due": "Nov 12",
+      "id": "BL-dad-1",
+      "name": "PG&E",
+      "status": {
+       "label": "Autopay",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 744,
+      "due": "Nov 18",
+      "id": "BL-dad-2",
+      "name": "Credit card ··7731",
+      "status": {
+       "label": "Scheduled",
+       "status": "neutral"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 384,
+      "due": "Dec 2",
+      "id": "BL-dad-3",
+      "name": "Car insurance",
+      "status": {
+       "label": "Reminder",
+       "status": "in_progress"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 2316,
+      "due": "Dec 10",
+      "id": "BL-dad-4",
+      "name": "Property tax",
+      "status": {
+       "label": "Due",
+       "status": "attention"
+      }
+     }
+    ],
+    "budget": [
+     {
+      "budget": 1260,
+      "id": "budget-housing",
+      "name": "Housing",
+      "spent": 1260
+     },
+     {
+      "budget": 390,
+      "id": "budget-groceries",
+      "name": "Groceries",
+      "spent": 324
+     },
+     {
+      "budget": 168,
+      "id": "budget-transport",
+      "name": "Transport",
+      "spent": 186
+     },
+     {
+      "budget": 144,
+      "id": "budget-utilities",
+      "name": "Utilities",
+      "spent": 114
+     },
+     {
+      "budget": 54,
+      "id": "budget-subscriptions",
+      "name": "Subscriptions",
+      "spent": 52
+     },
+     {
+      "budget": 72,
+      "id": "budget-household",
+      "name": "Household",
+      "spent": 0
+     }
+    ],
+    "cash_flow": [
+     {
+      "id": "cash-aug",
+      "money_in": 3840,
+      "money_out": 1890,
+      "month": "Aug"
+     },
+     {
+      "id": "cash-sep",
+      "money_in": 3840,
+      "money_out": 2034,
+      "month": "Sep"
+     },
+     {
+      "id": "cash-oct",
+      "money_in": 3840,
+      "money_out": 1936,
+      "month": "Oct"
+     }
+    ],
+    "days_elapsed": "25 of 31 days",
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "id": "IM-checking",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "id": "IM-card",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "label": "Overdue",
+       "status": "attention"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "id": "IM-brokerage",
+      "meta": "Last export Oct 3",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     }
+    ],
+    "inbox": "Inbox/dad/finance",
+    "month": "October",
+    "net_worth": {
+     "name": "Net worth",
+     "sampled_at": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "status": null,
+     "value": "$247,680"
+    },
+    "principal": "dad",
+    "unmapped": [
+     {
+      "id": "UA-1",
+      "meta": "In a dropped statement · Nov 2",
+      "name": "Savings ··3318"
+     },
+     {
+      "id": "UA-2",
+      "meta": "Found by the mail connector · Oct 30",
+      "name": "HSA ··0907"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/domains/home-auto",
+   "response": {
+    "domain": {
+     "data_class": "internal",
+     "id": "home-auto",
+     "name": "Home and auto",
+     "open_cases": "3 open · 1 due"
+    },
+    "records": [
+     {
+      "domain_id": "home-auto",
+      "id": "RC-01",
+      "kind": "record",
+      "meta": "VIN ··4471 · 61,200 miles",
+      "principal": "owner",
+      "title": "2019 Outback"
+     },
+     {
+      "domain_id": "home-auto",
+      "id": "RC-02",
+      "kind": "record",
+      "meta": "Installed 2018 · warranty 2028",
+      "principal": "owner",
+      "title": "Water heater"
+     },
+     {
+      "domain_id": "home-auto",
+      "id": "RC-03",
+      "kind": "document",
+      "meta": "Filed Oct 2 · 412 KB",
+      "principal": "owner",
+      "title": "Auto policy.pdf"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/domains/investing",
+   "response": {
+    "domain": {
+     "data_class": "restricted",
+     "id": "investing",
+     "name": "Investing",
+     "open_cases": "Nothing open"
+    },
+    "records": []
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/domains/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That domain doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/owner/sources/budget-groceries",
+   "response": {
+    "categories": [
+     "Housing",
+     "Groceries",
+     "Transport",
+     "Utilities",
+     "Subscriptions",
+     "Household",
+     "Income"
+    ],
+    "figure_id": "budget-groceries",
+    "formula": "Sum of the 5 transactions filed under Groceries",
+    "rows": [
+     {
+      "account": "Credit card ··7731",
+      "amount": 182,
+      "category": "Groceries",
+      "day": "Oct 2",
+      "id": "TX-owner-03",
+      "text": "Safeway"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 96,
+      "category": "Groceries",
+      "day": "Oct 6",
+      "id": "TX-owner-08",
+      "text": "Trader Joe's"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 150,
+      "category": "Groceries",
+      "day": "Oct 9",
+      "id": "TX-owner-11",
+      "text": "Costco"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 64,
+      "category": "Groceries",
+      "day": "Oct 12",
+      "id": "TX-owner-14",
+      "text": "Amazon"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 48,
+      "category": "Groceries",
+      "day": "Oct 19",
+      "id": "TX-owner-20",
+      "text": "Farmers market"
+     }
+    ],
+    "title": "Groceries · October",
+    "total": 540
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/mom/sources/net-worth",
+   "response": {
+    "categories": [
+     "Housing",
+     "Groceries",
+     "Transport",
+     "Utilities",
+     "Subscriptions",
+     "Household",
+     "Income"
+    ],
+    "figure_id": "net-worth",
+    "formula": "Sum of every account's balance",
+    "rows": [
+     {
+      "account": "Checking ··1042",
+      "amount": 11040,
+      "category": null,
+      "day": "Oct 25",
+      "id": "BAL-mom-1",
+      "text": "Checking ··1042"
+     },
+     {
+      "account": "Brokerage ··5520",
+      "amount": 170520,
+      "category": null,
+      "day": "Oct 25",
+      "id": "BAL-mom-2",
+      "text": "Brokerage ··5520"
+     },
+     {
+      "account": "Retirement ··2210",
+      "amount": 57600,
+      "category": null,
+      "day": "Oct 25",
+      "id": "BAL-mom-3",
+      "text": "Retirement ··2210"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -1680,
+      "category": null,
+      "day": "Oct 25",
+      "id": "BAL-mom-4",
+      "text": "Credit card ··7731"
+     },
+     {
+      "account": "Car, estimated",
+      "amount": 10200,
+      "category": null,
+      "day": "Oct 25",
+      "id": "BAL-mom-5",
+      "text": "Car, estimated"
+     }
+    ],
+    "title": "Net worth · Oct 25",
+    "total": 247680
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/owner/sources/cash-oct",
+   "response": {
+    "categories": [
+     "Housing",
+     "Groceries",
+     "Transport",
+     "Utilities",
+     "Subscriptions",
+     "Household",
+     "Income"
+    ],
+    "figure_id": "cash-oct",
+    "formula": "Money in minus money out, from October's transactions",
+    "rows": [
+     {
+      "account": "Checking ··1042",
+      "amount": 3200,
+      "category": "Income",
+      "day": "Oct 1",
+      "id": "TX-owner-01",
+      "text": "Salary"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -2100,
+      "category": "Housing",
+      "day": "Oct 1",
+      "id": "TX-owner-02",
+      "text": "Mortgage · Unit A"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -182,
+      "category": "Groceries",
+      "day": "Oct 2",
+      "id": "TX-owner-03",
+      "text": "Safeway"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -64,
+      "category": "Transport",
+      "day": "Oct 3",
+      "id": "TX-owner-04",
+      "text": "Shell"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -23,
+      "category": "Subscriptions",
+      "day": "Oct 4",
+      "id": "TX-owner-05",
+      "text": "Netflix"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -12,
+      "category": "Subscriptions",
+      "day": "Oct 4",
+      "id": "TX-owner-06",
+      "text": "Spotify"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -112,
+      "category": "Utilities",
+      "day": "Oct 5",
+      "id": "TX-owner-07",
+      "text": "PG&E"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -96,
+      "category": "Groceries",
+      "day": "Oct 6",
+      "id": "TX-owner-08",
+      "text": "Trader Joe's"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -10,
+      "category": "Subscriptions",
+      "day": "Oct 7",
+      "id": "TX-owner-09",
+      "text": "iCloud"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -46,
+      "category": "Utilities",
+      "day": "Oct 8",
+      "id": "TX-owner-10",
+      "text": "City water"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -150,
+      "category": "Groceries",
+      "day": "Oct 9",
+      "id": "TX-owner-11",
+      "text": "Costco"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -25,
+      "category": "Subscriptions",
+      "day": "Oct 10",
+      "id": "TX-owner-12",
+      "text": "Newspaper"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -58,
+      "category": "Transport",
+      "day": "Oct 11",
+      "id": "TX-owner-13",
+      "text": "Chevron"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -64,
+      "category": "Groceries",
+      "day": "Oct 12",
+      "id": "TX-owner-14",
+      "text": "Amazon"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -16,
+      "category": "Subscriptions",
+      "day": "Oct 13",
+      "id": "TX-owner-15",
+      "text": "Gym"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -40,
+      "category": "Transport",
+      "day": "Oct 14",
+      "id": "TX-owner-16",
+      "text": "Clipper card"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 3200,
+      "category": "Income",
+      "day": "Oct 15",
+      "id": "TX-owner-17",
+      "text": "Salary"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -32,
+      "category": "Utilities",
+      "day": "Oct 15",
+      "id": "TX-owner-18",
+      "text": "Internet"
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": -18,
+      "category": "Transport",
+      "day": "Oct 17",
+      "id": "TX-owner-19",
+      "text": "Car wash"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -48,
+      "category": "Groceries",
+      "day": "Oct 19",
+      "id": "TX-owner-20",
+      "text": "Farmers market"
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": -130,
+      "category": "Transport",
+      "day": "Oct 22",
+      "id": "TX-owner-21",
+      "text": "DMV registration"
+     }
+    ],
+    "title": "Cash flow · October",
+    "total": 3174
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/dad/sources/cash-aug",
+   "response": {
+    "categories": [
+     "Housing",
+     "Groceries",
+     "Transport",
+     "Utilities",
+     "Subscriptions",
+     "Household",
+     "Income"
+    ],
+    "figure_id": "cash-aug",
+    "formula": "Money in minus money out, from Aug's statement totals",
+    "rows": [
+     {
+      "account": "Checking ··1042",
+      "amount": 3840,
+      "category": null,
+      "day": "Aug",
+      "id": "ST-dad-aug-in",
+      "text": "Money in, from statements"
+     },
+     {
+      "account": "Checking ··1042, Credit card ··7731",
+      "amount": -1890,
+      "category": null,
+      "day": "Aug",
+      "id": "ST-dad-aug-out",
+      "text": "Money out, from statements"
+     }
+    ],
+    "title": "Cash flow · Aug",
+    "total": 1950
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/owner/sources/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That figure has no sources here."
    },
    "status": 404,
    "step_up": null
@@ -8529,6 +9632,7 @@
     "due": "today",
     "employee_name": "Hearth",
     "id": "CS-0201",
+    "notes": [],
     "principal": "owner",
     "state": "snoozed",
     "status": {
@@ -8562,6 +9666,7 @@
     "due": "today",
     "employee_name": "Hearth",
     "id": "CS-0201",
+    "notes": [],
     "principal": "owner",
     "state": "done",
     "status": {
@@ -8588,12 +9693,60 @@
    "method": "POST",
    "path": "/changes/AC-1/undo",
    "response": {
+    "assignees": [
+     "You",
+     "Atlas",
+     "Hearth",
+     "Ledger",
+     "Pulse",
+     "Keystone",
+     "Taxonomy",
+     "Tally"
+    ],
+    "briefs": [
+     {
+      "id": "BR-3",
+      "items": [
+       "09:30 Call with the property insurer; Keystone prepared notes",
+       "Car registration renewal is due today",
+       "2 approvals waiting, one for Mom",
+       "Mom's prescription refill in 9 days"
+      ],
+      "kind": "daily",
+      "summary": "3 events, 1 case due today, 2 approvals waiting.",
+      "title": "Daily brief · today 06:15"
+     },
+     {
+      "id": "BR-2",
+      "items": [
+       "Transport is $30 over budget; groceries $110 under",
+       "Unit B lease renewal due Nov 30",
+       "Confirm 2 new rules: \"Clipper card\" → Transport, Kaiser mail → Mom",
+       "Nothing stale for more than 3 days"
+      ],
+      "kind": "weekly",
+      "summary": "Budget on track, 1 renewal coming, 2 new rules to confirm.",
+      "title": "Weekly review · Sunday 18:00"
+     },
+     {
+      "id": "BR-1",
+      "items": [
+       "13:00 Dentist cleaning; leave by 12:35",
+       "Credit card statement is overdue for import",
+       "1 approval waiting"
+      ],
+      "kind": "daily",
+      "summary": "2 events, nothing due, 1 approval waiting.",
+      "title": "Daily brief · yesterday 06:15"
+     }
+    ],
     "cases": [
      {
       "domain": "Taxes",
       "due": "Jan 15",
       "employee_name": "Taxonomy",
       "id": "CS-0198",
+      "notes": [],
       "principal": "owner",
       "state": "open",
       "status": {
@@ -8607,6 +9760,7 @@
       "due": "Nov 30",
       "employee_name": "Keystone",
       "id": "CS-0187",
+      "notes": [],
       "principal": "owner",
       "state": "open",
       "status": {
@@ -8620,6 +9774,7 @@
       "due": "Dec 7",
       "employee_name": "Pulse",
       "id": "CS-0176",
+      "notes": [],
       "principal": "dad",
       "state": "open",
       "status": {
@@ -8629,46 +9784,165 @@
       "title": "Medicare plan review"
      }
     ],
+    "checklist": [
+     {
+      "detail": "Home and auto · make, model and odometer",
+      "done": true,
+      "id": "CK-1",
+      "title": "List your vehicles"
+     },
+     {
+      "detail": "Health and benefits · one line each",
+      "done": false,
+      "id": "CK-2",
+      "title": "Add Mom's and Dad's doctors"
+     },
+     {
+      "detail": "Taxes · Inbox/taxes",
+      "done": false,
+      "id": "CK-3",
+      "title": "Drop last year's tax return in the inbox"
+     },
+     {
+      "detail": "Home and auto, Health · or drop the PDFs",
+      "done": false,
+      "id": "CK-4",
+      "title": "List your insurance policies"
+     },
+     {
+      "detail": "Rental · Keystone reads the dates",
+      "done": true,
+      "id": "CK-5",
+      "title": "Add the rental leases"
+     }
+    ],
     "domains": [
      {
       "data_class": "internal",
+      "id": "calendar",
       "name": "Calendar and admin",
       "open_cases": "4 open"
      },
      {
       "data_class": "internal",
+      "id": "home-auto",
       "name": "Home and auto",
       "open_cases": "3 open · 1 due"
      },
      {
       "data_class": "restricted",
+      "id": "health",
       "name": "Health and benefits",
       "open_cases": "2 open"
      },
      {
       "data_class": "restricted",
+      "id": "finance",
       "name": "Finance",
       "open_cases": "1 open"
      },
      {
       "data_class": "restricted",
+      "id": "investing",
       "name": "Investing",
       "open_cases": "Nothing open"
      },
      {
       "data_class": "restricted",
+      "id": "taxes",
       "name": "Taxes",
       "open_cases": "2 open"
      },
      {
       "data_class": "restricted",
+      "id": "rental",
       "name": "Rental",
       "open_cases": "3 open"
      },
      {
       "data_class": "internal",
+      "id": "career",
       "name": "Career and business",
       "open_cases": "1 open"
+     }
+    ],
+    "obligations": [
+     {
+      "days": 9,
+      "domain": "Health and benefits",
+      "id": "OB-2",
+      "kind": "date",
+      "lead_days": 5,
+      "next_due": "2026-11-03T16:00:00Z",
+      "principal": "mom",
+      "rule": "Every month",
+      "title": "Mom's prescription refill"
+     },
+     {
+      "days": 12,
+      "domain": "Home and auto",
+      "id": "OB-1",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-06T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Smoke detector batteries"
+     },
+     {
+      "days": 37,
+      "domain": "Home and auto",
+      "id": "OB-3",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Car insurance renewal"
+     },
+     {
+      "days": 40,
+      "domain": "Health and benefits",
+      "id": "OB-4",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-04T16:00:00Z",
+      "principal": "dad",
+      "rule": "Every year",
+      "title": "Dad's Medicare enrollment"
+     },
+     {
+      "days": 68,
+      "domain": "Rental",
+      "id": "OB-5",
+      "kind": "date",
+      "lead_days": 30,
+      "next_due": "2027-01-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every year",
+      "title": "Property tax, second installment"
+     },
+     {
+      "days": 75,
+      "domain": "Calendar and admin",
+      "id": "OB-6",
+      "kind": "date",
+      "lead_days": 120,
+      "next_due": "2027-01-08T16:00:00Z",
+      "principal": "owner",
+      "rule": "From the expiry date",
+      "title": "Passport renewal"
+     },
+     {
+      "days": null,
+      "domain": "Home and auto",
+      "id": "OB-7",
+      "kind": "usage",
+      "lead_days": 0,
+      "next_due": null,
+      "principal": "owner",
+      "rule": "Every 5,000 miles · 4,200 since the last one",
+      "title": "Oil change"
      }
     ],
     "recent_changes": [
@@ -8681,6 +9955,83 @@
       "id": "AC-2",
       "text": "Added \"oil change\" at 5,000 miles",
       "undone": false
+     }
+    ],
+    "rules": [
+     {
+      "id": "RU-1",
+      "kind": "routing",
+      "source": "Your correction · Oct 12",
+      "then": "Health and benefits · Mom",
+      "when": "Mail from \"Kaiser Permanente\""
+     },
+     {
+      "id": "RU-2",
+      "kind": "category",
+      "source": "Your correction · Oct 14",
+      "then": "Transport",
+      "when": "Payee is \"Clipper card\""
+     },
+     {
+      "id": "RU-3",
+      "kind": "routing",
+      "source": "Set up in Setup · Oct 24",
+      "then": "Principal Dad",
+      "when": "Files dropped in Inbox/dad"
+     },
+     {
+      "id": "RU-4",
+      "kind": "category",
+      "source": "Confirmed in the weekly review · Oct 20",
+      "then": "Utilities",
+      "when": "Payee contains \"PG&E\""
+     }
+    ],
+    "sync": [
+     {
+      "id": "SY-1",
+      "meta": "3 calendars · 4 min ago",
+      "name": "Calendar",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-2",
+      "meta": "2 mailboxes · 2 min ago",
+      "name": "Mail",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-3",
+      "meta": "4 min ago",
+      "name": "Reminders",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-4",
+      "meta": "Last file Oct 3",
+      "name": "Statement inbox folder",
+      "status": {
+       "label": "Watching",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-5",
+      "meta": "Needs the Contacts permission in Setup",
+      "name": "Contacts",
+      "status": {
+       "label": "Waiting",
+       "status": "attention"
+      }
      }
     ]
    },
@@ -8746,8 +10097,10 @@
     "cta": "Open Screen Sharing",
     "duration": "About 5 min · over Screen Sharing",
     "id": "OI-15",
+    "interview": null,
     "proof": null,
     "required": true,
+    "secrets": [],
     "state": "deferred",
     "stub": "Recorded test calendar and mailbox",
     "title": "Allow Mac permissions",
@@ -8795,8 +10148,23 @@
     "cta": "Start guide",
     "duration": "About 15 min · two bot tokens",
     "id": "OI-13",
+    "interview": null,
     "proof": null,
     "required": false,
+    "secrets": [
+     {
+      "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+      "id": "assistant-token",
+      "label": "Assistant bot token",
+      "saved": false
+     },
+     {
+      "hint": "The same, for the Ops app",
+      "id": "ops-token",
+      "label": "Ops bot token",
+      "saved": false
+     }
+    ],
     "state": "ready",
     "stub": "Local Discord mock",
     "title": "Discord server and bots",
@@ -15345,6 +16713,3013 @@
      "tier": "T3",
      "title": "Send December rent reminders",
      "undo_until": "2026-10-25T16:00:17Z"
+    }
+   ],
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Calendar and admin",
+    "due": "2026-12-03",
+    "employee_name": "Hearth",
+    "principal": "owner",
+    "title": "Renew passport"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/cases",
+   "response": {
+    "domain": "Calendar and admin",
+    "due": "Dec 3",
+    "employee_name": "Hearth",
+    "id": "CS-id45",
+    "notes": [],
+    "principal": "owner",
+    "state": "open",
+    "status": {
+     "label": "Open",
+     "status": "in_progress"
+    },
+    "title": "Renew passport"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Calendar and admin",
+    "due": "2026-10-25",
+    "employee_name": "Hearth",
+    "principal": "owner",
+    "title": "Renew passport"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/cases",
+   "response": {
+    "domain": "Calendar and admin",
+    "due": "today",
+    "employee_name": "Hearth",
+    "id": "CS-id46",
+    "notes": [],
+    "principal": "owner",
+    "state": "open",
+    "status": {
+     "label": "Due today",
+     "status": "attention"
+    },
+    "title": "Renew passport"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Calendar and admin",
+    "due": "2026-12-03",
+    "employee_name": "Hearth",
+    "principal": "owner",
+    "title": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/cases",
+   "response": {
+    "error": "conflict",
+    "reason": "Give the case a title first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Space",
+    "due": "2026-12-03",
+    "employee_name": "Hearth",
+    "principal": "owner",
+    "title": "Renew passport"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/cases",
+   "response": {
+    "error": "conflict",
+    "reason": "Pick one of the domains."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Calendar and admin",
+    "due": "2026-12-03",
+    "employee_name": "Bob",
+    "principal": "owner",
+    "title": "Renew passport"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/cases",
+   "response": {
+    "error": "conflict",
+    "reason": "Pick someone from the list."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "employee_name": "You"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/cases/CS-0198/reassign",
+   "response": {
+    "domain": "Taxes",
+    "due": "Jan 15",
+    "employee_name": "You",
+    "id": "CS-0198",
+    "notes": [],
+    "principal": "owner",
+    "state": "open",
+    "status": {
+     "label": "Open",
+     "status": "in_progress"
+    },
+    "title": "Estimated tax payment Q4"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "employee_name": "You"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/cases/nope/reassign",
+   "response": {
+    "error": "not_found",
+    "reason": "That case no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Sent the form."
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/cases/CS-0198/notes",
+   "response": {
+    "domain": "Taxes",
+    "due": "Jan 15",
+    "employee_name": "You",
+    "id": "CS-0198",
+    "notes": [
+     {
+      "at": "2026-10-25T16:00:09Z",
+      "id": "CN-id49",
+      "text": "Sent the form."
+     }
+    ],
+    "principal": "owner",
+    "state": "open",
+    "status": {
+     "label": "Open",
+     "status": "in_progress"
+    },
+    "title": "Estimated tax payment Q4"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/cases/CS-0198/notes",
+   "response": {
+    "error": "conflict",
+    "reason": "Type the note first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Home and auto",
+    "due": "2026-11-20",
+    "principal": "mom",
+    "repeat": "yearly",
+    "title": "Gutters"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/obligations",
+   "response": {
+    "days": 26,
+    "domain": "Home and auto",
+    "id": "OB-id51",
+    "kind": "date",
+    "lead_days": 14,
+    "next_due": "2026-11-20T12:00:00Z",
+    "principal": "mom",
+    "rule": "Every year",
+    "title": "Gutters"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "domain": "Home and auto",
+    "due": "2026-11-20",
+    "principal": "mom",
+    "repeat": "once",
+    "title": "Gutters"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/obligations",
+   "response": {
+    "days": 26,
+    "domain": "Home and auto",
+    "id": "OB-id52",
+    "kind": "date",
+    "lead_days": 14,
+    "next_due": "2026-11-20T12:00:00Z",
+    "principal": "mom",
+    "rule": "Once",
+    "title": "Gutters"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "done": true
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/checklist/CK-2",
+   "response": {
+    "detail": "Health and benefits · one line each",
+    "done": true,
+    "id": "CK-2",
+    "title": "Add Mom's and Dad's doctors"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "done": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/checklist/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That checklist step doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/personal",
+   "response": {
+    "assignees": [
+     "You",
+     "Atlas",
+     "Hearth",
+     "Ledger",
+     "Pulse",
+     "Keystone",
+     "Taxonomy",
+     "Tally"
+    ],
+    "briefs": [
+     {
+      "id": "BR-3",
+      "items": [
+       "09:30 Call with the property insurer; Keystone prepared notes",
+       "Car registration renewal is due today",
+       "2 approvals waiting, one for Mom",
+       "Mom's prescription refill in 9 days"
+      ],
+      "kind": "daily",
+      "summary": "3 events, 1 case due today, 2 approvals waiting.",
+      "title": "Daily brief · today 06:15"
+     },
+     {
+      "id": "BR-2",
+      "items": [
+       "Transport is $30 over budget; groceries $110 under",
+       "Unit B lease renewal due Nov 30",
+       "Confirm 2 new rules: \"Clipper card\" → Transport, Kaiser mail → Mom",
+       "Nothing stale for more than 3 days"
+      ],
+      "kind": "weekly",
+      "summary": "Budget on track, 1 renewal coming, 2 new rules to confirm.",
+      "title": "Weekly review · Sunday 18:00"
+     },
+     {
+      "id": "BR-1",
+      "items": [
+       "13:00 Dentist cleaning; leave by 12:35",
+       "Credit card statement is overdue for import",
+       "1 approval waiting"
+      ],
+      "kind": "daily",
+      "summary": "2 events, nothing due, 1 approval waiting.",
+      "title": "Daily brief · yesterday 06:15"
+     }
+    ],
+    "cases": [
+     {
+      "domain": "Calendar and admin",
+      "due": "today",
+      "employee_name": "Hearth",
+      "id": "CS-id46",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Due today",
+       "status": "attention"
+      },
+      "title": "Renew passport"
+     },
+     {
+      "domain": "Calendar and admin",
+      "due": "Dec 3",
+      "employee_name": "Hearth",
+      "id": "CS-id45",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Renew passport"
+     },
+     {
+      "domain": "Taxes",
+      "due": "Jan 15",
+      "employee_name": "You",
+      "id": "CS-0198",
+      "notes": [
+       {
+        "at": "2026-10-25T16:00:09Z",
+        "id": "CN-id49",
+        "text": "Sent the form."
+       }
+      ],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Estimated tax payment Q4"
+     },
+     {
+      "domain": "Rental",
+      "due": "Nov 30",
+      "employee_name": "Keystone",
+      "id": "CS-0187",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Unit B lease renewal"
+     },
+     {
+      "domain": "Health",
+      "due": "Dec 7",
+      "employee_name": "Pulse",
+      "id": "CS-0176",
+      "notes": [],
+      "principal": "dad",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Medicare plan review"
+     }
+    ],
+    "checklist": [
+     {
+      "detail": "Home and auto · make, model and odometer",
+      "done": true,
+      "id": "CK-1",
+      "title": "List your vehicles"
+     },
+     {
+      "detail": "Health and benefits · one line each",
+      "done": true,
+      "id": "CK-2",
+      "title": "Add Mom's and Dad's doctors"
+     },
+     {
+      "detail": "Taxes · Inbox/taxes",
+      "done": false,
+      "id": "CK-3",
+      "title": "Drop last year's tax return in the inbox"
+     },
+     {
+      "detail": "Home and auto, Health · or drop the PDFs",
+      "done": false,
+      "id": "CK-4",
+      "title": "List your insurance policies"
+     },
+     {
+      "detail": "Rental · Keystone reads the dates",
+      "done": true,
+      "id": "CK-5",
+      "title": "Add the rental leases"
+     }
+    ],
+    "domains": [
+     {
+      "data_class": "internal",
+      "id": "calendar",
+      "name": "Calendar and admin",
+      "open_cases": "4 open"
+     },
+     {
+      "data_class": "internal",
+      "id": "home-auto",
+      "name": "Home and auto",
+      "open_cases": "3 open · 1 due"
+     },
+     {
+      "data_class": "restricted",
+      "id": "health",
+      "name": "Health and benefits",
+      "open_cases": "2 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "finance",
+      "name": "Finance",
+      "open_cases": "1 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "investing",
+      "name": "Investing",
+      "open_cases": "Nothing open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "taxes",
+      "name": "Taxes",
+      "open_cases": "2 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "rental",
+      "name": "Rental",
+      "open_cases": "3 open"
+     },
+     {
+      "data_class": "internal",
+      "id": "career",
+      "name": "Career and business",
+      "open_cases": "1 open"
+     }
+    ],
+    "obligations": [
+     {
+      "days": 9,
+      "domain": "Health and benefits",
+      "id": "OB-2",
+      "kind": "date",
+      "lead_days": 5,
+      "next_due": "2026-11-03T16:00:00Z",
+      "principal": "mom",
+      "rule": "Every month",
+      "title": "Mom's prescription refill"
+     },
+     {
+      "days": 12,
+      "domain": "Home and auto",
+      "id": "OB-1",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-06T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Smoke detector batteries"
+     },
+     {
+      "days": 26,
+      "domain": "Home and auto",
+      "id": "OB-id51",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-20T12:00:00Z",
+      "principal": "mom",
+      "rule": "Every year",
+      "title": "Gutters"
+     },
+     {
+      "days": 26,
+      "domain": "Home and auto",
+      "id": "OB-id52",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-20T12:00:00Z",
+      "principal": "mom",
+      "rule": "Once",
+      "title": "Gutters"
+     },
+     {
+      "days": 37,
+      "domain": "Home and auto",
+      "id": "OB-3",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Car insurance renewal"
+     },
+     {
+      "days": 40,
+      "domain": "Health and benefits",
+      "id": "OB-4",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-04T16:00:00Z",
+      "principal": "dad",
+      "rule": "Every year",
+      "title": "Dad's Medicare enrollment"
+     },
+     {
+      "days": 68,
+      "domain": "Rental",
+      "id": "OB-5",
+      "kind": "date",
+      "lead_days": 30,
+      "next_due": "2027-01-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every year",
+      "title": "Property tax, second installment"
+     },
+     {
+      "days": 75,
+      "domain": "Calendar and admin",
+      "id": "OB-6",
+      "kind": "date",
+      "lead_days": 120,
+      "next_due": "2027-01-08T16:00:00Z",
+      "principal": "owner",
+      "rule": "From the expiry date",
+      "title": "Passport renewal"
+     },
+     {
+      "days": null,
+      "domain": "Home and auto",
+      "id": "OB-7",
+      "kind": "usage",
+      "lead_days": 0,
+      "next_due": null,
+      "principal": "owner",
+      "rule": "Every 5,000 miles · 4,200 since the last one",
+      "title": "Oil change"
+     }
+    ],
+    "recent_changes": [
+     {
+      "id": "AC-1",
+      "text": "Filed 3 utility bills into Finance",
+      "undone": true
+     },
+     {
+      "id": "AC-2",
+      "text": "Added \"oil change\" at 5,000 miles",
+      "undone": false
+     }
+    ],
+    "rules": [
+     {
+      "id": "RU-1",
+      "kind": "routing",
+      "source": "Your correction · Oct 12",
+      "then": "Health and benefits · Mom",
+      "when": "Mail from \"Kaiser Permanente\""
+     },
+     {
+      "id": "RU-2",
+      "kind": "category",
+      "source": "Your correction · Oct 14",
+      "then": "Transport",
+      "when": "Payee is \"Clipper card\""
+     },
+     {
+      "id": "RU-3",
+      "kind": "routing",
+      "source": "Set up in Setup · Oct 24",
+      "then": "Principal Dad",
+      "when": "Files dropped in Inbox/dad"
+     },
+     {
+      "id": "RU-4",
+      "kind": "category",
+      "source": "Confirmed in the weekly review · Oct 20",
+      "then": "Utilities",
+      "when": "Payee contains \"PG&E\""
+     }
+    ],
+    "sync": [
+     {
+      "id": "SY-1",
+      "meta": "3 calendars · 4 min ago",
+      "name": "Calendar",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-2",
+      "meta": "2 mailboxes · 2 min ago",
+      "name": "Mail",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-3",
+      "meta": "4 min ago",
+      "name": "Reminders",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-4",
+      "meta": "Last file Oct 3",
+      "name": "Statement inbox folder",
+      "status": {
+       "label": "Watching",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-5",
+      "meta": "Needs the Contacts permission in Setup",
+      "name": "Contacts",
+      "status": {
+       "label": "Waiting",
+       "status": "attention"
+      }
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "meta": "",
+    "principal": "owner",
+    "title": "Mower"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/domains/home-auto/records",
+   "response": {
+    "domain_id": "home-auto",
+    "id": "RC-id53",
+    "kind": "record",
+    "meta": "Added just now",
+    "principal": "owner",
+    "title": "Mower"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "principal": "owner",
+    "title": "Mower"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/domains/nope/records",
+   "response": {
+    "error": "not_found",
+    "reason": "That domain doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "1099.pdf",
+    "principal": "mom",
+    "size_bytes": 1200000
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/domains/taxes/documents",
+   "response": {
+    "domain_id": "taxes",
+    "id": "RC-id54",
+    "kind": "document",
+    "meta": "Filed just now · 1.2 MB",
+    "principal": "mom",
+    "title": "1099.pdf"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "w2.pdf",
+    "principal": "mom",
+    "size_bytes": 300001
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/domains/taxes/documents",
+   "response": {
+    "domain_id": "taxes",
+    "id": "RC-id55",
+    "kind": "document",
+    "meta": "Filed just now · 293 KB",
+    "principal": "mom",
+    "title": "w2.pdf"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "scan.tif",
+    "principal": "mom",
+    "size_bytes": 30000000
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/domains/taxes/documents",
+   "response": {
+    "error": "conflict",
+    "reason": "That file is over 25 MB. Drop it in the inbox folder instead."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "meta": "62k",
+    "title": "Outback"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/records/RC-01",
+   "response": {
+    "domain_id": "home-auto",
+    "id": "RC-01",
+    "kind": "record",
+    "meta": "62k",
+    "principal": "owner",
+    "title": "Outback"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "meta": "",
+    "title": " "
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/records/RC-01",
+   "response": {
+    "error": "conflict",
+    "reason": "A record needs a name."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    },
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash"
+      ]
+     }
+    }
+   ],
+   "method": "DELETE",
+   "path": "/records/RC-02",
+   "response": {
+    "deleted_at": "2026-10-25T16:00:09Z",
+    "home": "/personal",
+    "id": "TR-id56",
+    "kind": "record",
+    "meta": "Home and auto · You",
+    "purge_at": "2026-11-24T16:00:09Z",
+    "title": "Water heater"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "DELETE",
+   "path": "/records/RC-02",
+   "response": {
+    "error": "not_found",
+    "reason": "That record no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/domains/home-auto",
+   "response": {
+    "domain": {
+     "data_class": "internal",
+     "id": "home-auto",
+     "name": "Home and auto",
+     "open_cases": "3 open · 1 due"
+    },
+    "records": [
+     {
+      "domain_id": "home-auto",
+      "id": "RC-id53",
+      "kind": "record",
+      "meta": "Added just now",
+      "principal": "owner",
+      "title": "Mower"
+     },
+     {
+      "domain_id": "home-auto",
+      "id": "RC-01",
+      "kind": "record",
+      "meta": "62k",
+      "principal": "owner",
+      "title": "Outback"
+     },
+     {
+      "domain_id": "home-auto",
+      "id": "RC-03",
+      "kind": "document",
+      "meta": "Filed Oct 2 · 412 KB",
+      "principal": "owner",
+      "title": "Auto policy.pdf"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/trash",
+   "response": {
+    "items": [
+     {
+      "deleted_at": "2026-10-25T16:00:09Z",
+      "home": "/personal",
+      "id": "TR-id56",
+      "kind": "record",
+      "meta": "Home and auto · You",
+      "purge_at": "2026-11-24T16:00:09Z",
+      "title": "Water heater"
+     },
+     {
+      "deleted_at": "2026-10-25T16:00:09Z",
+      "home": "/contacts",
+      "id": "TR-id31",
+      "kind": "contact",
+      "meta": "Allowlisted · Taxes",
+      "purge_at": "2026-11-24T16:00:09Z",
+      "title": "Tax preparer"
+     },
+     {
+      "deleted_at": "2026-10-25T16:00:09Z",
+      "home": "/contacts",
+      "id": "TR-id30",
+      "kind": "contact",
+      "meta": "Allowlisted · Health",
+      "purge_at": "2026-11-24T16:00:09Z",
+      "title": "Dr. Patel's office"
+     },
+     {
+      "deleted_at": "2026-10-13T16:00:00Z",
+      "home": "/contacts",
+      "id": "TR-0005",
+      "kind": "contact",
+      "meta": "Known contact · Rental",
+      "purge_at": "2026-11-12T16:00:00Z",
+      "title": "Quick Fix Plumbing"
+     }
+    ],
+    "retention_days": 30
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "then": "Mom",
+    "when": "Mail from Kaiser"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/rules/RU-1",
+   "response": {
+    "id": "RU-1",
+    "kind": "routing",
+    "source": "Edited by you · just now",
+    "then": "Mom",
+    "when": "Mail from Kaiser"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "then": "Mom",
+    "when": ""
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/rules/RU-1",
+   "response": {
+    "error": "conflict",
+    "reason": "Say when the rule applies."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "personal"
+      ]
+     }
+    },
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "trash"
+      ]
+     }
+    }
+   ],
+   "method": "DELETE",
+   "path": "/rules/RU-3",
+   "response": {
+    "deleted_at": "2026-10-25T16:00:09Z",
+    "home": "/personal",
+    "id": "TR-id57",
+    "kind": "rule",
+    "meta": "Routing rule",
+    "purge_at": "2026-11-24T16:00:09Z",
+    "title": "Files dropped in Inbox/dad → Principal Dad"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "DELETE",
+   "path": "/rules/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That rule no longer exists."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/personal",
+   "response": {
+    "assignees": [
+     "You",
+     "Atlas",
+     "Hearth",
+     "Ledger",
+     "Pulse",
+     "Keystone",
+     "Taxonomy",
+     "Tally"
+    ],
+    "briefs": [
+     {
+      "id": "BR-3",
+      "items": [
+       "09:30 Call with the property insurer; Keystone prepared notes",
+       "Car registration renewal is due today",
+       "2 approvals waiting, one for Mom",
+       "Mom's prescription refill in 9 days"
+      ],
+      "kind": "daily",
+      "summary": "3 events, 1 case due today, 2 approvals waiting.",
+      "title": "Daily brief · today 06:15"
+     },
+     {
+      "id": "BR-2",
+      "items": [
+       "Transport is $30 over budget; groceries $110 under",
+       "Unit B lease renewal due Nov 30",
+       "Confirm 2 new rules: \"Clipper card\" → Transport, Kaiser mail → Mom",
+       "Nothing stale for more than 3 days"
+      ],
+      "kind": "weekly",
+      "summary": "Budget on track, 1 renewal coming, 2 new rules to confirm.",
+      "title": "Weekly review · Sunday 18:00"
+     },
+     {
+      "id": "BR-1",
+      "items": [
+       "13:00 Dentist cleaning; leave by 12:35",
+       "Credit card statement is overdue for import",
+       "1 approval waiting"
+      ],
+      "kind": "daily",
+      "summary": "2 events, nothing due, 1 approval waiting.",
+      "title": "Daily brief · yesterday 06:15"
+     }
+    ],
+    "cases": [
+     {
+      "domain": "Calendar and admin",
+      "due": "today",
+      "employee_name": "Hearth",
+      "id": "CS-id46",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Due today",
+       "status": "attention"
+      },
+      "title": "Renew passport"
+     },
+     {
+      "domain": "Calendar and admin",
+      "due": "Dec 3",
+      "employee_name": "Hearth",
+      "id": "CS-id45",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Renew passport"
+     },
+     {
+      "domain": "Taxes",
+      "due": "Jan 15",
+      "employee_name": "You",
+      "id": "CS-0198",
+      "notes": [
+       {
+        "at": "2026-10-25T16:00:09Z",
+        "id": "CN-id49",
+        "text": "Sent the form."
+       }
+      ],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Estimated tax payment Q4"
+     },
+     {
+      "domain": "Rental",
+      "due": "Nov 30",
+      "employee_name": "Keystone",
+      "id": "CS-0187",
+      "notes": [],
+      "principal": "owner",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Unit B lease renewal"
+     },
+     {
+      "domain": "Health",
+      "due": "Dec 7",
+      "employee_name": "Pulse",
+      "id": "CS-0176",
+      "notes": [],
+      "principal": "dad",
+      "state": "open",
+      "status": {
+       "label": "Open",
+       "status": "in_progress"
+      },
+      "title": "Medicare plan review"
+     }
+    ],
+    "checklist": [
+     {
+      "detail": "Home and auto · make, model and odometer",
+      "done": true,
+      "id": "CK-1",
+      "title": "List your vehicles"
+     },
+     {
+      "detail": "Health and benefits · one line each",
+      "done": true,
+      "id": "CK-2",
+      "title": "Add Mom's and Dad's doctors"
+     },
+     {
+      "detail": "Taxes · Inbox/taxes",
+      "done": false,
+      "id": "CK-3",
+      "title": "Drop last year's tax return in the inbox"
+     },
+     {
+      "detail": "Home and auto, Health · or drop the PDFs",
+      "done": false,
+      "id": "CK-4",
+      "title": "List your insurance policies"
+     },
+     {
+      "detail": "Rental · Keystone reads the dates",
+      "done": true,
+      "id": "CK-5",
+      "title": "Add the rental leases"
+     }
+    ],
+    "domains": [
+     {
+      "data_class": "internal",
+      "id": "calendar",
+      "name": "Calendar and admin",
+      "open_cases": "4 open"
+     },
+     {
+      "data_class": "internal",
+      "id": "home-auto",
+      "name": "Home and auto",
+      "open_cases": "3 open · 1 due"
+     },
+     {
+      "data_class": "restricted",
+      "id": "health",
+      "name": "Health and benefits",
+      "open_cases": "2 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "finance",
+      "name": "Finance",
+      "open_cases": "1 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "investing",
+      "name": "Investing",
+      "open_cases": "Nothing open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "taxes",
+      "name": "Taxes",
+      "open_cases": "2 open"
+     },
+     {
+      "data_class": "restricted",
+      "id": "rental",
+      "name": "Rental",
+      "open_cases": "3 open"
+     },
+     {
+      "data_class": "internal",
+      "id": "career",
+      "name": "Career and business",
+      "open_cases": "1 open"
+     }
+    ],
+    "obligations": [
+     {
+      "days": 9,
+      "domain": "Health and benefits",
+      "id": "OB-2",
+      "kind": "date",
+      "lead_days": 5,
+      "next_due": "2026-11-03T16:00:00Z",
+      "principal": "mom",
+      "rule": "Every month",
+      "title": "Mom's prescription refill"
+     },
+     {
+      "days": 12,
+      "domain": "Home and auto",
+      "id": "OB-1",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-06T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Smoke detector batteries"
+     },
+     {
+      "days": 26,
+      "domain": "Home and auto",
+      "id": "OB-id51",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-20T12:00:00Z",
+      "principal": "mom",
+      "rule": "Every year",
+      "title": "Gutters"
+     },
+     {
+      "days": 26,
+      "domain": "Home and auto",
+      "id": "OB-id52",
+      "kind": "date",
+      "lead_days": 14,
+      "next_due": "2026-11-20T12:00:00Z",
+      "principal": "mom",
+      "rule": "Once",
+      "title": "Gutters"
+     },
+     {
+      "days": 37,
+      "domain": "Home and auto",
+      "id": "OB-3",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every 6 months",
+      "title": "Car insurance renewal"
+     },
+     {
+      "days": 40,
+      "domain": "Health and benefits",
+      "id": "OB-4",
+      "kind": "date",
+      "lead_days": 21,
+      "next_due": "2026-12-04T16:00:00Z",
+      "principal": "dad",
+      "rule": "Every year",
+      "title": "Dad's Medicare enrollment"
+     },
+     {
+      "days": 68,
+      "domain": "Rental",
+      "id": "OB-5",
+      "kind": "date",
+      "lead_days": 30,
+      "next_due": "2027-01-01T16:00:00Z",
+      "principal": "owner",
+      "rule": "Every year",
+      "title": "Property tax, second installment"
+     },
+     {
+      "days": 75,
+      "domain": "Calendar and admin",
+      "id": "OB-6",
+      "kind": "date",
+      "lead_days": 120,
+      "next_due": "2027-01-08T16:00:00Z",
+      "principal": "owner",
+      "rule": "From the expiry date",
+      "title": "Passport renewal"
+     },
+     {
+      "days": null,
+      "domain": "Home and auto",
+      "id": "OB-7",
+      "kind": "usage",
+      "lead_days": 0,
+      "next_due": null,
+      "principal": "owner",
+      "rule": "Every 5,000 miles · 4,200 since the last one",
+      "title": "Oil change"
+     }
+    ],
+    "recent_changes": [
+     {
+      "id": "AC-1",
+      "text": "Filed 3 utility bills into Finance",
+      "undone": true
+     },
+     {
+      "id": "AC-2",
+      "text": "Added \"oil change\" at 5,000 miles",
+      "undone": false
+     }
+    ],
+    "rules": [
+     {
+      "id": "RU-1",
+      "kind": "routing",
+      "source": "Edited by you · just now",
+      "then": "Mom",
+      "when": "Mail from Kaiser"
+     },
+     {
+      "id": "RU-2",
+      "kind": "category",
+      "source": "Your correction · Oct 14",
+      "then": "Transport",
+      "when": "Payee is \"Clipper card\""
+     },
+     {
+      "id": "RU-4",
+      "kind": "category",
+      "source": "Confirmed in the weekly review · Oct 20",
+      "then": "Utilities",
+      "when": "Payee contains \"PG&E\""
+     }
+    ],
+    "sync": [
+     {
+      "id": "SY-1",
+      "meta": "3 calendars · 4 min ago",
+      "name": "Calendar",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-2",
+      "meta": "2 mailboxes · 2 min ago",
+      "name": "Mail",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-3",
+      "meta": "4 min ago",
+      "name": "Reminders",
+      "status": {
+       "label": "Synced",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-4",
+      "meta": "Last file Oct 3",
+      "name": "Statement inbox folder",
+      "status": {
+       "label": "Watching",
+       "status": "healthy"
+      }
+     },
+     {
+      "id": "SY-5",
+      "meta": "Needs the Contacts permission in Setup",
+      "name": "Contacts",
+      "status": {
+       "label": "Waiting",
+       "status": "attention"
+      }
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "category": "Household"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "finance",
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/finance/owner/transactions/TX-owner-14/category",
+   "response": {
+    "message": "Moved Amazon to Household and added a rule for next time.",
+    "rule": {
+     "id": "RU-id58",
+     "kind": "category",
+     "source": "Your correction · just now",
+     "then": "Household",
+     "when": "Payee is \"Amazon\""
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "category": "Household"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/owner/transactions/TX-owner-14/category",
+   "response": {
+    "error": "conflict",
+    "reason": "It's already filed under Household."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "category": "Toys"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/owner/transactions/TX-owner-14/category",
+   "response": {
+    "error": "conflict",
+    "reason": "Pick one of the categories."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "category": "Household"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/owner/transactions/nope/category",
+   "response": {
+    "error": "not_found",
+    "reason": "That transaction isn't in this month."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/owner",
+   "response": {
+    "bills": [
+     {
+      "account": "Checking ··1042",
+      "amount": 118,
+      "due": "Nov 12",
+      "id": "BL-owner-1",
+      "name": "PG&E",
+      "status": {
+       "label": "Autopay",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 1240,
+      "due": "Nov 18",
+      "id": "BL-owner-2",
+      "name": "Credit card ··7731",
+      "status": {
+       "label": "Scheduled",
+       "status": "neutral"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 640,
+      "due": "Dec 2",
+      "id": "BL-owner-3",
+      "name": "Car insurance",
+      "status": {
+       "label": "Reminder",
+       "status": "in_progress"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 3860,
+      "due": "Dec 10",
+      "id": "BL-owner-4",
+      "name": "Property tax",
+      "status": {
+       "label": "Due",
+       "status": "attention"
+      }
+     }
+    ],
+    "budget": [
+     {
+      "budget": 2100,
+      "id": "budget-housing",
+      "name": "Housing",
+      "spent": 2100
+     },
+     {
+      "budget": 650,
+      "id": "budget-groceries",
+      "name": "Groceries",
+      "spent": 476
+     },
+     {
+      "budget": 280,
+      "id": "budget-transport",
+      "name": "Transport",
+      "spent": 310
+     },
+     {
+      "budget": 240,
+      "id": "budget-utilities",
+      "name": "Utilities",
+      "spent": 190
+     },
+     {
+      "budget": 90,
+      "id": "budget-subscriptions",
+      "name": "Subscriptions",
+      "spent": 86
+     },
+     {
+      "budget": 120,
+      "id": "budget-household",
+      "name": "Household",
+      "spent": 64
+     }
+    ],
+    "cash_flow": [
+     {
+      "id": "cash-aug",
+      "money_in": 6400,
+      "money_out": 3150,
+      "month": "Aug"
+     },
+     {
+      "id": "cash-sep",
+      "money_in": 6400,
+      "money_out": 3390,
+      "month": "Sep"
+     },
+     {
+      "id": "cash-oct",
+      "money_in": 6400,
+      "money_out": 3226,
+      "month": "Oct"
+     }
+    ],
+    "days_elapsed": "25 of 31 days",
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "id": "IM-checking",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "id": "IM-card",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "label": "Overdue",
+       "status": "attention"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "id": "IM-brokerage",
+      "meta": "Last export Oct 3",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     }
+    ],
+    "inbox": "Inbox/finance",
+    "month": "October",
+    "net_worth": {
+     "name": "Net worth",
+     "sampled_at": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "status": null,
+     "value": "$412,800"
+    },
+    "principal": "owner",
+    "unmapped": [
+     {
+      "id": "UA-1",
+      "meta": "In a dropped statement · Nov 2",
+      "name": "Savings ··3318"
+     },
+     {
+      "id": "UA-2",
+      "meta": "Found by the mail connector · Oct 30",
+      "name": "HSA ··0907"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "oct.pdf",
+    "size_bytes": 100
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/owner/imports/IM-card/upload",
+   "response": {
+    "error": "conflict",
+    "reason": "Brain reads CSV, OFX or QFX exports. Export one from your bank."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "Oct.QFX",
+    "size_bytes": 100
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "finance",
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/finance/owner/imports/IM-card/upload",
+   "response": {
+    "account": "Credit card ··7731",
+    "id": "IM-card",
+    "meta": "Imported Oct.QFX just now · Tally is checking it",
+    "status": {
+     "label": "Current",
+     "status": "healthy"
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "filename": "oct.csv",
+    "size_bytes": 100
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/owner/imports/nope/upload",
+   "response": {
+    "error": "not_found",
+    "reason": "That account isn't on this page."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "principal": "mom"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "finance",
+       "personal"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/finance/accounts/UA-1/map",
+   "response": {
+    "account": "Savings ··3318",
+    "id": "IM-ua-1",
+    "meta": "Mapped just now · waiting for its first statement",
+    "status": {
+     "label": "Waiting",
+     "status": "in_progress"
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "principal": "mom"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/finance/accounts/UA-1/map",
+   "response": {
+    "error": "not_found",
+    "reason": "That account is already mapped."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/finance/mom",
+   "response": {
+    "bills": [
+     {
+      "account": "Checking ··1042",
+      "amount": 71,
+      "due": "Nov 12",
+      "id": "BL-mom-1",
+      "name": "PG&E",
+      "status": {
+       "label": "Autopay",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 744,
+      "due": "Nov 18",
+      "id": "BL-mom-2",
+      "name": "Credit card ··7731",
+      "status": {
+       "label": "Scheduled",
+       "status": "neutral"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "amount": 384,
+      "due": "Dec 2",
+      "id": "BL-mom-3",
+      "name": "Car insurance",
+      "status": {
+       "label": "Reminder",
+       "status": "in_progress"
+      }
+     },
+     {
+      "account": "Checking ··1042",
+      "amount": 2316,
+      "due": "Dec 10",
+      "id": "BL-mom-4",
+      "name": "Property tax",
+      "status": {
+       "label": "Due",
+       "status": "attention"
+      }
+     }
+    ],
+    "budget": [
+     {
+      "budget": 1260,
+      "id": "budget-housing",
+      "name": "Housing",
+      "spent": 1260
+     },
+     {
+      "budget": 390,
+      "id": "budget-groceries",
+      "name": "Groceries",
+      "spent": 324
+     },
+     {
+      "budget": 168,
+      "id": "budget-transport",
+      "name": "Transport",
+      "spent": 186
+     },
+     {
+      "budget": 144,
+      "id": "budget-utilities",
+      "name": "Utilities",
+      "spent": 114
+     },
+     {
+      "budget": 54,
+      "id": "budget-subscriptions",
+      "name": "Subscriptions",
+      "spent": 52
+     },
+     {
+      "budget": 72,
+      "id": "budget-household",
+      "name": "Household",
+      "spent": 0
+     }
+    ],
+    "cash_flow": [
+     {
+      "id": "cash-aug",
+      "money_in": 3840,
+      "money_out": 1890,
+      "month": "Aug"
+     },
+     {
+      "id": "cash-sep",
+      "money_in": 3840,
+      "money_out": 2034,
+      "month": "Sep"
+     },
+     {
+      "id": "cash-oct",
+      "money_in": 3840,
+      "money_out": 1936,
+      "month": "Oct"
+     }
+    ],
+    "days_elapsed": "25 of 31 days",
+    "imports": [
+     {
+      "account": "Checking ··1042",
+      "id": "IM-checking",
+      "meta": "Last statement Oct 1 · next Nov 1",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Credit card ··7731",
+      "id": "IM-card",
+      "meta": "Last statement Sep 18 · expected Oct 18",
+      "status": {
+       "label": "Overdue",
+       "status": "attention"
+      }
+     },
+     {
+      "account": "Brokerage ··5520",
+      "id": "IM-brokerage",
+      "meta": "Last export Oct 3",
+      "status": {
+       "label": "Current",
+       "status": "healthy"
+      }
+     },
+     {
+      "account": "Savings ··3318",
+      "id": "IM-ua-1",
+      "meta": "Mapped just now · waiting for its first statement",
+      "status": {
+       "label": "Waiting",
+       "status": "in_progress"
+      }
+     }
+    ],
+    "inbox": "Inbox/mom/finance",
+    "month": "October",
+    "net_worth": {
+     "name": "Net worth",
+     "sampled_at": null,
+     "spark": [
+      388.0,
+      391.0,
+      395.0,
+      393.0,
+      398.0,
+      401.0,
+      400.0,
+      404.0,
+      407.0,
+      405.0,
+      410.0,
+      412.8
+     ],
+     "status": null,
+     "value": "$247,680"
+    },
+    "principal": "mom",
+    "unmapped": [
+     {
+      "id": "UA-2",
+      "meta": "Found by the mail connector · Oct 30",
+      "name": "HSA ··0907"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "kind": "import_check"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "work",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/finance/dad/requests",
+   "response": {
+    "message": "Requested. WI-id60 is on Work.",
+    "work_item_id": "WI-id60"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "kind": "monthly_close"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "work",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/finance/owner/requests",
+   "response": {
+    "message": "Requested. WI-id61 is on Work.",
+    "work_item_id": "WI-id61"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "long-enough-token"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-13/secrets/assistant-token",
+   "response": {
+    "error": "step_up_required",
+    "reason": "Saving a secret connects an account, so it needs your passkey."
+   },
+   "status": 403,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id62"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id62",
+    "challenge": "id62"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id63"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "short"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-13/secrets/assistant-token",
+   "response": {
+    "error": "conflict",
+    "reason": "That looks too short. Paste the whole value."
+   },
+   "status": 409,
+   "step_up": "id63"
+  },
+  {
+   "body": {
+    "value": "long-enough-token"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-13/secrets/assistant-token",
+   "response": {
+    "checks": [],
+    "cta": "Start guide",
+    "duration": "About 15 min · two bot tokens",
+    "id": "OI-13",
+    "interview": null,
+    "proof": null,
+    "required": false,
+    "secrets": [
+     {
+      "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+      "id": "assistant-token",
+      "label": "Assistant bot token",
+      "saved": true
+     },
+     {
+      "hint": "The same, for the Ops app",
+      "id": "ops-token",
+      "label": "Ops bot token",
+      "saved": false
+     }
+    ],
+    "state": "ready",
+    "stub": "Local Discord mock",
+    "title": "Discord server and bots",
+    "until": "Brain-only operation; Discord commands are off.",
+    "waiting_on": null,
+    "why": "Only you can create bots in your Discord account."
+   },
+   "status": 200,
+   "step_up": "id63"
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/challenge",
+   "response": {
+    "challenge": "id64"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "assertion": "virtual:id64",
+    "challenge": "id64"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/step-up/verify",
+   "response": {
+    "expires_at": "2026-10-25T16:02:09Z",
+    "proof": "id65"
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "another-long-token"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-13/secrets/ops-token",
+   "response": {
+    "checks": [],
+    "cta": "Start guide",
+    "duration": "About 15 min · two bot tokens",
+    "id": "OI-13",
+    "interview": null,
+    "proof": "Both tokens saved to the Keychain · /whoami answered from the local Discord mock",
+    "required": false,
+    "secrets": [
+     {
+      "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+      "id": "assistant-token",
+      "label": "Assistant bot token",
+      "saved": true
+     },
+     {
+      "hint": "The same, for the Ops app",
+      "id": "ops-token",
+      "label": "Ops bot token",
+      "saved": true
+     }
+    ],
+    "state": "done",
+    "stub": "Local Discord mock",
+    "title": "Discord server and bots",
+    "until": "Brain-only operation; Discord commands are off.",
+    "waiting_on": null,
+    "why": "Only you can create bots in your Discord account."
+   },
+   "status": 200,
+   "step_up": "id65"
+  },
+  {
+   "body": {
+    "value": "x"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-13/secrets/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That secret isn't part of this step."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "value": "app-password-1"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-16/secrets/mail-app-password",
+   "response": {
+    "error": "conflict",
+    "reason": "This step is waiting: After Mac permissions."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "action": "redo"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-13",
+   "response": {
+    "checks": [],
+    "cta": "Start guide",
+    "duration": "About 15 min · two bot tokens",
+    "id": "OI-13",
+    "interview": null,
+    "proof": null,
+    "required": false,
+    "secrets": [
+     {
+      "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+      "id": "assistant-token",
+      "label": "Assistant bot token",
+      "saved": false
+     },
+     {
+      "hint": "The same, for the Ops app",
+      "id": "ops-token",
+      "label": "Ops bot token",
+      "saved": false
+     }
+    ],
+    "state": "ready",
+    "stub": "Local Discord mock",
+    "title": "Discord server and bots",
+    "until": "Brain-only operation; Discord commands are off.",
+    "waiting_on": null,
+    "why": "Only you can create bots in your Discord account."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/confirm",
+   "response": {
+    "error": "conflict",
+    "reason": "Answer every question first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "error": "conflict",
+    "reason": "Type an answer first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Up at 7, quiet after 10"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 1,
+     "facts": [],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Up at 7, quiet after 10"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Who should I check with before booking anything for Mom or Dad?"
+      }
+     ]
+    },
+    "proof": null,
+    "required": false,
+    "secrets": [],
+    "state": "ready",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Ask me"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 2,
+     "facts": [],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Up at 7, quiet after 10"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Who should I check with before booking anything for Mom or Dad?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Ask me"
+      },
+      {
+       "speaker": "atlas",
+       "text": "How far ahead do you like reminders: a day, a week, or both?"
+      }
+     ]
+    },
+    "proof": null,
+    "required": false,
+    "secrets": [],
+    "state": "ready",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Both"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 3,
+     "facts": [],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Up at 7, quiet after 10"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Who should I check with before booking anything for Mom or Dad?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Ask me"
+      },
+      {
+       "speaker": "atlas",
+       "text": "How far ahead do you like reminders: a day, a week, or both?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Both"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Is there anything I should never do without asking, even if it's small?"
+      }
+     ]
+    },
+    "proof": null,
+    "required": false,
+    "secrets": [],
+    "state": "ready",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Never pay anyone"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 4,
+     "facts": [
+      "Your day: Up at 7, quiet after 10",
+      "Booking for Mom and Dad: Ask me",
+      "Reminders: Both",
+      "Always ask first: Never pay anyone"
+     ],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Up at 7, quiet after 10"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Who should I check with before booking anything for Mom or Dad?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Ask me"
+      },
+      {
+       "speaker": "atlas",
+       "text": "How far ahead do you like reminders: a day, a week, or both?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Both"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Is there anything I should never do without asking, even if it's small?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Never pay anyone"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Thanks. Here's what I'll save to your profile. Confirm it, or start over to change an answer."
+      }
+     ]
+    },
+    "proof": null,
+    "required": false,
+    "secrets": [],
+    "state": "ready",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "More"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/answer",
+   "response": {
+    "error": "conflict",
+    "reason": "Every question is answered. Confirm, or start over."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/confirm",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 4,
+     "facts": [
+      "Your day: Up at 7, quiet after 10",
+      "Booking for Mom and Dad: Ask me",
+      "Reminders: Both",
+      "Always ask first: Never pay anyone"
+     ],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Up at 7, quiet after 10"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Who should I check with before booking anything for Mom or Dad?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Ask me"
+      },
+      {
+       "speaker": "atlas",
+       "text": "How far ahead do you like reminders: a day, a week, or both?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Both"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Is there anything I should never do without asking, even if it's small?"
+      },
+      {
+       "speaker": "owner",
+       "text": "Never pay anyone"
+      },
+      {
+       "speaker": "atlas",
+       "text": "Thanks. Here's what I'll save to your profile. Confirm it, or start over to change an answer."
+      }
+     ]
+    },
+    "proof": "4 facts saved to your profile · Atlas uses them now",
+    "required": false,
+    "secrets": [],
+    "state": "done",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "setup",
+       "today",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/setup/OI-18/interview/restart",
+   "response": {
+    "checks": [],
+    "cta": "Start with Atlas",
+    "duration": "About 20 min · chat, can pause",
+    "id": "OI-18",
+    "interview": {
+     "asked": 0,
+     "facts": [],
+     "total": 4,
+     "turns": [
+      {
+       "speaker": "atlas",
+       "text": "When do you usually start your day, and when should I go quiet at night?"
+      }
+     ]
+    },
+    "proof": null,
+    "required": false,
+    "secrets": [],
+    "state": "ready",
+    "stub": "Sample profile",
+    "title": "Profile interview with Atlas",
+    "until": "Atlas asks as it goes and uses defaults.",
+    "waiting_on": null,
+    "why": "Your routines and preferences are facts only you know."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "text": "Hi"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/setup/OI-15/interview/answer",
+   "response": {
+    "error": "not_found",
+    "reason": "That step has no interview."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/setup",
+   "response": [
+    {
+     "checks": [],
+     "cta": "Register",
+     "duration": "About 5 min",
+     "id": "OI-10",
+     "interview": null,
+     "proof": "Test assertion passed Oct 24 · iPhone and security key",
+     "required": true,
+     "secrets": [],
+     "state": "done",
+     "stub": "Virtual authenticator",
+     "title": "Register your passkeys",
+     "until": "Nothing that needs a step-up can happen.",
+     "waiting_on": null,
+     "why": "A passkey proves it is you; only your devices can hold one."
+    },
+    {
+     "checks": [
+      {
+       "name": "Calendar",
+       "status": {
+        "label": "Allowed",
+        "status": "healthy"
+       }
+      },
+      {
+       "name": "Reminders",
+       "status": {
+        "label": "Allowed",
+        "status": "healthy"
+       }
+      },
+      {
+       "name": "Contacts",
+       "status": {
+        "label": "Waiting",
+        "status": "attention"
+       }
+      },
+      {
+       "name": "Mail (Automation)",
+       "status": {
+        "label": "Waiting",
+        "status": "attention"
+       }
+      },
+      {
+       "name": "Messages (Automation)",
+       "status": {
+        "label": "Optional",
+        "status": "neutral"
+       }
+      }
+     ],
+     "cta": "Open Screen Sharing",
+     "duration": "About 5 min · over Screen Sharing",
+     "id": "OI-15",
+     "interview": null,
+     "proof": null,
+     "required": true,
+     "secrets": [],
+     "state": "deferred",
+     "stub": "Recorded test calendar and mailbox",
+     "title": "Allow Mac permissions",
+     "until": "Calendar, reminders, contacts and Mail stay off.",
+     "waiting_on": null,
+     "why": "macOS shows these prompts only to the person logged in."
+    },
+    {
+     "checks": [],
+     "cta": "Start with Atlas",
+     "duration": "About 20 min · chat, can pause",
+     "id": "OI-18",
+     "interview": {
+      "asked": 0,
+      "facts": [],
+      "total": 4,
+      "turns": [
+       {
+        "speaker": "atlas",
+        "text": "When do you usually start your day, and when should I go quiet at night?"
+       }
+      ]
+     },
+     "proof": null,
+     "required": false,
+     "secrets": [],
+     "state": "ready",
+     "stub": "Sample profile",
+     "title": "Profile interview with Atlas",
+     "until": "Atlas asks as it goes and uses defaults.",
+     "waiting_on": null,
+     "why": "Your routines and preferences are facts only you know."
+    },
+    {
+     "checks": [],
+     "cta": "Review defaults",
+     "duration": "2 min · defaults shown",
+     "id": "OI-22",
+     "interview": null,
+     "proof": null,
+     "required": false,
+     "secrets": [],
+     "state": "ready",
+     "stub": "Defaults",
+     "title": "Confirm your preferences",
+     "until": "Defaults apply: 22:00–06:00, brief 06:15, restricted domains summary.",
+     "waiting_on": null,
+     "why": "Quiet hours, brief time and Discord detail are your call."
+    },
+    {
+     "checks": [],
+     "cta": "Start guide",
+     "duration": "About 15 min · two bot tokens",
+     "id": "OI-13",
+     "interview": null,
+     "proof": null,
+     "required": false,
+     "secrets": [
+      {
+       "hint": "Discord developer portal → your Assistant app → Bot → Reset Token",
+       "id": "assistant-token",
+       "label": "Assistant bot token",
+       "saved": false
+      },
+      {
+       "hint": "The same, for the Ops app",
+       "id": "ops-token",
+       "label": "Ops bot token",
+       "saved": false
+      }
+     ],
+     "state": "ready",
+     "stub": "Local Discord mock",
+     "title": "Discord server and bots",
+     "until": "Brain-only operation; Discord commands are off.",
+     "waiting_on": null,
+     "why": "Only you can create bots in your Discord account."
+    },
+    {
+     "checks": [],
+     "cta": "Connect",
+     "duration": "About 10 min per account",
+     "id": "OI-16",
+     "interview": null,
+     "proof": null,
+     "required": true,
+     "secrets": [
+      {
+       "hint": "An app password from your mail provider, never your sign-in password",
+       "id": "mail-app-password",
+       "label": "Mail app password",
+       "saved": false
+      }
+     ],
+     "state": "waiting",
+     "stub": "Test mail and calendar server",
+     "title": "Connect your accounts",
+     "until": "The test mailbox and calendar stand in.",
+     "waiting_on": "After Mac permissions",
+     "why": "Sign-ins and app passwords belong to you."
+    },
+    {
+     "checks": [],
+     "cta": "Map accounts",
+     "duration": "About 5 min",
+     "id": "OI-17",
+     "interview": null,
+     "proof": null,
+     "required": true,
+     "secrets": [],
+     "state": "waiting",
+     "stub": "Synthetic principals",
+     "title": "Name principals and map accounts",
+     "until": "Everything is filed under you.",
+     "waiting_on": "After accounts",
+     "why": "Only you know whose account is whose."
     }
    ],
    "status": 200,

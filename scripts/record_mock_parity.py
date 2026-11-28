@@ -52,7 +52,11 @@ def reads() -> list[Step]:
         "/setup", "/chat/atlas", "/chat/spark", "/system", "/services", "/models", "/spend",
         "/schedule", "/security", "/backups", "/maintenance", "/connections", "/voice", "/docs",
         "/docs/infra", "/docs/nope", "/trash", "/offline-pack", "/library", "/contacts/C-02",
-        "/contacts/nope",
+        "/contacts/nope", "/finance/dad",
+        "/domains/home-auto", "/domains/investing", "/domains/nope",
+        "/finance/owner/sources/budget-groceries", "/finance/mom/sources/net-worth",
+        "/finance/owner/sources/cash-oct", "/finance/dad/sources/cash-aug",
+        "/finance/owner/sources/nope",
     ]  # fmt: skip
     return [{"method": "GET", "path": path} for path in paths]
 
@@ -376,6 +380,156 @@ def people_steps() -> list[Step]:
     ]
 
 
+def records_steps() -> list[Step]:
+    """Cases, obligations, records, rules, the checklist, Finance and Setup's forms (area C)."""
+    case = {
+        "title": "Renew passport",
+        "domain": "Calendar and admin",
+        "principal": "owner",
+        "due": "2026-12-03",
+        "employee_name": "Hearth",
+    }
+    obligation = {
+        "title": "Gutters",
+        "domain": "Home and auto",
+        "principal": "mom",
+        "due": "2026-11-20",
+        "repeat": "yearly",
+    }
+    secret = "/setup/OI-13/secrets/assistant-token"
+    return [
+        {"method": "POST", "path": "/cases", "body": case},
+        {"method": "POST", "path": "/cases", "body": {**case, "due": "2026-10-25"}},
+        {"method": "POST", "path": "/cases", "body": {**case, "title": " "}},
+        {"method": "POST", "path": "/cases", "body": {**case, "domain": "Space"}},
+        {"method": "POST", "path": "/cases", "body": {**case, "employee_name": "Bob"}},
+        {"method": "POST", "path": "/cases/CS-0198/reassign", "body": {"employee_name": "You"}},
+        {"method": "POST", "path": "/cases/nope/reassign", "body": {"employee_name": "You"}},
+        {"method": "POST", "path": "/cases/CS-0198/notes", "body": {"text": "Sent the form."}},
+        {"method": "POST", "path": "/cases/CS-0198/notes", "body": {"text": " "}},
+        {"method": "POST", "path": "/obligations", "body": obligation},
+        {"method": "POST", "path": "/obligations", "body": {**obligation, "repeat": "once"}},
+        {"method": "PUT", "path": "/checklist/CK-2", "body": {"done": True}},
+        {"method": "PUT", "path": "/checklist/nope", "body": {"done": True}},
+        {"method": "GET", "path": "/personal"},
+        {
+            "method": "POST",
+            "path": "/domains/home-auto/records",
+            "body": {"principal": "owner", "title": "Mower", "meta": ""},
+        },
+        {
+            "method": "POST",
+            "path": "/domains/nope/records",
+            "body": {"principal": "owner", "title": "Mower"},
+        },
+        {
+            "method": "POST",
+            "path": "/domains/taxes/documents",
+            "body": {"principal": "mom", "filename": "1099.pdf", "size_bytes": 1_200_000},
+        },
+        {
+            "method": "POST",
+            "path": "/domains/taxes/documents",
+            "body": {"principal": "mom", "filename": "w2.pdf", "size_bytes": 300_001},
+        },
+        {
+            "method": "POST",
+            "path": "/domains/taxes/documents",
+            "body": {"principal": "mom", "filename": "scan.tif", "size_bytes": 30_000_000},
+        },
+        {"method": "PUT", "path": "/records/RC-01", "body": {"title": "Outback", "meta": "62k"}},
+        {"method": "PUT", "path": "/records/RC-01", "body": {"title": " ", "meta": ""}},
+        {"method": "DELETE", "path": "/records/RC-02"},
+        {"method": "DELETE", "path": "/records/RC-02"},
+        {"method": "GET", "path": "/domains/home-auto"},
+        {"method": "GET", "path": "/trash"},
+        {
+            "method": "PUT",
+            "path": "/rules/RU-1",
+            "body": {"when": "Mail from Kaiser", "then": "Mom"},
+        },
+        {"method": "PUT", "path": "/rules/RU-1", "body": {"when": "", "then": "Mom"}},
+        {"method": "DELETE", "path": "/rules/RU-3"},
+        {"method": "DELETE", "path": "/rules/nope"},
+        {"method": "GET", "path": "/personal"},
+        {
+            "method": "POST",
+            "path": "/finance/owner/transactions/TX-owner-14/category",
+            "body": {"category": "Household"},
+        },
+        {
+            "method": "POST",
+            "path": "/finance/owner/transactions/TX-owner-14/category",
+            "body": {"category": "Household"},
+        },
+        {
+            "method": "POST",
+            "path": "/finance/owner/transactions/TX-owner-14/category",
+            "body": {"category": "Toys"},
+        },
+        {
+            "method": "POST",
+            "path": "/finance/owner/transactions/nope/category",
+            "body": {"category": "Household"},
+        },
+        {"method": "GET", "path": "/finance/owner"},
+        {
+            "method": "POST",
+            "path": "/finance/owner/imports/IM-card/upload",
+            "body": {"filename": "oct.pdf", "size_bytes": 100},
+        },
+        {
+            "method": "POST",
+            "path": "/finance/owner/imports/IM-card/upload",
+            "body": {"filename": "Oct.QFX", "size_bytes": 100},
+        },
+        {
+            "method": "POST",
+            "path": "/finance/owner/imports/nope/upload",
+            "body": {"filename": "oct.csv", "size_bytes": 100},
+        },
+        {"method": "POST", "path": "/finance/accounts/UA-1/map", "body": {"principal": "mom"}},
+        {"method": "POST", "path": "/finance/accounts/UA-1/map", "body": {"principal": "mom"}},
+        {"method": "GET", "path": "/finance/mom"},
+        {"method": "POST", "path": "/finance/dad/requests", "body": {"kind": "import_check"}},
+        {"method": "POST", "path": "/finance/owner/requests", "body": {"kind": "monthly_close"}},
+        {"method": "POST", "path": secret, "body": {"value": "long-enough-token"}},
+        *step_up(),
+        {"method": "POST", "path": secret, "body": {"value": "short"}, "step_up": PROOF},
+        {
+            "method": "POST",
+            "path": secret,
+            "body": {"value": "long-enough-token"},
+            "step_up": PROOF,
+        },
+        *step_up(),
+        {
+            "method": "POST",
+            "path": "/setup/OI-13/secrets/ops-token",
+            "body": {"value": "another-long-token"},
+            "step_up": PROOF,
+        },
+        {"method": "POST", "path": "/setup/OI-13/secrets/nope", "body": {"value": "x"}},
+        {
+            "method": "POST",
+            "path": "/setup/OI-16/secrets/mail-app-password",
+            "body": {"value": "app-password-1"},
+        },
+        {"method": "POST", "path": "/setup/OI-13", "body": {"action": "redo"}},
+        {"method": "POST", "path": "/setup/OI-18/interview/confirm"},
+        {"method": "POST", "path": "/setup/OI-18/interview/answer", "body": {"text": " "}},
+        *[
+            {"method": "POST", "path": "/setup/OI-18/interview/answer", "body": {"text": said}}
+            for said in ("Up at 7, quiet after 10", "Ask me", "Both", "Never pay anyone")
+        ],
+        {"method": "POST", "path": "/setup/OI-18/interview/answer", "body": {"text": "More"}},
+        {"method": "POST", "path": "/setup/OI-18/interview/confirm"},
+        {"method": "POST", "path": "/setup/OI-18/interview/restart"},
+        {"method": "POST", "path": "/setup/OI-15/interview/answer", "body": {"text": "Hi"}},
+        {"method": "GET", "path": "/setup"},
+    ]
+
+
 def later_steps() -> list[Step]:
     """Time passing: cards expire, decisions take effect, a snooze ends."""
     return [
@@ -480,6 +634,7 @@ def main() -> None:
         *work_steps(),
         *shell_steps(),
         *people_steps(),
+        *records_steps(),
         *later_steps(),
     ]
     payload = {"exported_at": EXPORT_NOW.isoformat(), "steps": run(steps)}

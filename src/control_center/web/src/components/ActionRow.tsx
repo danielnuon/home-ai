@@ -34,6 +34,8 @@ interface ActionRowProps extends Actions {
   status?: StatusLabel | null;
   /** Where pressing the row goes; it then shows a chevron. */
   href?: string | null;
+  /** What pressing the row opens in place, such as its sheet; it then shows a chevron too. */
+  onOpen?: () => void;
   /** Something before the title, such as an avatar or icon. */
   leading?: ReactNode;
 }
@@ -64,6 +66,7 @@ export function ActionRow({
   meta,
   status,
   href,
+  onOpen,
   leading,
   start,
   end,
@@ -78,7 +81,7 @@ export function ActionRow({
         {meta && <span className="muted small">{meta}</span>}
       </span>
       {status && <StatusText value={status} className="small" />}
-      {href && <ChevronRight size={16} className="muted" aria-hidden="true" />}
+      {(href || onOpen) && <ChevronRight size={16} className="muted" aria-hidden="true" />}
     </>
   );
   return (
@@ -88,6 +91,10 @@ export function ActionRow({
           <Link to={href} className="list-row">
             {body}
           </Link>
+        ) : onOpen ? (
+          <button type="button" className="list-row" onClick={onOpen}>
+            {body}
+          </button>
         ) : (
           <div className="list-row">{body}</div>
         )}
