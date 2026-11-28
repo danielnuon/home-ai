@@ -1048,6 +1048,23 @@
     "waiting_for": null,
     "outcome": null
    },
+   "TH-0216": {
+    "id": "TH-0216",
+    "title": "Passport renewal and Dad's pharmacy",
+    "kind": "conversation",
+    "unit_id": null,
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "lead_department": "personal",
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "today",
+    "owner_decision": null,
+    "approval_id": "AP-0110",
+    "proposed_resolution": null,
+    "waiting_for": null,
+    "outcome": null
+   },
    "TH-0131": {
     "id": "TH-0131",
     "title": "Lease Reminders 1.2",
@@ -1864,10 +1881,11 @@
    }
   },
   "chats": {
-   "atlas": [
+   "TH-0216": [
     {
      "id": "M-1",
      "lead_id": "atlas",
+     "thread_id": "TH-0216",
      "author": "owner",
      "text": "Remind me to renew my passport, and check what Dad's insurance needs for the new pharmacy.",
      "at": "2026-10-25T15:00:00Z",
@@ -1878,6 +1896,7 @@
     {
      "id": "M-2",
      "lead_id": "atlas",
+     "thread_id": "TH-0216",
      "author": "lead",
      "text": "Two things, done and drafted:\n1. Passport renewal is now a case, due March 1, with reminders 60 and 14 days before. I mirrored it to your Reminders.\n2. Health is a restricted domain, so Pulse checked it locally. The plan needs the pharmacy to be in network. I drafted an email to the insurer asking them to confirm.",
      "at": "2026-10-25T15:01:00Z",
@@ -4604,13 +4623,41 @@
     "now": ""
    }
   ],
-  "mock_reply": "I'm the mock chat, standing in for {name} until the platform runs on the Mac. In the real platform this answer comes from {name}'s lead session in the pipeline engine."
+  "mock_reply": "I'm the mock chat, standing in for {name} until the platform runs on the Mac. In the real platform this answer comes from {name}'s lead session in the pipeline engine.",
+  "thread_leads": {
+   "foreman": [
+    "Foreman",
+    "governance",
+    "Development"
+   ],
+   "atlas": [
+    "Atlas",
+    "personal",
+    "Personal"
+   ],
+   "spark": [
+    "Spark",
+    "ideation",
+    "Ideation"
+   ],
+   "custodian": [
+    "Custodian",
+    "engineering",
+    "Maintenance"
+   ],
+   "wayfinder": [
+    "Wayfinder",
+    "governance",
+    "Guide"
+   ]
+  }
  },
  "constants": {
   "undo_window_seconds": 8.0,
   "step_up_lifetime_seconds": 120.0,
   "mock_assertion_prefix": "virtual:",
   "word_delay_seconds": 0.06,
+  "title_words": 6,
   "instrument_count": 7,
   "needs_you_shown": 2,
   "team_shown": 4,

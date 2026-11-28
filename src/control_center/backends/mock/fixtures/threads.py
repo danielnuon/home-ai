@@ -8,6 +8,8 @@ LEADS: dict[str, tuple[str, Department, str]] = {
     "foreman": ("Foreman", "governance", "Development"),
     "atlas": ("Atlas", "personal", "Personal"),
     "spark": ("Spark", "ideation", "Ideation"),
+    "custodian": ("Custodian", "engineering", "Maintenance"),
+    "wayfinder": ("Wayfinder", "governance", "Guide"),
 }
 """Each lead's name, department and pipeline, by its id in Chat."""
 
@@ -15,11 +17,20 @@ LEADS: dict[str, tuple[str, Department, str]] = {
 def _thread(
     thread_id: str, title: str, lead_id: str, since: str, **facts: str | None
 ) -> ThreadRecord:
-    """A thread led by `lead_id`. Its kind and unit come from `facts["unit_id"]`, if given."""
+    """A thread led by `lead_id`. Its kind and unit come from `facts["unit_id"]`, if given.
+
+    `facts["conversation"]` marks a conversation thread: chat that is not yet a case or a unit.
+    """
     name, department, pipeline = LEADS[lead_id]
     unit_id = facts.pop("unit_id", None)
     kind: ThreadKind = (
-        "work_item" if (unit_id or "").startswith("WI-") else "idea" if unit_id else "case"
+        "conversation"
+        if facts.pop("conversation", None)
+        else "work_item"
+        if (unit_id or "").startswith("WI-")
+        else "idea"
+        if unit_id
+        else "case"
     )
     return ThreadRecord(
         id=thread_id,
@@ -49,6 +60,14 @@ def threads() -> list[ThreadRecord]:
             owner_decision="Foreman needs a yes on the design (gate G3).",
         ),
         _thread("TH-0209", "Reply to Dr. Patel's office", "atlas", "today", approval_id="AP-0107"),
+        _thread(
+            "TH-0216",
+            "Passport renewal and Dad's pharmacy",
+            "atlas",
+            "today",
+            conversation="yes",
+            approval_id="AP-0110",
+        ),
         _thread("TH-0131", "Lease Reminders 1.2", "foreman", "Oct 27", unit_id="WI-0031"),
         _thread(
             "TH-0207",

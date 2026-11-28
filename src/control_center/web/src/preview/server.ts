@@ -53,7 +53,7 @@ const GET: Record<string, Handler> = {
   },
   "/setup": (w) => Object.values(w.setup),
   "/search": (w, c) => engine.search(w, c.query.get("q") ?? ""),
-  "/chat/:id": (w, c) => chatThread(w, p(c, "id")),
+  "/chat/:id": (w, c) => chatThread(w, p(c, "id"), c.query.get("thread")),
   "/system": (w) => status.system(w),
   "/services": (w) => status.services(w),
   "/models": (w) => status.models(w),
@@ -106,7 +106,13 @@ const POST: Record<string, Handler> = {
   "/cases/:id/action": (w, c) => engine.caseAction(w, p(c, "id"), str(c.body.action)),
   "/changes/:id/undo": (w, c) => engine.undoChange(w, p(c, "id")),
   "/setup/:id": (w, c) => engine.setupAction(w, p(c, "id"), str(c.body.action)),
-  "/chat/:id": (w, c) => chatSend(w, p(c, "id"), str(c.body.text)),
+  "/chat/:id": (w, c) =>
+    chatSend(
+      w,
+      p(c, "id"),
+      str(c.body.text),
+      typeof c.body.thread_id === "string" ? c.body.thread_id : null,
+    ),
   "/schedule/:id/run": (w, c) => engine.runJob(w, p(c, "id")),
   "/maintenance/fixes/:id/revert": (w, c) => engine.toggleFixReverted(w, p(c, "id")),
 };

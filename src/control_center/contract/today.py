@@ -3,6 +3,8 @@
 from datetime import datetime
 from typing import Literal
 
+from pydantic import Field
+
 from control_center.contract.base import ContractModel
 from control_center.contract.common import Department, EmployeeState, Metric, StatusLabel
 from control_center.contract.gate import Approval, CriticalDecision
@@ -90,10 +92,14 @@ class ChatLead(ContractModel):
 
 
 class ChatMessage(ContractModel):
-    """One message in web chat. `approval_id` puts an inline approval card under the message."""
+    """One message in web chat. `approval_id` puts an inline approval card under the message.
+
+    `thread_id` is the conversation thread the message belongs to (spec 15.8.1).
+    """
 
     id: str
     lead_id: str
+    thread_id: str | None = None
     author: Literal["owner", "lead"]
     text: str
     at: datetime
@@ -103,17 +109,25 @@ class ChatMessage(ContractModel):
 
 
 class ChatThread(ContractModel):
-    """A lead's chat history."""
+    """Chat with one lead (spec 7.16, Chat; 15.8.9).
+
+    `threads` is the lead's list: its open threads in state order, then the recently resolved.
+    `thread` is the one open in the conversation, or None for a new chat that has no thread yet;
+    `messages` are that thread's.
+    """
 
     lead: ChatLead
     leads: list[ChatLead]
+    threads: list[Thread] = Field(default_factory=list)
+    thread: Thread | None = None
     messages: list[ChatMessage]
 
 
 class ChatSend(ContractModel):
-    """A message from the Owner."""
+    """A message from the Owner. Without `thread_id` it starts a new conversation thread."""
 
     text: str
+    thread_id: str | None = None
 
 
 class SearchResult(ContractModel):

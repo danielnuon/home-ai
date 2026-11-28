@@ -111,6 +111,7 @@ interface Fixtures {
   not_yet_hired: string[];
   chat_leads: ChatLead[];
   mock_reply: string;
+  thread_leads: Record<string, [string, Schemas["Thread"]["lead_department"], string]>;
 }
 
 /** The rules' numbers and words, read from the Python modules instead of repeated here. */
@@ -119,6 +120,7 @@ interface Constants {
   step_up_lifetime_seconds: number;
   mock_assertion_prefix: string;
   word_delay_seconds: number;
+  title_words: number;
   instrument_count: number;
   needs_you_shown: number;
   team_shown: number;

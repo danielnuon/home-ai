@@ -152,6 +152,8 @@ def work_steps() -> list[Step]:
         {"method": "GET", "path": "/search?q="},
         {"method": "GET", "path": "/search?q=backup"},
         {"method": "GET", "path": "/chat/nobody"},
+        {"method": "GET", "path": "/chat/atlas?thread=TH-0216"},
+        {"method": "GET", "path": "/chat/spark?thread=TH-0216"},
     ]
 
 

@@ -309,12 +309,12 @@ class StatusAggregator(Protocol):
 class LeadChat(Protocol):
     """Web chat with the leads, through the pipeline engine's chat endpoints (spec 6.2)."""
 
-    def thread(self, lead_id: str) -> ChatThread:
-        """The lead and its message history."""
+    def thread(self, lead_id: str, thread_id: str | None = None) -> ChatThread:
+        """The lead, its threads, and the messages of the thread picked (none for a new chat)."""
         ...
 
-    def send(self, lead_id: str, text: str) -> ChatThread:
-        """Send the Owner's message; the reply arrives as `chat.message` events."""
+    def send(self, lead_id: str, text: str, thread_id: str | None = None) -> ChatThread:
+        """Send the Owner's message, starting a thread if none is given; the reply streams in."""
         ...
 
 

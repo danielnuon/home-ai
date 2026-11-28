@@ -26,8 +26,8 @@ from control_center.contract.work import (
 INSTRUMENT_COUNT = 7
 """Deterministic instruments in the organization (spec 14.3)."""
 
-SESSION_PAGES = ("live", "today", "work", "directory")
-"""The resources that show session states; each refetches when a session changes."""
+SESSION_PAGES = ("live", "today", "work", "directory", "chat")
+"""The resources that show session states (Chat shows its threads' and leads'); each refetches."""
 
 THREAD_PAGES = (*SESSION_PAGES, "platform")
 """The resources that show thread states or count running sessions."""

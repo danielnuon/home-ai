@@ -3,8 +3,9 @@
  * rates, Bolt's growing transcript line and the periodic health sample. A port of
  * `backends/mock/chat.py` and `activity.py`.
  */
-import type { ChatLead, ChatMessage, ChatThread } from "../api/types";
+import type { ChatLead, ChatMessage, ChatThread, Thread } from "../api/types";
 import { notFound } from "./errors";
+import { THREAD_PAGES, threads } from "./work";
 import type { MockWorld } from "./world";
 
 function lead(world: MockWorld, id: string): ChatLead {
@@ -18,19 +19,70 @@ function withStatus(world: MockWorld, item: ChatLead): ChatLead {
   return employee ? { ...item, state: employee.state, now: employee.now } : item;
 }
 
-/** A lead's history. */
-export function chatThread(world: MockWorld, id: string): ChatThread {
+/** A new conversation's title: its first few words, with an ellipsis when cut. */
+function titleFrom(world: MockWorld, text: string): string {
+  const words = text.split(/\s+/).filter(Boolean);
+  const title = words.slice(0, world.constants.title_words).join(" ");
+  return words.length > world.constants.title_words ? `${title}…` : title;
+}
+
+function leadThreads(world: MockWorld, leadId: string): Thread[] {
+  const overview = threads(world);
+  return [...overview.open, ...overview.recently_resolved].filter((t) => t.lead_id === leadId);
+}
+
+/** Chat with a lead: its threads, and the messages of the one picked (none for a new chat). */
+export function chatThread(
+  world: MockWorld,
+  id: string,
+  threadId: string | null = null,
+): ChatThread {
+  const item = withStatus(world, lead(world, id));
+  const list = leadThreads(world, id);
+  const picked = list.find((t) => t.id === threadId) ?? null;
+  if (threadId !== null && picked === null) {
+    throw notFound(`${item.name} has no thread ${threadId}.`);
+  }
   return {
-    lead: withStatus(world, lead(world, id)),
-    leads: world.fixtures.chat_leads.map((item) => withStatus(world, item)),
-    messages: (world.chats[id] ??= []),
+    lead: item,
+    leads: world.fixtures.chat_leads.map((other) => withStatus(world, other)),
+    threads: list,
+    thread: picked,
+    messages: threadId === null ? [] : (world.chats[threadId] ?? []),
   };
 }
 
-function streamReply(world: MockWorld, leadId: string, reply: string): void {
+function newThread(world: MockWorld, leadId: string, text: string): string {
+  const known = world.fixtures.thread_leads[leadId];
+  if (!known) throw notFound("Brain can chat only with the five leads.");
+  const [name, department, pipeline] = known;
+  const id = `TH-${world.ids(2).toUpperCase()}`;
+  world.threads[id] = {
+    id,
+    title: titleFrom(world, text),
+    kind: "conversation",
+    unit_id: null,
+    lead_id: leadId,
+    lead_name: name,
+    lead_department: department,
+    pipeline,
+    principal: "owner",
+    since: "today",
+    owner_decision: null,
+    approval_id: null,
+    proposed_resolution: null,
+    waiting_for: null,
+    outcome: null,
+  };
+  world.bus.changed(...THREAD_PAGES);
+  return id;
+}
+
+function streamReply(world: MockWorld, leadId: string, threadId: string, reply: string): void {
   const message: ChatMessage = {
     id: `M-${world.ids(4)}`,
     lead_id: leadId,
+    thread_id: threadId,
     author: "lead",
     text: "",
     at: world.clock().toISOString(),
@@ -38,7 +90,7 @@ function streamReply(world: MockWorld, leadId: string, reply: string): void {
     approval_id: null,
     streaming: true,
   };
-  (world.chats[leadId] ??= []).push(message);
+  (world.chats[threadId] ??= []).push(message);
   const words = reply.split(" ");
   const delay = world.constants.word_delay_seconds * 1000;
   words.forEach((word, index) => {
@@ -55,12 +107,21 @@ function streamReply(world: MockWorld, leadId: string, reply: string): void {
   });
 }
 
-/** Stores the Owner's message and starts streaming the reply. */
-export function chatSend(world: MockWorld, id: string, text: string): ChatThread {
+/** Stores the Owner's message, in a new thread if none is given, and starts the reply. */
+export function chatSend(
+  world: MockWorld,
+  id: string,
+  text: string,
+  threadId: string | null = null,
+): ChatThread {
   const item = lead(world, id);
-  (world.chats[id] ??= []).push({
+  if (threadId === null) threadId = newThread(world, id, text);
+  else chatThread(world, id, threadId);
+  const target = threadId;
+  (world.chats[target] ??= []).push({
     id: `M-${world.ids(4)}`,
     lead_id: id,
+    thread_id: target,
     author: "owner",
     text,
     at: world.clock().toISOString(),
@@ -68,9 +129,9 @@ export function chatSend(world: MockWorld, id: string, text: string): ChatThread
     approval_id: null,
     streaming: false,
   });
-  const thread = structuredClone(chatThread(world, id));
+  const thread = structuredClone(chatThread(world, id, target));
   setTimeout(() =>
-    streamReply(world, id, world.fixtures.mock_reply.replaceAll("{name}", item.name)),
+    streamReply(world, id, target, world.fixtures.mock_reply.replaceAll("{name}", item.name)),
   );
   return thread;
 }
