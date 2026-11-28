@@ -46,6 +46,9 @@ import { ActionRow } from "../components/ActionRow";
   action here, including the two swipes.**
 - Actions run through `useAction`, so a loosening one asks for the passkey and every result is a
   toast. Offer Undo on the toast for anything reversible.
+- To open the item in place instead, pass `onOpen` rather than `href`: pressing the row runs it
+  (usually opening the item's sheet) and the chevron still shows. The sheet lists every action as
+  a button (decision 181). See `pages/Connections.tsx` and `pages/Voice.tsx`.
 - Wrap rows in `<m.div layout="position" exit={LEAVE}>` inside `AnimatePresence` when rows can
   leave, so they glide out (decision 128). See `pages/Trash.tsx`.
 
@@ -113,6 +116,15 @@ Recently deleted (`/trash`) then lists it with its days left, Restore puts it ba
 restorer and refetches its home page, and Delete for good is a hold to confirm. If a new home
 page needs refetching on restore, add it to `HOME_RESOURCES` on both sides.
 
+## Changing a setting: the impact sheet
+
+`SettingRow` asks `GET /settings/{key}/impact?value=` before a change. When the answer has lines
+(raising a cap, turning on something that costs money or load, changing a model token limit), an
+impact sheet shows them with Apply; otherwise the change applies at once, so tightening stays one
+tap (decision 182). A new setting with a predictable effect adds its lines in
+`backends/mock/engine_accounts.py` and `src/preview/accounts.ts`. A change that was predicted
+shows predicted versus actual in its History sheet once it has run for 7 days (decision 183).
+
 ## Asking Wayfinder about what is on screen
 
 A page that shows one object names it, so the Guide panel answers about it:
@@ -134,7 +146,8 @@ Give its route a `feature` (`routes.tsx`). It is in the navigation only while
 
 - Rows are `ActionRow`, cards that can be dismissed are `ActionCard`.
 - Every swipe is also in the "…" menu.
-- Deletes go to the trash; only purges use `HoldButton`.
+- Deletes go to the trash; only purges, and deletes the spec says must destroy their data (such
+  as a voice sample), use `HoldButton`.
 - Nothing appears or vanishes: entering and leaving rows fade and glide (decision 128).
 - Mock endpoint, preview port, a parity step in `scripts/record_mock_parity.py`, tests, and
   `make ci` before you push.

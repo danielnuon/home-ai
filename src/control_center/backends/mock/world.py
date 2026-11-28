@@ -12,6 +12,7 @@ from datetime import UTC, datetime
 from typing import Any, Protocol
 
 from control_center.backends.mock.fixtures import (
+    accounts,
     chat,
     contacts,
     gate,
@@ -82,6 +83,8 @@ class MockWorld:
     """The Owner's saved notes (15.9.2), by id."""
     alerts: dict[str, Alert]
     trash: dict[str, TrashItem]
+    accounts: accounts.AccountsState
+    """Connections, voice profiles, workspaces, devices and passkeys (`fixtures/accounts.py`)."""
     sampled_at: datetime
     """When the simulated status aggregator last collected health and metrics."""
     stopped: bool = False
@@ -150,5 +153,6 @@ def build_world(bus: EventBus, clock: Clock = system_clock) -> MockWorld:
         memories=by_id(memory.items(now)),
         alerts=by_id(shell.alerts(now)),
         trash=by_id(shell.trash(now)),
+        accounts=accounts.accounts_state(now),
         sampled_at=now,
     )

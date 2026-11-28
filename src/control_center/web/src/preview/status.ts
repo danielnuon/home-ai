@@ -4,20 +4,16 @@
  */
 import type {
   BackupsOverview,
-  ConnectionsOverview,
   MemoryZone,
   Metric,
   ModelsOverview,
   PaidFeature,
-  Row,
-  SecurityOverview,
   ServicesOverview,
   SpendOverview,
   SystemOverview,
   Tile,
-  VoiceOverview,
 } from "../api/types";
-import { isOn, setting, type MockWorld, type PaidFeatureRow } from "./world";
+import { isOn, type MockWorld, type PaidFeatureRow } from "./world";
 
 const running = (world: MockWorld) =>
   world.fixtures.service_groups
@@ -206,19 +202,20 @@ export function spend(world: MockWorld): SpendOverview {
   const summary = features.some((feature) => feature.on)
     ? ({ status: "in_progress", label: "Paid features on · spending stops at caps" } as const)
     : ({ status: "healthy", label: "Everything runs locally. Paid features off." } as const);
-  return { month: "October", total_usd: 0, summary, features, ledger: [] };
-}
-
-/** Kill switch, flags, sign-in and masked audit lines. */
-export function security(world: MockWorld): SecurityOverview {
-  return {
-    stopped: world.stopped,
-    tiles: sampled(world, world.fixtures.security_tiles),
-    flags: world.fixtures.security_flags,
-    sign_in: world.fixtures.sign_in_rows,
-    audit: world.fixtures.audit_lines,
-    chain: "Chain verified 00:00 · 0 breaks",
-  };
+  const month = world.constants.spend_month;
+  const ledger = world.fixtures.ledger;
+  const total = ledger
+    .filter((entry) => entry.month === month)
+    .reduce((sum, entry) => sum + entry.amount_usd, 0);
+  const caps = features.filter((f) => f.on).reduce((sum, f) => sum + f.cap_usd, 0);
+  const forecast: SpendOverview["forecast"] = features.some((f) => f.on)
+    ? {
+        value: `$${total.toFixed(2)} – $${(total + caps).toFixed(2)}`,
+        note: "Paid features are on; spending stops at their caps",
+        source: "simulated",
+      }
+    : { value: `$${total.toFixed(2)}`, note: "Nothing paid is on", source: "measured" };
+  return { month, total_usd: total, summary, features, ledger, forecast };
 }
 
 /** Starter mode, targets, the last drill and retention. */
@@ -236,37 +233,5 @@ export function backups(world: MockWorld): BackupsOverview {
     prune_plan: world.ops.prune_plan,
     last_prune: world.ops.last_prune,
     offsite: paidFeature(world, offsiteRow(world)),
-  };
-}
-
-/** Connections, with paid providers following their settings. */
-export function connections(world: MockWorld): ConnectionsOverview {
-  const providers: Row[] = world.fixtures.paid_features.map(([id, name, , switchKey]) => {
-    const on = isOn(world, switchKey);
-    return {
-      id,
-      title: name,
-      meta: on ? "Key stored" : "No key entered",
-      href: "/spend",
-      status: on ? { status: "healthy", label: "On" } : { status: "neutral", label: "Off" },
-    };
-  });
-  return {
-    groups: [
-      ...world.fixtures.connection_groups,
-      { name: "Optional paid providers", note: "$0 until on", rows: providers },
-    ],
-  };
-}
-
-/** Voice profiles following `voice.profile` and the celebrity-clone setting. */
-export function voice(world: MockWorld): VoiceOverview {
-  const celebrity = isOn(world, "voice.profiles.celebrity_clones");
-  const key = `${setting(world, "voice.profile")}|${String(celebrity)}`;
-  return {
-    calls_enabled: isOn(world, "voice.enabled"),
-    celebrity_clones: celebrity,
-    profiles: world.fixtures.voice_profiles[key] ?? [],
-    script: world.constants.call_script,
   };
 }

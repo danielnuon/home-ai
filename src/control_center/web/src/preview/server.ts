@@ -3,6 +3,7 @@
  * server's routes (`routes/*.py`), answered from the in-page mock backends. Routes only translate
  * requests to backend calls, as on the server; every rule lives in the backend modules.
  */
+import * as accounts from "./accounts";
 import * as engine from "./engine";
 import { MockError, notFound } from "./errors";
 import * as gate from "./gate";
@@ -15,6 +16,7 @@ import * as status from "./status";
 import { buildToday } from "./today";
 import * as work from "./work";
 import type { MockWorld } from "./world";
+import type { components } from "../api/schema";
 
 /** One request as a route sees it. */
 interface Call {
@@ -74,11 +76,14 @@ const GET: Record<string, Handler> = {
   "/models": (w) => status.models(w),
   "/spend": (w) => status.spend(w),
   "/schedule": (w) => engine.schedule(w),
-  "/security": (w) => status.security(w),
+  "/security": (w) => accounts.security(w),
   "/backups": (w) => status.backups(w),
   "/maintenance": (w) => engine.maintenance(w),
-  "/connections": (w) => status.connections(w),
-  "/voice": (w) => status.voice(w),
+  "/connections": (w) => accounts.connections(w),
+  "/voice": (w) => accounts.voice(w),
+  "/settings/:key/impact": (w, c) =>
+    accounts.settingImpact(w, p(c, "key"), c.query.get("value") ?? ""),
+  "/settings/:key/outcomes": (w, c) => accounts.settingOutcomes(w, p(c, "key")),
   "/docs": (w) => ({ groups: w.fixtures.doc_groups }),
   "/docs/:id": (w, c) => shell.docPage(w, p(c, "id")),
   "/trash": (w) => shell.trash(w),
@@ -190,6 +195,33 @@ const POST: Record<string, Handler> = {
   "/backups/prune": (w, c) => gate.runPrune(w, str(c.body.plan_id), c.stepUp),
   "/maintenance/findings/:id/wont-fix": (w, c) => ops.wontFix(w, p(c, "id"), str(c.body.reason)),
   "/maintenance/findings/:id/reopen": (w, c) => ops.reopenFinding(w, p(c, "id")),
+  "/connections/:id/connect": (w, c) => accounts.connect(w, p(c, "id"), c.stepUp),
+  "/connections/:id/disconnect": (w, c) => accounts.disconnect(w, p(c, "id")),
+  "/connections/:id/secret/remove": (w, c) => accounts.removeSecret(w, p(c, "id")),
+  "/connections/:id/permission": (w, c) => accounts.askPermission(w, p(c, "id")),
+  "/connections/:id/test": (w, c) => accounts.testConnection(w, p(c, "id")),
+  "/voice/profiles": (w, c) =>
+    accounts.addVoiceProfile(w, c.body as components["schemas"]["NewVoiceProfile"], c.stepUp),
+  "/voice/profiles/:id/render": (w, c) => accounts.renderVoiceProfile(w, p(c, "id")),
+  "/voice/profiles/:id/preview": (w, c) => accounts.previewVoiceProfile(w, p(c, "id")),
+  "/voice/profiles/:id/delete": (w, c) => {
+    accounts.deleteVoiceProfile(w, p(c, "id"));
+    return NO_CONTENT;
+  },
+  "/security/workspaces/:id/stop": (w, c) => accounts.stopWorkspace(w, p(c, "id")),
+  "/security/workspaces/:id/resume": (w, c) => accounts.resumeWorkspace(w, p(c, "id"), c.stepUp),
+  "/security/devices/:id/sign-out": (w, c) => accounts.signOutDevice(w, p(c, "id")),
+  "/security/passkeys": (w, c) => accounts.addPasskey(w, str(c.body.name), c.stepUp),
+  "/security/passkeys/:id/remove": (w, c) => accounts.removePasskey(w, p(c, "id"), c.stepUp),
+  "/security/totp/reset": (w, c) => accounts.resetTotp(w, c.stepUp),
+  "/security/recovery-codes": (w, c) => accounts.regenerateRecoveryCodes(w, c.stepUp),
+  "/security/audit/export": (w, c) =>
+    accounts.exportAudit(
+      w,
+      typeof c.body.range === "string" ? c.body.range : "today",
+      str(c.body.filter),
+    ),
+  "/exports": (w, c) => accounts.exportData(w, str(c.body.scope), c.stepUp),
 };
 
 const PUT: Record<string, Handler> = {
@@ -214,6 +246,8 @@ const PUT: Record<string, Handler> = {
       text: typeof c.body.text === "string" ? c.body.text : null,
       pinned: typeof c.body.pinned === "boolean" ? c.body.pinned : null,
     }),
+  "/connections/:id/secret": (w, c) =>
+    accounts.setSecret(w, p(c, "id"), str(c.body.value), c.stepUp),
   "/chat/:id/:thread/learning": (w, c) => chat.chatLearning(w, convo(c), c.body.learning === true),
   "/system/pool-mode": (w, c) =>
     then(w, (world) => ops.setPoolMode(world, str(c.body.mode)), status.system),

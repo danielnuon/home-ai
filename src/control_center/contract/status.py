@@ -1,4 +1,4 @@
-"""Read-mostly platform pages: System, Services, Models, Spend, Schedule, Security and the rest.
+"""Read-mostly platform pages: System, Services, Models, Spend, Schedule, Backups and the rest.
 
 Most of these are lists of rows and metrics, so they reuse `Row`, `RowGroup` and `Metric` and add a
 model only where a page has something of its own (an impact preview, a memory ring, a job switch).
@@ -343,6 +343,33 @@ class PaidFeature(ContractModel):
     impact: list[ImpactLine]
 
 
+class LedgerEntry(ContractModel):
+    """One line of the spend ledger (spec 7.2, Spend), with every field the page groups by.
+
+    Local work is listed at $0 with its quantity, so the ledger shows where the free work went as
+    well as anything paid. `idea` and `work_item` are None for work outside Pipeline B.
+    """
+
+    id: str
+    month: str
+    day: str
+    service: str
+    pipeline: str
+    idea: str | None
+    work_item: str | None
+    what: str
+    quantity: str
+    amount_usd: float
+
+
+class SpendForecast(ContractModel):
+    """Where this month is heading, and where that figure comes from (spec 7.18)."""
+
+    value: str
+    note: str
+    source: Source
+
+
 class SpendOverview(ContractModel):
     """The Spend page."""
 
@@ -350,7 +377,8 @@ class SpendOverview(ContractModel):
     total_usd: float
     summary: StatusLabel
     features: list[PaidFeature]
-    ledger: list[Row]
+    ledger: list[LedgerEntry]
+    forecast: SpendForecast
 
 
 class Job(ContractModel):
@@ -387,17 +415,6 @@ class JobTime(ContractModel):
     """Move a job to another start time, HH:MM."""
 
     time: str
-
-
-class SecurityOverview(ContractModel):
-    """The Security page. The audit lines are already masked by the audit logger's query socket."""
-
-    stopped: bool
-    tiles: list[Metric]
-    flags: list[Row]
-    sign_in: list[Row]
-    audit: list[str]
-    chain: str
 
 
 class RestoreDrill(ContractModel):
@@ -506,32 +523,6 @@ class MaintenanceToggle(ContractModel):
     """Pause (false) or resume (true) Pipeline C."""
 
     running: bool
-
-
-class ConnectionsOverview(ContractModel):
-    """The Connections page."""
-
-    groups: list[RowGroup]
-
-
-class VoiceProfile(ContractModel):
-    """A voice for approval calls (spec 11.5.1)."""
-
-    id: str
-    name: str
-    kind: Literal["default", "stock", "consented_clone", "celebrity_clone"]
-    meta: str
-    selected: bool
-    locked: bool
-
-
-class VoiceOverview(ContractModel):
-    """The Voice page."""
-
-    calls_enabled: bool
-    celebrity_clones: bool
-    profiles: list[VoiceProfile]
-    script: str
 
 
 class DocsOverview(ContractModel):
