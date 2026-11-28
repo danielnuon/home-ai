@@ -138,15 +138,45 @@ class WorkDesk:
 
     # Threads -------------------------------------------------------------------------------
 
-    def threads(self) -> ThreadsOverview:
-        """Open threads in state order (spec 15.8.3), then the resolved ones, newest first."""
+    def threads(self, include_temporary: bool = False) -> ThreadsOverview:
+        """Open threads in state order (spec 15.8.3), then the resolved ones, newest first.
+
+        Temporary chats (15.9.6) are shown only in Chat, so they are left out unless asked for.
+        Any whose time is up are deleted first, with their messages.
+
+        Args:
+            include_temporary: Whether to list temporary chats that have not expired.
+
+        Returns:
+            The open threads, then the recently resolved ones.
+        """
+        self._purge_expired()
         sessions = self.live_tasks()
-        every = [self._shown(record, sessions) for record in self._world.threads.values()]
+        every = [
+            self._shown(record, sessions)
+            for record in self._world.threads.values()
+            if include_temporary or record.temporary_until is None
+        ]
         open_threads = [thread for thread in every if thread.state != "resolved"]
         return ThreadsOverview(
             open=sorted(open_threads, key=lambda thread: STATE_ORDER.index(thread.state)),
             recently_resolved=[thread for thread in every if thread.state == "resolved"],
         )
+
+    def _purge_expired(self) -> None:
+        """Delete temporary chats past their time, with their messages (spec 15.9.6)."""
+        now = self._world.clock()
+        expired = [
+            record.id
+            for record in self._world.threads.values()
+            if record.temporary_until is not None and record.temporary_until <= now
+        ]
+        for thread_id in expired:
+            del self._world.threads[thread_id]
+            self._world.chats.pop(thread_id, None)
+            self._world.chat_heads.pop(thread_id, None)
+        if expired:
+            self._world.bus.changed(*THREAD_PAGES)
 
     def _shown(self, record: ThreadRecord, sessions: list[LiveTask]) -> Thread:
         """The record with its state derived from its sessions and its approval card."""

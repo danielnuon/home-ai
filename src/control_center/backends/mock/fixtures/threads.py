@@ -32,7 +32,7 @@ def _thread(
         if unit_id
         else "case"
     )
-    return ThreadRecord(
+    record = ThreadRecord(
         id=thread_id,
         title=title,
         kind=kind,
@@ -43,8 +43,10 @@ def _thread(
         pipeline=pipeline,
         principal="owner",
         since=since,
-        **facts,
     )
+    for fact, value in facts.items():
+        setattr(record, fact, value)
+    return record
 
 
 def threads() -> list[ThreadRecord]:

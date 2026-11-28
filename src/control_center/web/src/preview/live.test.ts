@@ -3,7 +3,8 @@
  * chat reply and the event stream the app reads.
  */
 import { Bus, busEventSource, type BusEvent } from "./bus";
-import { chatEdit, chatRegenerate, chatSend, chatStop, chatSwitch } from "./chat";
+import { chatEdit, chatKeep, chatRegenerate, chatSend, chatStop, chatSwitch } from "./chat";
+import { threads } from "./work";
 import { healthMetrics } from "./status";
 import { buildWorld } from "./world";
 
@@ -40,6 +41,25 @@ describe("the preview's chat", () => {
 
     expect(stopped.messages.at(-1)).toMatchObject({ stopped: true, streaming: false });
     expect(stopped.messages.at(-1)?.text.split(" ")).toHaveLength(3);
+  });
+
+  it("lists a temporary chat only in Chat, deletes it after a day, unless it is kept", () => {
+    let now = NOW;
+    const world = buildWorld(new Bus(), () => now);
+    const listed = () => threads(world).open.map((t) => t.id);
+
+    const gone = chatSend(world, "atlas", "Just between us", null, true).thread?.id ?? "";
+    const kept = chatSend(world, "atlas", "Keep this one", null, true).thread?.id ?? "";
+    expect(listed()).not.toContain(gone);
+    expect(chatKeep(world, { lead: "atlas", thread: kept }).thread).toMatchObject({
+      temporary_until: null,
+      learning: false,
+    });
+
+    now = new Date(NOW.getTime() + 25 * 3_600_000);
+    expect(threads(world, true).open.map((t) => t.id)).not.toContain(gone);
+    expect(world.chats[gone]).toBeUndefined();
+    expect(listed()).toContain(kept);
   });
 
   it("keeps an edit and a regenerated reply as branches to switch between", () => {

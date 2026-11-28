@@ -1,10 +1,15 @@
 """Thread and session states are derived from recorded facts, in the spec's order (15.8)."""
 
+from datetime import UTC, datetime, timedelta
+
 import pytest
 from fastapi.testclient import TestClient
 
+from control_center.backends.mock.engine_work import WorkDesk
 from control_center.backends.mock.threads import STATE_ORDER, ThreadRecord, derive
+from control_center.backends.mock.world import build_world
 from control_center.contract.work import BlockedCode, LiveTask, WaitingOn
+from control_center.events import EventBus
 
 
 def record(**facts: str | None) -> ThreadRecord:
@@ -181,3 +186,21 @@ def test_raising_a_token_cap_needs_the_passkey_and_lowering_does_not(client: Tes
 
     assert client.put(key, json={"value": "4096"}).status_code == 200
     assert client.put(key, json={"value": "16384"}).status_code == 403
+
+
+def test_an_expired_temporary_chat_is_deleted_with_its_messages() -> None:
+    """Spec 15.9.6: after its retention a temporary chat's transcript is gone, not just hidden."""
+    now = datetime(2026, 11, 28, 9, tzinfo=UTC)
+    world = build_world(EventBus(), clock=lambda: now)
+    temporary = record()
+    temporary.id = "TH-TMP"
+    temporary.temporary_until = now - timedelta(minutes=1)
+    world.threads["TH-TMP"] = temporary
+    world.chats["TH-TMP"] = []
+    world.chat_heads["TH-TMP"] = "M-X"
+
+    overview = WorkDesk(world).threads(include_temporary=True)
+
+    assert "TH-TMP" not in [t.id for t in overview.open]
+    assert "TH-TMP" not in world.threads
+    assert "TH-TMP" not in world.chats and "TH-TMP" not in world.chat_heads

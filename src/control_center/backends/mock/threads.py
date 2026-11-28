@@ -7,6 +7,7 @@ to the same cases.
 """
 
 from dataclasses import dataclass
+from datetime import datetime
 
 from control_center.contract.common import Department, Principal
 from control_center.contract.work import BlockedCode, LiveTask, Thread, ThreadKind, ThreadState
@@ -71,6 +72,8 @@ class ThreadRecord:
     waiting_for: str | None = None
     outcome: str | None = None
     branched_from: str | None = None
+    temporary_until: datetime | None = None
+    learning: bool = True
 
 
 def derive(
@@ -170,4 +173,6 @@ def to_thread(record: ThreadRecord, sessions: list[LiveTask], approval_pending: 
         closing_summary=record.proposed_resolution if state == "review_ready" else None,
         approval_id=record.approval_id if approval_pending else None,
         branched_from=record.branched_from,
+        temporary_until=record.temporary_until,
+        learning=record.learning,
     )

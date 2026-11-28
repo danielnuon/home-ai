@@ -182,7 +182,9 @@ class Thread(ContractModel):
     what, what it waits on, or why it is blocked and who can unblock it. `approval_id` is set when
     the Owner decision it waits for is an approval card, which Brain then shows instead of a
     second row for the same decision. `lead_id` is the lead's id in Chat. `branched_from` names
-    the conversation a thread was branched from in Chat (spec 15.9.8).
+    the conversation a thread was branched from in Chat (spec 15.9.8). `temporary_until` is set on
+    a temporary chat: when its transcript is deleted (15.9.6). `learning` is off when the Owner
+    said "Don't learn from this chat".
     """
 
     id: str
@@ -200,6 +202,8 @@ class Thread(ContractModel):
     closing_summary: str | None = None
     approval_id: str | None = None
     branched_from: str | None = None
+    temporary_until: datetime | None = None
+    learning: bool = True
 
 
 class ThreadsOverview(ContractModel):

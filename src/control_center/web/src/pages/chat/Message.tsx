@@ -21,10 +21,10 @@ export function useChatControl(chat: ChatThread) {
   const client = useQueryClient();
   const navigate = useNavigate();
   const action = useAction<ChatThread>({ refresh: ["chat"] });
-  const run = async (path: string, body?: unknown) => {
+  const run = async (path: string, body?: unknown, method: "POST" | "PUT" = "POST") => {
     const thread = chat.thread?.id ?? "";
     const answer = await action.run(() =>
-      send<ChatThread>("POST", `/chat/${chat.lead.id}/${thread}${path}`, body),
+      send<ChatThread>(method, `/chat/${chat.lead.id}/${thread}${path}`, body),
     );
     if (!answer?.thread) return answer;
     client.setQueryData(["chat", chat.lead.id, answer.thread.id], answer);

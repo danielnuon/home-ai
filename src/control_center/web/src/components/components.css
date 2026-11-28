@@ -1875,3 +1875,15 @@ dl.list.facts {
 .sparkline {
   overflow: visible;
 }
+
+/* Chat: a conversation's privacy, the Private switch, the temporary banner or Learn (15.9.6). */
+.chat-privacy {
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+.chat-privacy.temporary {
+  border-style: dashed;
+}

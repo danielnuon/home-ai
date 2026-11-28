@@ -385,8 +385,18 @@ class LeadChat(Protocol):
         """The lead, its threads, and the messages of the thread picked (none for a new chat)."""
         ...
 
-    def send(self, lead_id: str, text: str, thread_id: str | None = None) -> ChatThread:
-        """Send the Owner's message, starting a thread if none is given; the reply streams in."""
+    def send(
+        self, lead_id: str, text: str, thread_id: str | None = None, temporary: bool = False
+    ) -> ChatThread:
+        """Send the Owner's message, starting a thread (temporary if asked) if none is given."""
+        ...
+
+    def keep(self, lead_id: str, thread_id: str) -> ChatThread:
+        """Turn a temporary chat into a normal thread (spec 15.9.6)."""
+        ...
+
+    def set_learning(self, lead_id: str, thread_id: str, learning: bool) -> ChatThread:
+        """Turn "Don't learn from this chat" off or on."""
         ...
 
     def edit(self, lead_id: str, thread_id: str, message_id: str, text: str) -> ChatThread:

@@ -3,7 +3,7 @@
  * lead's threads: picking one continues it, and New starts one with the first message (15.8.9).
  * Tests run in the phone layout, where the list and the conversation are two screens.
  */
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import type { ChatLead, ChatMessage, ChatThread, Thread } from "../api/types";
@@ -46,6 +46,8 @@ const PASSPORT: Thread = {
   closing_summary: null,
   approval_id: "AP-0110",
   branched_from: null,
+  temporary_until: null,
+  learning: true,
 };
 
 const message = (id: string, text: string, threadId: string): ChatMessage => ({
@@ -138,10 +140,10 @@ test("New chat starts a thread with the first message and stays on it", async ()
   expect(sent.find((r) => r.method === "POST")?.body).toEqual({
     text: "Book the dentist",
     thread_id: null,
+    temporary: false,
   });
-  expect(await screen.findByRole("region", { name: "Chat with Atlas" })).toHaveTextContent(
-    "Book the dentist",
-  );
+  const region = await screen.findByRole("region", { name: "Chat with Atlas" });
+  await waitFor(() => expect(region).toHaveTextContent("Book the dentist"));
   expect(screen.getAllByText("Book the dentist").length).toBeGreaterThan(0);
 });
 
@@ -181,4 +183,42 @@ test("a reply can be regenerated, its branches switched, and a reply being writt
     "/api/v1/chat/atlas/TH-0216/messages/M-2/switch",
     "/api/v1/chat/atlas/TH-0216/stop",
   ]);
+});
+
+test("a private chat is temporary until kept, and any chat can stop learning", async () => {
+  const until = new Date(Date.now() + 24 * 3_600_000).toISOString();
+  const secret = { ...PASSPORT, id: "TH-7C1D", title: "Gift idea", state: "idle" as const };
+  let current: Thread = { ...secret, temporary_until: until, learning: false };
+  const answer = (change?: Partial<Thread>) => () => {
+    current = { ...current, ...change };
+    const messages = [message("M-9", "Gift idea", current.id)];
+    return { lead: ATLAS, leads: LEADS, threads: [current], thread: current, messages };
+  };
+  const sent = fakeServer({
+    "GET /api/v1/chat/atlas": ({ query }: SentRequest) =>
+      query.get("thread")
+        ? answer()()
+        : { lead: ATLAS, leads: LEADS, threads: [], thread: null, messages: [] },
+    "POST /api/v1/chat/atlas": answer(),
+    "POST /api/v1/chat/atlas/TH-7C1D/keep": answer({ temporary_until: null }),
+    "PUT /api/v1/chat/atlas/TH-7C1D/learning": answer({ learning: true }),
+  });
+  renderPage(<Chat />, "/chat?lead=atlas&thread=new");
+
+  await userEvent.click(await screen.findByRole("switch", { name: "Private" }));
+  await userEvent.type(screen.getByLabelText("Message Atlas"), "Gift idea");
+  await userEvent.click(screen.getByRole("button", { name: "Send" }));
+  expect(sent.find((r) => r.method === "POST")?.body).toMatchObject({ temporary: true });
+
+  expect(await screen.findByText(/Temporary chat · 24 h left/)).toBeInTheDocument();
+  await userEvent.click(screen.getByRole("button", { name: "Keep this chat" }));
+
+  const learn = await screen.findByRole("switch", { name: "Learn from this chat" });
+  expect(learn).toHaveAttribute("aria-checked", "false");
+  await userEvent.click(learn);
+  expect(sent.find((r) => r.method === "PUT")?.body).toEqual({ learning: true });
+  expect(await screen.findByRole("switch", { name: "Learn from this chat" })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
 });

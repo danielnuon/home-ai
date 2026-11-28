@@ -156,10 +156,20 @@ class ChatThread(ContractModel):
 
 
 class ChatSend(ContractModel):
-    """A message from the Owner. Without `thread_id` it starts a new conversation thread."""
+    """A message from the Owner. Without `thread_id` it starts a new conversation thread.
+
+    `temporary` makes that new thread a temporary chat (spec 15.9.6); it is ignored otherwise.
+    """
 
     text: str
     thread_id: str | None = None
+    temporary: bool = False
+
+
+class ChatLearning(ContractModel):
+    """Whether the lead may learn memory items from a conversation (spec 15.9.6)."""
+
+    learning: bool
 
 
 class ChatEdit(ContractModel):
