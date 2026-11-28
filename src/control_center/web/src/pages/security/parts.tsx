@@ -7,6 +7,7 @@
  * recovery codes loosen or replace a credential, so the gate asks for the passkey (rule 3).
  */
 import {
+  Copy,
   Download,
   KeyRound,
   LogOut,
@@ -36,6 +37,7 @@ import { ActionRow } from "../../components/ActionRow";
 import { Segmented } from "../../components/Controls";
 import { Section } from "../../components/Page";
 import { Sheet } from "../../components/Sheet";
+import { useToast } from "../../components/Toasts";
 
 const REFRESH = { refresh: ["security"], done: (r: { message: string }) => r.message };
 const GAP = { ["--gap" as string]: "var(--space-2)" };
@@ -240,25 +242,40 @@ export function SignIn({ security }: { security: SecurityOverview }) {
 
 type Range = "today" | "7d" | "30d";
 
-/** Saves the exported lines as a text file on this device. */
-function download(made: AuditExport) {
-  const url = URL.createObjectURL(new Blob([made.lines.join("\n")], { type: "text/plain" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = made.filename;
-  link.click();
-  URL.revokeObjectURL(url);
+/** The exported range in a sheet, with Copy. Nothing is downloaded, so it works anywhere. */
+function ExportSheet({ made, onClose }: { made: AuditExport | null; onClose: () => void }) {
+  const toast = useToast();
+  const copy = async () => {
+    if (!made) return;
+    try {
+      await navigator.clipboard.writeText(made.lines.join("\n"));
+      toast({ message: `Copied ${made.lines.length} lines` });
+    } catch {
+      toast({ message: "Couldn't copy here. Select the lines and copy them.", tone: "problem" });
+    }
+  };
+  return (
+    <Sheet open={made !== null} title={made?.filename ?? ""} onClose={onClose}>
+      {made && (
+        <div className="stack">
+          <p className="muted small">{made.message}</p>
+          <pre className="card log mono tiny">{made.lines.join("\n")}</pre>
+          <button type="button" className="btn primary sheet-action" onClick={() => void copy()}>
+            <Copy size={16} aria-hidden="true" /> Copy
+          </button>
+        </div>
+      )}
+    </Sheet>
+  );
 }
 
 /** The masked audit log, with a range and filter to export. */
 export function AuditLog({ security }: { security: SecurityOverview }) {
   const [range, setRange] = useState<Range>("today");
   const [filter, setFilter] = useState("");
+  const [made, setMade] = useState<AuditExport | null>(null);
   const { post, busy } = useSecurityPost<AuditExport>();
-  const exportRange = async () => {
-    const made = await post("audit/export", { range, filter });
-    if (made) download(made);
-  };
+  const exportRange = async () => setMade(await post("audit/export", { range, filter }));
   return (
     <Section title="Audit log" aside={security.chain}>
       <div className="stack">
@@ -291,6 +308,7 @@ export function AuditLog({ security }: { security: SecurityOverview }) {
         </div>
         <pre className="card log mono tiny">{security.audit.join("\n")}</pre>
       </div>
+      <ExportSheet made={made} onClose={() => setMade(null)} />
     </Section>
   );
 }
