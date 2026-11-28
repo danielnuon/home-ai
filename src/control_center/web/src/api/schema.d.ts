@@ -791,6 +791,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/chat/{lead_id}/{thread_id}/keep": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Chat Keep
+     * @description Keep a temporary chat: it becomes a normal thread (spec 15.9.6).
+     */
+    post: operations["chat_keep_api_v1_chat__lead_id___thread_id__keep_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/chat/{lead_id}/{thread_id}/learning": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Chat Learning
+     * @description Turn "Don't learn from this chat" off or on (spec 15.9.6).
+     */
+    put: operations["chat_learning_api_v1_chat__lead_id___thread_id__learning_put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/chat/{lead_id}/{thread_id}/stop": {
     parameters: {
       query?: never;
@@ -1399,6 +1439,14 @@ export interface components {
       now: string;
     };
     /**
+     * ChatLearning
+     * @description Whether the lead may learn memory items from a conversation (spec 15.9.6).
+     */
+    ChatLearning: {
+      /** Learning */
+      learning: boolean;
+    };
+    /**
      * ChatMessage
      * @description One message in web chat. `approval_id` puts an inline approval card under the message.
      *
@@ -1454,12 +1502,19 @@ export interface components {
     /**
      * ChatSend
      * @description A message from the Owner. Without `thread_id` it starts a new conversation thread.
+     *
+     *     `temporary` makes that new thread a temporary chat (spec 15.9.6); it is ignored otherwise.
      */
     ChatSend: {
       /** Text */
       text: string;
       /** Thread Id */
       thread_id?: string | null;
+      /**
+       * Temporary
+       * @default false
+       */
+      temporary: boolean;
     };
     /**
      * ChatThread
@@ -2607,7 +2662,9 @@ export interface components {
      *     what, what it waits on, or why it is blocked and who can unblock it. `approval_id` is set when
      *     the Owner decision it waits for is an approval card, which Brain then shows instead of a
      *     second row for the same decision. `lead_id` is the lead's id in Chat. `branched_from` names
-     *     the conversation a thread was branched from in Chat (spec 15.9.8).
+     *     the conversation a thread was branched from in Chat (spec 15.9.8). `temporary_until` is set on
+     *     a temporary chat: when its transcript is deleted (15.9.6). `learning` is off when the Owner
+     *     said "Don't learn from this chat".
      */
     Thread: {
       /** Id */
@@ -2667,6 +2724,13 @@ export interface components {
       approval_id: string | null;
       /** Branched From */
       branched_from: string | null;
+      /** Temporary Until */
+      temporary_until: string | null;
+      /**
+       * Learning
+       * @default true
+       */
+      learning: boolean;
     };
     /**
      * ThreadsOverview
@@ -4338,6 +4402,84 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["ChatSend"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_keep_api_v1_chat__lead_id___thread_id__keep_post: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ChatThread"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  chat_learning_api_v1_chat__lead_id___thread_id__learning_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        "Tailscale-User-Login"?: string | null;
+        "X-CSRF-Token"?: string | null;
+      };
+      path: {
+        lead_id: string;
+        thread_id: string;
+      };
+      cookie?: {
+        brain_session?: string | null;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ChatLearning"];
       };
     };
     responses: {

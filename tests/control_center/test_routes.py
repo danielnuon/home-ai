@@ -123,6 +123,32 @@ def test_branching_starts_a_new_thread_that_links_back(client: TestClient) -> No
     assert [m["author"] for m in branched["messages"]] == ["owner"]
 
 
+def test_a_temporary_chat_stays_out_of_work_and_can_be_kept(client: TestClient) -> None:
+    """Spec 15.9.6: a temporary chat is listed in Chat with its deletion time, never in Work."""
+    sent = client.post("/api/v1/chat/atlas", json={"text": "Just between us", "temporary": True})
+    thread = sent.json()["thread"]
+
+    assert thread["temporary_until"] is not None and thread["learning"] is False
+    work = client.get("/api/v1/work").json()["threads"]
+    assert thread["id"] not in [t["id"] for t in [*work["open"], *work["recently_resolved"]]]
+    learning = client.put(f"/api/v1/chat/atlas/{thread['id']}/learning", json={"learning": True})
+    assert learning.status_code == 409
+
+    kept = client.post(f"/api/v1/chat/atlas/{thread['id']}/keep").json()["thread"]
+    assert kept["temporary_until"] is None
+    work = client.get("/api/v1/work").json()["threads"]
+    assert thread["id"] in [t["id"] for t in work["open"]]
+    assert client.post(f"/api/v1/chat/atlas/{thread['id']}/keep").status_code == 409
+
+
+def test_dont_learn_from_this_chat_is_a_switch_on_the_thread(client: TestClient) -> None:
+    """Spec 15.9.6: "Don't learn from this chat" turns write path 2 off for one thread."""
+    off = client.put("/api/v1/chat/atlas/TH-0216/learning", json={"learning": False}).json()
+    assert off["thread"]["learning"] is False
+    on = client.put("/api/v1/chat/atlas/TH-0216/learning", json={"learning": True}).json()
+    assert on["thread"]["learning"] is True
+
+
 def test_chat_leads_carry_their_live_state(client: TestClient) -> None:
     """Spec 7.2, Chat: each contact circle shows the lead's current state from the Directory."""
     leads = {lead["id"]: lead for lead in client.get("/api/v1/chat/atlas").json()["leads"]}

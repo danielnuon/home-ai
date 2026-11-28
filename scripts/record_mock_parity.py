@@ -162,6 +162,9 @@ def work_steps() -> list[Step]:
         {"method": "POST", "path": "/chat/atlas/TH-0216/messages/nope/switch"},
         {"method": "POST", "path": "/chat/atlas/TH-0216/stop"},
         {"method": "POST", "path": "/chat/atlas/TH-0216/messages/M-1/branch"},
+        {"method": "POST", "path": "/chat/atlas/TH-0216/keep"},
+        {"method": "PUT", "path": "/chat/atlas/TH-0216/learning", "body": {"learning": False}},
+        {"method": "PUT", "path": "/chat/atlas/nope/learning", "body": {"learning": True}},
     ]
 
 

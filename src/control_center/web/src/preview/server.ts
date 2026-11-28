@@ -113,7 +113,9 @@ const POST: Record<string, Handler> = {
       p(c, "id"),
       str(c.body.text),
       typeof c.body.thread_id === "string" ? c.body.thread_id : null,
+      c.body.temporary === true,
     ),
+  "/chat/:id/:thread/keep": (w, c) => chat.chatKeep(w, convo(c)),
   "/chat/:id/:thread/stop": (w, c) => chat.chatStop(w, convo(c)),
   "/chat/:id/:thread/messages/:message/edit": (w, c) =>
     chat.chatEdit(w, convo(c), p(c, "message"), str(c.body.text)),
@@ -137,6 +139,7 @@ const PUT: Record<string, Handler> = {
   },
   "/schedule/:id/paused": (w, c) => engine.setJobPaused(w, p(c, "id"), c.body.paused === true),
   "/maintenance/running": (w, c) => engine.setMaintenanceRunning(w, c.body.running === true),
+  "/chat/:id/:thread/learning": (w, c) => chat.chatLearning(w, convo(c), c.body.learning === true),
 };
 
 const TABLES: Record<string, Record<string, Handler>> = { GET, POST, PUT };

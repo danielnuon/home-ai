@@ -16,6 +16,7 @@ from control_center.contract.personal import (
 )
 from control_center.contract.today import (
     ChatEdit,
+    ChatLearning,
     ChatSend,
     ChatThread,
     SearchResults,
@@ -84,7 +85,21 @@ def chat_thread(lead_id: str, backends: BackendsDep, thread: str | None = None) 
 @router.post("/chat/{lead_id}")
 async def chat_send(lead_id: str, body: ChatSend, backends: BackendsDep) -> ChatThread:
     """Send a message. Async because the mock chat streams its reply on the event loop."""
-    return backends.chat.send(lead_id, body.text, body.thread_id)
+    return backends.chat.send(lead_id, body.text, body.thread_id, body.temporary)
+
+
+@router.post("/chat/{lead_id}/{thread_id}/keep")
+def chat_keep(lead_id: str, thread_id: str, backends: BackendsDep) -> ChatThread:
+    """Keep a temporary chat: it becomes a normal thread (spec 15.9.6)."""
+    return backends.chat.keep(lead_id, thread_id)
+
+
+@router.put("/chat/{lead_id}/{thread_id}/learning")
+def chat_learning(
+    lead_id: str, thread_id: str, body: ChatLearning, backends: BackendsDep
+) -> ChatThread:
+    """Turn "Don't learn from this chat" off or on (spec 15.9.6)."""
+    return backends.chat.set_learning(lead_id, thread_id, body.learning)
 
 
 @router.post("/chat/{lead_id}/{thread_id}/stop")
