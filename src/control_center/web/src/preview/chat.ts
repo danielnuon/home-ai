@@ -121,6 +121,8 @@ function newThread(world: MockWorld, leadId: string, { title, from = null, tempo
     branched_from: from,
     temporary_until: temporary ? retainUntil(world) : null,
     learning: !temporary,
+    paused: false,
+    archived: false,
   };
   world.bus.changed(...THREAD_PAGES);
   return id;

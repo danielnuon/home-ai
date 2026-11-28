@@ -12,7 +12,6 @@ import type {
   TaskDetail,
   Thread,
   ThreadsOverview,
-  WorkBoard,
 } from "../api/types";
 import { conflict, notFound } from "./errors";
 import type { MockWorld, ThreadRecord } from "./world";
@@ -111,8 +110,8 @@ function needsOwner(record: ThreadRecord, sessions: LiveTask[], pending: boolean
   return asking ? ["needs_owner", `${asking.employee_name} ${asking.doing}`] : null;
 }
 
-function paused(sessions: LiveTask[]): Derived {
-  return sessions.length > 0 && sessions.every((s) => s.paused)
+function paused(record: ThreadRecord, sessions: LiveTask[]): Derived {
+  return record.paused || (sessions.length > 0 && sessions.every((s) => s.paused))
     ? ["paused", "Paused. Nothing runs until it is resumed."]
     : null;
 }
@@ -144,14 +143,14 @@ function derive(
   return (
     blocked(world, sessions) ??
     needsOwner(record, sessions, pending) ??
-    paused(sessions) ??
+    paused(record, sessions) ??
     working(sessions) ??
     review ??
     waiting(world, record, sessions) ?? ["idle", `Idle since ${record.since}`]
   );
 }
 
-function shownThread(world: MockWorld, record: ThreadRecord, sessions: LiveTask[]): Thread {
+export function shownThread(world: MockWorld, record: ThreadRecord, sessions: LiveTask[]): Thread {
   const card = world.approvals[record.approval_id ?? ""];
   const pending = card !== undefined && card.state === "pending";
   const own = sessions.filter((s) => s.thread_id === record.id);
@@ -199,15 +198,21 @@ export function threads(world: MockWorld, includeTemporary = false): ThreadsOver
     .filter((r) => includeTemporary || r.temporary_until === null)
     .map((r) => shownThread(world, r, sessions));
   const order = world.constants.state_order;
+  const archived = new Set(
+    Object.values(world.threads)
+      .filter((r) => r.archived)
+      .map((r) => r.id),
+  );
   return {
     open: every
       .filter((t) => t.state !== "resolved")
       .sort((a, b) => order.indexOf(a.state) - order.indexOf(b.state)),
-    recently_resolved: every.filter((t) => t.state === "resolved"),
+    recently_resolved: every.filter((t) => t.state === "resolved" && !archived.has(t.id)),
+    archived: every.filter((t) => archived.has(t.id)),
   };
 }
 
-function threadRecord(world: MockWorld, id: string): ThreadRecord {
+export function threadRecord(world: MockWorld, id: string): ThreadRecord {
   const record = world.threads[id];
   if (!record) throw notFound("That thread doesn't exist.");
   return record;
@@ -239,17 +244,7 @@ export function reopenThread(world: MockWorld, id: string): Thread {
   return shownThread(world, record, liveTasks(world));
 }
 
-// Work board and Directory ---------------------------------------------------------------------
-
-/** Threads, work items, ideas and reviews. */
-export function workBoard(world: MockWorld): WorkBoard {
-  return {
-    threads: threads(world),
-    items: world.work_items,
-    ideas: world.fixtures.ideas,
-    reviews: world.fixtures.reviews,
-  };
-}
+// Directory ---------------------------------------------------------------------------------
 
 function employeeStatus(world: MockWorld, employee: Employee, sessions: LiveTask[]) {
   if (world.fixtures.not_yet_hired.includes(employee.id)) return "not_yet_hired" as const;

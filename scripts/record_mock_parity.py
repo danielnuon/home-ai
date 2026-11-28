@@ -52,6 +52,7 @@ def reads() -> list[Step]:
         "/setup", "/chat/atlas", "/chat/spark", "/system", "/services", "/models", "/spend",
         "/schedule", "/security", "/backups", "/maintenance", "/connections", "/voice", "/docs",
         "/docs/infra", "/docs/nope", "/trash", "/offline-pack", "/library",
+        "/work-items/WI-0031", "/work-items/WI-0029", "/work-items/nope",
     ]  # fmt: skip
     return [{"method": "GET", "path": path} for path in paths]
 
@@ -231,6 +232,52 @@ def shell_steps() -> list[Step]:
     ]
 
 
+def board_steps() -> list[Step]:
+    """Ideas, work items, products, thread moves and suggested roles, with each refusal."""
+    idea, item = "/ideas/ID-0014", "/work-items/WI-0029"
+    return [
+        {"method": "POST", "path": "/ideas", "body": {"title": " ", "summary": ""}},
+        {"method": "POST", "path": "/ideas", "body": {"title": "Pantry tracker", "summary": "x"}},
+        {"method": "PUT", "path": idea, "body": {"title": "", "summary": ""}},
+        {"method": "PUT", "path": idea, "body": {"title": "Garden planner", "summary": "Rain."}},
+        {"method": "PUT", "path": f"{idea}/priority", "body": {"priority": "high"}},
+        {"method": "PUT", "path": f"{idea}/paused", "body": {"paused": True}},
+        {"method": "GET", "path": "/work"},
+        {"method": "PUT", "path": f"{idea}/paused", "body": {"paused": False}},
+        {"method": "POST", "path": "/ideas/ID-0013/withdraw"},
+        {"method": "POST", "path": "/ideas/ID-0013/withdraw"},
+        {"method": "PUT", "path": "/ideas/ID-0013/paused", "body": {"paused": True}},
+        {"method": "GET", "path": "/work"},
+        {"method": "POST", "path": "/ideas/ID-0013/reopen"},
+        {"method": "POST", "path": "/ideas/ID-0013/reopen"},
+        {"method": "POST", "path": "/ideas/nope/withdraw"},
+        {"method": "PUT", "path": f"{item}/paused", "body": {"paused": True}},
+        {"method": "PUT", "path": f"{item}/priority", "body": {"priority": "low"}},
+        {"method": "GET", "path": "/work"},
+        {"method": "GET", "path": item},
+        {"method": "PUT", "path": f"{item}/paused", "body": {"paused": False}},
+        {"method": "PUT", "path": "/work-items/nope/paused", "body": {"paused": True}},
+        {"method": "POST", "path": "/products/PR-ledger/retire"},
+        {"method": "POST", "path": "/products/PR-ledger/retire"},
+        {"method": "POST", "path": "/products/nope/retire"},
+        {"method": "GET", "path": "/work"},
+        {"method": "GET", "path": "/approvals"},
+        {"method": "POST", "path": "/threads/TH-0207/move", "body": {"lead_id": "foreman"}},
+        {"method": "POST", "path": "/threads/TH-0207/move", "body": {"lead_id": "foreman"}},
+        {"method": "POST", "path": "/threads/TH-0207/move", "body": {"lead_id": "atlas"}},
+        {"method": "POST", "path": "/threads/TH-0207/move", "body": {"lead_id": "nobody"}},
+        {"method": "POST", "path": "/threads/TH-0201/move", "body": {"lead_id": "spark"}},
+        {"method": "POST", "path": "/threads/nope/move", "body": {"lead_id": "spark"}},
+        {"method": "POST", "path": "/directory/role-suggestions", "body": {"title": " "}},
+        {
+            "method": "POST",
+            "path": "/directory/role-suggestions",
+            "body": {"title": "Gardener", "reason": "Someone should own the yard."},
+        },
+        {"method": "GET", "path": "/directory"},
+    ]
+
+
 def later_steps() -> list[Step]:
     """Time passing: cards expire, decisions take effect, a snooze ends."""
     return [
@@ -326,7 +373,7 @@ def run(steps: list[Step]) -> list[Step]:
 
 def main() -> None:
     """Record the scripted session to the path given."""
-    steps = [*reads(), *gate_steps(), *work_steps(), *shell_steps(), *later_steps()]
+    steps = [*reads(), *gate_steps(), *work_steps(), *shell_steps(), *board_steps(), *later_steps()]
     payload = {"exported_at": EXPORT_NOW.isoformat(), "steps": run(steps)}
     text = json.dumps(payload, indent=1, ensure_ascii=False, sort_keys=True) + "\n"
     Path(sys.argv[1]).write_text(text, encoding="utf-8")

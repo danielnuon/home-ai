@@ -1229,86 +1229,38 @@
      {
       "id": "ID-0014",
       "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
       "state": "Exploring",
-      "title": "Garden watering planner"
+      "summary": "Water the beds from the forecast instead of a fixed timer.",
+      "thread_id": "TH-0118",
+      "title": "Garden watering planner",
+      "withdrawn": false
      },
      {
       "id": "ID-0013",
       "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
       "state": "Validating",
-      "title": "Shared family calendar digest"
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": false
      },
      {
       "id": "ID-0011",
       "lead": "Spark",
+      "paused": false,
+      "priority": "low",
       "state": "Ready",
-      "title": "Utility bill anomaly alerts"
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
      }
     ],
     "items": [
-     {
-      "cost_usd": 0.0,
-      "department": "engineering",
-      "employee_name": "Bolt",
-      "employee_state": "generating",
-      "eta": "About 2–4 h left",
-      "id": "WI-0031",
-      "now": "Bolt is writing the reminder schedule",
-      "progress": 0.4,
-      "risk": "R2",
-      "stages": [
-       {
-        "code": "D0",
-        "state": "done"
-       },
-       {
-        "code": "D1",
-        "state": "done"
-       },
-       {
-        "code": "D2",
-        "state": "done"
-       },
-       {
-        "code": "D3",
-        "state": "done"
-       },
-       {
-        "code": "D4",
-        "state": "current"
-       },
-       {
-        "code": "D5",
-        "state": "todo"
-       },
-       {
-        "code": "D6",
-        "state": "todo"
-       },
-       {
-        "code": "D7",
-        "state": "todo"
-       },
-       {
-        "code": "D8",
-        "state": "todo"
-       },
-       {
-        "code": "D9",
-        "state": "todo"
-       },
-       {
-        "code": "D10",
-        "state": "todo"
-       }
-      ],
-      "status": {
-       "label": "Build · D4 implement",
-       "status": "in_progress"
-      },
-      "title": "Lease Reminders 1.2",
-      "waiting_on_owner": false
-     },
      {
       "cost_usd": 0.0,
       "department": "governance",
@@ -1316,8 +1268,13 @@
       "employee_state": "waiting",
       "eta": "Paused until you decide",
       "id": "WI-0029",
+      "kind": "build",
       "now": "Foreman needs a yes on the design",
+      "paused": false,
+      "priority": "high",
+      "product_id": "PR-receipts",
       "progress": 0.2,
+      "rework_count": 0,
       "risk": "R1",
       "stages": [
        {
@@ -1369,14 +1326,131 @@
        "label": "Design · Needs you at G3",
        "status": "attention"
       },
+      "thread_id": "TH-0129",
       "title": "Receipt scanner: better totals",
       "waiting_on_owner": true
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
      }
     ],
     "reviews": [
      {
       "added_lines": 212,
       "id": "RR-0044",
+      "item_id": "WI-0031",
       "readability": "Checks passed · cold read correct · 1 note for Bolt",
       "removed_lines": 40,
       "reviewer": "Redline on the coding model · same-family review controls on",
@@ -1384,6 +1458,46 @@
      }
     ],
     "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
      "open": [
       {
        "approval_id": null,
@@ -1578,6 +1692,10 @@
        "unit_id": "WI-0027"
       }
      ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
     }
    },
    "status": 200,
@@ -1600,6 +1718,8 @@
       "model": "conversation model",
       "name": "Atlas",
       "now": "Writing the brief",
+      "pipeline": "Personal",
+      "reports_to": null,
       "state": "generating",
       "status": "active_now",
       "tagline": "Keeps the household running on time.",
@@ -1621,6 +1741,8 @@
       "model": "coding model",
       "name": "Foreman",
       "now": "Waiting on you",
+      "pipeline": "Development",
+      "reports_to": null,
       "state": "waiting",
       "status": "waiting_on_owner",
       "tagline": "Turns ideas into shipped, documented software.",
@@ -1641,6 +1763,8 @@
       "model": "coding model",
       "name": "Spark",
       "now": "Blocked: an idea reached its budget",
+      "pipeline": "Ideation",
+      "reports_to": null,
       "state": "blocked",
       "status": "blocked",
       "tagline": "Finds the flaw before the code exists.",
@@ -1658,6 +1782,8 @@
       "model": "coding model",
       "name": "Custodian",
       "now": "Next run 01:00",
+      "pipeline": "Maintenance",
+      "reports_to": null,
       "state": "idle",
       "status": "idle",
       "tagline": "Keeps released products healthy.",
@@ -1675,6 +1801,8 @@
       "model": "conversation model",
       "name": "Chrono",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Finds the time, books it, reminds you.",
@@ -1695,6 +1823,8 @@
       "model": "conversation model",
       "name": "Keystone",
       "now": "Waiting for the tenant's reply",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Runs the rental like a small business.",
@@ -1712,6 +1842,8 @@
       "model": "conversation model",
       "name": "Ledger",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Every figure computed in code.",
@@ -1729,6 +1861,8 @@
       "model": "conversation model",
       "name": "Pulse",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Appointments, plans and paperwork.",
@@ -1746,6 +1880,8 @@
       "model": "coding model",
       "name": "Bolt",
       "now": "Writing code",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "generating",
       "status": "active_now",
       "tagline": "Red, green, refactor.",
@@ -1767,6 +1903,8 @@
       "model": "coding model",
       "name": "Probe",
       "now": "14 tests done",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Writes the tests before the code.",
@@ -1784,6 +1922,8 @@
       "model": "coding model",
       "name": "Redline",
       "now": "Queued for review",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Reads every change like a newcomer.",
@@ -1801,6 +1941,8 @@
       "model": "coding model",
       "name": "Gremlin",
       "now": "Arrives in Phase 13",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "not_yet_hired",
       "tagline": "Breaks things on purpose.",
@@ -5027,6 +5169,506 @@
    "step_up": null
   },
   {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work-items/WI-0031",
+   "response": {
+    "diff": [
+     {
+      "added": 8,
+      "lines": [
+       {
+        "kind": "context",
+        "text": "from datetime import date, timedelta"
+       },
+       {
+        "kind": "context",
+        "text": ""
+       },
+       {
+        "kind": "remove",
+        "text": "REMINDER_DAYS = 30"
+       },
+       {
+        "kind": "add",
+        "text": "REMINDER_DAYS = (30, 14, 3)"
+       },
+       {
+        "kind": "add",
+        "text": "\"\"\"Days before a lease ends that each reminder goes out.\"\"\""
+       },
+       {
+        "kind": "context",
+        "text": ""
+       },
+       {
+        "kind": "remove",
+        "text": "def reminder_date(lease_end: date) -> date:"
+       },
+       {
+        "kind": "remove",
+        "text": "    return lease_end - timedelta(days=REMINDER_DAYS)"
+       },
+       {
+        "kind": "add",
+        "text": "def reminder_dates(lease_end: date) -> list[date]:"
+       },
+       {
+        "kind": "add",
+        "text": "    \"\"\"Every reminder date, counted back from the end of the lease.\"\"\""
+       },
+       {
+        "kind": "add",
+        "text": "    return [lease_end - timedelta(days=days) for days in REMINDER_DAYS]"
+       }
+      ],
+      "path": "src/reminders/schedule.py",
+      "removed": 2
+     },
+     {
+      "added": 4,
+      "lines": [
+       {
+        "kind": "context",
+        "text": "def test_reminders_follow_the_lease_end():"
+       },
+       {
+        "kind": "add",
+        "text": "    dates = reminder_dates(date(2027, 3, 31))"
+       },
+       {
+        "kind": "add",
+        "text": "    assert dates == [date(2027, 3, 1), date(2027, 3, 17), date(2027, 3, 28)]"
+       },
+       {
+        "kind": "add",
+        "text": ""
+       },
+       {
+        "kind": "add",
+        "text": "# A renewal moves the end date, so every reminder moves with it."
+       }
+      ],
+      "path": "tests/test_schedule.py",
+      "removed": 0
+     }
+    ],
+    "gates": [
+     {
+      "code": "G1",
+      "name": "Requirements",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G2",
+      "name": "Plan",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G3",
+      "name": "Design",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G4",
+      "name": "Tests first",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G5",
+      "name": "Code review",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G6",
+      "name": "Validation",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G7",
+      "name": "Release readiness",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G8",
+      "name": "7-day review",
+      "note": "",
+      "state": "todo"
+     }
+    ],
+    "history": [
+     {
+      "code": "D0",
+      "text": "Foreman took the request",
+      "when": "Oct 27"
+     },
+     {
+      "code": "D1",
+      "text": "Plan approved at G2",
+      "when": "Oct 27"
+     },
+     {
+      "code": "D2",
+      "text": "Design approved by you at G3",
+      "when": "Oct 28"
+     },
+     {
+      "code": "D3",
+      "text": "Probe wrote 14 failing tests; G4 passed",
+      "when": "Oct 29"
+     },
+     {
+      "code": "D4",
+      "text": "Redline sent one slice back for rework",
+      "when": "Oct 30"
+     },
+     {
+      "code": "D4",
+      "text": "Bolt is implementing the reminder schedule",
+      "when": "today"
+     }
+    ],
+    "item": {
+     "cost_usd": 0.0,
+     "department": "engineering",
+     "employee_name": "Bolt",
+     "employee_state": "generating",
+     "eta": "About 2–4 h left",
+     "id": "WI-0031",
+     "kind": "build",
+     "now": "Bolt is writing the reminder schedule",
+     "paused": false,
+     "priority": "normal",
+     "product_id": "PR-lease",
+     "progress": 0.4,
+     "rework_count": 1,
+     "risk": "R2",
+     "stages": [
+      {
+       "code": "D0",
+       "state": "done"
+      },
+      {
+       "code": "D1",
+       "state": "done"
+      },
+      {
+       "code": "D2",
+       "state": "done"
+      },
+      {
+       "code": "D3",
+       "state": "done"
+      },
+      {
+       "code": "D4",
+       "state": "current"
+      },
+      {
+       "code": "D5",
+       "state": "todo"
+      },
+      {
+       "code": "D6",
+       "state": "todo"
+      },
+      {
+       "code": "D7",
+       "state": "todo"
+      },
+      {
+       "code": "D8",
+       "state": "todo"
+      },
+      {
+       "code": "D9",
+       "state": "todo"
+      },
+      {
+       "code": "D10",
+       "state": "todo"
+      }
+     ],
+     "status": {
+      "label": "Build · D4 implement",
+      "status": "in_progress"
+     },
+     "thread_id": "TH-0131",
+     "title": "Lease Reminders 1.2",
+     "waiting_on_owner": false
+    },
+    "product": {
+     "github_url": "https://github.com/home-platform/lease-reminders",
+     "id": "PR-lease",
+     "name": "Lease Reminders",
+     "pull_requests": [
+      {
+       "item_id": "WI-0031",
+       "number": 12,
+       "title": "WI-0031 Lease Reminders 1.2",
+       "url": "https://github.com/home-platform/lease-reminders/pull/12"
+      }
+     ],
+     "repo_path": "/Volumes/Data/work/lease-reminders/",
+     "state": "released",
+     "wip": 1,
+     "wip_limit": 2
+    },
+    "review": {
+     "added_lines": 212,
+     "id": "RR-0044",
+     "item_id": "WI-0031",
+     "readability": "Checks passed · cold read correct · 1 note for Bolt",
+     "removed_lines": 40,
+     "reviewer": "Redline on the coding model · same-family review controls on",
+     "title": "Reminder schedule"
+    },
+    "transcripts": [
+     {
+      "department": "engineering",
+      "doing": "is writing the reminder schedule",
+      "employee_name": "Bolt",
+      "entries": [
+       {
+        "done": true,
+        "id": "E-1",
+        "kind": "tool",
+        "text": "repo.read src/reminders/"
+       },
+       {
+        "done": true,
+        "id": "E-2",
+        "kind": "tool",
+        "text": "tests.run · 3 failing"
+       },
+       {
+        "done": true,
+        "id": "E-3",
+        "kind": "message",
+        "text": "The three failing tests expect reminders 30, 14 and 3 days before the lease end. I'll add a schedule table and compute the dates from the lease's end date, so a renewal moves every reminder."
+       },
+       {
+        "done": true,
+        "id": "E-4",
+        "kind": "tool",
+        "text": "fs.write src/reminders/schedule.py"
+       },
+       {
+        "done": false,
+        "id": "E-5",
+        "kind": "generating",
+        "text": ""
+       }
+      ],
+      "task_id": "T-5521"
+     },
+     {
+      "department": "quality",
+      "doing": "is waiting for Bolt",
+      "employee_name": "Redline",
+      "entries": [],
+      "task_id": "T-5523"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work-items/WI-0029",
+   "response": {
+    "diff": [],
+    "gates": [
+     {
+      "code": "G1",
+      "name": "Requirements",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G2",
+      "name": "Plan",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G3",
+      "name": "Design",
+      "note": "Waiting on you",
+      "state": "waiting"
+     },
+     {
+      "code": "G4",
+      "name": "Tests first",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G5",
+      "name": "Code review",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G6",
+      "name": "Validation",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G7",
+      "name": "Release readiness",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G8",
+      "name": "7-day review",
+      "note": "",
+      "state": "todo"
+     }
+    ],
+    "history": [
+     {
+      "code": "D0",
+      "text": "Foreman took the request",
+      "when": "Oct 25"
+     },
+     {
+      "code": "D1",
+      "text": "Plan approved at G2",
+      "when": "Oct 26"
+     },
+     {
+      "code": "D2",
+      "text": "Design is waiting for your yes at G3",
+      "when": "yesterday"
+     }
+    ],
+    "item": {
+     "cost_usd": 0.0,
+     "department": "governance",
+     "employee_name": "Foreman",
+     "employee_state": "waiting",
+     "eta": "Paused until you decide",
+     "id": "WI-0029",
+     "kind": "build",
+     "now": "Foreman needs a yes on the design",
+     "paused": false,
+     "priority": "high",
+     "product_id": "PR-receipts",
+     "progress": 0.2,
+     "rework_count": 0,
+     "risk": "R1",
+     "stages": [
+      {
+       "code": "D0",
+       "state": "done"
+      },
+      {
+       "code": "D1",
+       "state": "done"
+      },
+      {
+       "code": "D2",
+       "state": "current"
+      },
+      {
+       "code": "D3",
+       "state": "todo"
+      },
+      {
+       "code": "D4",
+       "state": "todo"
+      },
+      {
+       "code": "D5",
+       "state": "todo"
+      },
+      {
+       "code": "D6",
+       "state": "todo"
+      },
+      {
+       "code": "D7",
+       "state": "todo"
+      },
+      {
+       "code": "D8",
+       "state": "todo"
+      },
+      {
+       "code": "D9",
+       "state": "todo"
+      },
+      {
+       "code": "D10",
+       "state": "todo"
+      }
+     ],
+     "status": {
+      "label": "Design · Needs you at G3",
+      "status": "attention"
+     },
+     "thread_id": "TH-0129",
+     "title": "Receipt scanner: better totals",
+     "waiting_on_owner": true
+    },
+    "product": {
+     "github_url": "https://github.com/home-platform/receipt-scanner",
+     "id": "PR-receipts",
+     "name": "Receipt scanner",
+     "pull_requests": [
+      {
+       "item_id": "WI-0029",
+       "number": 7,
+       "title": "WI-0029 Receipt scanner: better totals",
+       "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+      }
+     ],
+     "repo_path": "/Volumes/Data/work/receipt-scanner/",
+     "state": "released",
+     "wip": 0,
+     "wip_limit": 2
+    },
+    "review": null,
+    "transcripts": [
+     {
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "employee_name": "Foreman",
+      "entries": [],
+      "task_id": "T-5519"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work-items/nope",
+   "response": {
+    "error": "not_found",
+    "reason": "That work item doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
    "body": {
     "decision": "deny"
    },
@@ -6171,6 +6813,8 @@
       "model": "conversation model",
       "name": "Atlas",
       "now": "Writing the brief",
+      "pipeline": "Personal",
+      "reports_to": null,
       "state": "generating",
       "status": "active_now",
       "tagline": "Keeps the household running on time.",
@@ -6192,6 +6836,8 @@
       "model": "coding model",
       "name": "Foreman",
       "now": "Waiting on you",
+      "pipeline": "Development",
+      "reports_to": null,
       "state": "waiting",
       "status": "waiting_on_owner",
       "tagline": "Turns ideas into shipped, documented software.",
@@ -6212,6 +6858,8 @@
       "model": "coding model",
       "name": "Spark",
       "now": "Blocked: an idea reached its budget",
+      "pipeline": "Ideation",
+      "reports_to": null,
       "state": "blocked",
       "status": "blocked",
       "tagline": "Finds the flaw before the code exists.",
@@ -6229,6 +6877,8 @@
       "model": "coding model",
       "name": "Custodian",
       "now": "Next run 01:00",
+      "pipeline": "Maintenance",
+      "reports_to": null,
       "state": "idle",
       "status": "idle",
       "tagline": "Keeps released products healthy.",
@@ -6246,6 +6896,8 @@
       "model": "conversation model",
       "name": "Chrono",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Finds the time, books it, reminds you.",
@@ -6266,6 +6918,8 @@
       "model": "conversation model",
       "name": "Keystone",
       "now": "Waiting for the tenant's reply",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Runs the rental like a small business.",
@@ -6283,6 +6937,8 @@
       "model": "conversation model",
       "name": "Ledger",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Every figure computed in code.",
@@ -6300,6 +6956,8 @@
       "model": "conversation model",
       "name": "Pulse",
       "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Appointments, plans and paperwork.",
@@ -6317,6 +6975,8 @@
       "model": "coding model",
       "name": "Bolt",
       "now": "Writing code",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "generating",
       "status": "disabled",
       "tagline": "Red, green, refactor.",
@@ -6338,6 +6998,8 @@
       "model": "coding model",
       "name": "Probe",
       "now": "14 tests done",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Writes the tests before the code.",
@@ -6355,6 +7017,8 @@
       "model": "coding model",
       "name": "Redline",
       "now": "Queued for review",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "idle",
       "tagline": "Reads every change like a newcomer.",
@@ -6372,6 +7036,8 @@
       "model": "coding model",
       "name": "Gremlin",
       "now": "Arrives in Phase 13",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
       "state": "idle",
       "status": "not_yet_hired",
       "tagline": "Breaks things on purpose.",
@@ -6821,86 +7487,38 @@
      {
       "id": "ID-0014",
       "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
       "state": "Exploring",
-      "title": "Garden watering planner"
+      "summary": "Water the beds from the forecast instead of a fixed timer.",
+      "thread_id": "TH-0118",
+      "title": "Garden watering planner",
+      "withdrawn": false
      },
      {
       "id": "ID-0013",
       "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
       "state": "Validating",
-      "title": "Shared family calendar digest"
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": false
      },
      {
       "id": "ID-0011",
       "lead": "Spark",
+      "paused": false,
+      "priority": "low",
       "state": "Ready",
-      "title": "Utility bill anomaly alerts"
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
      }
     ],
     "items": [
-     {
-      "cost_usd": 0.0,
-      "department": "engineering",
-      "employee_name": "Bolt",
-      "employee_state": "generating",
-      "eta": "About 2–4 h left",
-      "id": "WI-0031",
-      "now": "Bolt is writing the reminder schedule",
-      "progress": 0.4,
-      "risk": "R2",
-      "stages": [
-       {
-        "code": "D0",
-        "state": "done"
-       },
-       {
-        "code": "D1",
-        "state": "done"
-       },
-       {
-        "code": "D2",
-        "state": "done"
-       },
-       {
-        "code": "D3",
-        "state": "done"
-       },
-       {
-        "code": "D4",
-        "state": "current"
-       },
-       {
-        "code": "D5",
-        "state": "todo"
-       },
-       {
-        "code": "D6",
-        "state": "todo"
-       },
-       {
-        "code": "D7",
-        "state": "todo"
-       },
-       {
-        "code": "D8",
-        "state": "todo"
-       },
-       {
-        "code": "D9",
-        "state": "todo"
-       },
-       {
-        "code": "D10",
-        "state": "todo"
-       }
-      ],
-      "status": {
-       "label": "Build · D4 implement",
-       "status": "in_progress"
-      },
-      "title": "Lease Reminders 1.2",
-      "waiting_on_owner": false
-     },
      {
       "cost_usd": 0.0,
       "department": "governance",
@@ -6908,8 +7526,13 @@
       "employee_state": "waiting",
       "eta": "Paused until you decide",
       "id": "WI-0029",
+      "kind": "build",
       "now": "Foreman needs a yes on the design",
+      "paused": false,
+      "priority": "high",
+      "product_id": "PR-receipts",
       "progress": 0.2,
+      "rework_count": 0,
       "risk": "R1",
       "stages": [
        {
@@ -6961,14 +7584,131 @@
        "label": "Design · Needs you at G3",
        "status": "attention"
       },
+      "thread_id": "TH-0129",
       "title": "Receipt scanner: better totals",
       "waiting_on_owner": true
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
      }
     ],
     "reviews": [
      {
       "added_lines": 212,
       "id": "RR-0044",
+      "item_id": "WI-0031",
       "readability": "Checks passed · cold read correct · 1 note for Bolt",
       "removed_lines": 40,
       "reviewer": "Redline on the coding model · same-family review controls on",
@@ -6976,6 +7716,46 @@
      }
     ],
     "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
      "open": [
       {
        "approval_id": null,
@@ -7170,6 +7950,10 @@
        "unit_id": "WI-0027"
       }
      ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
     }
    },
    "status": 200,
@@ -11305,6 +12089,3965 @@
    "step_up": null
   },
   {
+   "body": {
+    "summary": "",
+    "title": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/ideas",
+   "response": {
+    "error": "conflict",
+    "reason": "Give the idea a title first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "summary": "x",
+    "title": "Pantry tracker"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/ideas",
+   "response": {
+    "id": "ID-id25",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "normal",
+    "state": "Captured",
+    "summary": "x",
+    "thread_id": "TH-id25",
+    "title": "Pantry tracker",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "summary": "",
+    "title": ""
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/ideas/ID-0014",
+   "response": {
+    "error": "conflict",
+    "reason": "Give the idea a title first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "summary": "Rain.",
+    "title": "Garden planner"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/ideas/ID-0014",
+   "response": {
+    "id": "ID-0014",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "normal",
+    "state": "Exploring",
+    "summary": "Rain.",
+    "thread_id": "TH-0118",
+    "title": "Garden planner",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "priority": "high"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "work",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/ideas/ID-0014/priority",
+   "response": {
+    "id": "ID-0014",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "high",
+    "state": "Exploring",
+    "summary": "Rain.",
+    "thread_id": "TH-0118",
+    "title": "Garden planner",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": true
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/ideas/ID-0014/paused",
+   "response": {
+    "id": "ID-0014",
+    "lead": "Spark",
+    "paused": true,
+    "priority": "high",
+    "state": "Exploring",
+    "summary": "Rain.",
+    "thread_id": "TH-0118",
+    "title": "Garden planner",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work",
+   "response": {
+    "ideas": [
+     {
+      "id": "ID-0014",
+      "lead": "Spark",
+      "paused": true,
+      "priority": "high",
+      "state": "Exploring",
+      "summary": "Rain.",
+      "thread_id": "TH-0118",
+      "title": "Garden planner",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-id25",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Captured",
+      "summary": "x",
+      "thread_id": "TH-id25",
+      "title": "Pantry tracker",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0013",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Validating",
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0011",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "low",
+      "state": "Ready",
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
+     }
+    ],
+    "items": [
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Foreman",
+      "employee_state": "waiting",
+      "eta": "Paused until you decide",
+      "id": "WI-0029",
+      "kind": "build",
+      "now": "Foreman needs a yes on the design",
+      "paused": false,
+      "priority": "high",
+      "product_id": "PR-receipts",
+      "progress": 0.2,
+      "rework_count": 0,
+      "risk": "R1",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "current"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Design · Needs you at G3",
+       "status": "attention"
+      },
+      "thread_id": "TH-0129",
+      "title": "Receipt scanner: better totals",
+      "waiting_on_owner": true
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Wayfinder",
+      "employee_state": "thinking",
+      "eta": "Routed within a few minutes",
+      "id": "WI-id18",
+      "kind": "build",
+      "now": "Wayfinder is routing your request: Add a step.",
+      "paused": false,
+      "priority": "normal",
+      "product_id": null,
+      "progress": 0.0,
+      "rework_count": 0,
+      "risk": "R0",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "current"
+       },
+       {
+        "code": "D1",
+        "state": "todo"
+       },
+       {
+        "code": "D2",
+        "state": "todo"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Requirements · D0 intake",
+       "status": "in_progress"
+      },
+      "thread_id": null,
+      "title": "Update INFRASTRUCTURE.md",
+      "waiting_on_owner": false
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     }
+    ],
+    "reviews": [
+     {
+      "added_lines": 212,
+      "id": "RR-0044",
+      "item_id": "WI-0031",
+      "readability": "Checks passed · cold read correct · 1 note for Bolt",
+      "removed_lines": 40,
+      "reviewer": "Redline on the coding model · same-family review controls on",
+      "title": "Reminder schedule"
+     }
+    ],
+    "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
+     "open": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Foreman needs a yes on the design (gate G3).",
+       "id": "TH-0129",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "yesterday",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Receipt scanner: better totals",
+       "unit_id": "WI-0029"
+      },
+      {
+       "approval_id": "AP-0107",
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "An approval is waiting for you.",
+       "id": "TH-0209",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Reply to Dr. Patel's office",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Paused. Nothing runs until it is resumed.",
+       "id": "TH-0118",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "paused",
+       "temporary_until": null,
+       "title": "Garden planner",
+       "unit_id": "ID-0014"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "id": "TH-0207",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "review_ready",
+       "temporary_until": null,
+       "title": "Book the oil change",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Waiting on the tenant's reply, expected by Thursday",
+       "id": "TH-0214",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "waiting",
+       "temporary_until": null,
+       "title": "Lease renewal for the rental",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Monday",
+       "id": "TH-0120",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Monday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Shared family calendar digest",
+       "unit_id": "ID-0013"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-0216",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": false,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Oct 27",
+       "id": "TH-0131",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 27",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.2",
+       "unit_id": "WI-0031"
+      },
+      {
+       "approval_id": null,
+       "branched_from": "TH-0216",
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-ID13",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy (branch)",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-id25",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Pantry tracker",
+       "unit_id": "ID-id25"
+      }
+     ],
+     "recently_resolved": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Renewed online. The sticker arrives by mail.",
+       "id": "TH-0201",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Oct 22",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Renew the car registration",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0127",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 20",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.1",
+       "unit_id": "WI-0027"
+      }
+     ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": false
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/ideas/ID-0014/paused",
+   "response": {
+    "id": "ID-0014",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "high",
+    "state": "Exploring",
+    "summary": "Rain.",
+    "thread_id": "TH-0118",
+    "title": "Garden planner",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/ideas/ID-0013/withdraw",
+   "response": {
+    "id": "ID-0013",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "normal",
+    "state": "Validating",
+    "summary": "One weekly email to Mom and Dad with everyone's plans.",
+    "thread_id": "TH-0120",
+    "title": "Shared family calendar digest",
+    "withdrawn": true
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/ideas/ID-0013/withdraw",
+   "response": {
+    "error": "conflict",
+    "reason": "This idea was withdrawn. Reopen it first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/ideas/ID-0013/paused",
+   "response": {
+    "error": "conflict",
+    "reason": "This idea was withdrawn. Reopen it first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work",
+   "response": {
+    "ideas": [
+     {
+      "id": "ID-0014",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "high",
+      "state": "Exploring",
+      "summary": "Rain.",
+      "thread_id": "TH-0118",
+      "title": "Garden planner",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-id25",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Captured",
+      "summary": "x",
+      "thread_id": "TH-id25",
+      "title": "Pantry tracker",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0013",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Validating",
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": true
+     },
+     {
+      "id": "ID-0011",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "low",
+      "state": "Ready",
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
+     }
+    ],
+    "items": [
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Foreman",
+      "employee_state": "waiting",
+      "eta": "Paused until you decide",
+      "id": "WI-0029",
+      "kind": "build",
+      "now": "Foreman needs a yes on the design",
+      "paused": false,
+      "priority": "high",
+      "product_id": "PR-receipts",
+      "progress": 0.2,
+      "rework_count": 0,
+      "risk": "R1",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "current"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Design · Needs you at G3",
+       "status": "attention"
+      },
+      "thread_id": "TH-0129",
+      "title": "Receipt scanner: better totals",
+      "waiting_on_owner": true
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Wayfinder",
+      "employee_state": "thinking",
+      "eta": "Routed within a few minutes",
+      "id": "WI-id18",
+      "kind": "build",
+      "now": "Wayfinder is routing your request: Add a step.",
+      "paused": false,
+      "priority": "normal",
+      "product_id": null,
+      "progress": 0.0,
+      "rework_count": 0,
+      "risk": "R0",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "current"
+       },
+       {
+        "code": "D1",
+        "state": "todo"
+       },
+       {
+        "code": "D2",
+        "state": "todo"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Requirements · D0 intake",
+       "status": "in_progress"
+      },
+      "thread_id": null,
+      "title": "Update INFRASTRUCTURE.md",
+      "waiting_on_owner": false
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     }
+    ],
+    "reviews": [
+     {
+      "added_lines": 212,
+      "id": "RR-0044",
+      "item_id": "WI-0031",
+      "readability": "Checks passed · cold read correct · 1 note for Bolt",
+      "removed_lines": 40,
+      "reviewer": "Redline on the coding model · same-family review controls on",
+      "title": "Reminder schedule"
+     }
+    ],
+    "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
+     "open": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Foreman needs a yes on the design (gate G3).",
+       "id": "TH-0129",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "yesterday",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Receipt scanner: better totals",
+       "unit_id": "WI-0029"
+      },
+      {
+       "approval_id": "AP-0107",
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "An approval is waiting for you.",
+       "id": "TH-0209",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Reply to Dr. Patel's office",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "id": "TH-0207",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "review_ready",
+       "temporary_until": null,
+       "title": "Book the oil change",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Waiting on the tenant's reply, expected by Thursday",
+       "id": "TH-0214",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "waiting",
+       "temporary_until": null,
+       "title": "Lease renewal for the rental",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-0216",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": false,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Oct 27",
+       "id": "TH-0131",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 27",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.2",
+       "unit_id": "WI-0031"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Tuesday",
+       "id": "TH-0118",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Garden planner",
+       "unit_id": "ID-0014"
+      },
+      {
+       "approval_id": null,
+       "branched_from": "TH-0216",
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-ID13",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy (branch)",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-id25",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Pantry tracker",
+       "unit_id": "ID-id25"
+      }
+     ],
+     "recently_resolved": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Withdrawn by you.",
+       "id": "TH-0120",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Monday",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Shared family calendar digest",
+       "unit_id": "ID-0013"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Renewed online. The sticker arrives by mail.",
+       "id": "TH-0201",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Oct 22",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Renew the car registration",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0127",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 20",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.1",
+       "unit_id": "WI-0027"
+      }
+     ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/ideas/ID-0013/reopen",
+   "response": {
+    "id": "ID-0013",
+    "lead": "Spark",
+    "paused": false,
+    "priority": "normal",
+    "state": "Validating",
+    "summary": "One weekly email to Mom and Dad with everyone's plans.",
+    "thread_id": "TH-0120",
+    "title": "Shared family calendar digest",
+    "withdrawn": false
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/ideas/ID-0013/reopen",
+   "response": {
+    "error": "conflict",
+    "reason": "This idea is already open."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/ideas/nope/withdraw",
+   "response": {
+    "error": "not_found",
+    "reason": "That idea doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": true
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/work-items/WI-0029/paused",
+   "response": {
+    "cost_usd": 0.0,
+    "department": "governance",
+    "employee_name": "Foreman",
+    "employee_state": "waiting",
+    "eta": "Paused until you decide",
+    "id": "WI-0029",
+    "kind": "build",
+    "now": "Paused by you. Nothing runs until you resume it.",
+    "paused": true,
+    "priority": "high",
+    "product_id": "PR-receipts",
+    "progress": 0.2,
+    "rework_count": 0,
+    "risk": "R1",
+    "stages": [
+     {
+      "code": "D0",
+      "state": "done"
+     },
+     {
+      "code": "D1",
+      "state": "done"
+     },
+     {
+      "code": "D2",
+      "state": "current"
+     },
+     {
+      "code": "D3",
+      "state": "todo"
+     },
+     {
+      "code": "D4",
+      "state": "todo"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "status": {
+     "label": "Design · Paused",
+     "status": "neutral"
+    },
+    "thread_id": "TH-0129",
+    "title": "Receipt scanner: better totals",
+    "waiting_on_owner": true
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "priority": "low"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "work",
+       "today"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/work-items/WI-0029/priority",
+   "response": {
+    "cost_usd": 0.0,
+    "department": "governance",
+    "employee_name": "Foreman",
+    "employee_state": "waiting",
+    "eta": "Paused until you decide",
+    "id": "WI-0029",
+    "kind": "build",
+    "now": "Paused by you. Nothing runs until you resume it.",
+    "paused": true,
+    "priority": "low",
+    "product_id": "PR-receipts",
+    "progress": 0.2,
+    "rework_count": 0,
+    "risk": "R1",
+    "stages": [
+     {
+      "code": "D0",
+      "state": "done"
+     },
+     {
+      "code": "D1",
+      "state": "done"
+     },
+     {
+      "code": "D2",
+      "state": "current"
+     },
+     {
+      "code": "D3",
+      "state": "todo"
+     },
+     {
+      "code": "D4",
+      "state": "todo"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "status": {
+     "label": "Design · Paused",
+     "status": "neutral"
+    },
+    "thread_id": "TH-0129",
+    "title": "Receipt scanner: better totals",
+    "waiting_on_owner": true
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work",
+   "response": {
+    "ideas": [
+     {
+      "id": "ID-0014",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "high",
+      "state": "Exploring",
+      "summary": "Rain.",
+      "thread_id": "TH-0118",
+      "title": "Garden planner",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-id25",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Captured",
+      "summary": "x",
+      "thread_id": "TH-id25",
+      "title": "Pantry tracker",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0013",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Validating",
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0011",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "low",
+      "state": "Ready",
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
+     }
+    ],
+    "items": [
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Wayfinder",
+      "employee_state": "thinking",
+      "eta": "Routed within a few minutes",
+      "id": "WI-id18",
+      "kind": "build",
+      "now": "Wayfinder is routing your request: Add a step.",
+      "paused": false,
+      "priority": "normal",
+      "product_id": null,
+      "progress": 0.0,
+      "rework_count": 0,
+      "risk": "R0",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "current"
+       },
+       {
+        "code": "D1",
+        "state": "todo"
+       },
+       {
+        "code": "D2",
+        "state": "todo"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Requirements · D0 intake",
+       "status": "in_progress"
+      },
+      "thread_id": null,
+      "title": "Update INFRASTRUCTURE.md",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Foreman",
+      "employee_state": "waiting",
+      "eta": "Paused until you decide",
+      "id": "WI-0029",
+      "kind": "build",
+      "now": "Paused by you. Nothing runs until you resume it.",
+      "paused": true,
+      "priority": "low",
+      "product_id": "PR-receipts",
+      "progress": 0.2,
+      "rework_count": 0,
+      "risk": "R1",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "current"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Design · Paused",
+       "status": "neutral"
+      },
+      "thread_id": "TH-0129",
+      "title": "Receipt scanner: better totals",
+      "waiting_on_owner": true
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     }
+    ],
+    "reviews": [
+     {
+      "added_lines": 212,
+      "id": "RR-0044",
+      "item_id": "WI-0031",
+      "readability": "Checks passed · cold read correct · 1 note for Bolt",
+      "removed_lines": 40,
+      "reviewer": "Redline on the coding model · same-family review controls on",
+      "title": "Reminder schedule"
+     }
+    ],
+    "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
+     "open": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Foreman needs a yes on the design (gate G3).",
+       "id": "TH-0129",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "yesterday",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Receipt scanner: better totals",
+       "unit_id": "WI-0029"
+      },
+      {
+       "approval_id": "AP-0107",
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "An approval is waiting for you.",
+       "id": "TH-0209",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Reply to Dr. Patel's office",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "id": "TH-0207",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "review_ready",
+       "temporary_until": null,
+       "title": "Book the oil change",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Waiting on the tenant's reply, expected by Thursday",
+       "id": "TH-0214",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "waiting",
+       "temporary_until": null,
+       "title": "Lease renewal for the rental",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Monday",
+       "id": "TH-0120",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Monday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Shared family calendar digest",
+       "unit_id": "ID-0013"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-0216",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": false,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Oct 27",
+       "id": "TH-0131",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 27",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.2",
+       "unit_id": "WI-0031"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Tuesday",
+       "id": "TH-0118",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Garden planner",
+       "unit_id": "ID-0014"
+      },
+      {
+       "approval_id": null,
+       "branched_from": "TH-0216",
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-ID13",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy (branch)",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-id25",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Pantry tracker",
+       "unit_id": "ID-id25"
+      }
+     ],
+     "recently_resolved": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Renewed online. The sticker arrives by mail.",
+       "id": "TH-0201",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Oct 22",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Renew the car registration",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0127",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 20",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.1",
+       "unit_id": "WI-0027"
+      }
+     ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work-items/WI-0029",
+   "response": {
+    "diff": [],
+    "gates": [
+     {
+      "code": "G1",
+      "name": "Requirements",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G2",
+      "name": "Plan",
+      "note": "Passed on evidence",
+      "state": "passed"
+     },
+     {
+      "code": "G3",
+      "name": "Design",
+      "note": "Waiting on you",
+      "state": "waiting"
+     },
+     {
+      "code": "G4",
+      "name": "Tests first",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G5",
+      "name": "Code review",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G6",
+      "name": "Validation",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G7",
+      "name": "Release readiness",
+      "note": "",
+      "state": "todo"
+     },
+     {
+      "code": "G8",
+      "name": "7-day review",
+      "note": "",
+      "state": "todo"
+     }
+    ],
+    "history": [
+     {
+      "code": "D0",
+      "text": "Foreman took the request",
+      "when": "Oct 25"
+     },
+     {
+      "code": "D1",
+      "text": "Plan approved at G2",
+      "when": "Oct 26"
+     },
+     {
+      "code": "D2",
+      "text": "Design is waiting for your yes at G3",
+      "when": "yesterday"
+     }
+    ],
+    "item": {
+     "cost_usd": 0.0,
+     "department": "governance",
+     "employee_name": "Foreman",
+     "employee_state": "waiting",
+     "eta": "Paused until you decide",
+     "id": "WI-0029",
+     "kind": "build",
+     "now": "Paused by you. Nothing runs until you resume it.",
+     "paused": true,
+     "priority": "low",
+     "product_id": "PR-receipts",
+     "progress": 0.2,
+     "rework_count": 0,
+     "risk": "R1",
+     "stages": [
+      {
+       "code": "D0",
+       "state": "done"
+      },
+      {
+       "code": "D1",
+       "state": "done"
+      },
+      {
+       "code": "D2",
+       "state": "current"
+      },
+      {
+       "code": "D3",
+       "state": "todo"
+      },
+      {
+       "code": "D4",
+       "state": "todo"
+      },
+      {
+       "code": "D5",
+       "state": "todo"
+      },
+      {
+       "code": "D6",
+       "state": "todo"
+      },
+      {
+       "code": "D7",
+       "state": "todo"
+      },
+      {
+       "code": "D8",
+       "state": "todo"
+      },
+      {
+       "code": "D9",
+       "state": "todo"
+      },
+      {
+       "code": "D10",
+       "state": "todo"
+      }
+     ],
+     "status": {
+      "label": "Design · Paused",
+      "status": "neutral"
+     },
+     "thread_id": "TH-0129",
+     "title": "Receipt scanner: better totals",
+     "waiting_on_owner": true
+    },
+    "product": {
+     "github_url": "https://github.com/home-platform/receipt-scanner",
+     "id": "PR-receipts",
+     "name": "Receipt scanner",
+     "pull_requests": [
+      {
+       "item_id": "WI-0029",
+       "number": 7,
+       "title": "WI-0029 Receipt scanner: better totals",
+       "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+      }
+     ],
+     "repo_path": "/Volumes/Data/work/receipt-scanner/",
+     "state": "released",
+     "wip": 0,
+     "wip_limit": 2
+    },
+    "review": null,
+    "transcripts": [
+     {
+      "department": "governance",
+      "doing": "is waiting for your yes on the design",
+      "employee_name": "Foreman",
+      "entries": [],
+      "task_id": "T-5519"
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": false
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "PUT",
+   "path": "/work-items/WI-0029/paused",
+   "response": {
+    "cost_usd": 0.0,
+    "department": "governance",
+    "employee_name": "Foreman",
+    "employee_state": "waiting",
+    "eta": "Paused until you decide",
+    "id": "WI-0029",
+    "kind": "build",
+    "now": "Foreman needs a yes on the design",
+    "paused": false,
+    "priority": "low",
+    "product_id": "PR-receipts",
+    "progress": 0.2,
+    "rework_count": 0,
+    "risk": "R1",
+    "stages": [
+     {
+      "code": "D0",
+      "state": "done"
+     },
+     {
+      "code": "D1",
+      "state": "done"
+     },
+     {
+      "code": "D2",
+      "state": "current"
+     },
+     {
+      "code": "D3",
+      "state": "todo"
+     },
+     {
+      "code": "D4",
+      "state": "todo"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "status": {
+     "label": "Design · Needs you at G3",
+     "status": "attention"
+    },
+    "thread_id": "TH-0129",
+    "title": "Receipt scanner: better totals",
+    "waiting_on_owner": true
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "paused": true
+   },
+   "events": [],
+   "method": "PUT",
+   "path": "/work-items/nope/paused",
+   "response": {
+    "error": "not_found",
+    "reason": "That work item doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform",
+       "approvals"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/products/PR-ledger/retire",
+   "response": {
+    "cost_usd": 0.0,
+    "department": "governance",
+    "employee_name": "Foreman",
+    "employee_state": "waiting",
+    "eta": "Waits for your approval",
+    "id": "WI-id26",
+    "kind": "retirement",
+    "now": "Foreman needs your yes to retire it",
+    "paused": false,
+    "priority": "normal",
+    "product_id": "PR-ledger",
+    "progress": 0.0,
+    "rework_count": 0,
+    "risk": "R1",
+    "stages": [
+     {
+      "code": "D0",
+      "state": "current"
+     },
+     {
+      "code": "D1",
+      "state": "todo"
+     },
+     {
+      "code": "D2",
+      "state": "todo"
+     },
+     {
+      "code": "D3",
+      "state": "todo"
+     },
+     {
+      "code": "D4",
+      "state": "todo"
+     },
+     {
+      "code": "D5",
+      "state": "todo"
+     },
+     {
+      "code": "D6",
+      "state": "todo"
+     },
+     {
+      "code": "D7",
+      "state": "todo"
+     },
+     {
+      "code": "D8",
+      "state": "todo"
+     },
+     {
+      "code": "D9",
+      "state": "todo"
+     },
+     {
+      "code": "D10",
+      "state": "todo"
+     }
+    ],
+    "status": {
+     "label": "Requirements · Needs you at G1",
+     "status": "attention"
+    },
+    "thread_id": "TH-id26",
+    "title": "Retire Rent ledger",
+    "waiting_on_owner": true
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/products/PR-ledger/retire",
+   "response": {
+    "error": "conflict",
+    "reason": "Rent ledger is already being retired."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "POST",
+   "path": "/products/nope/retire",
+   "response": {
+    "error": "not_found",
+    "reason": "That product doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/work",
+   "response": {
+    "ideas": [
+     {
+      "id": "ID-0014",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "high",
+      "state": "Exploring",
+      "summary": "Rain.",
+      "thread_id": "TH-0118",
+      "title": "Garden planner",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-id25",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Captured",
+      "summary": "x",
+      "thread_id": "TH-id25",
+      "title": "Pantry tracker",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0013",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "normal",
+      "state": "Validating",
+      "summary": "One weekly email to Mom and Dad with everyone's plans.",
+      "thread_id": "TH-0120",
+      "title": "Shared family calendar digest",
+      "withdrawn": false
+     },
+     {
+      "id": "ID-0011",
+      "lead": "Spark",
+      "paused": false,
+      "priority": "low",
+      "state": "Ready",
+      "summary": "Tell me when a utility bill is far off its usual amount.",
+      "thread_id": null,
+      "title": "Utility bill anomaly alerts",
+      "withdrawn": false
+     }
+    ],
+    "items": [
+     {
+      "cost_usd": 0.0,
+      "department": "engineering",
+      "employee_name": "Bolt",
+      "employee_state": "generating",
+      "eta": "About 2–4 h left",
+      "id": "WI-0031",
+      "kind": "build",
+      "now": "Bolt is writing the reminder schedule",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-lease",
+      "progress": 0.4,
+      "rework_count": 1,
+      "risk": "R2",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "done"
+       },
+       {
+        "code": "D3",
+        "state": "done"
+       },
+       {
+        "code": "D4",
+        "state": "current"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Build · D4 implement",
+       "status": "in_progress"
+      },
+      "thread_id": "TH-0131",
+      "title": "Lease Reminders 1.2",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Wayfinder",
+      "employee_state": "thinking",
+      "eta": "Routed within a few minutes",
+      "id": "WI-id18",
+      "kind": "build",
+      "now": "Wayfinder is routing your request: Add a step.",
+      "paused": false,
+      "priority": "normal",
+      "product_id": null,
+      "progress": 0.0,
+      "rework_count": 0,
+      "risk": "R0",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "current"
+       },
+       {
+        "code": "D1",
+        "state": "todo"
+       },
+       {
+        "code": "D2",
+        "state": "todo"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Requirements · D0 intake",
+       "status": "in_progress"
+      },
+      "thread_id": null,
+      "title": "Update INFRASTRUCTURE.md",
+      "waiting_on_owner": false
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Foreman",
+      "employee_state": "waiting",
+      "eta": "Waits for your approval",
+      "id": "WI-id26",
+      "kind": "retirement",
+      "now": "Foreman needs your yes to retire it",
+      "paused": false,
+      "priority": "normal",
+      "product_id": "PR-ledger",
+      "progress": 0.0,
+      "rework_count": 0,
+      "risk": "R1",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "current"
+       },
+       {
+        "code": "D1",
+        "state": "todo"
+       },
+       {
+        "code": "D2",
+        "state": "todo"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Requirements · Needs you at G1",
+       "status": "attention"
+      },
+      "thread_id": "TH-id26",
+      "title": "Retire Rent ledger",
+      "waiting_on_owner": true
+     },
+     {
+      "cost_usd": 0.0,
+      "department": "governance",
+      "employee_name": "Foreman",
+      "employee_state": "waiting",
+      "eta": "Paused until you decide",
+      "id": "WI-0029",
+      "kind": "build",
+      "now": "Foreman needs a yes on the design",
+      "paused": false,
+      "priority": "low",
+      "product_id": "PR-receipts",
+      "progress": 0.2,
+      "rework_count": 0,
+      "risk": "R1",
+      "stages": [
+       {
+        "code": "D0",
+        "state": "done"
+       },
+       {
+        "code": "D1",
+        "state": "done"
+       },
+       {
+        "code": "D2",
+        "state": "current"
+       },
+       {
+        "code": "D3",
+        "state": "todo"
+       },
+       {
+        "code": "D4",
+        "state": "todo"
+       },
+       {
+        "code": "D5",
+        "state": "todo"
+       },
+       {
+        "code": "D6",
+        "state": "todo"
+       },
+       {
+        "code": "D7",
+        "state": "todo"
+       },
+       {
+        "code": "D8",
+        "state": "todo"
+       },
+       {
+        "code": "D9",
+        "state": "todo"
+       },
+       {
+        "code": "D10",
+        "state": "todo"
+       }
+      ],
+      "status": {
+       "label": "Design · Needs you at G3",
+       "status": "attention"
+      },
+      "thread_id": "TH-0129",
+      "title": "Receipt scanner: better totals",
+      "waiting_on_owner": true
+     }
+    ],
+    "products": [
+     {
+      "github_url": "https://github.com/home-platform/lease-reminders",
+      "id": "PR-lease",
+      "name": "Lease Reminders",
+      "pull_requests": [
+       {
+        "item_id": "WI-0031",
+        "number": 12,
+        "title": "WI-0031 Lease Reminders 1.2",
+        "url": "https://github.com/home-platform/lease-reminders/pull/12"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/lease-reminders/",
+      "state": "released",
+      "wip": 1,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/receipt-scanner",
+      "id": "PR-receipts",
+      "name": "Receipt scanner",
+      "pull_requests": [
+       {
+        "item_id": "WI-0029",
+        "number": 7,
+        "title": "WI-0029 Receipt scanner: better totals",
+        "url": "https://github.com/home-platform/receipt-scanner/pull/7"
+       }
+      ],
+      "repo_path": "/Volumes/Data/work/receipt-scanner/",
+      "state": "released",
+      "wip": 0,
+      "wip_limit": 2
+     },
+     {
+      "github_url": "https://github.com/home-platform/rent-ledger",
+      "id": "PR-ledger",
+      "name": "Rent ledger",
+      "pull_requests": [],
+      "repo_path": "/Volumes/Data/work/rent-ledger/",
+      "state": "retiring",
+      "wip": 0,
+      "wip_limit": 2
+     }
+    ],
+    "reviews": [
+     {
+      "added_lines": 212,
+      "id": "RR-0044",
+      "item_id": "WI-0031",
+      "readability": "Checks passed · cold read correct · 1 note for Bolt",
+      "removed_lines": 40,
+      "reviewer": "Redline on the coding model · same-family review controls on",
+      "title": "Reminder schedule"
+     }
+    ],
+    "threads": {
+     "archived": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "The claim was approved and the part was replaced.",
+       "id": "TH-0096",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Sep 30",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Water heater warranty claim",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0088",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Sep 12",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Rent ledger 1.0",
+       "unit_id": "WI-0019"
+      }
+     ],
+     "open": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Foreman needs a yes on the design (gate G3).",
+       "id": "TH-0129",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "yesterday",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Receipt scanner: better totals",
+       "unit_id": "WI-0029"
+      },
+      {
+       "approval_id": "AP-0107",
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "An approval is waiting for you.",
+       "id": "TH-0209",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Reply to Dr. Patel's office",
+       "unit_id": null
+      },
+      {
+       "approval_id": "AP-id26",
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "An approval is waiting for you.",
+       "id": "TH-id26",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "today",
+       "state": "needs_owner",
+       "temporary_until": null,
+       "title": "Retire Rent ledger",
+       "unit_id": "WI-id26"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+       "id": "TH-0207",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "review_ready",
+       "temporary_until": null,
+       "title": "Book the oil change",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Waiting on the tenant's reply, expected by Thursday",
+       "id": "TH-0214",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "waiting",
+       "temporary_until": null,
+       "title": "Lease renewal for the rental",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Monday",
+       "id": "TH-0120",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Monday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Shared family calendar digest",
+       "unit_id": "ID-0013"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-0216",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": false,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Oct 27",
+       "id": "TH-0131",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 27",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.2",
+       "unit_id": "WI-0031"
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since Tuesday",
+       "id": "TH-0118",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "Tuesday",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Garden planner",
+       "unit_id": "ID-0014"
+      },
+      {
+       "approval_id": null,
+       "branched_from": "TH-0216",
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-ID13",
+       "kind": "conversation",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Passport renewal and Dad's pharmacy (branch)",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Idle since today",
+       "id": "TH-id25",
+       "kind": "idea",
+       "lead_department": "ideation",
+       "lead_id": "spark",
+       "lead_name": "Spark",
+       "learning": true,
+       "pipeline": "Ideation",
+       "principal": "owner",
+       "since": "today",
+       "state": "idle",
+       "temporary_until": null,
+       "title": "Pantry tracker",
+       "unit_id": "ID-id25"
+      }
+     ],
+     "recently_resolved": [
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Renewed online. The sticker arrives by mail.",
+       "id": "TH-0201",
+       "kind": "case",
+       "lead_department": "personal",
+       "lead_id": "atlas",
+       "lead_name": "Atlas",
+       "learning": true,
+       "pipeline": "Personal",
+       "principal": "owner",
+       "since": "Oct 22",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Renew the car registration",
+       "unit_id": null
+      },
+      {
+       "approval_id": null,
+       "branched_from": null,
+       "closing_summary": null,
+       "detail": "Released, and its 7-day review is done.",
+       "id": "TH-0127",
+       "kind": "work_item",
+       "lead_department": "governance",
+       "lead_id": "foreman",
+       "lead_name": "Foreman",
+       "learning": true,
+       "pipeline": "Development",
+       "principal": "owner",
+       "since": "Oct 20",
+       "state": "resolved",
+       "temporary_until": null,
+       "title": "Lease Reminders 1.1",
+       "unit_id": "WI-0027"
+      }
+     ]
+    },
+    "wip": {
+     "in_progress": 1,
+     "limit": 3
+    }
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/approvals",
+   "response": [
+    {
+     "approval_class": "P",
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "personal",
+     "domain": "Calendar and admin",
+     "draft": "Hi, confirming Tuesday at 10:30. Thank you!",
+     "employee_name": "Chrono",
+     "expires_at": "2026-10-25T22:00:00Z",
+     "id": "AP-0107",
+     "needs_step_up": false,
+     "principal": "Owner",
+     "recipient": "front.desk@[clinic domain]",
+     "recipient_trust": "allowlisted",
+     "release": null,
+     "state": "pending",
+     "summary": "Confirm Tuesday at 10:30 · from your Gmail",
+     "tier": "T2",
+     "title": "Reply to Dr. Patel's office",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "data_class": "restricted",
+     "decided_note": null,
+     "department": "personal",
+     "domain": "Rental",
+     "draft": "Hi, attached is your receipt for October rent, received on the 1st. Thanks!",
+     "employee_name": "Keystone",
+     "expires_at": "2026-10-26T12:00:00Z",
+     "id": "AP-0108",
+     "needs_step_up": true,
+     "principal": "Owner",
+     "recipient": "Unit B tenant",
+     "recipient_trust": "known",
+     "release": null,
+     "state": "pending",
+     "summary": "New recipient · attachment: receipt-2026-10.pdf",
+     "tier": "T3",
+     "title": "Send October rent receipt",
+     "undo_until": null
+    },
+    {
+     "approval_class": "R",
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "engineering",
+     "domain": "Development",
+     "draft": null,
+     "employee_name": "Liftoff",
+     "expires_at": "2026-10-31T16:00:00Z",
+     "id": "AP-0109",
+     "needs_step_up": false,
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": {
+      "added_lines": 412,
+      "checks_passed": 14,
+      "checks_total": 14,
+      "files": 9,
+      "removed_lines": 96,
+      "rollback": "One step to 1.1.4"
+     },
+     "state": "pending",
+     "summary": "R2 · gate G7",
+     "tier": null,
+     "title": "Release Lease Reminders 1.2",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "data_class": "internal",
+     "decided_note": null,
+     "department": "governance",
+     "domain": "Development",
+     "draft": null,
+     "employee_name": "Foreman",
+     "expires_at": null,
+     "id": "AP-id26",
+     "needs_step_up": false,
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": null,
+     "state": "pending",
+     "summary": "Stops the service, frees its container slot and archives its repository and GitHub mirror. A final snapshot and restore-to-service steps keep it reversible.",
+     "tier": null,
+     "title": "Retire Rent ledger",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "data_class": "restricted",
+     "decided_note": "Approved · Pulse is sending",
+     "department": "personal",
+     "domain": "Health",
+     "draft": "Hello, could you confirm whether the pharmacy on Elm Street is in network for my plan? Thank you.",
+     "employee_name": "Pulse",
+     "expires_at": "2026-10-26T16:00:00Z",
+     "id": "AP-0110",
+     "needs_step_up": true,
+     "principal": "Dad",
+     "recipient": "Insurer member services",
+     "recipient_trust": "known",
+     "release": null,
+     "state": "approved",
+     "summary": "New recipient · asks to confirm in-network status for one pharmacy",
+     "tier": "T3",
+     "title": "Email the insurer from Dad's account",
+     "undo_until": "2026-10-25T16:00:08Z"
+    }
+   ],
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "foreman"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/threads/TH-0207/move",
+   "response": {
+    "approval_id": null,
+    "branched_from": null,
+    "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+    "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+    "id": "TH-0207",
+    "kind": "case",
+    "lead_department": "governance",
+    "lead_id": "foreman",
+    "lead_name": "Foreman",
+    "learning": true,
+    "pipeline": "Development",
+    "principal": "owner",
+    "since": "today",
+    "state": "review_ready",
+    "temporary_until": null,
+    "title": "Book the oil change",
+    "unit_id": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "foreman"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/threads/TH-0207/move",
+   "response": {
+    "error": "conflict",
+    "reason": "This thread is already with Foreman."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "atlas"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "live",
+       "today",
+       "work",
+       "directory",
+       "chat",
+       "platform"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/threads/TH-0207/move",
+   "response": {
+    "approval_id": null,
+    "branched_from": null,
+    "closing_summary": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+    "detail": "Booked for Saturday at 9:00 at Midtown Auto, and added to your calendar.",
+    "id": "TH-0207",
+    "kind": "case",
+    "lead_department": "personal",
+    "lead_id": "atlas",
+    "lead_name": "Atlas",
+    "learning": true,
+    "pipeline": "Personal",
+    "principal": "owner",
+    "since": "today",
+    "state": "review_ready",
+    "temporary_until": null,
+    "title": "Book the oil change",
+    "unit_id": null
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "nobody"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/threads/TH-0207/move",
+   "response": {
+    "error": "not_found",
+    "reason": "There's no lead by that name."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "spark"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/threads/TH-0201/move",
+   "response": {
+    "error": "conflict",
+    "reason": "This thread is resolved. Reopen it first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "lead_id": "spark"
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/threads/nope/move",
+   "response": {
+    "error": "not_found",
+    "reason": "That thread doesn't exist."
+   },
+   "status": 404,
+   "step_up": null
+  },
+  {
+   "body": {
+    "title": " "
+   },
+   "events": [],
+   "method": "POST",
+   "path": "/directory/role-suggestions",
+   "response": {
+    "error": "conflict",
+    "reason": "Name the role first."
+   },
+   "status": 409,
+   "step_up": null
+  },
+  {
+   "body": {
+    "reason": "Someone should own the yard.",
+    "title": "Gardener"
+   },
+   "events": [
+    {
+     "kind": "changed",
+     "payload": {
+      "resources": [
+       "directory"
+      ]
+     }
+    }
+   ],
+   "method": "POST",
+   "path": "/directory/role-suggestions",
+   "response": {
+    "id": "LP-id27",
+    "source": "Your suggestion · Cadence reviews it at the next monthly review",
+    "state": "open",
+    "text": "New role: Gardener. Someone should own the yard."
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
+   "body": null,
+   "events": [],
+   "method": "GET",
+   "path": "/directory",
+   "response": {
+    "employees": [
+     {
+      "department": "personal",
+      "enabled": true,
+      "group": "Leads",
+      "hired": "Phase 9",
+      "id": "PO-1",
+      "mission": "Keeps the household running on time.",
+      "model": "conversation model",
+      "name": "Atlas",
+      "now": "Writing the brief",
+      "pipeline": "Personal",
+      "reports_to": null,
+      "state": "generating",
+      "status": "active_now",
+      "tagline": "Keeps the household running on time.",
+      "tasks_done": 214,
+      "title": "Chief of Staff",
+      "tools": [
+       "calendar.list",
+       "mail.draft",
+       "records.write"
+      ]
+     },
+     {
+      "department": "governance",
+      "enabled": true,
+      "group": "Leads",
+      "hired": "Phase 11",
+      "id": "GOV-1",
+      "mission": "Turns ideas into shipped, documented software.",
+      "model": "coding model",
+      "name": "Foreman",
+      "now": "Waiting on you",
+      "pipeline": "Development",
+      "reports_to": null,
+      "state": "waiting",
+      "status": "waiting_on_owner",
+      "tagline": "Turns ideas into shipped, documented software.",
+      "tasks_done": 61,
+      "title": "Development Lead",
+      "tools": [
+       "pipeline.start",
+       "pipeline.request_gate"
+      ]
+     },
+     {
+      "department": "ideation",
+      "enabled": true,
+      "group": "Leads",
+      "hired": "Phase 12",
+      "id": "IDEA-1",
+      "mission": "Finds the flaw before the code exists.",
+      "model": "coding model",
+      "name": "Spark",
+      "now": "Blocked: an idea reached its budget",
+      "pipeline": "Ideation",
+      "reports_to": null,
+      "state": "blocked",
+      "status": "idle",
+      "tagline": "Finds the flaw before the code exists.",
+      "tasks_done": 18,
+      "title": "Ideation Lead",
+      "tools": []
+     },
+     {
+      "department": "engineering",
+      "enabled": true,
+      "group": "Leads",
+      "hired": "Phase 14",
+      "id": "MNT-1",
+      "mission": "Keeps released products healthy.",
+      "model": "coding model",
+      "name": "Custodian",
+      "now": "Next run 01:00",
+      "pipeline": "Maintenance",
+      "reports_to": null,
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Keeps released products healthy.",
+      "tasks_done": 40,
+      "title": "Maintenance Lead",
+      "tools": []
+     },
+     {
+      "department": "personal",
+      "enabled": true,
+      "group": "Personal",
+      "hired": "Phase 9",
+      "id": "PO-2",
+      "mission": "Finds the time, books it, reminds you.",
+      "model": "conversation model",
+      "name": "Chrono",
+      "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Finds the time, books it, reminds you.",
+      "tasks_done": 96,
+      "title": "Scheduler",
+      "tools": [
+       "calendar.freebusy",
+       "calendar.upsert_own"
+      ]
+     },
+     {
+      "department": "personal",
+      "enabled": true,
+      "group": "Personal",
+      "hired": "Phase 10",
+      "id": "PO-9",
+      "mission": "Runs the rental like a small business.",
+      "model": "conversation model",
+      "name": "Keystone",
+      "now": "Waiting for the tenant's reply",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Runs the rental like a small business.",
+      "tasks_done": 37,
+      "title": "Property Manager",
+      "tools": []
+     },
+     {
+      "department": "personal",
+      "enabled": true,
+      "group": "Personal",
+      "hired": "Phase 10",
+      "id": "PO-8",
+      "mission": "Every figure computed in code.",
+      "model": "conversation model",
+      "name": "Ledger",
+      "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Every figure computed in code.",
+      "tasks_done": 22,
+      "title": "Budget Analyst",
+      "tools": []
+     },
+     {
+      "department": "personal",
+      "enabled": true,
+      "group": "Personal",
+      "hired": "Phase 10",
+      "id": "PO-10",
+      "mission": "Appointments, plans and paperwork.",
+      "model": "conversation model",
+      "name": "Pulse",
+      "now": "Idle",
+      "pipeline": "Personal",
+      "reports_to": "PO-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Appointments, plans and paperwork.",
+      "tasks_done": 19,
+      "title": "Health and Benefits",
+      "tools": []
+     },
+     {
+      "department": "engineering",
+      "enabled": false,
+      "group": "Engineering and quality",
+      "hired": "Phase 11",
+      "id": "ENG-1",
+      "mission": "Red, green, refactor.",
+      "model": "coding model",
+      "name": "Bolt",
+      "now": "Writing code",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
+      "state": "generating",
+      "status": "disabled",
+      "tagline": "Red, green, refactor.",
+      "tasks_done": 128,
+      "title": "Software Engineer",
+      "tools": [
+       "fs.write",
+       "exec.run",
+       "git.commit"
+      ]
+     },
+     {
+      "department": "quality",
+      "enabled": true,
+      "group": "Engineering and quality",
+      "hired": "Phase 11",
+      "id": "QA-1",
+      "mission": "Writes the tests before the code.",
+      "model": "coding model",
+      "name": "Probe",
+      "now": "14 tests done",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Writes the tests before the code.",
+      "tasks_done": 74,
+      "title": "Test Author",
+      "tools": []
+     },
+     {
+      "department": "quality",
+      "enabled": true,
+      "group": "Engineering and quality",
+      "hired": "Phase 11",
+      "id": "QA-3",
+      "mission": "Reads every change like a newcomer.",
+      "model": "coding model",
+      "name": "Redline",
+      "now": "Queued for review",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
+      "state": "idle",
+      "status": "idle",
+      "tagline": "Reads every change like a newcomer.",
+      "tasks_done": 59,
+      "title": "Code Reviewer",
+      "tools": []
+     },
+     {
+      "department": "quality",
+      "enabled": true,
+      "group": "Engineering and quality",
+      "hired": "Phase 13",
+      "id": "QA-5",
+      "mission": "Breaks things on purpose.",
+      "model": "coding model",
+      "name": "Gremlin",
+      "now": "Arrives in Phase 13",
+      "pipeline": "Development",
+      "reports_to": "GOV-1",
+      "state": "idle",
+      "status": "not_yet_hired",
+      "tagline": "Breaks things on purpose.",
+      "tasks_done": 0,
+      "title": "Adversarial Tester",
+      "tools": []
+     }
+    ],
+    "instruments": 7,
+    "proposals": [
+     {
+      "id": "LP-0003",
+      "source": "Cadence · monthly review",
+      "state": "declined",
+      "text": "Disable Logistix: 2 tasks in 30 days, low impact. Spark would cover operations questions."
+     },
+     {
+      "id": "LP-id27",
+      "source": "Your suggestion · Cadence reviews it at the next monthly review",
+      "state": "open",
+      "text": "New role: Gardener. Someone should own the yard."
+     }
+    ]
+   },
+   "status": 200,
+   "step_up": null
+  },
+  {
    "advance": 25200
   },
   {
@@ -11526,7 +16269,7 @@
       "undo_until": null
      }
     ],
-    "needs_you_count": 3,
+    "needs_you_count": 4,
     "needs_you_threads": [
      {
       "approval_id": null,
@@ -11827,6 +16570,27 @@
     {
      "approval_class": "P",
      "data_class": "internal",
+     "decided_note": null,
+     "department": "governance",
+     "domain": "Development",
+     "draft": null,
+     "employee_name": "Foreman",
+     "expires_at": null,
+     "id": "AP-id26",
+     "needs_step_up": false,
+     "principal": "Owner",
+     "recipient": null,
+     "recipient_trust": null,
+     "release": null,
+     "state": "pending",
+     "summary": "Stops the service, frees its container slot and archives its repository and GitHub mirror. A final snapshot and restore-to-service steps keep it reversible.",
+     "tier": null,
+     "title": "Retire Rent ledger",
+     "undo_until": null
+    },
+    {
+     "approval_class": "P",
+     "data_class": "internal",
      "decided_note": "Expired · nothing was sent",
      "department": "personal",
      "domain": "Calendar and admin",
@@ -12048,7 +16812,7 @@
     "away": true,
     "badges": {
      "approvals": {
-      "label": "1",
+      "label": "2",
       "status": "attention"
      },
      "backups": {
@@ -12265,9 +17029,30 @@
       "tier": null,
       "title": "Release Lease Reminders 1.2",
       "undo_until": null
+     },
+     {
+      "approval_class": "P",
+      "data_class": "internal",
+      "decided_note": null,
+      "department": "governance",
+      "domain": "Development",
+      "draft": null,
+      "employee_name": "Foreman",
+      "expires_at": null,
+      "id": "AP-id26",
+      "needs_step_up": false,
+      "principal": "Owner",
+      "recipient": null,
+      "recipient_trust": null,
+      "release": null,
+      "state": "pending",
+      "summary": "Stops the service, frees its container slot and archives its repository and GitHub mirror. A final snapshot and restore-to-service steps keep it reversible.",
+      "tier": null,
+      "title": "Retire Rent ledger",
+      "undo_until": null
      }
     ],
-    "needs_you_count": 2,
+    "needs_you_count": 3,
     "needs_you_threads": [
      {
       "approval_id": null,
