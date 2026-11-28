@@ -46,7 +46,7 @@ function FileDiff({ file }: { file: DiffFile }) {
           <span className="status-problem">−{file.removed}</span>
         </span>
       </summary>
-      <pre className="diff" aria-label={`Changes to ${file.path}`}>
+      <pre className="diff" tabIndex={0} aria-label={`Changes to ${file.path}`}>
         {file.lines.map((line, index) => (
           <span key={index} className={`diff-line diff-${line.kind}`}>
             <span aria-hidden="true">{MARK[line.kind]} </span>
